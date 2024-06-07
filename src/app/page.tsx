@@ -1,3 +1,5 @@
+// page.tsx
+
 "use client";
 
 import { useEffect, Suspense } from "react";
@@ -15,7 +17,7 @@ export default function Home() {
   }, [router, searchParams]);
 
   return (
-    <Suspense>
+    <Suspense fallback={<div>Loading...</div>}>
       <main />
     </Suspense>
   );
