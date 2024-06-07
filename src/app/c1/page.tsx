@@ -5,8 +5,6 @@ import { generateId } from "@/src/utils/id";
 import { CalC1, CalPrefills } from "./_components/cal";
 import { TallyC1 } from "./_components/tally";
 
-export const dynamic = "force-dynamic";
-
 export default function C1() {
   const [prefills, setPrefills] = useState<CalPrefills | null>(null);
 
