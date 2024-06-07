@@ -6,7 +6,7 @@
 // import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Home() {
-  return <div>Home</div>;
+  return <div>Hi! Text +1(925)487-3772 if you have any questions.</div>;
   // const router = useRouter();
   // const searchParams = useSearchParams();
 
