@@ -6,7 +6,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Collegiate Accelerator",
   description: "Informational Forms",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
 const Head = () => (
