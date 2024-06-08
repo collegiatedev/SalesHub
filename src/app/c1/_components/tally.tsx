@@ -18,15 +18,20 @@ export const TallyC1 = ({ id, setPrefills }: TallyC1Props) => {
         if (data.event === "Tally.FormSubmitted") {
           const who = retrieveField(data, "who");
 
-          const studentName = retrieveField(data, "student_name");
+          const studentFirstName = retrieveField(data, "student_first_name");
+          const studentLastName = retrieveField(data, "student_last_name");
           const studentEmail = retrieveField(data, "student_email");
           const studentNumber = retrieveField(data, "student_number");
 
-          const parentName = retrieveField(data, "parent_name");
+          const parentFirstName = retrieveField(data, "parent_first_name");
+          const parentLastName = retrieveField(data, "parent_last_name");
           const parentEmail = retrieveField(data, "parent_email");
           const parentNumber = retrieveField(data, "parent_number");
 
-          const name = (who === "Student" ? studentName : parentName) || "";
+          const name =
+            (who === "Student"
+              ? studentFirstName + studentLastName
+              : parentFirstName + parentLastName) || "";
           const smsReminderNumber =
             (who === "Student" ? studentNumber : parentNumber) || "";
 
@@ -39,7 +44,7 @@ export const TallyC1 = ({ id, setPrefills }: TallyC1Props) => {
     };
     window.addEventListener("message", handleFormSubmit);
     return () => window.removeEventListener("message", handleFormSubmit);
-  }, []);
+  }, [id, setPrefills]);
   return (
     <div
       style={{
