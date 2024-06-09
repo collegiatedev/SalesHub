@@ -30,8 +30,8 @@ export const TallyC1 = ({ id, setPrefills }: TallyC1Props) => {
 
           const name =
             (who === "Student"
-              ? studentFirstName + studentLastName
-              : parentFirstName + parentLastName) || "";
+              ? studentFirstName + " " + studentLastName
+              : parentFirstName + " " + parentLastName) || "";
           const smsReminderNumber =
             (who === "Student" ? studentNumber : parentNumber) || "";
 
