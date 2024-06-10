@@ -1,10 +1,7 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ReactQueryClientProvider } from "../components/queryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,13 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <Head />
-      <body className={inter.className}>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="en">
+        <Head />
+        <body className={inter.className}>{children}</body>
+      </html>
+    </ReactQueryClientProvider>
   );
 }
