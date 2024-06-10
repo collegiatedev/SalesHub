@@ -13,10 +13,9 @@ export default function C3() {
   const id = params.get("id");
   const rep = params.get("rep");
   const fullname = params.get("fullname");
+  const [calScheduled, setCalScheduled] = useState(false);
 
   if (!id || !rep || !fullname) return <InvalidLink />;
-
-  const [calScheduled, setCalScheduled] = useState(false);
 
   return (
     <main>
