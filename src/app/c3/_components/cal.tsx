@@ -1,28 +1,26 @@
 "use client";
 
+import { InvalidLink } from "@/src/components/invalidLink";
 import Cal, { getCalApi } from "@calcom/embed-react";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import { calIdToLink } from "./links";
+import { useQuery } from "@tanstack/react-query";
 
-export type CalPrefills = {
-  // use mapping from links.ts
-  calLink: string;
-  // passed as query param
-  name: string; // student full name
+export type Cal3Prefills = {
   id: string; // student id
-  // retrieved via webhook
-  email: string; // parent email
-  guests: string; // student email
-  smsReminderNumber: string; // parent number
+  name: string; // student full name
+  rep: string; // sales rep id
 };
 
-export const CalC3 = ({
-  calLink,
-  id,
-  name,
-  email,
-  guests,
-  smsReminderNumber,
-}: CalPrefills) => {
+export const CalC3 = ({ id, name, rep }: Cal3Prefills) => {
+  const calLink = calIdToLink.get(rep);
+  const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["c3 cal prefills", id],
+    queryFn: () => fetch(webhook).then((res) => res.json()),
+  });
+
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({});
@@ -33,24 +31,35 @@ export const CalC3 = ({
       });
       cal("on", {
         action: "bookingSuccessful",
-        callback: (e) => {
-          // todo
-        },
+        callback: (e) => {},
       });
     })();
   }, []);
+
+  if (!calLink) return <InvalidLink />;
+  if (isLoading) return <div>Loading...</div>;
+  if (error || !data) return <InvalidLink />;
+
+  const email = data["parentEmail"];
+  const guests = data["studentEmail"];
+  const smsReminderNumber = data["parentNumber"];
+
+  if (!email || !guests || !smsReminderNumber) return <InvalidLink />;
+
   return (
-    <Cal
-      calLink={calLink}
-      style={{ width: "100%", height: "100%", overflow: "scroll" }}
-      config={{
-        layout: "month_view",
-        name,
-        email,
-        id,
-        guests,
-        smsReminderNumber,
-      }}
-    />
+    <Suspense fallback={<>loading...</>}>
+      <Cal
+        calLink={calLink}
+        style={{ width: "100%", height: "100%", overflow: "scroll" }}
+        config={{
+          layout: "month_view",
+          name,
+          email,
+          id,
+          guests,
+          smsReminderNumber,
+        }}
+      />
+    </Suspense>
   );
 };
