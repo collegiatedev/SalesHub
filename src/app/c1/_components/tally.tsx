@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { CalPrefills } from "./cal";
+import { Cal1Prefills } from "./cal";
 import { retrieveField } from "@/src/utils/tally";
 
 interface TallyC1Props {
   id: string;
-  setPrefills: (props: CalPrefills) => void;
+  setPrefills: (props: Cal1Prefills) => void;
 }
 
 export const TallyC1 = ({ id, setPrefills }: TallyC1Props) => {
