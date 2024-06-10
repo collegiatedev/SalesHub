@@ -14,8 +14,6 @@ export default function C3() {
   const rep = params.get("rep");
   const fullname = params.get("fullname");
 
-  if (!id || !rep || !fullname) return <InvalidLink />;
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <main>
@@ -30,12 +28,13 @@ function C3Content({
   rep,
   fullname,
 }: {
-  id: string;
-  rep: string;
-  fullname: string;
+  id: string | null;
+  rep: string | null;
+  fullname: string | null;
 }) {
   const [calScheduled, setCalScheduled] = useState(false);
 
+  if (!id || !rep || !fullname) return <InvalidLink />;
   return (
     <>
       {!calScheduled ? (
