@@ -3,7 +3,7 @@
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
 
-export type CalPrefills = {
+export type Cal1Prefills = {
   id: string;
   name: string;
   email: string;
@@ -17,7 +17,7 @@ export const CalC1 = ({
   email,
   guests,
   smsReminderNumber,
-}: CalPrefills) => {
+}: Cal1Prefills) => {
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({});
