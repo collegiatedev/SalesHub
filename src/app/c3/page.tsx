@@ -6,7 +6,7 @@ import { InvalidLink } from "@/src/components/invalidLink";
 import { Suspense, useState } from "react";
 import { TallyC3 } from "./_components/tally";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export default function C3() {
   const params = useSearchParams();
