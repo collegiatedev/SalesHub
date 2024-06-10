@@ -6,33 +6,25 @@ import { InvalidLink } from "@/src/components/invalidLink";
 import { Suspense, useState } from "react";
 import { TallyC3 } from "./_components/tally";
 
-// export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 export default function C3() {
-  const params = useSearchParams();
-  const id = params.get("id");
-  const rep = params.get("rep");
-  const fullname = params.get("fullname");
-
   return (
     <main>
       <Suspense fallback={<div>Loading...</div>}>
-        <C3Content id={id} rep={rep} fullname={fullname} />
+        <C3Content />
       </Suspense>
     </main>
   );
 }
 
-function C3Content({
-  id,
-  rep,
-  fullname,
-}: {
-  id: string | null;
-  rep: string | null;
-  fullname: string | null;
-}) {
+function C3Content() {
   const [calScheduled, setCalScheduled] = useState(false);
+
+  const params = useSearchParams();
+  const id = params.get("id");
+  const rep = params.get("rep");
+  const fullname = params.get("fullname");
 
   if (!id || !rep || !fullname) return <InvalidLink />;
   return (
