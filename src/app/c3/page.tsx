@@ -15,11 +15,11 @@ export default function C3() {
   const fullname = params.get("fullname");
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <main>
+    <main>
+      <Suspense fallback={<div>Loading...</div>}>
         <C3Content id={id} rep={rep} fullname={fullname} />
-      </main>
-    </Suspense>
+      </Suspense>
+    </main>
   );
 }
 
