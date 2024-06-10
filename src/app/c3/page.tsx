@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { CalC3 } from "./_components/cal";
 import { InvalidLink } from "@/src/components/invalidLink";
 import { useState } from "react";
-import { TallyC3Prefills } from "./_components/tally";
+import { TallyC3 } from "./_components/tally";
 
 export const dynamic = "force-dynamic";
 
@@ -16,15 +16,19 @@ export default function C3() {
 
   if (!id || !rep || !fullname) return <InvalidLink />;
 
-  const [prefills, setPrefills] = useState<TallyC3Prefills | null>(null);
+  const [calScheduled, setCalScheduled] = useState(false);
 
   return (
     <main>
-      {!prefills ? (
-        <CalC3 id={id} name={fullname} rep={rep} setPrefills={setPrefills} />
+      {!calScheduled ? (
+        <CalC3
+          id={id}
+          name={fullname}
+          rep={rep}
+          setCalScheduled={setCalScheduled}
+        />
       ) : (
-        // <Tally>
-        <div>tally</div>
+        <TallyC3 name={fullname.split(" ")[0]} id={id} />
       )}
     </main>
   );

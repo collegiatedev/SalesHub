@@ -5,16 +5,15 @@ import Cal, { getCalApi } from "@calcom/embed-react";
 import { Suspense, useEffect } from "react";
 import { calIdToLink } from "./links";
 import { useQuery } from "@tanstack/react-query";
-import { TallyC3Prefills } from "./tally";
 
 export type Cal3Props = {
   id: string; // student id
   name: string; // student full name
   rep: string; // sales rep id
-  setPrefills: (props: TallyC3Prefills) => void;
+  setCalScheduled: (props: boolean) => void;
 };
 
-export const CalC3 = ({ id, name, rep }: Cal3Props) => {
+export const CalC3 = ({ id, name, rep, setCalScheduled }: Cal3Props) => {
   const calLink = calIdToLink.get(rep);
   const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
 
@@ -33,7 +32,10 @@ export const CalC3 = ({ id, name, rep }: Cal3Props) => {
       });
       cal("on", {
         action: "bookingSuccessful",
-        callback: (e) => {},
+        callback: (e) => {
+          console.log("bookingSuccessful", e);
+          setCalScheduled(true);
+        },
       });
     })();
   }, []);

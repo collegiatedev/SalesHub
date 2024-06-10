@@ -3,26 +3,12 @@
 import { useEffect } from "react";
 import { retrieveField } from "@/src/utils/tally";
 
-export interface TallyC3Prefills {
+export interface TallyC3Props {
   id: string;
+  name: string;
 }
 
-export const TallyC1 = ({ id }: TallyC3Prefills) => {
-  useEffect(() => {
-    const handleFormSubmit = (event: any) => {
-      try {
-        const data = JSON.parse(event.data);
-
-        if (data.event === "Tally.FormSubmitted") {
-          const who = retrieveField(data, "who");
-
-          //   setPrefills({ id, name, email, guests, smsReminderNumber });
-        }
-      } catch (error) {}
-    };
-    window.addEventListener("message", handleFormSubmit);
-    return () => window.removeEventListener("message", handleFormSubmit);
-  }, []);
+export const TallyC3 = ({ id, name }: TallyC3Props) => {
   return (
     <div
       style={{
@@ -34,7 +20,7 @@ export const TallyC1 = ({ id }: TallyC3Prefills) => {
       }}
     >
       <iframe
-        src={`https://tally.so/r/3lyRbk?transparentBackground=1&id=${id}`}
+        src={`https://tally.so/r/wAl8q0?transparentBackground=1&id=${id}&name=${name}`}
         style={{
           width: "100%",
           height: "100%",
