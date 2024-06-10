@@ -2,7 +2,7 @@
 
 import { InvalidLink } from "@/src/components/invalidLink";
 import Cal, { getCalApi } from "@calcom/embed-react";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { calIdToLink } from "./links";
 import { useQuery } from "@tanstack/react-query";
 
@@ -51,19 +51,17 @@ export const CalC3 = ({ id, name, rep, setCalScheduled }: Cal3Props) => {
   if (!email || !guests || !smsReminderNumber) return <InvalidLink />;
 
   return (
-    <Suspense fallback={<>loading...</>}>
-      <Cal
-        calLink={calLink}
-        style={{ width: "100%", height: "100%", overflow: "scroll" }}
-        config={{
-          layout: "month_view",
-          name,
-          email,
-          id,
-          guests,
-          smsReminderNumber,
-        }}
-      />
-    </Suspense>
+    <Cal
+      calLink={calLink}
+      style={{ width: "100%", height: "100%", overflow: "scroll" }}
+      config={{
+        layout: "month_view",
+        name,
+        email,
+        id,
+        guests,
+        smsReminderNumber,
+      }}
+    />
   );
 };
