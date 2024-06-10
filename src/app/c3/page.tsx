@@ -18,8 +18,8 @@ export default function C3() {
   if (!id || !rep || !fullname) return <InvalidLink />;
 
   return (
-    <main>
-      <Suspense fallback={<>loading...</>}>
+    <Suspense fallback={<>loading...</>}>
+      <main>
         {!calScheduled ? (
           <CalC3
             id={id}
@@ -30,7 +30,7 @@ export default function C3() {
         ) : (
           <TallyC3 name={fullname.split(" ")[0]} id={id} />
         )}
-      </Suspense>
-    </main>
+      </main>
+    </Suspense>
   );
 }
