@@ -1,4 +1,3 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactQueryClientProvider } from "../components/queryProvider";
@@ -19,8 +18,6 @@ const Head = () => (
     <script async src="https://tally.so/widgets/embed.js"></script>
   </head>
 );
-
-const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
