@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export interface TallyC2Props {
+interface TallyC2Props {
   id: string;
   name: string;
 }
@@ -16,14 +16,13 @@ export const TallyC2 = ({ id, name }: TallyC2Props) => {
 
         if (data.event === "Tally.FormPageView") {
           setPageNumber(data.payload.page);
-          console.log("payload", data.payload.page);
-          console.log("pagenum", pageNumber);
         }
       } catch (error) {}
     };
     window.addEventListener("message", handleFormSubmit);
     return () => window.removeEventListener("message", handleFormSubmit);
   }, []);
+
   return (
     <div
       style={{
