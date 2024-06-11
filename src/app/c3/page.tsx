@@ -19,7 +19,7 @@ export default function C3() {
 }
 
 function C3Content() {
-  const [calScheduled, setCalScheduled] = useState(false);
+  const [calIsScheduled, setCalIsScheduled] = useState(false);
 
   const params = useSearchParams();
   const id = params.get("id");
@@ -29,12 +29,12 @@ function C3Content() {
   if (!id || !rep || !fullname) return <InvalidLink />;
   return (
     <>
-      {!calScheduled ? (
+      {!calIsScheduled ? (
         <CalC3
           id={id}
           name={fullname}
           rep={rep}
-          setCalScheduled={setCalScheduled}
+          setCalIsScheduled={setCalIsScheduled}
         />
       ) : (
         <TallyC3 name={fullname.split(" ")[0]} id={id} />
