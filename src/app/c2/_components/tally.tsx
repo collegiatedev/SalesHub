@@ -1,39 +1,23 @@
 "use client";
 
-import { useEffect } from "react";
-import { CalPrefills } from "./cal";
-import { retrieveField } from "@/src/utils/tally";
+import { useEffect, useState } from "react";
 
-interface TallyC1Props {
+export interface TallyC2Props {
   id: string;
-  setPrefills: (props: CalPrefills) => void;
+  name: string;
 }
 
-export const TallyC1 = ({ id, setPrefills }: TallyC1Props) => {
+export const TallyC2 = ({ id, name }: TallyC2Props) => {
+  const [pageNumber, setPageNumber] = useState(0);
   useEffect(() => {
     const handleFormSubmit = (event: any) => {
       try {
         const data = JSON.parse(event.data);
 
-        if (data.event === "Tally.FormSubmitted") {
-          const who = retrieveField(data, "who");
-
-          const studentName = retrieveField(data, "student_name");
-          const studentEmail = retrieveField(data, "student_email");
-          const studentNumber = retrieveField(data, "student_number");
-
-          const parentName = retrieveField(data, "parent_name");
-          const parentEmail = retrieveField(data, "parent_email");
-          const parentNumber = retrieveField(data, "parent_number");
-
-          const name = (who === "Student" ? studentName : parentName) || "";
-          const smsReminderNumber =
-            (who === "Student" ? studentNumber : parentNumber) || "";
-
-          const email = (who === "Student" ? studentEmail : parentEmail) || "";
-          const guests = (who === "Student" ? parentEmail : studentEmail) || "";
-
-          setPrefills({ id, name, email, guests, smsReminderNumber });
+        if (data.event === "Tally.FormPageView") {
+          setPageNumber(data.payload.page);
+          console.log("payload", data.payload.page);
+          console.log("pagenum", pageNumber);
         }
       } catch (error) {}
     };
@@ -51,7 +35,7 @@ export const TallyC1 = ({ id, setPrefills }: TallyC1Props) => {
       }}
     >
       <iframe
-        src={`https://tally.so/r/3lyRbk?transparentBackground=1&id=${id}`}
+        src={`https://tally.so/r/wzze8q?transparentBackground=1&id=${id}&name=${name}`}
         style={{
           width: "100%",
           height: "100%",
@@ -62,7 +46,7 @@ export const TallyC1 = ({ id, setPrefills }: TallyC1Props) => {
           left: 0,
           border: "none",
         }}
-        title="Accelerator Program Registration"
+        title="Student Work Call Registration"
       ></iframe>
     </div>
   );

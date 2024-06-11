@@ -15,6 +15,8 @@ export const TallyC1 = ({ id, setPrefills }: TallyC1Props) => {
       try {
         const data = JSON.parse(event.data);
 
+        console.log("data", data);
+
         if (data.event === "Tally.FormSubmitted") {
           const who = retrieveField(data, "who");
 

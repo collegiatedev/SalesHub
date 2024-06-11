@@ -1,33 +1,32 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { generateId } from "@/src/utils/id";
-import { CalC1, CalPrefills } from "./_components/cal";
-import { TallyC1 } from "./_components/tally";
+import { Suspense, useState } from "react";
+import { CalC2 } from "./_components/cal";
+import { TallyC2 } from "./_components/tally";
+import { useSearchParams } from "next/navigation";
+import { InvalidLink } from "@/src/components/invalidLink";
 
-export default function C1() {
-  const [prefills, setPrefills] = useState<CalPrefills | null>(null);
-
-  const [id, setId] = useState<string | null>(null);
-  useEffect(() => {
-    setId(generateId());
-  }, []);
-
-  if (!id) return <div>Loading...</div>;
-
+export default function C2() {
   return (
     <main>
-      {!prefills ? (
-        <TallyC1 id={id!} setPrefills={setPrefills} />
-      ) : (
-        <CalC1
-          id={prefills.id}
-          name={prefills.name}
-          smsReminderNumber={prefills.smsReminderNumber}
-          email={prefills.email}
-          guests={prefills.guests}
-        />
-      )}
+      <Suspense fallback={<div>Loading...</div>}>
+        <C2Content />
+      </Suspense>
     </main>
+  );
+}
+
+function C2Content() {
+  const [calScheduled, setCalScheduled] = useState(false);
+  const params = useSearchParams();
+  const id = params.get("id");
+  const fullname = params.get("fullname");
+
+  if (!id || !fullname) return <InvalidLink />;
+  return (
+    <>
+      {/* if page id > "x" then display both tally and cal from the modules */}
+      <TallyC2 id={id} name={fullname.split(" ")[0]} />
+    </>
   );
 }
