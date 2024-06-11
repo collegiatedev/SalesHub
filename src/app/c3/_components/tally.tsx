@@ -28,7 +28,7 @@ export const TallyC3 = ({ id, name }: TallyC3Props) => {
           left: 0,
           border: "none",
         }}
-        title="Accelerator Program Registration"
+        title="Parent Insight Form"
       ></iframe>
     </div>
   );
