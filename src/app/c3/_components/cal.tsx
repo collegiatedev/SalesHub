@@ -10,10 +10,10 @@ export type Cal3Props = {
   id: string; // student id
   name: string; // student full name
   rep: string; // sales rep id
-  setCalScheduled: (props: boolean) => void;
+  setCalIsScheduled: (props: boolean) => void;
 };
 
-export const CalC3 = ({ id, name, rep, setCalScheduled }: Cal3Props) => {
+export const CalC3 = ({ id, name, rep, setCalIsScheduled }: Cal3Props) => {
   const calLink = calIdToLink.get(rep);
   const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
 
@@ -34,11 +34,11 @@ export const CalC3 = ({ id, name, rep, setCalScheduled }: Cal3Props) => {
         action: "bookingSuccessful",
         callback: (e) => {
           console.log("bookingSuccessful", e);
-          setCalScheduled(true);
+          setCalIsScheduled(true);
         },
       });
     })();
-  }, []);
+  });
 
   if (!calLink) return <InvalidLink />;
   if (isLoading) return <div>Loading...</div>;

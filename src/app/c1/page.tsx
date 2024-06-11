@@ -18,7 +18,7 @@ export default function C1() {
   return (
     <main>
       {!prefills ? (
-        <TallyC1 id={id!} setPrefills={setPrefills} />
+        <TallyC1 id={id} setPrefills={setPrefills} />
       ) : (
         <CalC1
           id={prefills.id}

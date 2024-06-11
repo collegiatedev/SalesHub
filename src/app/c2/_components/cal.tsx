@@ -1,23 +1,27 @@
 "use client";
 
+import { InvalidLink } from "@/src/components/invalidLink";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
+import { pageIdToLink } from "./modules";
+import { useQuery } from "@tanstack/react-query";
 
-export type CalPrefills = {
+export type Cal2Props = {
   id: string;
   name: string;
-  email: string;
-  guests: string;
-  smsReminderNumber: string;
+  rep: string; // need to get page id
+  setCalScheduled: (props: boolean) => void;
 };
 
-export const CalC1 = ({
-  id,
-  name,
-  email,
-  guests,
-  smsReminderNumber,
-}: CalPrefills) => {
+export const CalC2 = ({ id, name, rep, setCalScheduled }: Cal2Props) => {
+  const calLink = pageIdToLink.get(rep); //need to pass in page id and change the modules page
+  const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["c2 cal prefills", id],
+    queryFn: () => fetch(webhook).then((res) => res.json()),
+  });
+
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({});
@@ -26,11 +30,29 @@ export const CalC1 = ({
         hideEventTypeDetails: false,
         layout: "month_view",
       });
+      cal("on", {
+        action: "bookingSuccessful",
+        callback: (e) => {
+          console.log("bookingSuccessful", e);
+          setCalScheduled(true);
+        },
+      });
     })();
   }, []);
+
+  if (!calLink) return <InvalidLink />;
+  if (isLoading) return <div>Loading...</div>;
+  if (error || !data) return <InvalidLink />;
+
+  const email = data["parentEmail"];
+  const guests = data["studentEmail"];
+  const smsReminderNumber = data["studentNumber"];
+
+  if (!email || !guests || !smsReminderNumber) return <InvalidLink />;
+
   return (
     <Cal
-      calLink="team/collegiate/c1"
+      calLink={calLink}
       style={{ width: "100%", height: "100%", overflow: "scroll" }}
       config={{
         layout: "month_view",
