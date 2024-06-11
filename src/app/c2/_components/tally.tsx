@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 interface TallyC2Props {
   id: string;
   name: string;
+  grade: string;
+  setPageNumber: any; //fix this type
 }
 
-export const TallyC2 = ({ id, name }: TallyC2Props) => {
-  const [pageNumber, setPageNumber] = useState(0);
+export const TallyC2 = ({ id, name, grade, setPageNumber }: TallyC2Props) => {
   useEffect(() => {
     const handleFormSubmit = (event: any) => {
       try {
@@ -34,7 +35,7 @@ export const TallyC2 = ({ id, name }: TallyC2Props) => {
       }}
     >
       <iframe
-        src={`https://tally.so/r/wzze8q?transparentBackground=1&id=${id}&name=${name}`}
+        src={`https://tally.so/r/wzze8q?transparentBackground=1&id=${id}&name=${name}&grade=${grade}`}
         style={{
           width: "100%",
           height: "100%",

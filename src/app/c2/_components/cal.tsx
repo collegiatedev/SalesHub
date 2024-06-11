@@ -9,12 +9,12 @@ import { useQuery } from "@tanstack/react-query";
 export type Cal2Props = {
   id: string;
   name: string;
-  rep: string; // need to get page id
-  setCalScheduled: (props: boolean) => void;
+  pageNumber: number;
 };
 
-export const CalC2 = ({ id, name, rep, setCalScheduled }: Cal2Props) => {
-  const calLink = pageIdToLink.get(rep); //need to pass in page id and change the modules page
+export const CalC2 = ({ id, name, pageNumber }: Cal2Props) => {
+  const calLink = pageIdToLink.get(pageNumber.toString()); //need to pass in page id and change the modules page
+  console.log("callink", calLink);
   const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
 
   const { data, error, isLoading } = useQuery({
@@ -29,13 +29,6 @@ export const CalC2 = ({ id, name, rep, setCalScheduled }: Cal2Props) => {
         styles: { branding: { brandColor: "#000000" } },
         hideEventTypeDetails: false,
         layout: "month_view",
-      });
-      cal("on", {
-        action: "bookingSuccessful",
-        callback: (e) => {
-          console.log("bookingSuccessful", e);
-          setCalScheduled(true);
-        },
       });
     })();
   }, []);
