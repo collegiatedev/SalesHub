@@ -18,17 +18,15 @@ const CONTENT_DIRECTORY = "src/output/content/";
 const REQUEST_DIRECTORY = "src/output/request/";
 const TEMPLATE_DIRECTORY = "src/templates/";
 
-interface OutputParams {
-  pageId: string;
-  directory: string;
-  content: any;
-}
-
 const createOutput = ({
   pageId,
   directory,
   content,
-}: OutputParams): Promise<void> => {
+}: {
+  pageId: string;
+  directory: string;
+  content: any;
+}): Promise<void> => {
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true });
     fs.writeFile(
