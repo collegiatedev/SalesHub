@@ -17,16 +17,36 @@ export default function C2() {
 }
 
 function C2Content() {
-  const [calScheduled, setCalScheduled] = useState(false);
+  const [pageNumber, setPageNumber] = useState(0);
   const params = useSearchParams();
   const id = params.get("id");
   const fullname = params.get("fullname");
+  const grade = params.get("grade");
 
-  if (!id || !fullname) return <InvalidLink />;
+  if (!id || !fullname || !grade) return <InvalidLink />;
   return (
     <>
       {/* if page id > "x" then display both tally and cal from the modules */}
-      <TallyC2 id={id} name={fullname.split(" ")[0]} />
+      {pageNumber < 4 || pageNumber === 9 ? ( //need to change this logic
+        <div>
+          <TallyC2
+            id={id}
+            name={fullname.split(" ")[0]}
+            grade={grade}
+            setPageNumber={setPageNumber}
+          />
+        </div>
+      ) : (
+        <div>
+          <TallyC2
+            id={id}
+            name={fullname.split(" ")[0]}
+            grade={grade}
+            setPageNumber={setPageNumber}
+          />
+          <CalC2 id={id} name={fullname} pageNumber={pageNumber} />
+        </div>
+      )}
     </>
   );
 }
