@@ -88,6 +88,7 @@ const outputChildren = async (pageId: string) => {
   page.results.forEach((block: any) => {
     const type = block.type;
 
+    // banned block types by notion api
     if (
       type === "rollup" ||
       type === "created_by" ||
