@@ -4,9 +4,14 @@ if (args.length === 0)
   throw new Error("Argument missing: Please provide an argument.");
 const arg: string = args[0];
 
+require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
-const notion = require("../utils/notion");
+
+const { Client } = require("@notionhq/client");
+const notion = new Client({
+  auth: process.env.NOTION_API_KEY_READONLY,
+});
 
 const HEADING_DIRECTORY = "src/output/heading/";
 const CONTENT_DIRECTORY = "src/output/content/";
@@ -46,6 +51,7 @@ const createOutput = ({
 const outputHeading = async (pageId: string) => {
   const page = await notion.pages.retrieve({ page_id: pageId });
 
+  // notion heading data shape >:(
   const heading = {
     icon: page.icon,
     properties: {
@@ -150,12 +156,18 @@ const generateTemplate = async (pageId: string) => {
     // Create a valid function name based on the title
     const functionName = `notion${title.replace(/\s+/g, "")}`;
 
+    const propName =
+      functionName.charAt(0).toUpperCase() + functionName.slice(1) + "Props";
+
     // Define the function content
     const functionContent = `
-export const ${functionName} = (parentId: string) => ({
+interface ${propName} {
+  parentId: string;
+}
+export const ${functionName} = ({ parentId }: ${propName}) => ({
   "parent": {
-    "type": "page_id",
-    "page_id": parentId,
+    "type": "database_id",
+    "database_id": parentId,
   },
   "icon": ${JSON.stringify(outputJson.icon, null, 2)},
   "properties": ${JSON.stringify(outputJson.properties, null, 2)},
@@ -181,7 +193,7 @@ const main = async () => {
   await outputHeading(arg);
   await outputChildren(arg);
   await outputRequest(arg);
-  // Final step
+  // src/templates/notion<PageTitle>.ts
   await generateTemplate(arg);
 };
 

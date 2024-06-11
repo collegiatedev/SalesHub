@@ -1,9 +1,5 @@
-require("dotenv").config();
-const { Client } = require("@notionhq/client");
+import { Client } from "@notionhq/client";
 
-// Initializing a client
-const notionClient = new Client({
+export const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
-
-module.exports = notionClient;

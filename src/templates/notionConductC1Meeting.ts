@@ -1,11 +1,16 @@
-export const notionConductC1Meeting = (parentId: string) => ({
+interface ConductC1MeetingProps {
+  parentId: string;
+}
+export const notionConductC1Meeting = ({
+  parentId,
+}: ConductC1MeetingProps) => ({
   parent: {
-    type: "page_id",
-    page_id: parentId,
+    type: "database_id",
+    database_id: parentId,
   },
   icon: {
     type: "emoji",
-    emoji: "🔥",
+    emoji: "🤝",
   },
   properties: {
     Name: {
@@ -20,9 +25,40 @@ export const notionConductC1Meeting = (parentId: string) => ({
   },
   children: [
     {
+      heading_1: {
+        rich_text: [
+          {
+            type: "text",
+            text: {
+              content: "Meeting",
+              link: null,
+            },
+            annotations: {
+              bold: false,
+              italic: false,
+              strikethrough: false,
+              underline: false,
+              code: false,
+              color: "default",
+            },
+            plain_text: "Meeting",
+            href: null,
+          },
+        ],
+        is_toggleable: false,
+        color: "default",
+      },
+    },
+    {
       bookmark: {
         caption: [],
         url: "https://www.canva.com/design/DAFqcyTXTx4/CXE-TLbFC_bhkiQIHccc9Q/edit",
+      },
+    },
+    {
+      embed: {
+        caption: [],
+        url: "https://tally.so/r/npAVYb?id=2yozag01r1&name=John",
       },
     },
     {
