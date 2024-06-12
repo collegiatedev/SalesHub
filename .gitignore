@@ -12,6 +12,9 @@
 # testing
 /coverage
 
+#learning
+/src/app/test
+
 # next.js
 /.next/
 /out/
