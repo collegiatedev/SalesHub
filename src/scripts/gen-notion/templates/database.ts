@@ -4,7 +4,7 @@ import {
   HEADING_DIRECTORY,
   PARENT_ID_PLACEHOLDER,
 } from "../constants";
-import { generate, getOutputTitle } from "./generate";
+import { generate, generateChildren, getOutputTitle } from "./generate";
 
 const getOutputJson = (pageId: string) => {
   try {
@@ -17,7 +17,7 @@ const getOutputJson = (pageId: string) => {
     // children directory uses pageId as subfolder name
     // not very maintainable pattern, but literally do not care
     const contentData = fs.readFileSync(
-      `${CHILDREN_DIRECTORY}${pageId}/${pageId}.json`,
+      `${CHILDREN_DIRECTORY}${pageId}/${pageId}/${pageId}.json`,
       "utf8"
     );
     const contentJson = JSON.parse(contentData);
@@ -51,8 +51,8 @@ export const generateDatabaseTemplate = async (pageId: string) => {
       interface ${propName} {
         parentId: string;
       }
-      export const ${functionName} = async ({ parentId }: ${propName}) => 
-        await notion.pages.create({
+      export const ${functionName} = async ({ parentId }: ${propName}) => {
+        let res = await notion.pages.create({
           "parent": ${JSON.stringify(
             // set placeholder to parentId variable
             outputJson.parent,
@@ -64,6 +64,8 @@ export const generateDatabaseTemplate = async (pageId: string) => {
           "properties": ${JSON.stringify(outputJson.properties, null, 2)},
           "children": ${JSON.stringify(outputJson.children, null, 2)}
         });
+        ${await generateChildren(pageId)}
+      }
       `;
 
   generate({

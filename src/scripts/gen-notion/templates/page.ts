@@ -4,7 +4,7 @@ import {
   HEADING_DIRECTORY,
   PARENT_ID_PLACEHOLDER,
 } from "../constants";
-import { generate, getOutputTitle } from "./generate";
+import { generate, generateChildren, getOutputTitle } from "./generate";
 
 const getHeadingJson = (pageId: string) => {
   try {
@@ -50,7 +50,7 @@ export const generatePageTemplate = async (pageId: string) => {
         parentId: string;
       }
       export const ${functionName} = async ({ parentId }: ${propName}) => {
-        const res = await notion.pages.create({
+        let res = await notion.pages.create({
           "parent": ${JSON.stringify(
             // set placeholder to parentId variable
             headingJson.parent,
@@ -65,6 +65,7 @@ export const generatePageTemplate = async (pageId: string) => {
           "block_id": res.id,
           "children": ${JSON.stringify(childrenJson, null, 2)}
         });
+        ${await generateChildren(pageId)}
       }
       `;
 

@@ -5,6 +5,7 @@ import { outputDatabaseHeading, outputPageHeading } from "./outputs/heading";
 import { outputChildren } from "./outputs/children";
 import { generateDatabaseTemplate } from "./templates/database";
 import { generatePageTemplate } from "./templates/page";
+import { generateChildren } from "./templates/generate";
 
 const argv = yargs(hideBin(process.argv))
   .option("type", {

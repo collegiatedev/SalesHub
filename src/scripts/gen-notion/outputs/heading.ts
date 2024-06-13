@@ -46,7 +46,7 @@ export const outputPageHeading = async (pageId: string) => {
       title: [
         {
           text: {
-            content: page.properties.Name.title[0].plain_text,
+            content: page.properties.Name.title[0].plain_text, // only works for db pages wtf
           },
         },
       ],

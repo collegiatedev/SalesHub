@@ -24,7 +24,7 @@ const parseBlock = (block: any) => {
     type === "last_edited_by" ||
     type === "last_edited_time"
   )
-    return undefined;
+    return;
   return { [type]: removeFields(block[type]) };
 };
 
@@ -42,14 +42,17 @@ export const outputChildren = async (pageId: string) => {
   const newDirectory = `${CHILDREN_DIRECTORY}${pageId}/`;
 
   const children: any[] = [];
-  for (const block of page.results) {
+
+  for (let i = 0; i < page.results.length; i++) {
+    const block = page.results[i];
     const parsedBlock = parseBlock(block);
     if (parsedBlock) children.push(parsedBlock);
-    await recursiveChildren(
-      block.id,
-      newDirectory,
-      (block as any).has_children
-    );
+    await recursiveChildren({
+      blockId: block.id,
+      directory: newDirectory,
+      hasChildren: (block as any).has_children,
+      position: i, // position is not used
+    });
   }
 
   await createOutput({
@@ -60,11 +63,18 @@ export const outputChildren = async (pageId: string) => {
   });
 };
 
-const recursiveChildren = async (
-  blockId: string,
-  directory: string,
-  hasChildren: boolean
-) => {
+interface RecursiveChildrenParams {
+  blockId: string;
+  directory: string;
+  position: number;
+  hasChildren: boolean;
+}
+const recursiveChildren = async ({
+  blockId,
+  directory,
+  position,
+  hasChildren,
+}: RecursiveChildrenParams) => {
   if (!hasChildren) return;
 
   const blocks = await notion.blocks.children.list({
@@ -75,21 +85,22 @@ const recursiveChildren = async (
   const newDirectory = `${directory}${blockId}/`;
   const children: any[] = [];
 
-  for (const block of blocks.results) {
+  for (let i = 0; i < blocks.results.length; i++) {
+    const block = blocks.results[i];
     const parsedBlock = parseBlock(block);
     if (parsedBlock) children.push(parsedBlock);
-    // typecasting is wrong
-    await recursiveChildren(
-      block.id,
-      newDirectory,
-      (block as any).has_children
-    );
+    await recursiveChildren({
+      blockId: block.id,
+      directory: newDirectory,
+      position: i,
+      hasChildren: (block as any).has_children,
+    });
   }
 
   await createOutput({
     pageId: blockId,
     directory: newDirectory,
-    content: children,
+    content: { position, children },
     subfolder: hasChildren,
   });
 };
