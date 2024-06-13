@@ -14,8 +14,10 @@ const getOutputJson = (pageId: string) => {
     );
     const headingJson = JSON.parse(headingData);
 
+    // children directory uses pageId as subfolder name
+    // not very maintainable pattern, but literally do not care
     const contentData = fs.readFileSync(
-      `${CHILDREN_DIRECTORY}${pageId}.json`,
+      `${CHILDREN_DIRECTORY}${pageId}/${pageId}.json`,
       "utf8"
     );
     const contentJson = JSON.parse(contentData);
@@ -51,17 +53,17 @@ export const generateDatabaseTemplate = async (pageId: string) => {
       }
       export const ${functionName} = async ({ parentId }: ${propName}) => 
         await notion.pages.create({
-        "parent": ${JSON.stringify(
-          // set placeholder to parentId variable
-          outputJson.parent,
-          (_key, value) =>
-            value === PARENT_ID_PLACEHOLDER ? "{parentId}" : value,
-          2
-        ).replace('"{parentId}"', "parentId")},
-        "icon": ${JSON.stringify(outputJson.icon, null, 2)},
-        "properties": ${JSON.stringify(outputJson.properties, null, 2)},
-        "children": ${JSON.stringify(outputJson.children, null, 2)}
-      });
+          "parent": ${JSON.stringify(
+            // set placeholder to parentId variable
+            outputJson.parent,
+            (_key, value) =>
+              value === PARENT_ID_PLACEHOLDER ? "{parentId}" : value,
+            2
+          ).replace('"{parentId}"', "parentId")},
+          "icon": ${JSON.stringify(outputJson.icon, null, 2)},
+          "properties": ${JSON.stringify(outputJson.properties, null, 2)},
+          "children": ${JSON.stringify(outputJson.children, null, 2)}
+        });
       `;
 
   generate({

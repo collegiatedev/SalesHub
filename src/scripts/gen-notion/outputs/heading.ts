@@ -28,6 +28,7 @@ export const outputDatabaseHeading = async (pageId: string) => {
     pageId,
     directory: HEADING_DIRECTORY,
     content: heading,
+    subfolder: false,
   });
 };
 
@@ -56,5 +57,6 @@ export const outputPageHeading = async (pageId: string) => {
     pageId,
     directory: HEADING_DIRECTORY,
     content: heading,
+    subfolder: false,
   });
 };

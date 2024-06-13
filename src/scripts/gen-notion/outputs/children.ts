@@ -26,12 +26,6 @@ export const outputChildren = async (pageId: string) => {
     throw new Error("Notion API Error");
   });
 
-  // await createOutput({
-  //   pageId,
-  //   directory: "src/output/test/",
-  //   content: page,
-  // });
-
   const children: any[] = [];
 
   page.results.forEach((block: any) => {
@@ -53,5 +47,6 @@ export const outputChildren = async (pageId: string) => {
     pageId,
     directory: CHILDREN_DIRECTORY,
     content: children,
+    subfolder: true,
   });
 };

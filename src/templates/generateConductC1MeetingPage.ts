@@ -1,31 +1,32 @@
 import { notion } from "../utils/notion";
 
-interface GenerateConductC1MeetingDatabaseProps {
+interface GenerateConductC1MeetingPageProps {
   parentId: string;
 }
-export const generateConductC1MeetingDatabase = async ({
+export const generateConductC1MeetingPage = async ({
   parentId,
-}: GenerateConductC1MeetingDatabaseProps) =>
-  await notion.pages.create({
+}: GenerateConductC1MeetingPageProps) => {
+  const res = await notion.pages.create({
     parent: {
-      type: "database_id",
-      database_id: parentId,
+      type: "page_id",
+      page_id: parentId,
     },
     icon: {
       type: "emoji",
       emoji: "🤝",
     },
     properties: {
-      Name: {
-        title: [
-          {
-            text: {
-              content: "Conduct C1 Meeting",
-            },
+      title: [
+        {
+          text: {
+            content: "Conduct C1 Meeting",
           },
-        ],
-      },
+        },
+      ],
     },
+  });
+  return await notion.blocks.children.append({
+    block_id: res.id,
     children: [
       {
         heading_1: {
@@ -378,3 +379,4 @@ export const generateConductC1MeetingDatabase = async ({
       },
     ],
   });
+};

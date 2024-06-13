@@ -4,6 +4,7 @@ import { hideBin } from "yargs/helpers";
 import { outputDatabaseHeading, outputPageHeading } from "./outputs/heading";
 import { outputChildren } from "./outputs/children";
 import { generateDatabaseTemplate } from "./templates/database";
+import { generatePageTemplate } from "./templates/page";
 // import { generatePageTemplate } from "./templates/page";
 
 const argv = yargs(hideBin(process.argv))
@@ -28,8 +29,8 @@ const main = async () => {
   const outputHeading =
     type === "page" ? outputPageHeading : outputDatabaseHeading;
 
-  const generateTemplate = generateDatabaseTemplate;
-  // type === "page" ? generatePageTemplate : generateDatabaseTemplate;
+  const generateTemplate =
+    type === "page" ? generatePageTemplate : generateDatabaseTemplate;
 
   await outputHeading(id);
   await outputChildren(id);
