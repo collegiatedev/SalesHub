@@ -6,7 +6,6 @@ export const notion = new Client({
 
 export const HEADING_DIRECTORY = "src/output/heading/";
 export const CHILDREN_DIRECTORY = "src/output/children/";
-export const REQUEST_DIRECTORY = "src/output/request/";
 export const TEMPLATE_DIRECTORY = "src/templates/";
 
 export const PARENT_ID_PLACEHOLDER = "<*>";

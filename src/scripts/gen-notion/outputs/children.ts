@@ -24,7 +24,7 @@ const parseBlock = (block: any) => {
     type === "last_edited_by" ||
     type === "last_edited_time"
   )
-    return;
+    return undefined;
   return { [type]: removeFields(block[type]) };
 };
 
@@ -39,20 +39,22 @@ export const outputChildren = async (pageId: string) => {
     throw new Error("Notion API Error");
   });
 
+  const newDirectory = `${CHILDREN_DIRECTORY}${pageId}/`;
+
   const children: any[] = [];
-  page.results.forEach(async (block: any) => {
+  for (const block of page.results) {
     const parsedBlock = parseBlock(block);
     if (parsedBlock) children.push(parsedBlock);
-
     await recursiveChildren(
       block.id,
-      `${CHILDREN_DIRECTORY}${pageId}/`,
-      block.has_children
+      newDirectory,
+      (block as any).has_children
     );
-  });
+  }
+
   await createOutput({
     pageId,
-    directory: CHILDREN_DIRECTORY,
+    directory: newDirectory,
     content: children,
     subfolder: true,
   });
@@ -69,14 +71,20 @@ const recursiveChildren = async (
     block_id: blockId,
     page_size: 50,
   });
-  const newDirectory = `${directory}${blockId}/`;
 
+  const newDirectory = `${directory}${blockId}/`;
   const children: any[] = [];
-  blocks.results.forEach(async (block: any) => {
+
+  for (const block of blocks.results) {
     const parsedBlock = parseBlock(block);
     if (parsedBlock) children.push(parsedBlock);
-    await recursiveChildren(block.id, newDirectory, block.has_children);
-  });
+    // typecasting is wrong
+    await recursiveChildren(
+      block.id,
+      newDirectory,
+      (block as any).has_children
+    );
+  }
 
   await createOutput({
     pageId: blockId,

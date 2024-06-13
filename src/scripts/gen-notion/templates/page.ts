@@ -22,7 +22,7 @@ const getChildrenJson = (pageId: string) => {
     // children directory uses pageId as subfolder name
     // not very maintainable pattern, but literally do not care
     const childrenData = fs.readFileSync(
-      `${CHILDREN_DIRECTORY}${pageId}/${pageId}.json`,
+      `${CHILDREN_DIRECTORY}${pageId}/${pageId}/${pageId}.json`,
       "utf8"
     );
     return JSON.parse(childrenData);
@@ -61,7 +61,7 @@ export const generatePageTemplate = async (pageId: string) => {
           "icon": ${JSON.stringify(headingJson.icon, null, 2)},
           "properties": ${JSON.stringify(headingJson.properties, null, 2)},
         });
-        return await notion.blocks.children.append({
+        await notion.blocks.children.append({
           "block_id": res.id,
           "children": ${JSON.stringify(childrenJson, null, 2)}
         });
