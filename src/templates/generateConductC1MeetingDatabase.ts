@@ -1,38 +1,35 @@
-import {
-  AppendBlockChildrenResponse,
-  CreatePageResponse,
-} from "@notionhq/client/build/src/api-endpoints";
 import { notion } from "../utils/notion";
 
-interface GenerateConductC1MeetingPageProps {
+interface GenerateConductC1MeetingDatabaseProps {
   parentId: string;
 }
-export const generateConductC1MeetingPage = async ({
+export const generateConductC1MeetingDatabase = async ({
   parentId,
-}: GenerateConductC1MeetingPageProps) => {
-  // let res: CreatePageResponse | AppendBlockChildrenResponse =
-  //   await notion.pages.create({
-  //     parent: {
-  //       type: "page_id",
-  //       page_id: parentId,
-  //     },
-  //     icon: {
-  //       type: "emoji",
-  //       emoji: "🤝",
-  //     },
-  //     properties: {
-  //       title: [
-  //         {
-  //           text: {
-  //             content: "Conduct C1 Meeting",
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   });
+}: GenerateConductC1MeetingDatabaseProps) => {
+  const keyMap = new Map<string, Array<any>>();
+  const page = await notion.pages.create({
+    parent: {
+      type: "database_id",
+      database_id: parentId,
+    },
+    icon: {
+      type: "emoji",
+      emoji: "🤝",
+    },
+    properties: {
+      Name: {
+        title: [
+          {
+            text: {
+              content: "Conduct C1 Meeting",
+            },
+          },
+        ],
+      },
+    },
+  });
   let res = await notion.blocks.children.append({
-    // block_id: res.id,
-    block_id: "1",
+    block_id: page.id,
     children: [
       {
         heading_1: {
@@ -249,128 +246,7 @@ export const generateConductC1MeetingPage = async ({
               },
             },
           ],
-          is_toggleable: false,
-          color: "default",
-        },
-      },
-      {
-        callout: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Two main components:\n1. Create Student/Parent GC & send Tally Forms\n2. Schedule C2/C3 – Try your best to get these calls scheduled on the C1 meeting itself",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          icon: {
-            type: "emoji",
-            emoji: "💡",
-          },
-          color: "gray_background",
-        },
-      },
-      {
-        heading_3: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Create Student/Parent GC",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          is_toggleable: false,
-          color: "default",
-        },
-      },
-      {
-        to_do: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Ask for parent & student phone number and email",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          checked: false,
-          color: "default",
-        },
-      },
-      {
-        to_do: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Then, send them the student work call form and parent insight form in the Zoom chat (make sure it’s the form that has their ID) ",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          checked: false,
-          color: "default",
-        },
-      },
-      {
-        to_do: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Make a student/parent gc after collecting their phone numbers:",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          checked: false,
+          is_toggleable: true,
           color: "default",
         },
       },
@@ -385,38 +261,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("50161c5bf2c14905b7a49e6fa33d5d5b", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
-    children: [
-      {
-        bulleted_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Say this: “For the next steps, please fill out the following forms – one for the student and the other for the parent. Since we have limited spots for our program, we can guarantee the next work session if the parent form can be completed by the end of this meeting. Please let me know when you can schedule a time for our meeting”",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-    ],
-  });
-
-  res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![1].id,
     children: [
       {
         to_do: {
@@ -823,7 +671,7 @@ export const generateConductC1MeetingPage = async ({
               type: "text",
               text: {
                 content:
-                  "If they vaguely say they want general guidance on the process, say this: “Yeah, completely understand – the admissions process can be more complicated than it needs to be. Just to make things simpler, where do you feel like you would need the most guidance: discovering impactful extracurriculars, exploring career interests, learning how to write a unique college essay, or developing a unique profile to stand out”",
+                  "If they vaguely say they want general guidance on the process, say this: “Yeah, completely understand – the admissions process can be more complicated than it needs to be. Just to make things simpler, where do you feel like you would need the most guidance: discovering impactful extracuriculars, exploring career interests, learning how to write a unique college essay, or developing a unique profile to stand out”",
                 link: null,
               },
               annotations: {
@@ -1024,9 +872,138 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("3dd8787d-c0f1-42ed-a1b7-aa1da6b22e1e", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![11].id,
+    children: [
+      {
+        callout: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Two main components:\n1. Create Student/Parent GC & send Tally Forms\n2. Schedule C2/C3 – Try your best to get these calls scheduled on the C1 meeting itself",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          icon: {
+            type: "emoji",
+            emoji: "💡",
+          },
+          color: "gray_background",
+        },
+      },
+      {
+        heading_3: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Create Student/Parent GC",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          is_toggleable: false,
+          color: "default",
+        },
+      },
+      {
+        to_do: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Ask for parent & student phone number and email",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          checked: false,
+          color: "default",
+        },
+      },
+      {
+        to_do: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Then, send them the student work call form and parent insight form in the Zoom chat (make sure it’s the form that has their ID) ",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          checked: false,
+          color: "default",
+        },
+      },
+      {
+        to_do: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Make a student/parent gc after collecting their phone numbers:",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          checked: false,
+          color: "default",
+        },
+      },
+    ],
+  });
+  keyMap.set("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6", res.results);
+
+  res = await notion.blocks.children.append({
+    block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![2].id,
     children: [
       {
         callout: {
@@ -1100,92 +1077,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("a5524f04-be78-4c55-85fb-56310b3622dc", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
-    children: [
-      {
-        to_do: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Text this message: “Hi (student name) and family, it was a pleasure meeting – here are the forms to complete to move forward:\n1. For Parent: (Provide Parent Tally Form – Make sure it has correct ID)",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          checked: false,
-          color: "default",
-        },
-      },
-      {
-        paragraph: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "      2. For Student: (Provide Student Tally Form – Make sure it has correct ID)",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        to_do: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "You can also mention any specific resources the family asked about in this text message. For example, many families ask about SAT resources, you can provide links to access these resources if it was relevant to the call (refer to resources DB)",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          checked: false,
-          color: "default",
-        },
-      },
-      {
-        paragraph: {
-          rich_text: [],
-          color: "default",
-        },
-      },
-    ],
-  });
-
-  res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![0].id,
     children: [
       {
         to_do: {
@@ -1397,38 +1292,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("d67e14f6-4a73-40de-b76a-36dc75dbad6d", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
-    children: [
-      {
-        bulleted_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "If they say they can’t find a time at the moment, let them know: “That’s alright, I’m happy to make an exception. To ensure we can secure our next meeting, the form would need to be completed within 1-2 weeks. Let me know if that’s reasonable for you”. ",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-    ],
-  });
-
-  res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("3dd8787d-c0f1-42ed-a1b7-aa1da6b22e1e")![3].id,
     children: [
       {
         bulleted_list_item: {
@@ -1478,9 +1345,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("094c8094-b14f-42ed-98d3-32b6f619776b", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("3dd8787d-c0f1-42ed-a1b7-aa1da6b22e1e")![4].id,
     children: [
       {
         numbered_list_item: {
@@ -1512,7 +1380,7 @@ export const generateConductC1MeetingPage = async ({
               type: "text",
               text: {
                 content:
-                  "If they provide more details about some personal experience, ask: So you mentioned (….. some activity they mention) got you interested in your field, why do you think that experience helped you understand this field was something you would be interested in",
+                  "If they provide more details about some personal experience, ask: So you mentioned (…..some activity they mention) got you interested in your field, why do you think that experience helped you understand this field was something you would be interested in",
                 link: null,
               },
               annotations: {
@@ -1535,7 +1403,7 @@ export const generateConductC1MeetingPage = async ({
               type: "text",
               text: {
                 content:
-                  "“ I’m also curious… have you taken any dual enrollment, summer programs, or classes outside of school to further your interests in any subjects”",
+                  "“I’m also curious… have you taken any dual enrollment, summer programs, or classes outside of school to further your interests in any subjects”",
                 link: null,
               },
               annotations: {
@@ -1599,9 +1467,124 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("eb877b08-b8e4-45b3-831d-a5e4ad2f6a93", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6")![3].id,
+    children: [
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Say this: “For the next steps, please fill out the following forms – one for the student and the other for the parent. Since we have limited spots for our program, we can guarantee the next work session if the parent form can be completed by the end of this meeting. Please let me know when you can schedule a time for our meeting”",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+    ],
+  });
+  keyMap.set("0b88d31f-1d56-4f28-bd9a-7d7598a59868", res.results);
+
+  res = await notion.blocks.children.append({
+    block_id: keyMap.get("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6")![4].id,
+    children: [
+      {
+        to_do: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Text this message: “Hi (student name) and family, it was a pleasure meeting – here are the forms to complete to move forward:\n1. For Parent: (Provide Parent Tally Form – Make sure it has correct ID)",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          checked: false,
+          color: "default",
+        },
+      },
+      {
+        paragraph: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "      2. For Student: (Provide Student Tally Form – Make sure it has correct ID)",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        to_do: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "You can also mention any specific resources the family asked about in this text message. For example, many families ask about SAT resources, you can provide links to access these resources if it was relevant to the call (refer to resources DB)",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          checked: false,
+          color: "default",
+        },
+      },
+      {
+        paragraph: {
+          rich_text: [],
+          color: "default",
+        },
+      },
+    ],
+  });
+  keyMap.set("c449f83b-b552-4b72-8400-146a209065f4", res.results);
+
+  res = await notion.blocks.children.append({
+    block_id: keyMap.get("a5524f04-be78-4c55-85fb-56310b3622dc")![2].id,
     children: [
       {
         heading_3: {
@@ -1858,9 +1841,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("d67e14f6-4a73-40de-b76a-36dc75dbad6d")![0].id,
     children: [
       {
         bulleted_list_item: {
@@ -1930,9 +1914,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("0bec9ce2-c265-4112-bb9a-fbd19e9873bd", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("d67e14f6-4a73-40de-b76a-36dc75dbad6d")![4].id,
     children: [
       {
         bulleted_list_item: {
@@ -2103,9 +2088,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("0e222e1d-0e7d-4ced-9c89-2078ea913cb7", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("d67e14f6-4a73-40de-b76a-36dc75dbad6d")![3].id,
     children: [
       {
         bulleted_list_item: {
@@ -2313,9 +2299,40 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("90471e5f-346a-4d5d-a511-ea5213476ec1", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("0b88d31f-1d56-4f28-bd9a-7d7598a59868")![0].id,
+    children: [
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "If they say they can’t find a time at the moment, let them know: “That’s alright, I’m happy to make an exception. To ensure we can secure our next meeting, the form would need to be completed within 1-2 weeks. Let me know if that’s reasonable for you”. ",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+    ],
+  });
+  keyMap.set("cb11918b-9bf5-4d45-ba6e-dfe0a665f2a7", res.results);
+
+  res = await notion.blocks.children.append({
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![10].id,
     children: [
       {
         paragraph: {
@@ -2547,9 +2564,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("25c9f584-64dd-41f2-b37e-91f233ff464c", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![2].id,
     children: [
       {
         paragraph: {
@@ -2672,9 +2690,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("3c5fdc1d-8a78-4102-a38c-c738ccae6b30", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![7].id,
     children: [
       {
         paragraph: {
@@ -2854,9 +2873,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("48b268bd-7b0b-48b6-b7e6-f4f873728efd", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![5].id,
     children: [
       {
         paragraph: {
@@ -3117,9 +3137,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("568dc248-16c6-42fa-9569-eb4659c753b6", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![3].id,
     children: [
       {
         paragraph: {
@@ -3267,9 +3288,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("6f01dbf5-97e7-4614-8305-08992619c9ff", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![8].id,
     children: [
       {
         paragraph: {
@@ -3456,9 +3478,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("8a885738-9d7f-4e8a-9aec-9f06a9dc910d", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![6].id,
     children: [
       {
         numbered_list_item: {
@@ -3575,9 +3598,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("b93ab536-0093-42ae-b437-cb4ddf4b0a00", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![4].id,
     children: [
       {
         paragraph: {
@@ -3604,9 +3628,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("c65fe82f-884b-4f4e-98b2-48f2e554a1cc", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![0].id,
     children: [
       {
         paragraph: {
@@ -3633,9 +3658,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("d48d16d2-0b6a-4fce-aad7-fe3c8d1c0ab1", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![1].id,
     children: [
       {
         paragraph: {
@@ -3662,9 +3688,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("d9e06ece-430c-40a7-9b71-452ebc7a6381", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![9].id,
     children: [
       {
         paragraph: {
@@ -3691,9 +3718,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("f05ea0fc-5def-4469-a10e-d3da823123c0", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("0e222e1d-0e7d-4ced-9c89-2078ea913cb7")![1].id,
     children: [
       {
         bulleted_list_item: {
@@ -3743,9 +3771,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("8a954a2b-9d0b-4195-bdfb-273f214d9837", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("90471e5f-346a-4d5d-a511-ea5213476ec1")![2].id,
     children: [
       {
         bulleted_list_item: {
@@ -3773,9 +3802,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("e7163da7-1075-4ca0-a5df-399813ebc07a", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("3c5fdc1d-8a78-4102-a38c-c738ccae6b30")![2].id,
     children: [
       {
         bulleted_list_item: {
@@ -3802,9 +3832,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("11b34db8-2e56-43c5-9155-15424f632a26", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("3c5fdc1d-8a78-4102-a38c-c738ccae6b30")![3].id,
     children: [
       {
         bulleted_list_item: {
@@ -3853,9 +3884,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("8e2b526c-3176-47a9-b4b1-ff1a3d3948e6", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("3c5fdc1d-8a78-4102-a38c-c738ccae6b30")![1].id,
     children: [
       {
         bulleted_list_item: {
@@ -3905,9 +3937,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("e69c109a-5f27-4d8f-9ca6-01d31be905ec", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("6f01dbf5-97e7-4614-8305-08992619c9ff")![1].id,
     children: [
       {
         bulleted_list_item: {
@@ -3933,9 +3966,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("285609bc-a4fd-412c-b647-76de6309880e", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("6f01dbf5-97e7-4614-8305-08992619c9ff")![2].id,
     children: [
       {
         bulleted_list_item: {
@@ -3962,9 +3996,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("8a7996aa-9bed-4fb0-9df3-77119efd5ba4", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("6f01dbf5-97e7-4614-8305-08992619c9ff")![3].id,
     children: [
       {
         bulleted_list_item: {
@@ -4046,9 +4081,10 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("b5ff766c-ff9d-4e05-9c2d-82bc3f3970d7", res.results);
 
   res = await notion.blocks.children.append({
-    block_id: res.results[0].id,
+    block_id: keyMap.get("8a7996aa-9bed-4fb0-9df3-77119efd5ba4")![0].id,
     children: [
       {
         numbered_list_item: {
@@ -4121,4 +4157,5 @@ export const generateConductC1MeetingPage = async ({
       },
     ],
   });
+  keyMap.set("76528c08-5841-4bac-becd-b0f0bcf62450", res.results);
 };
