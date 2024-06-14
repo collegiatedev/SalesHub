@@ -30,8 +30,8 @@ const main = async () => {
   const generateTemplate =
     type === "page" ? generatePageTemplate : generateDatabaseTemplate;
 
-  await outputHeading(id);
-  await outputChildren(id);
+  // await outputHeading(id);
+  // await outputChildren(id);
   await generateTemplate(id);
 };
 

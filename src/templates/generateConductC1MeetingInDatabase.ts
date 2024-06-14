@@ -1,11 +1,11 @@
 import { notion } from "../utils/notion";
 
-interface GenerateConductC1MeetingDatabaseProps {
+interface GenerateConductC1MeetingInDatabaseProps {
   parentId: string;
 }
-export const generateConductC1MeetingDatabase = async ({
+export const generateConductC1MeetingInDatabase = async ({
   parentId,
-}: GenerateConductC1MeetingDatabaseProps) => {
+}: GenerateConductC1MeetingInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notion.pages.create({
     parent: {

@@ -62,7 +62,6 @@ export const outputChildren = async (pageId: string) => {
     subfolder: true,
   });
 };
-
 interface RecursiveChildrenParams {
   blockId: string;
   directory: string;

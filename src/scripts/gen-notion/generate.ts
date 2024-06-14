@@ -146,14 +146,14 @@ const generateTemplate = async (
 // page and database templates
 export const generatePageTemplate = async (pageId: string) => {
   const functionName =
-    getOutputFunctionName(pageId, "properties.title.0.text.content") + "Page";
+    getOutputFunctionName(pageId, "properties.title.0.text.content") + "InPage";
   const functionContent = await generateContent(pageId, functionName);
   await generateTemplate(functionName, functionContent);
 };
 export const generateDatabaseTemplate = async (pageId: string) => {
   const functionName =
     getOutputFunctionName(pageId, "properties.Name.title.0.text.content") +
-    "Database";
+    "InDatabase";
   const functionContent = await generateContent(pageId, functionName);
   await generateTemplate(functionName, functionContent);
 };
