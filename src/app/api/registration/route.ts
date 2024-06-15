@@ -5,10 +5,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    generateConductC1MeetingInDatabase({
+    await generateConductC1MeetingInDatabase({
       ...data,
       parentId: ACCELERATOR_TASKS_DB,
-    }); // takes forever to run, so no await
+    });
 
     return NextResponse.json({
       message: "Meeting task creation in progress",
