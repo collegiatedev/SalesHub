@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(_req: NextRequest) {
-  console.log("hello world");
-  console.log("bb:", process.env.TEST);
   return NextResponse.json({
-    message: `Success!`,
+    message: `Success Here! ${process.env.NOTION_API_KEY_READONLY}`,
   });
 }
