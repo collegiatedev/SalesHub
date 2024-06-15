@@ -1,10 +1,24 @@
 import { notion } from "../utils/notion";
+// PLEASE MAKE A COPY FIRST IF MIGRATING
 
 interface GenerateConductC1MeetingInDatabaseProps {
-  parentId: string;
+  parentId: string; // in terms of notion
+  // passed from api
+  studentId: string; // in terms of content
+  studentFullName: string;
+  studentEmail: string;
+  studentNumber: string;
+  parentEmail: string;
+  parentNumber: string;
 }
 export const generateConductC1MeetingInDatabase = async ({
   parentId,
+  studentId,
+  studentFullName,
+  studentEmail,
+  studentNumber,
+  parentEmail,
+  parentNumber,
 }: GenerateConductC1MeetingInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notion.pages.create({
@@ -21,7 +35,7 @@ export const generateConductC1MeetingInDatabase = async ({
         title: [
           {
             text: {
-              content: "Conduct C1 Meeting",
+              content: `${studentFullName} - Conduct C1 Meeting`,
             },
           },
         ],
@@ -221,7 +235,7 @@ export const generateConductC1MeetingInDatabase = async ({
               },
             },
           ],
-          url: "https://tally.so/r/npAVYb?id=2yozag01r1&name=John",
+          url: `https://tally.so/r/npAVYb?id=${studentId}&fullname=${studentFullName}`,
         },
       },
     ],
@@ -815,7 +829,6 @@ export const generateConductC1MeetingInDatabase = async ({
             {
               type: "mention",
               mention: {
-                // type: "database",
                 database: {
                   id: "c152fc19-a8b9-44a0-beba-b93ad9da6da2",
                 },
@@ -1439,8 +1452,7 @@ export const generateConductC1MeetingInDatabase = async ({
             {
               type: "text",
               text: {
-                content:
-                  "Student email: <>, student number: <>, parent email: <>, parent number: <>",
+                content: `Student email: ${studentEmail}, student number: ${studentNumber}, parent email: ${parentEmail}, parent number: ${parentNumber}`,
                 link: null,
               },
               annotations: {
