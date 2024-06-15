@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    await generateConductC1MeetingInDatabase({
+    generateConductC1MeetingInDatabase({
       ...data,
       parentId: ACCELERATOR_TASKS_DB,
     });
