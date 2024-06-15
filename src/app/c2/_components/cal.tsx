@@ -3,7 +3,7 @@
 import { InvalidLink } from "@/src/components/invalidLink";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
-import { concentrationToLink } from "./concentrationLinks";
+import { concentrationToCal } from "./concentrationLinks";
 import { useQuery } from "@tanstack/react-query";
 
 export type Cal2Props = {
@@ -33,7 +33,7 @@ export const CalC2 = ({
   const concentrationString = getConcentrationString(concentration);
   //console.log("concentration from cal c2:", concentrationString);
 
-  const calLink = concentrationToLink.get(concentrationString.toString());
+  const calLink = concentrationToCal.get(concentrationString.toString());
   //console.log("callink", calLink);
   const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
 
