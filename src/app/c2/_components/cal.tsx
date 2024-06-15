@@ -3,7 +3,7 @@
 import { InvalidLink } from "@/src/components/invalidLink";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
-import { concentrationToLink } from "./modules";
+import { concentrationToLink } from "./concentrationLinks";
 import { useQuery } from "@tanstack/react-query";
 
 export type Cal2Props = {
