@@ -34,3 +34,21 @@ export const createOutput = ({
     );
   });
 };
+
+// deletes previous output files to make sure no legacy files are kept
+export const deleteDirectoryIfExists = async (
+  directory: string
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    if (fs.existsSync(directory)) {
+      fs.rmdir(directory, { recursive: true }, (err) => {
+        if (err) {
+          return reject(`Error deleting directory: ${err.message}`);
+        }
+        resolve();
+      });
+    } else {
+      resolve();
+    }
+  });
+};

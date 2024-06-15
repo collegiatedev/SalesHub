@@ -1,5 +1,5 @@
 import { CHILDREN_DIRECTORY, notion } from "../constants";
-import { createOutput } from "./create";
+import { createOutput, deleteDirectoryIfExists } from "./create";
 
 const parseBlock = (block: any) => {
   // remove plain text, href fields from block object
@@ -41,7 +41,7 @@ export const outputChildren = async (pageId: string) => {
   });
 
   const newDirectory = `${CHILDREN_DIRECTORY}${pageId}/`;
-  console.log("newDirectory", newDirectory);
+  await deleteDirectoryIfExists(newDirectory);
 
   const children: any[] = [];
 

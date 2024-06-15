@@ -36,7 +36,6 @@ const main = async () => {
   const generateTemplate =
     type === "page" ? generatePageTemplate : generateDatabaseTemplate;
 
-  // todo, delete previous output files to make sure no legacy files are kept
   if (output) {
     await outputHeading(id);
     await outputChildren(id);
