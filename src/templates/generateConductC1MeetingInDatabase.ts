@@ -10,7 +10,7 @@ interface GenerateConductC1MeetingInDatabaseProps {
   studentNumber: string;
   parentEmail: string;
   parentNumber: string;
-  repId: string;
+  salesRepId: string;
 }
 export const generateConductC1MeetingInDatabase = async ({
   parentId,
@@ -20,7 +20,7 @@ export const generateConductC1MeetingInDatabase = async ({
   studentNumber,
   parentEmail,
   parentNumber,
-  repId,
+  salesRepId,
 }: GenerateConductC1MeetingInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notion.pages.create({
@@ -45,7 +45,7 @@ export const generateConductC1MeetingInDatabase = async ({
       "🚈 Lead": {
         relation: [
           {
-            id: repId,
+            id: salesRepId,
           },
         ],
       },
