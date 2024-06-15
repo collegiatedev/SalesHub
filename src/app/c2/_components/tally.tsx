@@ -1,31 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { retrieveField } from "@/src/utils/tally";
 
 interface TallyC2Props {
   id: string;
   name: string;
   grade: string;
-  setPageNumber: (pageNumber: number) => void;
+  setConcentration: any;
 }
 
-export const TallyC2 = ({ id, name, grade, setPageNumber }: TallyC2Props) => {
+export const TallyC2 = ({
+  id,
+  name,
+  grade,
+  setConcentration,
+}: TallyC2Props) => {
   useEffect(() => {
-    const handleFormSubmit = (event: MessageEvent) => {
+    const handleFormSubmit = (event: any) => {
       try {
-        const data =
-          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+        const data = JSON.parse(event.data);
 
-        if (data.event === "Tally.FormPageView") {
-          setPageNumber(data.payload.page);
+        if (data.event === "Tally.FormSubmitted") {
+          const concentration = retrieveField(data, "concentration");
+
+          setConcentration({ concentration });
+          console.log("concentration:", concentration);
         }
-      } catch (error) {
-        console.error("Error parsing form submission data:", error);
-      }
+      } catch (error) {}
     };
     window.addEventListener("message", handleFormSubmit);
     return () => window.removeEventListener("message", handleFormSubmit);
-  }, [setPageNumber]);
+  }, [id, setConcentration]);
 
   return (
     <div

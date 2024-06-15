@@ -1,8 +1,8 @@
-// page_id: c2_link
-export const pageIdToLink = new Map<string, string>([
-  ["4", "team/collegiate/branding"],
-  ["5", "team/collegiate/ec"],
-  ["6", "team/collegiate/org"],
-  ["7", "team/collegiate/internship"],
-  ["8", "team/collegiate/editing"],
+// concentration: c2_link
+export const concentrationToLink = new Map<string, string>([
+  ["Personal Branding", "team/collegiate/branding"],
+  ["EC Discovery", "team/collegiate/ec"],
+  ["Org Optimization", "team/collegiate/org"],
+  ["Internship Search", "team/collegiate/internship"],
+  ["Essay Editing", "team/collegiate/editing"],
 ]);

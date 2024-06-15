@@ -3,25 +3,38 @@
 import { InvalidLink } from "@/src/components/invalidLink";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
-import { pageIdToLink } from "./modules";
+import { concentrationToLink } from "./modules";
 import { useQuery } from "@tanstack/react-query";
 
 export type Cal2Props = {
   id: string;
   name: string;
-  pageNumber: number;
-  //setCalIsScheduled: (isScheduled: boolean) => void;
-  onSchedulingComplete: () => void;
+  concentration: string;
+  setCalIsScheduled: (isScheduled: boolean) => void;
+};
+
+const getConcentrationString = (concentrationInput: any) => {
+  if (
+    typeof concentrationInput === "object" &&
+    concentrationInput !== null &&
+    "concentration" in concentrationInput
+  ) {
+    return concentrationInput.concentration;
+  }
+  return concentrationInput; // Return the input directly if it's not an object with a concentration property
 };
 
 export const CalC2 = ({
   id,
   name,
-  pageNumber,
-  onSchedulingComplete,
+  concentration,
+  setCalIsScheduled,
 }: Cal2Props) => {
-  const calLink = pageIdToLink.get(pageNumber.toString());
-  console.log("callink", calLink);
+  const concentrationString = getConcentrationString(concentration);
+  //console.log("concentration from cal c2:", concentrationString);
+
+  const calLink = concentrationToLink.get(concentrationString.toString());
+  //console.log("callink", calLink);
   const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
 
   const { data, error, isLoading } = useQuery({
@@ -41,11 +54,11 @@ export const CalC2 = ({
         action: "bookingSuccessful",
         callback: (e) => {
           console.log("bookingSuccessful", e);
-          onSchedulingComplete();
+          setCalIsScheduled(true);
         },
       });
     })();
-  }, [onSchedulingComplete]);
+  }, [setCalIsScheduled]);
 
   if (!calLink) return <InvalidLink />;
   if (isLoading) return <div>Loading...</div>;
