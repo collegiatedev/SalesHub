@@ -6,23 +6,25 @@ interface TallyC2Props {
   id: string;
   name: string;
   grade: string;
-  setPageNumber: any; //fix this type
+  setPageNumber: (pageNumber: number) => void;
 }
 
 export const TallyC2 = ({ id, name, grade, setPageNumber }: TallyC2Props) => {
   useEffect(() => {
-    const handleFormSubmit = (event: any) => {
+    const handleFormSubmit = (event: MessageEvent) => {
       try {
         const data = JSON.parse(event.data);
 
         if (data.event === "Tally.FormPageView") {
           setPageNumber(data.payload.page);
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error("Error parsing form submission data:", error);
+      }
     };
     window.addEventListener("message", handleFormSubmit);
     return () => window.removeEventListener("message", handleFormSubmit);
-  }, []);
+  }, [setPageNumber]);
 
   return (
     <div
