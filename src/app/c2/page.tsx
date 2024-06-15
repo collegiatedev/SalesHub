@@ -18,10 +18,37 @@ export default function C2() {
 
 function C2Content() {
   const [pageNumber, setPageNumber] = useState(0);
+  const [calIsScheduled, setCalIsScheduled] = useState(false);
   const params = useSearchParams();
   const id = params.get("id");
   const fullname = params.get("fullname");
   const grade = params.get("grade");
+
+  // Simulate form submission
+  const submitForm = () => {
+    const simulatedEvent = {
+      data: JSON.stringify({
+        event: "Tally.FormSubmitted",
+        payload: {
+          // Add necessary data here
+          name: fullname,
+          grade: grade,
+        },
+      }),
+    };
+
+    const handleFormSubmit = (event: any) => {
+      try {
+        const data = JSON.parse(event.data);
+        console.log("Simulated Data:", data);
+        // Add your form submission logic here
+      } catch (error) {
+        console.error("Form submission error:", error);
+      }
+    };
+
+    handleFormSubmit(simulatedEvent);
+  };
 
   if (!id || !fullname || !grade) return <InvalidLink />;
   return (
@@ -44,7 +71,13 @@ function C2Content() {
             grade={grade}
             setPageNumber={setPageNumber}
           />
-          <CalC2 id={id} name={fullname} pageNumber={pageNumber} />
+          <CalC2
+            id={id}
+            name={fullname}
+            pageNumber={pageNumber}
+            setCalIsScheduled={setCalIsScheduled}
+            onSchedulingComplete={submitForm}
+          />
         </div>
       )}
     </>
