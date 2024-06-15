@@ -68,13 +68,13 @@ const generateChildren = async (pageId: string) => {
         const currentData = fs.readFileSync(childPath, "utf8");
         const currentJson = JSON.parse(currentData);
 
-        // // WRONG
         res += `
         res = await notion.blocks.children.append({
           "block_id": keyMap.get("${parentId}")![${currentJson.position}].id,
           "children": ${JSON.stringify(currentJson.children, null, 2)}
         });
         keyMap.set("${currentId}", res.results);
+        console.log("Created: ${currentId}");
           `;
       }
     }

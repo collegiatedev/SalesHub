@@ -3,6 +3,7 @@ import { createOutput } from "./create";
 
 const parseBlock = (block: any) => {
   // remove plain text, href fields from block object
+  // todo: remove type from mention objects
   const removeFields = (obj: any): any => {
     if (Array.isArray(obj)) {
       return obj.map(removeFields);
@@ -40,6 +41,7 @@ export const outputChildren = async (pageId: string) => {
   });
 
   const newDirectory = `${CHILDREN_DIRECTORY}${pageId}/`;
+  console.log("newDirectory", newDirectory);
 
   const children: any[] = [];
 
