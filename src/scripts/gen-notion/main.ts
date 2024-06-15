@@ -19,10 +19,16 @@ const argv = yargs(hideBin(process.argv))
     description: "Specify the page or database ID",
     demandOption: true,
   })
+  .option("output", {
+    alias: "o",
+    type: "boolean",
+    description: "Determine whether to scrape the pages or not",
+    default: false,
+  })
   .help().argv;
 
 const main = async () => {
-  const { type, id } = await argv;
+  const { type, id, output } = await argv;
 
   const outputHeading =
     type === "page" ? outputPageHeading : outputDatabaseHeading;
@@ -30,8 +36,11 @@ const main = async () => {
   const generateTemplate =
     type === "page" ? generatePageTemplate : generateDatabaseTemplate;
 
-  await outputHeading(id);
-  await outputChildren(id);
+  // todo, delete previous output files to make sure no legacy files are kept
+  if (output) {
+    await outputHeading(id);
+    await outputChildren(id);
+  }
   await generateTemplate(id);
 };
 

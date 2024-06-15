@@ -106,6 +106,44 @@ export const generateConductC1MeetingInDatabase = async ({
             {
               type: "text",
               text: {
+                content: "Closing ",
+                link: null,
+              },
+              annotations: {
+                bold: true,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+            {
+              type: "text",
+              text: {
+                content: "Logistics",
+                link: null,
+              },
+              annotations: {
+                bold: true,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          is_toggleable: true,
+          color: "default",
+        },
+      },
+      {
+        heading_1: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
                 content: "Resources",
                 link: null,
               },
@@ -124,90 +162,53 @@ export const generateConductC1MeetingInDatabase = async ({
         },
       },
       {
+        callout: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Complete this form during and after the call ",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+            {
+              type: "text",
+              text: {
+                content: "(MANDATORY)",
+                link: null,
+              },
+              annotations: {
+                bold: true,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          icon: {
+            type: "emoji",
+            emoji: "⬇️",
+          },
+          color: "gray_background",
+        },
+      },
+      {
         embed: {
           caption: [
             {
               type: "text",
               text: {
-                content: "*Complete this form during the call",
-                link: null,
-              },
-              annotations: {
-                bold: true,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          url: "https://tally.so/r/npAVYb?id=2yozag01r1&name=John",
-        },
-      },
-      {
-        paragraph: {
-          rich_text: [],
-          color: "default",
-        },
-      },
-      {
-        paragraph: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Take notes of these responses: it will help you tailor the presentation to the family and provide the next salesperson with the necessary information to handle the call. ",
-                link: null,
-              },
-              annotations: {
-                bold: true,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        divider: {},
-      },
-      {
-        heading_3: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Presentation ",
-                link: null,
-              },
-              annotations: {
-                bold: true,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          is_toggleable: false,
-          color: "default",
-        },
-      },
-      {
-        to_do: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Ask for specific questions or concerns they might have",
+                content: "You can also find the link in Accelerator Tasks",
                 link: null,
               },
               annotations: {
@@ -220,43 +221,7 @@ export const generateConductC1MeetingInDatabase = async ({
               },
             },
           ],
-          checked: false,
-          color: "default",
-        },
-      },
-      {
-        divider: {},
-      },
-      {
-        heading_1: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Post-Presentation Logistics",
-                link: null,
-              },
-              annotations: {
-                bold: true,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          is_toggleable: true,
-          color: "default",
-        },
-      },
-      {
-        divider: {},
-      },
-      {
-        paragraph: {
-          rich_text: [],
-          color: "default",
+          url: "https://tally.so/r/npAVYb?id=2yozag01r1&name=John",
         },
       },
     ],
@@ -273,38 +238,7 @@ export const generateConductC1MeetingInDatabase = async ({
               type: "text",
               text: {
                 content:
-                  "“From my experience guiding families through college admissions, I’ve found that we can provide our best advice when we learn more about your background.",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-            {
-              type: "text",
-              text: {
-                content:
-                  " Would it be fair if I run by a couple of questions be",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-            {
-              type: "text",
-              text: {
-                content: "fore we get started with our presentation?”",
+                  "“From my experience guiding families through college admissions, I’ve found that we can provide our best advice when we learn more about your background. Would it be fair if I run by a couple of questions before we get started with our presentation?”",
                 link: null,
               },
               annotations: {
@@ -339,107 +273,8 @@ export const generateConductC1MeetingInDatabase = async ({
                 color: "default",
               },
             },
-            {
-              type: "text",
-              text: {
-                content: " ",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
           ],
           checked: false,
-          color: "default",
-        },
-      },
-      {
-        numbered_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "How do you generally spend your time outside of school? What clubs, volunteering, internships, competitions, or interesting projects are you currently involved with?",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        numbered_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "How do you plan to spend your upcoming summer break? ",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-            {
-              type: "text",
-              text: {
-                content:
-                  "(If they don’t provide much info, ask if they have any summer programs, projects, or competitions they’re planning to do)",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: true,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        numbered_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Do you have an idea of what you want to major in?",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
           color: "default",
         },
       },
@@ -671,7 +506,7 @@ export const generateConductC1MeetingInDatabase = async ({
               type: "text",
               text: {
                 content:
-                  "If they vaguely say they want general guidance on the process, say this: “Yeah, completely understand – the admissions process can be more complicated than it needs to be. Just to make things simpler, where do you feel like you would need the most guidance: discovering impactful extracuriculars, exploring career interests, learning how to write a unique college essay, or developing a unique profile to stand out”",
+                  "If they vaguely say they want general guidance on the process, say this: “Yeah, completely understand – the admissions process can be more complicated than it needs to be. Just to make things simpler, where do you feel like you would need the most guidance: discovering impactful extracurriculars, exploring career interests, learning how to write a unique college essay, or developing a unique profile to stand out”",
                 link: null,
               },
               annotations: {
@@ -695,12 +530,12 @@ export const generateConductC1MeetingInDatabase = async ({
               type: "text",
               text: {
                 content:
-                  "Keep asking questions until you can identify a specific problem, such as “I don’t know how to edit my essays”, or “I don’t know whether I’m doing the best activities right now” (Your goal should pick the biggest problems they are struggling with, help them understand why their current alternatives to solving this problem haven’t worked, and why we’re best positioned to help them)",
+                  "Keep asking questions until you can identify a specific problem, such as “I don’t know how to edit my essays”, or “I don’t know whether I’m doing the best activities right now” (your goal should pick the biggest problems they are struggling with, help them understand why their current alternatives to solving this problem haven’t worked, and why we’re best positioned to help them)",
                 link: null,
               },
               annotations: {
                 bold: false,
-                italic: true,
+                italic: false,
                 strikethrough: false,
                 underline: false,
                 code: false,
@@ -818,7 +653,7 @@ export const generateConductC1MeetingInDatabase = async ({
               },
               annotations: {
                 bold: true,
-                italic: true,
+                italic: false,
                 strikethrough: false,
                 underline: false,
                 code: false,
@@ -837,28 +672,12 @@ export const generateConductC1MeetingInDatabase = async ({
               type: "text",
               text: {
                 content:
-                  "Then follow up with: “Why do you feel like now is the best time for us to help you…… ” (",
+                  "Then follow up with: “Why do you feel like now is the best time for us to help you…” (you want to insert what outcome they want, whether it’s preparing to get into a good school, learning valuable project-building skills, discovering their career interests, etc)",
                 link: null,
               },
               annotations: {
                 bold: false,
                 italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-            {
-              type: "text",
-              text: {
-                content:
-                  "you want to insert what outcome they want, whether it’s preparing to get into a good school, learning valuable project-building skills, discovering their career interests, etc)",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: true,
                 strikethrough: false,
                 underline: false,
                 code: false,
@@ -873,9 +692,10 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("3dd8787d-c0f1-42ed-a1b7-aa1da6b22e1e", res.results);
+  console.log("Created: 3dd8787d-c0f1-42ed-a1b7-aa1da6b22e1e");
 
   res = await notion.blocks.children.append({
-    block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![11].id,
+    block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![3].id,
     children: [
       {
         callout: {
@@ -884,7 +704,7 @@ export const generateConductC1MeetingInDatabase = async ({
               type: "text",
               text: {
                 content:
-                  "Two main components:\n1. Create Student/Parent GC & send Tally Forms\n2. Schedule C2/C3 – Try your best to get these calls scheduled on the C1 meeting itself",
+                  "1. Create Student/Parent GC & send Tally Forms\n2. Schedule C2/C3—try to get these calls scheduled during the C1 meeting itself",
                 link: null,
               },
               annotations: {
@@ -902,6 +722,199 @@ export const generateConductC1MeetingInDatabase = async ({
             emoji: "💡",
           },
           color: "gray_background",
+        },
+      },
+      {
+        heading_3: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Meeting Wrap Up",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          is_toggleable: false,
+          color: "default",
+        },
+      },
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Ask if they have any final questions before continuing",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Copy and paste the following into Zoom Chat, confirm that this is their contact info",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Send the student work call form and parent insight form in the Zoom chat (you can also find the links in ",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+            {
+              type: "mention",
+              mention: {
+                // type: "database",
+                database: {
+                  id: "c152fc19-a8b9-44a0-beba-b93ad9da6da2",
+                },
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+            {
+              type: "text",
+              text: {
+                content: ")",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Say this: “For the next steps, please fill out the forms I just sent into the chat. The student form is for scheduling the 2nd call, while the parent form is for scheduling the final call.",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Since we have limited spots in our program, we can only guarantee the next work session if the parent form is completed today. Please check the form and let me know if there are any questions.”",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "If they say they can’t find a time at the moment, let them know: “That’s alright, I’m happy to make an exception. To ensure we can secure our next meeting, the form needs to be completed within a week. Let me know if that’s reasonable for you.”",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
         },
       },
       {
@@ -928,36 +941,13 @@ export const generateConductC1MeetingInDatabase = async ({
         },
       },
       {
-        to_do: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Ask for parent & student phone number and email",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          checked: false,
-          color: "default",
-        },
-      },
-      {
-        to_do: {
+        bulleted_list_item: {
           rich_text: [
             {
               type: "text",
               text: {
                 content:
-                  "Then, send them the student work call form and parent insight form in the Zoom chat (make sure it’s the form that has their ID) ",
+                  "Make a student/parent GC using the Outreach Google Voice number and text:",
                 link: null,
               },
               annotations: {
@@ -970,18 +960,17 @@ export const generateConductC1MeetingInDatabase = async ({
               },
             },
           ],
-          checked: false,
           color: "default",
         },
       },
       {
-        to_do: {
+        bulleted_list_item: {
           rich_text: [
             {
               type: "text",
               text: {
                 content:
-                  "Make a student/parent gc after collecting their phone numbers:",
+                  "You can also mention any specific resources the family asked about in this text message. For example, many families ask about SAT resources, you can provide links to access these resources if it was relevant to the call",
                 link: null,
               },
               annotations: {
@@ -994,13 +983,13 @@ export const generateConductC1MeetingInDatabase = async ({
               },
             },
           ],
-          checked: false,
           color: "default",
         },
       },
     ],
   });
   keyMap.set("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6", res.results);
+  console.log("Created: 4a7e5eef-c25d-4bb9-b5bf-29b8959662e6");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![2].id,
@@ -1078,6 +1067,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("a5524f04-be78-4c55-85fb-56310b3622dc", res.results);
+  console.log("Created: a5524f04-be78-4c55-85fb-56310b3622dc");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![0].id,
@@ -1293,18 +1283,19 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("d67e14f6-4a73-40de-b76a-36dc75dbad6d", res.results);
+  console.log("Created: d67e14f6-4a73-40de-b76a-36dc75dbad6d");
 
   res = await notion.blocks.children.append({
-    block_id: keyMap.get("3dd8787d-c0f1-42ed-a1b7-aa1da6b22e1e")![3].id,
+    block_id: keyMap.get("3dd8787d-c0f1-42ed-a1b7-aa1da6b22e1e")![1].id,
     children: [
       {
-        bulleted_list_item: {
+        numbered_list_item: {
           rich_text: [
             {
               type: "text",
               text: {
                 content:
-                  "If they’re a current senior in the summer, skip this question",
+                  "How do you generally spend your time outside of school? What clubs, volunteering, internships, competitions, or interesting projects are you currently involved with?",
                 link: null,
               },
               annotations: {
@@ -1321,13 +1312,35 @@ export const generateConductC1MeetingInDatabase = async ({
         },
       },
       {
-        bulleted_list_item: {
+        numbered_list_item: {
           rich_text: [
             {
               type: "text",
               text: {
                 content:
-                  "If this call occurs after summer, ask about winter break plans",
+                  "How do you plan to spend your upcoming summer break? ",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        numbered_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Do you have an idea of what you want to major in?",
                 link: null,
               },
               annotations: {
@@ -1345,171 +1358,19 @@ export const generateConductC1MeetingInDatabase = async ({
       },
     ],
   });
-  keyMap.set("094c8094-b14f-42ed-98d3-32b6f619776b", res.results);
-
-  res = await notion.blocks.children.append({
-    block_id: keyMap.get("3dd8787d-c0f1-42ed-a1b7-aa1da6b22e1e")![4].id,
-    children: [
-      {
-        numbered_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "If they say yes, ask: so tell me more about why you’re interested in this field, were there any activities, competitions, or personal experiences that made you more curious about your major?",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        numbered_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "If they provide more details about some personal experience, ask: So you mentioned (…..some activity they mention) got you interested in your field, why do you think that experience helped you understand this field was something you would be interested in",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        numbered_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "“I’m also curious… have you taken any dual enrollment, summer programs, or classes outside of school to further your interests in any subjects”",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        numbered_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "if they don’t know about majors – ask them about any subjects in class they enjoy:",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        paragraph: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Ex. “Do you enjoy Math/STEM classes more or humanities courses? What particular concepts do you find intriguing about these classes” ",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: true,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-    ],
-  });
-  keyMap.set("eb877b08-b8e4-45b3-831d-a5e4ad2f6a93", res.results);
-
-  res = await notion.blocks.children.append({
-    block_id: keyMap.get("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6")![3].id,
-    children: [
-      {
-        bulleted_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Say this: “For the next steps, please fill out the following forms – one for the student and the other for the parent. Since we have limited spots for our program, we can guarantee the next work session if the parent form can be completed by the end of this meeting. Please let me know when you can schedule a time for our meeting”",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-    ],
-  });
-  keyMap.set("0b88d31f-1d56-4f28-bd9a-7d7598a59868", res.results);
+  keyMap.set("ebccef74-3798-4bd1-82ef-0cf558d6b134", res.results);
+  console.log("Created: ebccef74-3798-4bd1-82ef-0cf558d6b134");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6")![4].id,
     children: [
       {
-        to_do: {
+        callout: {
           rich_text: [
             {
               type: "text",
               text: {
-                content:
-                  "Text this message: “Hi (student name) and family, it was a pleasure meeting – here are the forms to complete to move forward:\n1. For Parent: (Provide Parent Tally Form – Make sure it has correct ID)",
+                content: "For Student: <>\nFor Parent: <>",
                 link: null,
               },
               annotations: {
@@ -1522,18 +1383,29 @@ export const generateConductC1MeetingInDatabase = async ({
               },
             },
           ],
-          checked: false,
-          color: "default",
+          icon: {
+            type: "emoji",
+            emoji: "✉️",
+          },
+          color: "gray_background",
         },
       },
+    ],
+  });
+  keyMap.set("0b88d31f-1d56-4f28-bd9a-7d7598a59868", res.results);
+  console.log("Created: 0b88d31f-1d56-4f28-bd9a-7d7598a59868");
+
+  res = await notion.blocks.children.append({
+    block_id: keyMap.get("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6")![9].id,
+    children: [
       {
-        paragraph: {
+        callout: {
           rich_text: [
             {
               type: "text",
               text: {
                 content:
-                  "      2. For Student: (Provide Student Tally Form – Make sure it has correct ID)",
+                  "Hi <> and Family, it was a pleasure meeting! Here are the forms to complete to continue with Collegiate:",
                 link: null,
               },
               annotations: {
@@ -1546,42 +1418,52 @@ export const generateConductC1MeetingInDatabase = async ({
               },
             },
           ],
-          color: "default",
-        },
-      },
-      {
-        to_do: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "You can also mention any specific resources the family asked about in this text message. For example, many families ask about SAT resources, you can provide links to access these resources if it was relevant to the call (refer to resources DB)",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          checked: false,
-          color: "default",
-        },
-      },
-      {
-        paragraph: {
-          rich_text: [],
-          color: "default",
+          icon: {
+            type: "emoji",
+            emoji: "✉️",
+          },
+          color: "gray_background",
         },
       },
     ],
   });
   keyMap.set("c449f83b-b552-4b72-8400-146a209065f4", res.results);
+  console.log("Created: c449f83b-b552-4b72-8400-146a209065f4");
+
+  res = await notion.blocks.children.append({
+    block_id: keyMap.get("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6")![3].id,
+    children: [
+      {
+        callout: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Student email: <>, student number: <>, parent email: <>, parent number: <>",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          icon: {
+            type: "emoji",
+            emoji: "✉️",
+          },
+          color: "gray_background",
+        },
+      },
+    ],
+  });
+  keyMap.set("d4cafc25-99f7-464e-a2cc-4ffce3e28eb8", res.results);
+  console.log("Created: d4cafc25-99f7-464e-a2cc-4ffce3e28eb8");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("a5524f04-be78-4c55-85fb-56310b3622dc")![2].id,
@@ -1842,6 +1724,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20", res.results);
+  console.log("Created: bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("d67e14f6-4a73-40de-b76a-36dc75dbad6d")![0].id,
@@ -1915,6 +1798,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("0bec9ce2-c265-4112-bb9a-fbd19e9873bd", res.results);
+  console.log("Created: 0bec9ce2-c265-4112-bb9a-fbd19e9873bd");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("d67e14f6-4a73-40de-b76a-36dc75dbad6d")![4].id,
@@ -2089,6 +1973,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("0e222e1d-0e7d-4ced-9c89-2078ea913cb7", res.results);
+  console.log("Created: 0e222e1d-0e7d-4ced-9c89-2078ea913cb7");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("d67e14f6-4a73-40de-b76a-36dc75dbad6d")![3].id,
@@ -2300,9 +2185,10 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("90471e5f-346a-4d5d-a511-ea5213476ec1", res.results);
+  console.log("Created: 90471e5f-346a-4d5d-a511-ea5213476ec1");
 
   res = await notion.blocks.children.append({
-    block_id: keyMap.get("0b88d31f-1d56-4f28-bd9a-7d7598a59868")![0].id,
+    block_id: keyMap.get("ebccef74-3798-4bd1-82ef-0cf558d6b134")![1].id,
     children: [
       {
         bulleted_list_item: {
@@ -2311,7 +2197,53 @@ export const generateConductC1MeetingInDatabase = async ({
               type: "text",
               text: {
                 content:
-                  "If they say they can’t find a time at the moment, let them know: “That’s alright, I’m happy to make an exception. To ensure we can secure our next meeting, the form would need to be completed within 1-2 weeks. Let me know if that’s reasonable for you”. ",
+                  "If they’re a current senior in the summer, skip this question",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "If they don’t provide much info, ask if they have any summer programs, projects, or competitions they’re planning to do",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "If this call occurs after summer, ask about winter break plans",
                 link: null,
               },
               annotations: {
@@ -2329,7 +2261,138 @@ export const generateConductC1MeetingInDatabase = async ({
       },
     ],
   });
-  keyMap.set("cb11918b-9bf5-4d45-ba6e-dfe0a665f2a7", res.results);
+  keyMap.set("094c8094-b14f-42ed-98d3-32b6f619776b", res.results);
+  console.log("Created: 094c8094-b14f-42ed-98d3-32b6f619776b");
+
+  res = await notion.blocks.children.append({
+    block_id: keyMap.get("ebccef74-3798-4bd1-82ef-0cf558d6b134")![2].id,
+    children: [
+      {
+        numbered_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "If they say yes, ask: so tell me more about why you’re interested in this field, were there any activities, competitions, or personal experiences that made you more curious about your major?",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        numbered_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "If they provide more details about some personal experience, ask: “So you mentioned (…some mentioned activity) got you interested in your field, why do you think that experience helped you understand this field was something you’d be interested in?”",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        numbered_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "“I’m also curious… have you taken any dual enrollment, summer programs, or classes outside of school to further your interests in any subjects”",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        numbered_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "If they don’t know about majors—ask them about any subjects in class they enjoy",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+    ],
+  });
+  keyMap.set("eb877b08-b8e4-45b3-831d-a5e4ad2f6a93", res.results);
+  console.log("Created: eb877b08-b8e4-45b3-831d-a5e4ad2f6a93");
+
+  res = await notion.blocks.children.append({
+    block_id: keyMap.get("c449f83b-b552-4b72-8400-146a209065f4")![0].id,
+    children: [
+      {
+        paragraph: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "1. For Student: <>\n2. For Parent: <>",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+    ],
+  });
+  keyMap.set("a813f05a-70fa-41ce-8526-a67e7a6e1079", res.results);
+  console.log("Created: a813f05a-70fa-41ce-8526-a67e7a6e1079");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![10].id,
@@ -2565,6 +2628,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("25c9f584-64dd-41f2-b37e-91f233ff464c", res.results);
+  console.log("Created: 25c9f584-64dd-41f2-b37e-91f233ff464c");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![2].id,
@@ -2691,6 +2755,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("3c5fdc1d-8a78-4102-a38c-c738ccae6b30", res.results);
+  console.log("Created: 3c5fdc1d-8a78-4102-a38c-c738ccae6b30");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![7].id,
@@ -2874,6 +2939,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("48b268bd-7b0b-48b6-b7e6-f4f873728efd", res.results);
+  console.log("Created: 48b268bd-7b0b-48b6-b7e6-f4f873728efd");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![5].id,
@@ -3138,6 +3204,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("568dc248-16c6-42fa-9569-eb4659c753b6", res.results);
+  console.log("Created: 568dc248-16c6-42fa-9569-eb4659c753b6");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![3].id,
@@ -3289,6 +3356,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("6f01dbf5-97e7-4614-8305-08992619c9ff", res.results);
+  console.log("Created: 6f01dbf5-97e7-4614-8305-08992619c9ff");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![8].id,
@@ -3479,6 +3547,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("8a885738-9d7f-4e8a-9aec-9f06a9dc910d", res.results);
+  console.log("Created: 8a885738-9d7f-4e8a-9aec-9f06a9dc910d");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![6].id,
@@ -3599,6 +3668,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("b93ab536-0093-42ae-b437-cb4ddf4b0a00", res.results);
+  console.log("Created: b93ab536-0093-42ae-b437-cb4ddf4b0a00");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![4].id,
@@ -3629,6 +3699,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("c65fe82f-884b-4f4e-98b2-48f2e554a1cc", res.results);
+  console.log("Created: c65fe82f-884b-4f4e-98b2-48f2e554a1cc");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![0].id,
@@ -3659,6 +3730,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("d48d16d2-0b6a-4fce-aad7-fe3c8d1c0ab1", res.results);
+  console.log("Created: d48d16d2-0b6a-4fce-aad7-fe3c8d1c0ab1");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![1].id,
@@ -3689,6 +3761,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("d9e06ece-430c-40a7-9b71-452ebc7a6381", res.results);
+  console.log("Created: d9e06ece-430c-40a7-9b71-452ebc7a6381");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![9].id,
@@ -3719,6 +3792,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("f05ea0fc-5def-4469-a10e-d3da823123c0", res.results);
+  console.log("Created: f05ea0fc-5def-4469-a10e-d3da823123c0");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("0e222e1d-0e7d-4ced-9c89-2078ea913cb7")![1].id,
@@ -3772,6 +3846,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("8a954a2b-9d0b-4195-bdfb-273f214d9837", res.results);
+  console.log("Created: 8a954a2b-9d0b-4195-bdfb-273f214d9837");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("90471e5f-346a-4d5d-a511-ea5213476ec1")![2].id,
@@ -3803,6 +3878,53 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("e7163da7-1075-4ca0-a5df-399813ebc07a", res.results);
+  console.log("Created: e7163da7-1075-4ca0-a5df-399813ebc07a");
+
+  res = await notion.blocks.children.append({
+    block_id: keyMap.get("eb877b08-b8e4-45b3-831d-a5e4ad2f6a93")![3].id,
+    children: [
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "ex: ",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: true,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+            {
+              type: "text",
+              text: {
+                content:
+                  "“Do you enjoy Math/STEM classes more or humanities courses? What particular concepts do you find intriguing about these classes” ",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+    ],
+  });
+  keyMap.set("eca9bd80-d15e-4ff7-a8c4-987b4d19fa90", res.results);
+  console.log("Created: eca9bd80-d15e-4ff7-a8c4-987b4d19fa90");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("3c5fdc1d-8a78-4102-a38c-c738ccae6b30")![2].id,
@@ -3833,6 +3955,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("11b34db8-2e56-43c5-9155-15424f632a26", res.results);
+  console.log("Created: 11b34db8-2e56-43c5-9155-15424f632a26");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("3c5fdc1d-8a78-4102-a38c-c738ccae6b30")![3].id,
@@ -3885,6 +4008,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("8e2b526c-3176-47a9-b4b1-ff1a3d3948e6", res.results);
+  console.log("Created: 8e2b526c-3176-47a9-b4b1-ff1a3d3948e6");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("3c5fdc1d-8a78-4102-a38c-c738ccae6b30")![1].id,
@@ -3938,6 +4062,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("e69c109a-5f27-4d8f-9ca6-01d31be905ec", res.results);
+  console.log("Created: e69c109a-5f27-4d8f-9ca6-01d31be905ec");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("6f01dbf5-97e7-4614-8305-08992619c9ff")![1].id,
@@ -3967,6 +4092,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("285609bc-a4fd-412c-b647-76de6309880e", res.results);
+  console.log("Created: 285609bc-a4fd-412c-b647-76de6309880e");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("6f01dbf5-97e7-4614-8305-08992619c9ff")![2].id,
@@ -3997,6 +4123,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("8a7996aa-9bed-4fb0-9df3-77119efd5ba4", res.results);
+  console.log("Created: 8a7996aa-9bed-4fb0-9df3-77119efd5ba4");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("6f01dbf5-97e7-4614-8305-08992619c9ff")![3].id,
@@ -4082,6 +4209,7 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("b5ff766c-ff9d-4e05-9c2d-82bc3f3970d7", res.results);
+  console.log("Created: b5ff766c-ff9d-4e05-9c2d-82bc3f3970d7");
 
   res = await notion.blocks.children.append({
     block_id: keyMap.get("8a7996aa-9bed-4fb0-9df3-77119efd5ba4")![0].id,
@@ -4158,4 +4286,5 @@ export const generateConductC1MeetingInDatabase = async ({
     ],
   });
   keyMap.set("76528c08-5841-4bac-becd-b0f0bcf62450", res.results);
+  console.log("Created: 76528c08-5841-4bac-becd-b0f0bcf62450");
 };
