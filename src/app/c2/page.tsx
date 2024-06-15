@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { CalC2 } from "./_components/cal";
 import { TallyC2 } from "./_components/tally";
 import { useSearchParams } from "next/navigation";
@@ -24,13 +24,11 @@ function C2Content() {
   const fullname = params.get("fullname");
   const grade = params.get("grade");
 
-  // Simulate form submission
-  const submitForm = () => {
+  const submitForm = useCallback(() => {
     const simulatedEvent = {
       data: JSON.stringify({
         event: "Tally.FormSubmitted",
         payload: {
-          // Add necessary data here
           name: fullname,
           grade: grade,
         },
@@ -43,12 +41,18 @@ function C2Content() {
         console.log("Simulated Data:", data);
         // Add your form submission logic here
       } catch (error) {
-        console.error("Form submission error:", error);
+        console.error("Form submission error handleFormSubmit C2:", error);
       }
     };
 
     handleFormSubmit(simulatedEvent);
-  };
+  }, [fullname, grade]);
+
+  useEffect(() => {
+    if (calIsScheduled) {
+      submitForm();
+    }
+  }, [calIsScheduled, submitForm]);
 
   if (!id || !fullname || !grade) return <InvalidLink />;
   return (
@@ -75,8 +79,7 @@ function C2Content() {
             id={id}
             name={fullname}
             pageNumber={pageNumber}
-            setCalIsScheduled={setCalIsScheduled}
-            onSchedulingComplete={submitForm}
+            onSchedulingComplete={() => setCalIsScheduled(true)}
           />
         </div>
       )}

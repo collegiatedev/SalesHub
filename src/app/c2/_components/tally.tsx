@@ -13,7 +13,8 @@ export const TallyC2 = ({ id, name, grade, setPageNumber }: TallyC2Props) => {
   useEffect(() => {
     const handleFormSubmit = (event: MessageEvent) => {
       try {
-        const data = JSON.parse(event.data);
+        const data =
+          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
 
         if (data.event === "Tally.FormPageView") {
           setPageNumber(data.payload.page);

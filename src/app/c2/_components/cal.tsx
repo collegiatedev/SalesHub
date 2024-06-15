@@ -10,7 +10,7 @@ export type Cal2Props = {
   id: string;
   name: string;
   pageNumber: number;
-  setCalIsScheduled: any; //change to type
+  //setCalIsScheduled: (isScheduled: boolean) => void;
   onSchedulingComplete: () => void;
 };
 
@@ -18,10 +18,9 @@ export const CalC2 = ({
   id,
   name,
   pageNumber,
-  setCalIsScheduled,
   onSchedulingComplete,
 }: Cal2Props) => {
-  const calLink = pageIdToLink.get(pageNumber.toString()); //need to pass in page id and change the modules page
+  const calLink = pageIdToLink.get(pageNumber.toString());
   console.log("callink", calLink);
   const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
 
@@ -34,7 +33,7 @@ export const CalC2 = ({
     (async function () {
       const cal = await getCalApi({});
       cal("ui", {
-        styles: { branding: { brandColor: "#000000" } },
+        //styles: { branding: { brandColor: "#000000" } },
         hideEventTypeDetails: false,
         layout: "month_view",
       });
@@ -42,12 +41,11 @@ export const CalC2 = ({
         action: "bookingSuccessful",
         callback: (e) => {
           console.log("bookingSuccessful", e);
-          setCalIsScheduled(true);
           onSchedulingComplete();
         },
       });
     })();
-  });
+  }, [onSchedulingComplete]);
 
   if (!calLink) return <InvalidLink />;
   if (isLoading) return <div>Loading...</div>;
