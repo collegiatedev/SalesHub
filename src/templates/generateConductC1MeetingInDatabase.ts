@@ -1,3 +1,4 @@
+// COMPLETED
 import { notion } from "../utils/notion";
 // PLEASE MAKE A COPY FIRST IF MIGRATING
 
@@ -29,7 +30,7 @@ export const generateConductC1MeetingInDatabase = async ({
   grade,
 }: GenerateConductC1MeetingInDatabaseProps) => {
   const studentInUrl = studentFullName.replace(" ", "%20");
-  const c2Link = `https://www.collegiate.dev/c3?id=${studentId}&fullname=${studentInUrl}&grade=${grade}`;
+  const c2Link = `https://www.collegiate.dev/c2?id=${studentId}&fullname=${studentInUrl}&grade=${grade}`;
   const c3Link = `https://www.collegiate.dev/c3?id=${studentId}&fullname=${studentInUrl}&rep=${repId}`;
   const keyMap = new Map<string, Array<any>>();
   const page = await notion.pages.create({

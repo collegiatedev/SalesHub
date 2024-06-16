@@ -41,6 +41,8 @@ const main = async () => {
     await outputChildren(id);
   }
   await generateTemplate(id);
+
+  // todo: parallelize same layer api calls in the future
 };
 
 main().catch((err) => console.log(err));
