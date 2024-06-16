@@ -43,10 +43,22 @@ const getOutputFunctionName = (pageId: string, path: string) => {
 const generateChildren = async (pageId: string) => {
   let res = "let promises = []; \n";
 
-  const queue = [`${CHILDREN_DIRECTORY}${pageId}/`];
+  // const queue = [`${CHILDREN_DIRECTORY}${pageId}/`];
+  const queue: [string, number][] = [[`${CHILDREN_DIRECTORY}${pageId}`, 0]];
+  let currentDepth = 0;
+
+  const callPromise = `
+    await Promise.all(promises);
+    console.log("Done with batch");
+    promises = [];
+  `;
 
   while (queue.length > 0) {
-    const currentPath = queue.shift();
+    const next = queue.shift();
+    // Type guard to handle the case when queue.shift() returns undefined
+    if (!next) continue;
+    const [currentPath, depth] = next;
+
     if (!currentPath) continue;
 
     // traversing two layers up directories for parent directory
@@ -59,7 +71,7 @@ const generateChildren = async (pageId: string) => {
       const stats = fs.statSync(childPath);
 
       if (stats.isDirectory()) {
-        queue.push(childPath);
+        queue.push([childPath, depth + 1]);
       } else {
         const currentId = path.basename(childPath, ".json");
         // // skip the first file since we already generated it
@@ -68,6 +80,12 @@ const generateChildren = async (pageId: string) => {
         const currentData = fs.readFileSync(childPath, "utf8");
         const currentJson = JSON.parse(currentData);
 
+        // on final object of a layer,
+        if (depth !== currentDepth) {
+          // ignore the first layer
+          if (depth !== 2) res += callPromise;
+          currentDepth = depth;
+        }
         res += `
         promises.push(
           (async () => {
@@ -82,16 +100,11 @@ const generateChildren = async (pageId: string) => {
           })()
         );
           `;
-
-        // on final object of a layer,
-        res += `
-          await Promise.all(promises);
-          console.log("Done with batch");
-          promises = [];
-        `;
       }
     }
   }
+  // final batch
+  res += callPromise;
 
   return res;
 };
