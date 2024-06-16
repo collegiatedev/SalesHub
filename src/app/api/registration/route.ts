@@ -24,3 +24,9 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function GET(req: NextRequest) {
+  return NextResponse.json({
+    message: "The task creation should be in progress",
+  });
+}
