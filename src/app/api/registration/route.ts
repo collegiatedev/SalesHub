@@ -2,11 +2,46 @@ import { generateConductC1MeetingInDatabase } from "@/src/templates/generateCond
 import { ACCELERATOR_TASKS_DB } from "@/src/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const data = await req.json();
+    const { searchParams } = new URL(req.url);
+
+    const studentId = searchParams.get("studentId");
+    const studentFullName = searchParams.get("studentFullName");
+    const studentEmail = searchParams.get("studentEmail");
+    const studentNumber = searchParams.get("studentNumber");
+    const parentEmail = searchParams.get("parentEmail");
+    const parentNumber = searchParams.get("parentNumber");
+    const repPageId = searchParams.get("repPageId");
+    const leadPageId = searchParams.get("leadPageId");
+
+    if (
+      !studentId ||
+      !studentFullName ||
+      !studentEmail ||
+      !studentNumber ||
+      !parentEmail ||
+      !parentNumber ||
+      !repPageId ||
+      !leadPageId
+    ) {
+      return NextResponse.json(
+        {
+          message: "Missing required parameters",
+        },
+        { status: 400 }
+      );
+    }
+
     await generateConductC1MeetingInDatabase({
-      ...data,
+      studentId,
+      studentFullName,
+      studentEmail,
+      studentNumber,
+      parentEmail,
+      parentNumber,
+      repPageId,
+      leadPageId,
       parentId: ACCELERATOR_TASKS_DB,
     });
 
@@ -23,10 +58,4 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-export async function GET(req: NextRequest) {
-  return NextResponse.json({
-    message: "The task creation should be in progress",
-  });
 }
