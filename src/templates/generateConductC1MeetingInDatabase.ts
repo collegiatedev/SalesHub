@@ -12,6 +12,8 @@ interface GenerateConductC1MeetingInDatabaseProps {
   parentNumber: string;
   leadPageId: string;
   repPageId: string;
+  repId: string;
+  grade: string;
 }
 export const generateConductC1MeetingInDatabase = async ({
   parentId,
@@ -23,7 +25,12 @@ export const generateConductC1MeetingInDatabase = async ({
   parentNumber,
   leadPageId,
   repPageId,
+  repId,
+  grade,
 }: GenerateConductC1MeetingInDatabaseProps) => {
+  const studentInUrl = studentFullName.replace(" ", "%20");
+  const c2Link = `https://www.collegiate.dev/c3?id=${studentId}&fullname=${studentInUrl}&grade=${grade}`;
+  const c3Link = `https://www.collegiate.dev/c3?id=${studentId}&fullname=${studentInUrl}&rep=${repId}`;
   const keyMap = new Map<string, Array<any>>();
   const page = await notion.pages.create({
     parent: {
@@ -1409,7 +1416,7 @@ export const generateConductC1MeetingInDatabase = async ({
             {
               type: "text",
               text: {
-                content: "For Student: <>\nFor Parent: <>",
+                content: `For Student: ${c2Link}\nFor Parent: ${c3Link}`,
                 link: null,
               },
               annotations: {
@@ -1443,8 +1450,9 @@ export const generateConductC1MeetingInDatabase = async ({
             {
               type: "text",
               text: {
-                content:
-                  "Hi <> and Family, it was a pleasure meeting! Here are the forms to complete to continue with Collegiate:",
+                content: `Hi ${
+                  studentFullName.split(" ")[0]
+                } and Family, it was a pleasure meeting! Here are the forms to complete to continue with Collegiate:`,
                 link: null,
               },
               annotations: {
@@ -2411,7 +2419,7 @@ export const generateConductC1MeetingInDatabase = async ({
             {
               type: "text",
               text: {
-                content: "1. For Student: <>\n2. For Parent: <>",
+                content: `1. For Student: ${c2Link}\n2. For Parent: ${c3Link}`,
                 link: null,
               },
               annotations: {

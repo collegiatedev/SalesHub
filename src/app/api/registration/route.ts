@@ -2,6 +2,7 @@ import { generateConductC1MeetingInDatabase } from "@/src/templates/generateCond
 import { ACCELERATOR_TASKS_DB } from "@/src/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
 
+// only get works with Make for some reason
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -14,6 +15,8 @@ export async function GET(req: NextRequest) {
     const parentNumber = searchParams.get("parentNumber");
     const repPageId = searchParams.get("repPageId");
     const leadPageId = searchParams.get("leadPageId");
+    const repId = searchParams.get("repId");
+    const grade = searchParams.get("grade");
 
     if (
       !studentId ||
@@ -23,7 +26,9 @@ export async function GET(req: NextRequest) {
       !parentEmail ||
       !parentNumber ||
       !repPageId ||
-      !leadPageId
+      !leadPageId ||
+      !repId ||
+      !grade
     ) {
       return NextResponse.json(
         {
@@ -42,6 +47,8 @@ export async function GET(req: NextRequest) {
       parentNumber,
       repPageId,
       leadPageId,
+      repId,
+      grade,
       parentId: ACCELERATOR_TASKS_DB,
     });
 
