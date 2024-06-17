@@ -28,7 +28,6 @@ export const generateConductC1MeetingInDatabase = async ({
   repId,
   grade,
 }: GenerateConductC1MeetingInDatabaseProps) => {
-  const tick = performance.now();
   try {
     const studentInUrl = studentFullName.replace(" ", "%20");
     const c2Link = `https://www.collegiate.dev/c2?id=${studentId}&fullname=${studentInUrl}&grade=${grade}`;
@@ -4506,9 +4505,8 @@ export const generateConductC1MeetingInDatabase = async ({
     });
     keyMap.set("76528c08-5841-4bac-becd-b0f0bcf62450", res.results);
     console.log("Created: 76528c08-5841-4bac-becd-b0f0bcf62450");
+    console.log("Done!");
   } catch (e) {
     console.log(e);
   }
-  const tock = performance.now();
-  console.log(`${tock - tick}ms`);
 };

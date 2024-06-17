@@ -54,7 +54,7 @@ registrationRouter.get("/", async (req: Request, res: Response) => {
     });
 
     return res.json({
-      message: "Meeting task creation in progress",
+      message: "task created",
     });
   } catch (error) {
     // Handle any errors that occur
