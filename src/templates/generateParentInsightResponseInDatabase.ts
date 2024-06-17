@@ -15,7 +15,7 @@ export const generateParentInsightResponseInDatabase = async ({
   programFit,
   programSupport,
 }: GenerateParentInsightResponseInDatabaseProps) => {
-  const supports = programSupport.split(",").map((support) => ({
+  const supports = programSupport.split(", ").map((support) => ({
     bulleted_list_item: {
       rich_text: [
         {
@@ -25,7 +25,7 @@ export const generateParentInsightResponseInDatabase = async ({
             link: null,
           },
           annotations: {
-            bold: true,
+            bold: false,
             italic: false,
             strikethrough: false,
             underline: false,
