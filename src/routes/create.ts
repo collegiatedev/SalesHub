@@ -4,6 +4,10 @@ import {
   GenerateParentInsightResponseInDatabaseProps,
 } from "../templates/generateParentInsightResponseInDatabase";
 import { asyncHandler, checkQueryParams } from "../utils/routers";
+import {
+  generatePostC1DebriefInDatabase,
+  GeneratePostC1DebriefInDatabaseProps,
+} from "../templates/generatePostC1DebriefInDatabase";
 
 export const createRouter: Router = Router();
 
@@ -28,6 +32,34 @@ createRouter.get(
 
     return res.json({
       message: "parent insight response created",
+    });
+  })
+);
+
+createRouter.get(
+  "/debrief",
+  asyncHandler(async (req: Request, res: Response) => {
+    const validatedParams =
+      checkQueryParams<GeneratePostC1DebriefInDatabaseProps>(req, [
+        "parentId",
+        "activities",
+        "pronunciation",
+        "pronouns",
+        "intended",
+        "plans",
+        "profile",
+        "additional",
+      ]);
+
+    if (!validatedParams.isValid)
+      return res.status(400).json({
+        message: validatedParams.error,
+      });
+
+    await generatePostC1DebriefInDatabase(validatedParams.params);
+
+    return res.json({
+      message: "post-C1 debrief created",
     });
   })
 );
