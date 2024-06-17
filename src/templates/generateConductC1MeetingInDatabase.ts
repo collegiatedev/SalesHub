@@ -1,7 +1,7 @@
 // COMPLETED
 import { notion } from "../utils/notion";
 
-interface GenerateConductC1MeetingInDatabaseProps {
+export interface GenerateConductC1MeetingInDatabaseProps {
   parentId: string; // in terms of notion
   // passed from api
   studentId: string; // in terms of content

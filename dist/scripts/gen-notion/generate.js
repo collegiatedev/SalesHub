@@ -99,7 +99,7 @@ const generateContent = async (pageId, functionName) => {
     return `
       import { notion } from "../utils/notion";
       
-      interface ${propName} {
+      export interface ${propName} {
         parentId: string;
       }
       export const ${functionName} = async ({ parentId }: ${propName}) => {

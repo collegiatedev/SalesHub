@@ -1,67 +1,58 @@
 import { Router, Request, Response } from "express";
-import { notion } from "../utils/notion";
+import {
+  generateParentInsightResponseInDatabase,
+  GenerateParentInsightResponseInDatabaseProps,
+} from "../templates/generateParentInsightResponseInDatabase";
+import { asyncHandler, checkQueryParams } from "../utils/routers";
+import {
+  createDatabaseInPage,
+  CreateDatabaseInPageProps,
+} from "../templates/createDatabaseInPage";
 
 export const createRouter: Router = Router();
 
-createRouter.get("/", async (req: Request, res: Response) => {
-  try {
-    const { pageId, name } = req.query;
+createRouter.get(
+  "/",
+  asyncHandler(async (req: Request, res: Response) => {
+    const validatedParams = checkQueryParams<CreateDatabaseInPageProps>(req, [
+      "pageId",
+      "name",
+    ]);
 
-    const missingParams = [];
-    if (!pageId) missingParams.push("pageId");
-    if (!name) missingParams.push("name");
-    if (missingParams.length > 0) {
+    if (!validatedParams.isValid)
       return res.status(400).json({
-        message: `Missing required parameters: ${missingParams.join(", ")}`,
+        message: validatedParams.error,
       });
-    }
 
-    const response = await notion.databases.create({
-      parent: {
-        type: "page_id",
-        page_id: pageId as string,
-      },
-      title: [
-        {
-          type: "text",
-          text: {
-            content: `${name as string}'s Info`,
-            link: null,
-          },
-        },
-      ],
-      properties: {
-        Name: {
-          title: {},
-        },
-      },
-      is_inline: true,
-    });
-
-    await notion.pages.update({
-      page_id: pageId as string,
-      properties: {
-        "db-ref": {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: response.id,
-              },
-            },
-          ],
-        },
-      },
-    });
+    await createDatabaseInPage(validatedParams.params);
 
     return res.json({
       message: "table created, page updated",
     });
-  } catch (error) {
-    // Handle any errors that occur
-    return res.status(500).json({
-      message: "Failed to create meeting",
-      error,
+  })
+);
+
+createRouter.get(
+  "/c",
+  asyncHandler(async (req: Request, res: Response) => {
+    const validatedParams =
+      checkQueryParams<GenerateParentInsightResponseInDatabaseProps>(req, [
+        "parentId",
+        "name",
+        "whyNow",
+        "programFit",
+        "programSupport",
+      ]);
+
+    if (!validatedParams.isValid)
+      return res.status(400).json({
+        message: validatedParams.error,
+      });
+
+    await generateParentInsightResponseInDatabase(validatedParams.params);
+
+    return res.json({
+      message: "table created, page updated",
     });
-  }
-});
+  })
+);
