@@ -9,7 +9,6 @@ const registration_1 = require("./routes/registration");
 const create_1 = require("./routes/create");
 const app = (0, express_1.default)();
 app.get("/", (_req, res) => {
-    console.log("Hello World! 3");
     res.send("Hello World!");
 });
 app.use("/registration", registration_1.registrationRouter);

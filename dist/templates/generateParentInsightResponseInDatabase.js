@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateParentInsightResponseInDatabase = void 0;
 const notion_1 = require("../utils/notion");
 const generateParentInsightResponseInDatabase = async ({ parentId, name, whyNow, programFit, programSupport, }) => {
-    const supports = programSupport.split(", ").map((support) => ({
+    const supports = programSupport.split(",").map((support) => ({
         bulleted_list_item: {
             rich_text: [
                 {

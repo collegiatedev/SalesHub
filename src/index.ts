@@ -6,7 +6,6 @@ import { createRouter } from "./routes/create";
 const app = express();
 
 app.get("/", (_req: Request, res: Response) => {
-  console.log("Hello World! 3");
   res.send("Hello World!");
 });
 
