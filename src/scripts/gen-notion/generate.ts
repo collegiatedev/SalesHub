@@ -118,7 +118,7 @@ const generateContent = async (pageId: string, functionName: string) => {
   return `
       import { notion } from "../utils/notion";
       
-      interface ${propName} {
+      export interface ${propName} {
         parentId: string;
       }
       export const ${functionName} = async ({ parentId }: ${propName}) => {
