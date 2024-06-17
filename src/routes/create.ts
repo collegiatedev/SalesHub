@@ -4,36 +4,11 @@ import {
   GenerateParentInsightResponseInDatabaseProps,
 } from "../templates/generateParentInsightResponseInDatabase";
 import { asyncHandler, checkQueryParams } from "../utils/routers";
-import {
-  createDatabaseInPage,
-  CreateDatabaseInPageProps,
-} from "../templates/createDatabaseInPage";
 
 export const createRouter: Router = Router();
 
 createRouter.get(
-  "/",
-  asyncHandler(async (req: Request, res: Response) => {
-    const validatedParams = checkQueryParams<CreateDatabaseInPageProps>(req, [
-      "pageId",
-      "name",
-    ]);
-
-    if (!validatedParams.isValid)
-      return res.status(400).json({
-        message: validatedParams.error,
-      });
-
-    await createDatabaseInPage(validatedParams.params);
-
-    return res.json({
-      message: "table created, page updated",
-    });
-  })
-);
-
-createRouter.get(
-  "/c",
+  "/insight",
   asyncHandler(async (req: Request, res: Response) => {
     const validatedParams =
       checkQueryParams<GenerateParentInsightResponseInDatabaseProps>(req, [
@@ -52,7 +27,7 @@ createRouter.get(
     await generateParentInsightResponseInDatabase(validatedParams.params);
 
     return res.json({
-      message: "table created, page updated",
+      message: "parent insight response created",
     });
   })
 );
