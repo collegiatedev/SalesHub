@@ -42,6 +42,7 @@ createRouter.get(
     const validatedParams =
       checkQueryParams<GeneratePostC1DebriefInDatabaseProps>(req, [
         "parentId",
+        "name",
         "activities",
         "pronunciation",
         "pronouns",

@@ -2,6 +2,7 @@ import { notion } from "../utils/notion";
 
 export interface GeneratePostC1DebriefInDatabaseProps {
   parentId: string;
+  name: string;
   activities: string;
   pronunciation: string;
   pronouns: string;
@@ -12,6 +13,7 @@ export interface GeneratePostC1DebriefInDatabaseProps {
 }
 export const generatePostC1DebriefInDatabase = async ({
   parentId,
+  name,
   activities,
   pronunciation,
   pronouns,
@@ -32,7 +34,7 @@ export const generatePostC1DebriefInDatabase = async ({
         title: [
           {
             text: {
-              content: "Post-C1 Debrief",
+              content: `${name}'s Post-C1 Debrief`,
             },
           },
         ],

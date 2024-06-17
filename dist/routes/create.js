@@ -26,6 +26,7 @@ exports.createRouter.get("/insight", (0, routers_1.asyncHandler)(async (req, res
 exports.createRouter.get("/debrief", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
         "parentId",
+        "name",
         "activities",
         "pronunciation",
         "pronouns",

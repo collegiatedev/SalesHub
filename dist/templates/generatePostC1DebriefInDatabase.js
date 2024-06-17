@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generatePostC1DebriefInDatabase = void 0;
 const notion_1 = require("../utils/notion");
-const generatePostC1DebriefInDatabase = async ({ parentId, activities, pronunciation, pronouns, intended, plans, profile, additional, }) => {
+const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pronunciation, pronouns, intended, plans, profile, additional, }) => {
     const keyMap = new Map();
     const page = await notion_1.notion.pages.create({
         parent: {
@@ -15,7 +15,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, activities, pronuncia
                 title: [
                     {
                         text: {
-                            content: "Post-C1 Debrief",
+                            content: `${name}'s Post-C1 Debrief`,
                         },
                     },
                 ],
