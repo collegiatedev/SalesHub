@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express, { Request, Response } from "express";
 import { registrationRouter } from "./routes/registration";
+import { createRouter } from "./routes/create";
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 app.use("/registration", registrationRouter);
+app.use("/create", createRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

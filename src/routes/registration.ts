@@ -4,7 +4,7 @@ import { ACCELERATOR_TASKS_DB } from "../utils/constants";
 
 export const registrationRouter: Router = Router();
 
-// example url: http://localhost:3000/registration?studentId=kz7zh7t2aw&studentFullName=John%20Doe&studentEmail=johndoe@example.com&studentNumber=+19254873772&parentEmail=parent@example.com&parentNumber=+19254873772&repPageId=cece3b6098b3469ebd2261ebd7319aad&leadPageId=3eca26b8664a478a8e7060967dd79c3f&repId=737019&grade=8th
+// example url: http://localhost:8080/registration?studentId=kz7zh7t2aw&studentFullName=John%20Doe&studentEmail=johndoe@example.com&studentNumber=+19254873772&parentEmail=parent@example.com&parentNumber=+19254873772&repPageId=cece3b6098b3469ebd2261ebd7319aad&leadPageId=3eca26b8664a478a8e7060967dd79c3f&repId=737019&grade=8th
 // For some reason, need GET for Make.com to behave
 registrationRouter.get("/", async (req: Request, res: Response) => {
   try {
