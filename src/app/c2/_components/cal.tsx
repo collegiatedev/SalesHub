@@ -3,7 +3,10 @@
 import { InvalidLink } from "@/src/components/invalidLink";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
-import { concentrationToCal } from "./concentrationLinks";
+import {
+  concentrationToCal,
+  concentrationToNotion,
+} from "./concentrationLinks";
 import { useQuery } from "@tanstack/react-query";
 
 export type Cal2Props = {
@@ -37,6 +40,9 @@ export const CalC2 = ({
   //console.log("callink", calLink);
   const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
 
+  const concentrationId = concentrationToNotion.get(
+    concentrationString.toString()
+  );
   const { data, error, isLoading } = useQuery({
     queryKey: ["c2 cal prefills", id],
     queryFn: () => fetch(webhook).then((res) => res.json()),
@@ -68,7 +74,8 @@ export const CalC2 = ({
   const guests = data["studentEmail"];
   const smsReminderNumber = data["studentNumber"];
 
-  if (!email || !guests || !smsReminderNumber) return <InvalidLink />;
+  if (!email || !guests || !smsReminderNumber || !concentrationId)
+    return <InvalidLink />;
 
   return (
     <Cal
@@ -81,6 +88,7 @@ export const CalC2 = ({
         id,
         guests,
         smsReminderNumber,
+        concentrationId,
       }}
     />
   );
