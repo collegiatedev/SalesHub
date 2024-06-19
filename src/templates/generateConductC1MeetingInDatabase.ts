@@ -75,7 +75,7 @@ export const generateConductC1MeetingInDatabase = async ({
             },
           ],
         },
-        Time: {
+        time: {
           date: {
             start: time,
             end: null,
