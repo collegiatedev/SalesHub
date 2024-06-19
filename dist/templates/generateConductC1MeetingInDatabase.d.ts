@@ -10,5 +10,6 @@ export interface GenerateConductC1MeetingInDatabaseProps {
     repPageId: string;
     repId: string;
     grade: string;
+    time: string;
 }
-export declare const generateConductC1MeetingInDatabase: ({ parentId, studentId, studentFullName, studentEmail, studentNumber, parentEmail, parentNumber, leadPageId, repPageId, repId, grade, }: GenerateConductC1MeetingInDatabaseProps) => Promise<void>;
+export declare const generateConductC1MeetingInDatabase: ({ parentId, studentId, studentFullName, studentEmail, studentNumber, parentEmail, parentNumber, leadPageId, repPageId, repId, grade, time, }: GenerateConductC1MeetingInDatabaseProps) => Promise<void>;

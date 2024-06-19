@@ -14,6 +14,7 @@ export interface GenerateConductC1MeetingInDatabaseProps {
   repPageId: string;
   repId: string;
   grade: string;
+  time: string;
 }
 export const generateConductC1MeetingInDatabase = async ({
   parentId,
@@ -27,6 +28,7 @@ export const generateConductC1MeetingInDatabase = async ({
   repPageId,
   repId,
   grade,
+  time,
 }: GenerateConductC1MeetingInDatabaseProps) => {
   try {
     const studentInUrl = studentFullName.replace(" ", "%20");
@@ -66,13 +68,19 @@ export const generateConductC1MeetingInDatabase = async ({
             },
           ],
         },
-
         "🚅 Task": {
           relation: [
             {
               id: "50161c5bf2c14905b7a49e6fa33d5d5b",
             },
           ],
+        },
+        Time: {
+          date: {
+            start: time,
+            end: null,
+            time_zone: null,
+          },
         },
       },
     });

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateConductC1MeetingInDatabase = void 0;
 // COMPLETED
 const notion_1 = require("../utils/notion");
-const generateConductC1MeetingInDatabase = async ({ parentId, studentId, studentFullName, studentEmail, studentNumber, parentEmail, parentNumber, leadPageId, repPageId, repId, grade, }) => {
+const generateConductC1MeetingInDatabase = async ({ parentId, studentId, studentFullName, studentEmail, studentNumber, parentEmail, parentNumber, leadPageId, repPageId, repId, grade, time, }) => {
     try {
         const studentInUrl = studentFullName.replace(" ", "%20");
         const c2Link = `https://www.collegiate.dev/c2?id=${studentId}&fullname=${studentInUrl}&grade=${grade}`;
@@ -48,6 +48,13 @@ const generateConductC1MeetingInDatabase = async ({ parentId, studentId, student
                             id: "50161c5bf2c14905b7a49e6fa33d5d5b",
                         },
                     ],
+                },
+                Time: {
+                    date: {
+                        start: time,
+                        end: null,
+                        time_zone: null,
+                    },
                 },
             },
         });
