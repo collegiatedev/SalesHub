@@ -54,6 +54,12 @@ function checkQueryParams(req, requiredParams, optionalParams = []) {
 }
 exports.checkQueryParams = checkQueryParams;
 function checkBodyParams(req, requiredParams, optionalParams = []) {
+    if (!req.body) {
+        return {
+            isValid: false,
+            error: "Missing body",
+        };
+    }
     // Use a less restrictive intermediate type
     const params = {};
     const missingParams = [];

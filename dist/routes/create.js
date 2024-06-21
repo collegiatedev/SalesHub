@@ -58,6 +58,7 @@ exports.createRouter.get("/background", (0, routers_1.asyncHandler)(async (req, 
         return res.status(400).json({
             message: validatedParams.error,
         });
+    console.log("here");
     await (0, generateStudentBackgroundResponseInDatabase_1.generateStudentBackgroundResponseInDatabase)(validatedParams.params);
     return res.json({
         message: "student background response created",

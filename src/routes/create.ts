@@ -95,6 +95,8 @@ createRouter.get(
         message: validatedParams.error,
       });
 
+    console.log("here");
+
     await generateStudentBackgroundResponseInDatabase(validatedParams.params);
 
     return res.json({

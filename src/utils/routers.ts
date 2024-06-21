@@ -72,13 +72,19 @@ export function checkBodyParams<T extends Record<string, any>>(
   requiredParams: (keyof T)[],
   optionalParams: Array<keyof T> = []
 ): ValidationResult<T> {
+  if (!req.body) {
+    return {
+      isValid: false,
+      error: "Missing body",
+    };
+  }
+
   // Use a less restrictive intermediate type
   const params: Record<string, any> = {};
   const missingParams: string[] = [];
 
   requiredParams.forEach((param) => {
     const key = param as string;
-
     if (isValidString(req.body[key])) {
       params[key] = req.body[key] as string;
     } else {
