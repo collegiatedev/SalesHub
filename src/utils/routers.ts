@@ -25,9 +25,10 @@ type ValidationResult<T extends Record<string, any>> =
 
 export function checkQueryParams<T extends Record<string, any>>(
   req: Request,
-  requiredParams: (keyof T)[]
+  requiredParams: (keyof T)[],
+  optionalParams: Array<keyof T> = []
 ): ValidationResult<T> {
-  function isString(value: unknown): value is string {
+  function isValidString(value: unknown): value is string {
     return typeof value === "string";
   }
 
@@ -37,10 +38,19 @@ export function checkQueryParams<T extends Record<string, any>>(
 
   requiredParams.forEach((param) => {
     const key = param as string;
-    if (isString(req.query[key])) {
+    if (isValidString(req.query[key])) {
       params[key] = req.query[key];
     } else if (!req.query[key]) {
       missingParams.push(key);
+    }
+  });
+
+  optionalParams.forEach((param) => {
+    const key = param as string;
+    if (isValidString(req.query[key])) {
+      params[key] = req.query[key] as string;
+    } else {
+      params[key] = ""; // Set empty string for missing optional parameters
     }
   });
 

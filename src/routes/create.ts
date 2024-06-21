@@ -8,6 +8,10 @@ import {
   generatePostC1DebriefInDatabase,
   GeneratePostC1DebriefInDatabaseProps,
 } from "../templates/generatePostC1DebriefInDatabase";
+import {
+  generateStudentBackgroundResponseInDatabase,
+  GenerateStudentBackgroundResponseInDatabaseProps,
+} from "../templates/generateStudentBackgroundResponseInDatabase";
 
 export const createRouter: Router = Router();
 
@@ -61,6 +65,35 @@ createRouter.get(
 
     return res.json({
       message: "post-C1 debrief created",
+    });
+  })
+);
+
+createRouter.get(
+  "/background",
+  asyncHandler(async (req: Request, res: Response) => {
+    const validatedParams =
+      checkQueryParams<GenerateStudentBackgroundResponseInDatabaseProps>(
+        req,
+        ["parentId", "uGPA", "wGPA"],
+        [
+          "additionalAcademic",
+          "additionalActivity",
+          "professionalLinks",
+          "transcripts",
+          "resumePortfolios",
+        ]
+      );
+
+    if (!validatedParams.isValid)
+      return res.status(400).json({
+        message: validatedParams.error,
+      });
+
+    await generateStudentBackgroundResponseInDatabase(validatedParams.params);
+
+    return res.json({
+      message: "student background response created",
     });
   })
 );

@@ -1,11 +1,46 @@
 import { notion } from "../utils/notion";
+import { notProvided } from "./utils/notProvided";
 
 export interface GenerateStudentBackgroundResponseInDatabaseProps {
   parentId: string;
+  uGPA: string;
+  wGPA: string;
+  additionalAcademic: string;
+  additionalActivity: string;
+  professionalLinks: string;
+  transcripts: string;
+  resumePortfolios: string;
 }
 export const generateStudentBackgroundResponseInDatabase = async ({
   parentId,
+  uGPA,
+  wGPA,
+  additionalAcademic,
+  additionalActivity,
+  professionalLinks,
+  transcripts,
+  resumePortfolios,
 }: GenerateStudentBackgroundResponseInDatabaseProps) => {
+  const t =
+    transcripts !== ""
+      ? transcripts.split(",").map((transcript) => ({
+          bookmark: {
+            caption: [],
+            url: transcript,
+          },
+        }))
+      : notProvided("transcripts");
+
+  const rp =
+    resumePortfolios !== ""
+      ? resumePortfolios.split(",").map((resumePortfolio) => ({
+          bookmark: {
+            caption: [],
+            url: resumePortfolio,
+          },
+        }))
+      : notProvided("resume/portfolios");
+
   const keyMap = new Map<string, Array<any>>();
   const page = await notion.pages.create({
     parent: {
@@ -111,12 +146,9 @@ export const generateStudentBackgroundResponseInDatabase = async ({
               color: "default",
             },
           },
-          {
-            bookmark: {
-              caption: [],
-              url: "https://app.cal.com/event-types",
-            },
-          },
+
+          // @ts-ignore
+          ...rp,
           {
             heading_3: {
               rich_text: [
@@ -146,7 +178,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: "<<links>",
+                    content: professionalLinks,
                     link: null,
                   },
                   annotations: {
@@ -191,7 +223,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: "<<additional_activity>",
+                    content: additionalActivity,
                     link: null,
                   },
                   annotations: {
@@ -248,7 +280,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: "uGPA: <<uGPA>, wGPA: <<wGPA>",
+                    content: `uGPA: ${uGPA}, wGPA: ${wGPA}`,
                     link: null,
                   },
                   annotations: {
@@ -287,12 +319,8 @@ export const generateStudentBackgroundResponseInDatabase = async ({
               color: "default",
             },
           },
-          {
-            bookmark: {
-              caption: [],
-              url: "https://app.cal.com/event-types",
-            },
-          },
+          // @ts-ignore
+          ...t,
           {
             heading_3: {
               rich_text: [
@@ -322,7 +350,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: "<<additional_academic>",
+                    content: additionalAcademic,
                     link: null,
                   },
                   annotations: {
