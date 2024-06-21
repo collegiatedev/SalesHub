@@ -30,7 +30,10 @@ const generateParentInsightResponseInDatabase = async ({ parentId, name, whyNow,
             type: "database_id",
             database_id: parentId,
         },
-        icon: null,
+        icon: {
+            type: "emoji",
+            emoji: "🔗",
+        },
         properties: {
             Name: {
                 title: [

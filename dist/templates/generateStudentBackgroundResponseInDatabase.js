@@ -1,8 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generatePostC1DebriefInDatabase = void 0;
+exports.generateStudentBackgroundResponseInDatabase = void 0;
 const notion_1 = require("../utils/notion");
-const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pronunciation, pronouns, intended, plans, profile, additional, }) => {
+const notProvided_1 = require("./utils/notProvided");
+const generateStudentBackgroundResponseInDatabase = async ({ parentId, name, uGPA, wGPA, additionalAcademic, additionalActivity, professionalLinks, transcripts, resumePortfolios, }) => {
+    const t = transcripts !== ""
+        ? transcripts.split(",").map((transcript) => ({
+            bookmark: {
+                caption: [],
+                url: transcript,
+            },
+        }))
+        : (0, notProvided_1.notProvided)("transcripts");
+    const rp = resumePortfolios !== ""
+        ? resumePortfolios.split(",").map((resumePortfolio) => ({
+            bookmark: {
+                caption: [],
+                url: resumePortfolio,
+            },
+        }))
+        : (0, notProvided_1.notProvided)("resume/portfolios");
     const keyMap = new Map();
     const page = await notion_1.notion.pages.create({
         parent: {
@@ -11,14 +28,14 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
         },
         icon: {
             type: "emoji",
-            emoji: "💬",
+            emoji: "🚸",
         },
         properties: {
             Name: {
                 title: [
                     {
                         text: {
-                            content: `${name}'s Post-C1 Debrief`,
+                            content: `${name}'s Student Background Response`,
                         },
                     },
                 ],
@@ -29,12 +46,12 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
         block_id: page.id,
         children: [
             {
-                heading_2: {
+                heading_1: {
                     rich_text: [
                         {
                             type: "text",
                             text: {
-                                content: "Name",
+                                content: "Academics",
                                 link: null,
                             },
                             annotations: {
@@ -52,81 +69,12 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
                 },
             },
             {
-                heading_2: {
+                heading_1: {
                     rich_text: [
                         {
                             type: "text",
                             text: {
-                                content: "EC/Activity Analysis",
-                                link: null,
-                            },
-                            annotations: {
-                                bold: false,
-                                italic: false,
-                                strikethrough: false,
-                                underline: false,
-                                code: false,
-                                color: "default",
-                            },
-                        },
-                    ],
-                    is_toggleable: true,
-                    color: "default",
-                },
-            },
-            {
-                heading_2: {
-                    rich_text: [
-                        {
-                            type: "text",
-                            text: {
-                                content: "Profile Analysis",
-                                link: null,
-                            },
-                            annotations: {
-                                bold: false,
-                                italic: false,
-                                strikethrough: false,
-                                underline: false,
-                                code: false,
-                                color: "default",
-                            },
-                        },
-                    ],
-                    is_toggleable: true,
-                    color: "default",
-                },
-            },
-            {
-                heading_2: {
-                    rich_text: [
-                        {
-                            type: "text",
-                            text: {
-                                content: "Summer/Winter Plans",
-                                link: null,
-                            },
-                            annotations: {
-                                bold: false,
-                                italic: false,
-                                strikethrough: false,
-                                underline: false,
-                                code: false,
-                                color: "default",
-                            },
-                        },
-                    ],
-                    is_toggleable: true,
-                    color: "default",
-                },
-            },
-            {
-                heading_2: {
-                    rich_text: [
-                        {
-                            type: "text",
-                            text: {
-                                content: "Else",
+                                content: "Activities",
                                 link: null,
                             },
                             annotations: {
@@ -145,42 +93,11 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
             },
         ],
     });
-    keyMap.set("22f0e49346f4401994d1a532bac9c303", res.results);
+    keyMap.set("af235ba604404652ae140e19167babca", res.results);
     let promises = [];
     promises.push((async () => {
         const res = await notion_1.notion.blocks.children.append({
-            block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[1].id,
-            children: [
-                {
-                    paragraph: {
-                        rich_text: [
-                            {
-                                type: "text",
-                                text: {
-                                    content: activities,
-                                    link: null,
-                                },
-                                annotations: {
-                                    bold: false,
-                                    italic: false,
-                                    strikethrough: false,
-                                    underline: false,
-                                    code: false,
-                                    color: "default",
-                                },
-                            },
-                        ],
-                        color: "default",
-                    },
-                },
-            ],
-        });
-        keyMap.set("0c58594e-7e5a-4239-b338-01b88d5aa883", res.results);
-        console.log("Created: 0c58594e-7e5a-4239-b338-01b88d5aa883");
-    })());
-    promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
-            block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[0].id,
+            block_id: keyMap.get("af235ba604404652ae140e19167babca")[1].id,
             children: [
                 {
                     heading_3: {
@@ -188,11 +105,11 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
                             {
                                 type: "text",
                                 text: {
-                                    content: "Pronunciation",
+                                    content: "Resume/Portfolios",
                                     link: null,
                                 },
                                 annotations: {
-                                    bold: true,
+                                    bold: false,
                                     italic: false,
                                     strikethrough: false,
                                     underline: false,
@@ -205,35 +122,15 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
                         color: "default",
                     },
                 },
-                {
-                    paragraph: {
-                        rich_text: [
-                            {
-                                type: "text",
-                                text: {
-                                    content: pronunciation,
-                                    link: null,
-                                },
-                                annotations: {
-                                    bold: false,
-                                    italic: false,
-                                    strikethrough: false,
-                                    underline: false,
-                                    code: false,
-                                    color: "default",
-                                },
-                            },
-                        ],
-                        color: "default",
-                    },
-                },
+                // @ts-ignore
+                ...rp,
                 {
                     heading_3: {
                         rich_text: [
                             {
                                 type: "text",
                                 text: {
-                                    content: "Pronouns",
+                                    content: "Professional Links",
                                     link: null,
                                 },
                                 annotations: {
@@ -256,7 +153,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
                             {
                                 type: "text",
                                 text: {
-                                    content: pronouns,
+                                    content: professionalLinks,
                                     link: null,
                                 },
                                 annotations: {
@@ -278,7 +175,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
                             {
                                 type: "text",
                                 text: {
-                                    content: "Intended Major/Career Interest",
+                                    content: "Additional Activity Info",
                                     link: null,
                                 },
                                 annotations: {
@@ -301,7 +198,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
                             {
                                 type: "text",
                                 text: {
-                                    content: intended,
+                                    content: additionalActivity,
                                     link: null,
                                 },
                                 annotations: {
@@ -319,20 +216,43 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
                 },
             ],
         });
-        keyMap.set("30c55fb7-57a9-4582-8cdb-1748941579fb", res.results);
-        console.log("Created: 30c55fb7-57a9-4582-8cdb-1748941579fb");
+        keyMap.set("6a467a1f-e15d-4cab-a51b-b88df742b836", res.results);
+        console.log("Created: 6a467a1f-e15d-4cab-a51b-b88df742b836");
     })());
     promises.push((async () => {
         const res = await notion_1.notion.blocks.children.append({
-            block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[3].id,
+            block_id: keyMap.get("af235ba604404652ae140e19167babca")[0].id,
             children: [
+                {
+                    heading_3: {
+                        rich_text: [
+                            {
+                                type: "text",
+                                text: {
+                                    content: "Grade",
+                                    link: null,
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                        ],
+                        is_toggleable: false,
+                        color: "default",
+                    },
+                },
                 {
                     paragraph: {
                         rich_text: [
                             {
                                 type: "text",
                                 text: {
-                                    content: plans,
+                                    content: `uGPA: ${uGPA}, wGPA: ${wGPA}`,
                                     link: null,
                                 },
                                 annotations: {
@@ -348,22 +268,61 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
                         color: "default",
                     },
                 },
-            ],
-        });
-        keyMap.set("44145c96-26be-49b0-b706-3cf7c20db9b4", res.results);
-        console.log("Created: 44145c96-26be-49b0-b706-3cf7c20db9b4");
-    })());
-    promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
-            block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[2].id,
-            children: [
+                {
+                    heading_3: {
+                        rich_text: [
+                            {
+                                type: "text",
+                                text: {
+                                    content: "Transcripts",
+                                    link: null,
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                        ],
+                        is_toggleable: false,
+                        color: "default",
+                    },
+                },
+                // @ts-ignore
+                ...t,
+                {
+                    heading_3: {
+                        rich_text: [
+                            {
+                                type: "text",
+                                text: {
+                                    content: "Additional Academic Info",
+                                    link: null,
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                        ],
+                        is_toggleable: false,
+                        color: "default",
+                    },
+                },
                 {
                     paragraph: {
                         rich_text: [
                             {
                                 type: "text",
                                 text: {
-                                    content: profile,
+                                    content: additionalAcademic,
                                     link: null,
                                 },
                                 annotations: {
@@ -381,42 +340,11 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
                 },
             ],
         });
-        keyMap.set("a474e3ff-96cc-4136-91b4-9538ca9886aa", res.results);
-        console.log("Created: a474e3ff-96cc-4136-91b4-9538ca9886aa");
-    })());
-    promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
-            block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[4].id,
-            children: [
-                {
-                    paragraph: {
-                        rich_text: [
-                            {
-                                type: "text",
-                                text: {
-                                    content: additional,
-                                    link: null,
-                                },
-                                annotations: {
-                                    bold: false,
-                                    italic: false,
-                                    strikethrough: false,
-                                    underline: false,
-                                    code: false,
-                                    color: "default",
-                                },
-                            },
-                        ],
-                        color: "default",
-                    },
-                },
-            ],
-        });
-        keyMap.set("a671eb1e-75cc-4619-9d08-e8fec4df2cdf", res.results);
-        console.log("Created: a671eb1e-75cc-4619-9d08-e8fec4df2cdf");
+        keyMap.set("8786c3af-0d3c-4057-978e-9588e328d879", res.results);
+        console.log("Created: 8786c3af-0d3c-4057-978e-9588e328d879");
     })());
     await Promise.all(promises);
     console.log("Done with batch");
     promises = [];
 };
-exports.generatePostC1DebriefInDatabase = generatePostC1DebriefInDatabase;
+exports.generateStudentBackgroundResponseInDatabase = generateStudentBackgroundResponseInDatabase;

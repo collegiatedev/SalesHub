@@ -7,5 +7,6 @@ type ValidationResult<T extends Record<string, any>> = {
     isValid: false;
     error: string;
 };
-export declare function checkQueryParams<T extends Record<string, any>>(req: Request, requiredParams: (keyof T)[]): ValidationResult<T>;
+export declare function checkQueryParams<T extends Record<string, any>>(req: Request, requiredParams: (keyof T)[], optionalParams?: Array<keyof T>): ValidationResult<T>;
+export declare function checkBodyParams<T extends Record<string, any>>(req: Request, requiredParams: (keyof T)[], optionalParams?: Array<keyof T>): ValidationResult<T>;
 export {};

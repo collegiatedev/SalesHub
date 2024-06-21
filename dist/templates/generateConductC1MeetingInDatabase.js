@@ -49,7 +49,7 @@ const generateConductC1MeetingInDatabase = async ({ parentId, studentId, student
                         },
                     ],
                 },
-                time: {
+                Time: {
                     date: {
                         start: time,
                         end: null,
