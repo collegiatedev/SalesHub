@@ -75,7 +75,7 @@ createRouter.get(
     const validatedParams =
       checkQueryParams<GenerateStudentBackgroundResponseInDatabaseProps>(
         req,
-        ["parentId", "uGPA", "wGPA"],
+        ["parentId", "name", "uGPA", "wGPA"],
         [
           "additionalAcademic",
           "additionalActivity",

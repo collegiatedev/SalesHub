@@ -3,6 +3,7 @@ import { notProvided } from "./utils/notProvided";
 
 export interface GenerateStudentBackgroundResponseInDatabaseProps {
   parentId: string;
+  name: string;
   uGPA: string;
   wGPA: string;
   additionalAcademic: string;
@@ -13,6 +14,7 @@ export interface GenerateStudentBackgroundResponseInDatabaseProps {
 }
 export const generateStudentBackgroundResponseInDatabase = async ({
   parentId,
+  name,
   uGPA,
   wGPA,
   additionalAcademic,
@@ -56,7 +58,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
         title: [
           {
             text: {
-              content: "Student Background Response",
+              content: `${name}'s Student Background Response`,
             },
           },
         ],
