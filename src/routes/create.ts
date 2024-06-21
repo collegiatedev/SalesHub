@@ -3,7 +3,11 @@ import {
   generateParentInsightResponseInDatabase,
   GenerateParentInsightResponseInDatabaseProps,
 } from "../templates/generateParentInsightResponseInDatabase";
-import { asyncHandler, checkQueryParams } from "../utils/routers";
+import {
+  asyncHandler,
+  checkBodyParams,
+  checkQueryParams,
+} from "../utils/routers";
 import {
   generatePostC1DebriefInDatabase,
   GeneratePostC1DebriefInDatabaseProps,
@@ -72,8 +76,9 @@ createRouter.get(
 createRouter.get(
   "/background",
   asyncHandler(async (req: Request, res: Response) => {
+    // using body params because url string ruins the header query
     const validatedParams =
-      checkQueryParams<GenerateStudentBackgroundResponseInDatabaseProps>(
+      checkBodyParams<GenerateStudentBackgroundResponseInDatabaseProps>(
         req,
         ["parentId", "name", "uGPA", "wGPA"],
         [
