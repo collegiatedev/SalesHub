@@ -6,6 +6,7 @@ const routers_1 = require("../utils/routers");
 const pdf_js_extract_1 = require("pdf.js-extract");
 const downloads_1 = require("../utils/downloads");
 const constants_1 = require("../utils/constants");
+// well this was a waste of time. learned stuff though.
 exports.filesRouter = (0, express_1.Router)();
 // supported file types: pdf, doc, docx
 const handlePdf = async (filePath) => {
@@ -37,4 +38,3 @@ exports.filesRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) =
             });
     }
 }));
-// https://storage.tally.so/private/Ahmed-Elbanna-Midyear-Transcript.pdf?id=O4NdL7&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik80TmRMNyIsImZvcm1JZCI6Inc0a0dBciIsImlhdCI6MTcxOTA4ODQ4OH0.wXWTUMAlVn1FRBItKfGBqnaIN0RIhVehT2awhwUPkuo&signature=ff22eae1b648adb6e63fdf36e35439cb5ec64b7bc242d70fc2fb2cbfb1d90c1d

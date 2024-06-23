@@ -4,6 +4,8 @@ import { PDFExtract } from "pdf.js-extract";
 import { useFile } from "../utils/downloads";
 import { FileExtension } from "../utils/constants";
 
+// well this was a waste of time. learned stuff though.
+
 export const filesRouter: Router = Router();
 
 // supported file types: pdf, doc, docx
@@ -48,4 +50,3 @@ filesRouter.get(
     }
   })
 );
-// https://storage.tally.so/private/Ahmed-Elbanna-Midyear-Transcript.pdf?id=O4NdL7&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik80TmRMNyIsImZvcm1JZCI6Inc0a0dBciIsImlhdCI6MTcxOTA4ODQ4OH0.wXWTUMAlVn1FRBItKfGBqnaIN0RIhVehT2awhwUPkuo&signature=ff22eae1b648adb6e63fdf36e35439cb5ec64b7bc242d70fc2fb2cbfb1d90c1d
