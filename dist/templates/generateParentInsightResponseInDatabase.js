@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateParentInsightResponseInDatabase = void 0;
-const notion_1 = require("../utils/notion");
+const clients_1 = require("../utils/clients");
 const generateParentInsightResponseInDatabase = async ({ parentId, name, whyNow, programFit, programSupport, }) => {
     const supports = programSupport.split(",").map((support) => ({
         bulleted_list_item: {
@@ -25,7 +25,7 @@ const generateParentInsightResponseInDatabase = async ({ parentId, name, whyNow,
         },
     }));
     const keyMap = new Map();
-    const page = await notion_1.notion.pages.create({
+    const page = await clients_1.notionClient.pages.create({
         parent: {
             type: "database_id",
             database_id: parentId,
@@ -46,7 +46,7 @@ const generateParentInsightResponseInDatabase = async ({ parentId, name, whyNow,
             },
         },
     });
-    let res = await notion_1.notion.blocks.children.append({
+    let res = await clients_1.notionClient.blocks.children.append({
         block_id: page.id,
         children: [
             {

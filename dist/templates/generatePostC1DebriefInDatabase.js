@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generatePostC1DebriefInDatabase = void 0;
-const notion_1 = require("../utils/notion");
+const clients_1 = require("../utils/clients");
 const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pronunciation, pronouns, intended, plans, profile, additional, }) => {
     const keyMap = new Map();
-    const page = await notion_1.notion.pages.create({
+    const page = await clients_1.notionClient.pages.create({
         parent: {
             type: "database_id",
             database_id: parentId,
@@ -25,7 +25,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
             },
         },
     });
-    let res = await notion_1.notion.blocks.children.append({
+    let res = await clients_1.notionClient.blocks.children.append({
         block_id: page.id,
         children: [
             {
@@ -148,7 +148,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
     keyMap.set("22f0e49346f4401994d1a532bac9c303", res.results);
     let promises = [];
     promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
+        const res = await clients_1.notionClient.blocks.children.append({
             block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[1].id,
             children: [
                 {
@@ -179,7 +179,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
         console.log("Created: 0c58594e-7e5a-4239-b338-01b88d5aa883");
     })());
     promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
+        const res = await clients_1.notionClient.blocks.children.append({
             block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[0].id,
             children: [
                 {
@@ -323,7 +323,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
         console.log("Created: 30c55fb7-57a9-4582-8cdb-1748941579fb");
     })());
     promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
+        const res = await clients_1.notionClient.blocks.children.append({
             block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[3].id,
             children: [
                 {
@@ -354,7 +354,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
         console.log("Created: 44145c96-26be-49b0-b706-3cf7c20db9b4");
     })());
     promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
+        const res = await clients_1.notionClient.blocks.children.append({
             block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[2].id,
             children: [
                 {
@@ -385,7 +385,7 @@ const generatePostC1DebriefInDatabase = async ({ parentId, name, activities, pro
         console.log("Created: a474e3ff-96cc-4136-91b4-9538ca9886aa");
     })());
     promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
+        const res = await clients_1.notionClient.blocks.children.append({
             block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")[4].id,
             children: [
                 {

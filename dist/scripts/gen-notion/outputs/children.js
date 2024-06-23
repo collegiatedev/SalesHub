@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.outputChildren = void 0;
 const constants_1 = require("../constants");
 const create_1 = require("./create");
+const clients_1 = require("src/utils/clients");
 const parseBlock = (block) => {
     // remove plain text, href fields from block object
     // todo: remove type from mention objects
@@ -27,7 +28,7 @@ const parseBlock = (block) => {
     return { [type]: removeFields(block[type]) };
 };
 const outputChildren = async (pageId) => {
-    const getBlock = async (blockId) => await constants_1.notion.blocks.children.list({
+    const getBlock = async (blockId) => await clients_1.notionReadOnlyClient.blocks.children.list({
         block_id: blockId,
         page_size: 100, // 100 is the max allowed
     });
@@ -60,7 +61,7 @@ exports.outputChildren = outputChildren;
 const recursiveChildren = async ({ blockId, directory, position, hasChildren, }) => {
     if (!hasChildren)
         return;
-    const blocks = await constants_1.notion.blocks.children.list({
+    const blocks = await clients_1.notionReadOnlyClient.blocks.children.list({
         block_id: blockId,
         page_size: 50,
     });

@@ -1,10 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.outputPageHeading = exports.outputDatabaseHeading = void 0;
+const clients_1 = require("src/utils/clients");
 const constants_1 = require("../constants");
 const create_1 = require("./create");
 const outputDatabaseHeading = async (pageId) => {
-    const page = await constants_1.notion.pages.retrieve({ page_id: pageId });
+    const page = await clients_1.notionReadOnlyClient.pages.retrieve({
+        page_id: pageId,
+    });
     await (0, create_1.deleteDirectoryIfExists)(constants_1.HEADING_DIRECTORY + pageId);
     // notion heading data shape >:(
     const heading = {
@@ -34,7 +37,9 @@ const outputDatabaseHeading = async (pageId) => {
 };
 exports.outputDatabaseHeading = outputDatabaseHeading;
 const outputPageHeading = async (pageId) => {
-    const page = await constants_1.notion.pages.retrieve({ page_id: pageId });
+    const page = await clients_1.notionReadOnlyClient.pages.retrieve({
+        page_id: pageId,
+    });
     await (0, create_1.deleteDirectoryIfExists)(constants_1.HEADING_DIRECTORY + pageId);
     // notion heading data shape >:(
     const heading = {

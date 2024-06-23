@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateStudentBackgroundResponseInDatabase = void 0;
-const notion_1 = require("../utils/notion");
+const clients_1 = require("../utils/clients");
 const notProvided_1 = require("./utils/notProvided");
 const generateStudentBackgroundResponseInDatabase = async ({ parentId, name, uGPA, wGPA, additionalAcademic, additionalActivity, professionalLinks, transcripts, resumePortfolios, }) => {
     const t = transcripts !== ""
@@ -21,7 +21,7 @@ const generateStudentBackgroundResponseInDatabase = async ({ parentId, name, uGP
         }))
         : (0, notProvided_1.notProvided)("resume/portfolios");
     const keyMap = new Map();
-    const page = await notion_1.notion.pages.create({
+    const page = await clients_1.notionClient.pages.create({
         parent: {
             type: "database_id",
             database_id: parentId,
@@ -42,7 +42,7 @@ const generateStudentBackgroundResponseInDatabase = async ({ parentId, name, uGP
             },
         },
     });
-    let res = await notion_1.notion.blocks.children.append({
+    let res = await clients_1.notionClient.blocks.children.append({
         block_id: page.id,
         children: [
             {
@@ -96,7 +96,7 @@ const generateStudentBackgroundResponseInDatabase = async ({ parentId, name, uGP
     keyMap.set("af235ba604404652ae140e19167babca", res.results);
     let promises = [];
     promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
+        const res = await clients_1.notionClient.blocks.children.append({
             block_id: keyMap.get("af235ba604404652ae140e19167babca")[1].id,
             children: [
                 {
@@ -220,7 +220,7 @@ const generateStudentBackgroundResponseInDatabase = async ({ parentId, name, uGP
         console.log("Created: 6a467a1f-e15d-4cab-a51b-b88df742b836");
     })());
     promises.push((async () => {
-        const res = await notion_1.notion.blocks.children.append({
+        const res = await clients_1.notionClient.blocks.children.append({
             block_id: keyMap.get("af235ba604404652ae140e19167babca")[0].id,
             children: [
                 {

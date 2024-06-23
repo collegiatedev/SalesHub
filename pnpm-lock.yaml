@@ -26,6 +26,9 @@ importers:
       openai:
         specifier: ^4.0.0
         version: 4.52.0
+      page-gen-notion:
+        specifier: 'link:'
+        version: 'link:'
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
