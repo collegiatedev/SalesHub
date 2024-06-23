@@ -18,7 +18,6 @@ exports.filesRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) =
     const validatedParams = (0, routers_1.checkBodyParams)(req, [
         "fileUrl",
         "fileMimeType",
-        "studentName",
     ]);
     if (!validatedParams.isValid)
         return res.status(400).json({

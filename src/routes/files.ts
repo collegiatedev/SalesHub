@@ -20,7 +20,6 @@ const handlePdf = async (filePath: string) => {
 interface FileProps {
   fileUrl: string;
   fileMimeType: string;
-  studentName: string;
 }
 filesRouter.get(
   "/essay",
@@ -28,7 +27,6 @@ filesRouter.get(
     const validatedParams = checkBodyParams<FileProps>(req, [
       "fileUrl",
       "fileMimeType",
-      "studentName",
     ]);
 
     if (!validatedParams.isValid)
