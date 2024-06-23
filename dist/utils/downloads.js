@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.useFile = void 0;
 const axios_1 = __importDefault(require("axios"));
 const fs = __importStar(require("fs"));
-const useFile = async (url, name, fileHandler) => {
+const useFile = async (url, fileExtension, fileHandler) => {
     try {
         // Create a temporary directory
         const directory = "downloads/";
@@ -40,7 +40,7 @@ const useFile = async (url, name, fileHandler) => {
             url: url,
             responseType: "stream",
         });
-        const tempFilePath = `${directory}${name}`;
+        const tempFilePath = `${directory}temp${fileExtension}`;
         const writer = fs.createWriteStream(tempFilePath);
         response.data.pipe(writer);
         await new Promise((resolve, reject) => {
