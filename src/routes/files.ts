@@ -11,10 +11,10 @@ export const filesRouter: Router = Router();
 const handlePdf = async (filePath: string) => {
   const pdfExtract = new PDFExtract();
   const data = await pdfExtract.extract(filePath);
-  const textPages = data.pages.map((page) =>
-    page.content.map((item) => item.str).join(" ")
-  );
-  return textPages;
+  const textOutput = data.pages
+    .map((page) => page.content.map((item) => item.str).join(" "))
+    .join();
+  return textOutput;
 };
 
 interface FileProps {

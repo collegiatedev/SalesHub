@@ -11,8 +11,10 @@ exports.filesRouter = (0, express_1.Router)();
 const handlePdf = async (filePath) => {
     const pdfExtract = new pdf_js_extract_1.PDFExtract();
     const data = await pdfExtract.extract(filePath);
-    const textPages = data.pages.map((page) => page.content.map((item) => item.str).join(" "));
-    return textPages;
+    const textOutput = data.pages
+        .map((page) => page.content.map((item) => item.str).join(" "))
+        .join();
+    return textOutput;
 };
 exports.filesRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkBodyParams)(req, [
