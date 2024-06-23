@@ -1,4 +1,4 @@
-import { notion } from "../utils/notion";
+import { notionClient } from "../utils/clients";
 
 export interface GenerateParentInsightResponseInDatabaseProps {
   parentId: string;
@@ -37,7 +37,7 @@ export const generateParentInsightResponseInDatabase = async ({
     },
   }));
   const keyMap = new Map<string, Array<any>>();
-  const page = await notion.pages.create({
+  const page = await notionClient.pages.create({
     parent: {
       type: "database_id",
       database_id: parentId,
@@ -58,7 +58,7 @@ export const generateParentInsightResponseInDatabase = async ({
       },
     },
   });
-  let res = await notion.blocks.children.append({
+  let res = await notionClient.blocks.children.append({
     block_id: page.id,
     children: [
       {

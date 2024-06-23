@@ -1,4 +1,4 @@
-import { notion } from "../utils/notion";
+import { notionClient } from "../utils/clients";
 import { notProvided } from "./utils/notProvided";
 
 export interface GenerateStudentBackgroundResponseInDatabaseProps {
@@ -44,7 +44,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
       : notProvided("resume/portfolios");
 
   const keyMap = new Map<string, Array<any>>();
-  const page = await notion.pages.create({
+  const page = await notionClient.pages.create({
     parent: {
       type: "database_id",
       database_id: parentId,
@@ -65,7 +65,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
       },
     },
   });
-  let res = await notion.blocks.children.append({
+  let res = await notionClient.blocks.children.append({
     block_id: page.id,
     children: [
       {
@@ -122,7 +122,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
 
   promises.push(
     (async () => {
-      const res = await notion.blocks.children.append({
+      const res = await notionClient.blocks.children.append({
         block_id: keyMap.get("af235ba604404652ae140e19167babca")![1].id,
         children: [
           {
@@ -250,7 +250,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
 
   promises.push(
     (async () => {
-      const res = await notion.blocks.children.append({
+      const res = await notionClient.blocks.children.append({
         block_id: keyMap.get("af235ba604404652ae140e19167babca")![0].id,
         children: [
           {

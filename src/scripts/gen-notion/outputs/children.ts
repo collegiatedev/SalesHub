@@ -1,5 +1,6 @@
-import { CHILDREN_DIRECTORY, notion } from "../constants";
+import { CHILDREN_DIRECTORY } from "../constants";
 import { createOutput, deleteDirectoryIfExists } from "./create";
+import { notionReadOnlyClient } from "src/utils/clients";
 
 const parseBlock = (block: any) => {
   // remove plain text, href fields from block object
@@ -31,7 +32,7 @@ const parseBlock = (block: any) => {
 
 export const outputChildren = async (pageId: string) => {
   const getBlock = async (blockId: string) =>
-    await notion.blocks.children.list({
+    await notionReadOnlyClient.blocks.children.list({
       block_id: blockId,
       page_size: 100, // 100 is the max allowed
     });
@@ -78,7 +79,7 @@ const recursiveChildren = async ({
 }: RecursiveChildrenParams) => {
   if (!hasChildren) return;
 
-  const blocks = await notion.blocks.children.list({
+  const blocks = await notionReadOnlyClient.blocks.children.list({
     block_id: blockId,
     page_size: 50,
   });

@@ -89,7 +89,7 @@ const generateChildren = async (pageId: string) => {
         res += `
         promises.push(
           (async () => {
-            const res = await notion.blocks.children.append({
+            const res = await notionClient.blocks.children.append({
               "block_id": keyMap.get("${parentId}")![${
           currentJson.position
         }].id,
@@ -116,14 +116,14 @@ const generateContent = async (pageId: string, functionName: string) => {
     functionName.charAt(0).toUpperCase() + functionName.slice(1) + "Props";
 
   return `
-      import { notion } from "../utils/notion";
+      import { notionClient } from "../utils/clients";
       
       export interface ${propName} {
         parentId: string;
       }
       export const ${functionName} = async ({ parentId }: ${propName}) => {
         const keyMap = new Map<string, Array<any>>();
-        const page = await notion.pages.create({
+        const page = await notionClient.pages.create({
           "parent": ${JSON.stringify(
             // set placeholder to parentId variable
             headingJson.parent,
@@ -134,7 +134,7 @@ const generateContent = async (pageId: string, functionName: string) => {
           "icon": ${JSON.stringify(headingJson.icon, null, 2)},
           "properties": ${JSON.stringify(headingJson.properties, null, 2)},
         });
-        let res = await notion.blocks.children.append({
+        let res = await notionClient.blocks.children.append({
           "block_id": page.id,
           "children": ${JSON.stringify(childrenJson, null, 2)}
         });

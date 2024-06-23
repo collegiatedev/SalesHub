@@ -1,8 +1,8 @@
 // COMPLETED
-import { notion } from "../utils/notion";
+import { notionClient } from "../utils/clients";
 
 export interface GenerateConductC1MeetingInDatabaseProps {
-  parentId: string; // in terms of notion
+  parentId: string; // in terms of notionClient
   // passed from api
   studentId: string; // in terms of content
   studentFullName: string;
@@ -35,7 +35,7 @@ export const generateConductC1MeetingInDatabase = async ({
     const c2Link = `https://www.collegiate.dev/c2?id=${studentId}&fullname=${studentInUrl}&grade=${grade}`;
     const c3Link = `https://www.collegiate.dev/c3?id=${studentId}&fullname=${studentInUrl}&rep=${repId}`;
     const keyMap = new Map<string, Array<any>>();
-    const page = await notion.pages.create({
+    const page = await notionClient.pages.create({
       parent: {
         type: "database_id",
         database_id: parentId,
@@ -84,7 +84,7 @@ export const generateConductC1MeetingInDatabase = async ({
         },
       },
     });
-    let res = await notion.blocks.children.append({
+    let res = await notionClient.blocks.children.append({
       block_id: page.id,
       children: [
         {
@@ -289,7 +289,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           //
           block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![1].id,
           children: [
@@ -763,7 +763,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           //
           block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![3].id,
           children: [
@@ -1064,7 +1064,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           //
           block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![2].id,
           children: [
@@ -1148,7 +1148,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           //
           block_id: keyMap.get("50161c5bf2c14905b7a49e6fa33d5d5b")![0].id,
           children: [
@@ -1373,7 +1373,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("3dd8787d-c0f1-42ed-a1b7-aa1da6b22e1e")![1].id,
           children: [
             {
@@ -1454,7 +1454,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6")![4].id,
           children: [
             {
@@ -1492,7 +1492,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6")![9].id,
           children: [
             {
@@ -1532,7 +1532,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("4a7e5eef-c25d-4bb9-b5bf-29b8959662e6")![3].id,
           children: [
             {
@@ -1570,7 +1570,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("a5524f04-be78-4c55-85fb-56310b3622dc")![2].id,
           children: [
             {
@@ -1835,7 +1835,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("d67e14f6-4a73-40de-b76a-36dc75dbad6d")![0].id,
           children: [
             {
@@ -1914,7 +1914,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("d67e14f6-4a73-40de-b76a-36dc75dbad6d")![4].id,
           children: [
             {
@@ -2095,7 +2095,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("d67e14f6-4a73-40de-b76a-36dc75dbad6d")![3].id,
           children: [
             {
@@ -2315,7 +2315,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("ebccef74-3798-4bd1-82ef-0cf558d6b134")![1].id,
           children: [
             {
@@ -2396,7 +2396,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("ebccef74-3798-4bd1-82ef-0cf558d6b134")![2].id,
           children: [
             {
@@ -2500,7 +2500,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("c449f83b-b552-4b72-8400-146a209065f4")![0].id,
           children: [
             {
@@ -2534,7 +2534,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![10].id,
           children: [
             {
@@ -2774,7 +2774,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![2].id,
           children: [
             {
@@ -2905,7 +2905,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![7].id,
           children: [
             {
@@ -3093,7 +3093,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![5].id,
           children: [
             {
@@ -3362,7 +3362,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![3].id,
           children: [
             {
@@ -3519,7 +3519,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![8].id,
           children: [
             {
@@ -3714,7 +3714,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![6].id,
           children: [
             {
@@ -3839,7 +3839,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![4].id,
           children: [
             {
@@ -3874,7 +3874,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![0].id,
           children: [
             {
@@ -3909,7 +3909,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![1].id,
           children: [
             {
@@ -3944,7 +3944,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("bf3c0a94-fea6-4ad1-8b8e-65df37dc8d20")![9].id,
           children: [
             {
@@ -3979,7 +3979,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("0e222e1d-0e7d-4ced-9c89-2078ea913cb7")![1].id,
           children: [
             {
@@ -4037,7 +4037,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("90471e5f-346a-4d5d-a511-ea5213476ec1")![2].id,
           children: [
             {
@@ -4077,7 +4077,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("eb877b08-b8e4-45b3-831d-a5e4ad2f6a93")![3].id,
           children: [
             {
@@ -4127,7 +4127,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("3c5fdc1d-8a78-4102-a38c-c738ccae6b30")![2].id,
           children: [
             {
@@ -4162,7 +4162,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("3c5fdc1d-8a78-4102-a38c-c738ccae6b30")![3].id,
           children: [
             {
@@ -4219,7 +4219,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("3c5fdc1d-8a78-4102-a38c-c738ccae6b30")![1].id,
           children: [
             {
@@ -4277,7 +4277,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("6f01dbf5-97e7-4614-8305-08992619c9ff")![1].id,
           children: [
             {
@@ -4311,7 +4311,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("6f01dbf5-97e7-4614-8305-08992619c9ff")![2].id,
           children: [
             {
@@ -4346,7 +4346,7 @@ export const generateConductC1MeetingInDatabase = async ({
 
     promises.push(
       (async () => {
-        res = await notion.blocks.children.append({
+        res = await notionClient.blocks.children.append({
           block_id: keyMap.get("6f01dbf5-97e7-4614-8305-08992619c9ff")![3].id,
           children: [
             {
@@ -4437,7 +4437,7 @@ export const generateConductC1MeetingInDatabase = async ({
     await Promise.all(promises);
     console.log("Done with batch 4");
 
-    res = await notion.blocks.children.append({
+    res = await notionClient.blocks.children.append({
       block_id: keyMap.get("8a7996aa-9bed-4fb0-9df3-77119efd5ba4")![0].id,
       children: [
         {

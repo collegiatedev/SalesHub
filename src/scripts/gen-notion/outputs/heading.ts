@@ -1,8 +1,11 @@
-import { HEADING_DIRECTORY, notion, PARENT_ID_PLACEHOLDER } from "../constants";
+import { notionReadOnlyClient } from "src/utils/clients";
+import { HEADING_DIRECTORY, PARENT_ID_PLACEHOLDER } from "../constants";
 import { createOutput, deleteDirectoryIfExists } from "./create";
 
 export const outputDatabaseHeading = async (pageId: string) => {
-  const page: any = await notion.pages.retrieve({ page_id: pageId });
+  const page: any = await notionReadOnlyClient.pages.retrieve({
+    page_id: pageId,
+  });
   await deleteDirectoryIfExists(HEADING_DIRECTORY + pageId);
 
   // notion heading data shape >:(
@@ -34,7 +37,9 @@ export const outputDatabaseHeading = async (pageId: string) => {
 };
 
 export const outputPageHeading = async (pageId: string) => {
-  const page: any = await notion.pages.retrieve({ page_id: pageId });
+  const page: any = await notionReadOnlyClient.pages.retrieve({
+    page_id: pageId,
+  });
   await deleteDirectoryIfExists(HEADING_DIRECTORY + pageId);
 
   // notion heading data shape >:(

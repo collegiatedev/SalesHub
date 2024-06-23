@@ -1,4 +1,4 @@
-import { notion } from "../utils/notion";
+import { notionClient } from "../utils/clients";
 
 export interface GeneratePostC1DebriefInDatabaseProps {
   parentId: string;
@@ -23,7 +23,7 @@ export const generatePostC1DebriefInDatabase = async ({
   additional,
 }: GeneratePostC1DebriefInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
-  const page = await notion.pages.create({
+  const page = await notionClient.pages.create({
     parent: {
       type: "database_id",
       database_id: parentId,
@@ -44,7 +44,7 @@ export const generatePostC1DebriefInDatabase = async ({
       },
     },
   });
-  let res = await notion.blocks.children.append({
+  let res = await notionClient.blocks.children.append({
     block_id: page.id,
     children: [
       {
@@ -170,7 +170,7 @@ export const generatePostC1DebriefInDatabase = async ({
 
   promises.push(
     (async () => {
-      const res = await notion.blocks.children.append({
+      const res = await notionClient.blocks.children.append({
         block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![1].id,
         children: [
           {
@@ -204,7 +204,7 @@ export const generatePostC1DebriefInDatabase = async ({
 
   promises.push(
     (async () => {
-      const res = await notion.blocks.children.append({
+      const res = await notionClient.blocks.children.append({
         block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![0].id,
         children: [
           {
@@ -351,7 +351,7 @@ export const generatePostC1DebriefInDatabase = async ({
 
   promises.push(
     (async () => {
-      const res = await notion.blocks.children.append({
+      const res = await notionClient.blocks.children.append({
         block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![3].id,
         children: [
           {
@@ -385,7 +385,7 @@ export const generatePostC1DebriefInDatabase = async ({
 
   promises.push(
     (async () => {
-      const res = await notion.blocks.children.append({
+      const res = await notionClient.blocks.children.append({
         block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![2].id,
         children: [
           {
@@ -419,7 +419,7 @@ export const generatePostC1DebriefInDatabase = async ({
 
   promises.push(
     (async () => {
-      const res = await notion.blocks.children.append({
+      const res = await notionClient.blocks.children.append({
         block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![4].id,
         children: [
           {
