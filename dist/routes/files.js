@@ -29,7 +29,6 @@ exports.filesRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) =
     switch (fileMimeType) {
         case "application/pdf":
             return res.json({
-                message: "essay reviewed",
                 text: await (0, downloads_1.useFile)(fileUrl, constants_1.FileExtension.PDF, handlePdf),
             });
         default:

@@ -39,7 +39,6 @@ filesRouter.get(
     switch (fileMimeType) {
       case "application/pdf":
         return res.json({
-          message: "essay reviewed",
           text: await useFile(fileUrl, FileExtension.PDF, handlePdf),
         });
       default:
