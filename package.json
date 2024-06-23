@@ -9,13 +9,16 @@
     "watch": "tsc -w",
     "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\"",
     "gen-notion": "tsx ./src/scripts/gen-notion/main.ts",
+    "testing": "tsx ./src/scripts/testing/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
+    "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "openai": "^4.0.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.5",
