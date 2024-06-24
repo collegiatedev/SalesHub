@@ -1,18 +1,19 @@
 import { Router, Request, Response } from "express";
+
+import { asyncHandler, checkQueryParams } from "../utils/routers";
+import { ACCELERATOR_TASKS_DB } from "../utils/constants";
 import {
   CreateDatabaseInPageProps,
   createDatabaseInPage,
 } from "../templates/createDatabaseInPage";
 import {
+  generateConductC1MeetingInDatabase,
+  GenerateConductC1MeetingInDatabaseProps,
+} from "../templates/tasks/generateConductC1MeetingInDatabase";
+import {
   GenerateContactInfoInDatabaseProps,
   generateContactInfoInDatabase,
 } from "../templates/table/generateContactInfoInDatabase";
-import {
-  GenerateConductC1MeetingInDatabaseProps,
-  generateConductC1MeetingInDatabase,
-} from "../templates/tasks/generateConductC1MeetingInDatabase";
-import { ACCELERATOR_TASKS_DB } from "../utils/constants";
-import { asyncHandler, checkQueryParams } from "../utils/routers";
 
 // For some reason, need GET for Make.com to behave
 export const registrationRouter: Router = Router();
@@ -78,6 +79,7 @@ registrationRouter.get(
   asyncHandler(async (req: Request, res: Response) => {
     const validatedParams =
       checkQueryParams<GenerateContactInfoInDatabaseProps>(req, [
+        "parentId",
         "studentEmail",
         "studentPhone",
         "parentEmail",
@@ -91,10 +93,7 @@ registrationRouter.get(
         message: validatedParams.error,
       });
 
-    await generateContactInfoInDatabase({
-      ...validatedParams.params,
-      parentId: ACCELERATOR_TASKS_DB,
-    });
+    await generateContactInfoInDatabase(validatedParams.params);
 
     return res.json({
       message: "parent insight response created",

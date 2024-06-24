@@ -6,6 +6,7 @@ const generateParentInsightResponseInDatabase_1 = require("../templates/table/ge
 const generatePostC1DebriefInDatabase_1 = require("../templates/table/generatePostC1DebriefInDatabase");
 const generateStudentBackgroundResponseInDatabase_1 = require("../templates/table/generateStudentBackgroundResponseInDatabase");
 const generateEditStudentEssayInDatabase_1 = require("../templates/tasks/generateEditStudentEssayInDatabase");
+const constants_1 = require("../utils/constants");
 const routers_1 = require("../utils/routers");
 exports.createRouter = (0, express_1.Router)();
 exports.createRouter.get("/insight", (0, routers_1.asyncHandler)(async (req, res) => {
@@ -67,7 +68,6 @@ exports.createRouter.get("/background", (0, routers_1.asyncHandler)(async (req, 
 exports.createRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) => {
     // using body params because url string ruins the header query
     const validatedParams = (0, routers_1.checkBodyParams)(req, [
-        "parentId",
         "repId",
         "studentName",
         "studentPageId",
@@ -78,7 +78,10 @@ exports.createRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) 
         return res.status(400).json({
             message: validatedParams.error,
         });
-    await (0, generateEditStudentEssayInDatabase_1.generateEditStudentEssayInDatabase)(validatedParams.params);
+    await (0, generateEditStudentEssayInDatabase_1.generateEditStudentEssayInDatabase)({
+        ...validatedParams.params,
+        parentId: constants_1.ACCELERATOR_TASKS_DB,
+    });
     return res.json({
         message: "essay task created",
     });

@@ -15,6 +15,7 @@ import {
   GenerateEditStudentEssayInDatabaseProps,
   generateEditStudentEssayInDatabase,
 } from "../templates/tasks/generateEditStudentEssayInDatabase";
+import { ACCELERATOR_TASKS_DB } from "../utils/constants";
 import {
   asyncHandler,
   checkQueryParams,
@@ -113,7 +114,6 @@ createRouter.get(
     // using body params because url string ruins the header query
     const validatedParams =
       checkBodyParams<GenerateEditStudentEssayInDatabaseProps>(req, [
-        "parentId",
         "repId",
         "studentName",
         "studentPageId",
@@ -126,7 +126,10 @@ createRouter.get(
         message: validatedParams.error,
       });
 
-    await generateEditStudentEssayInDatabase(validatedParams.params);
+    await generateEditStudentEssayInDatabase({
+      ...validatedParams.params,
+      parentId: ACCELERATOR_TASKS_DB,
+    });
 
     return res.json({
       message: "essay task created",
