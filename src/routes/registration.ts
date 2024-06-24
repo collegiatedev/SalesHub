@@ -91,7 +91,7 @@ registrationRouter.get(
     await generateContactInfoInDatabase(validatedParams.params);
 
     return res.json({
-      message: "parent insight response created",
+      message: "contact info created",
     });
   })
 );

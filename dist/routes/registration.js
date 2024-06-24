@@ -62,6 +62,6 @@ exports.registrationRouter.get("/contact", (0, routers_1.asyncHandler)(async (re
         });
     await (0, generateContactInfoInDatabase_1.generateContactInfoInDatabase)(validatedParams.params);
     return res.json({
-        message: "parent insight response created",
+        message: "contact info created",
     });
 }));

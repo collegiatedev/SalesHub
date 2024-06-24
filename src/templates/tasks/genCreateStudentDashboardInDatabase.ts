@@ -8,12 +8,13 @@ import { addTaskProperties } from "../utils/shared";
 
 export interface GenCreateStudentDashboardInDatabaseProps
   extends RequiredTaskFields {
-  parentId: string;
+  folderLink: string;
 }
 export const genCreateStudentDashboardInDatabase = async ({
   studentName,
   studentPageId,
   repPageId,
+  folderLink,
 }: GenCreateStudentDashboardInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create({
@@ -68,7 +69,7 @@ export const genCreateStudentDashboardInDatabase = async ({
             {
               type: "text",
               text: {
-                content: "Full Name: <>\nFolder Link: <>",
+                content: `Full Name: ${studentName}\nFolder Link: ${folderLink}`,
                 link: null,
               },
               annotations: {

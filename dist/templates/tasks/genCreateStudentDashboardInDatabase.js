@@ -4,7 +4,7 @@ exports.genCreateStudentDashboardInDatabase = void 0;
 const constants_1 = require("../../utils/constants");
 const clients_1 = require("../../utils/clients");
 const shared_1 = require("../utils/shared");
-const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId, repPageId, }) => {
+const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId, repPageId, folderLink, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
         parent: {
@@ -58,7 +58,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                         {
                             type: "text",
                             text: {
-                                content: "Full Name: <>\nFolder Link: <>",
+                                content: `Full Name: ${studentName}\nFolder Link: ${folderLink}`,
                                 link: null,
                             },
                             annotations: {

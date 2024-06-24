@@ -20,6 +20,10 @@ import {
   checkQueryParams,
   checkBodyParams,
 } from "../utils/routers";
+import {
+  genCreateStudentDashboardInDatabase,
+  GenCreateStudentDashboardInDatabaseProps,
+} from "src/templates/tasks/genCreateStudentDashboardInDatabase";
 
 export const createRouter: Router = Router();
 
@@ -125,6 +129,30 @@ createRouter.get(
 
     return res.json({
       message: "essay task created",
+    });
+  })
+);
+
+createRouter.get(
+  "/dashboard",
+  asyncHandler(async (req: Request, res: Response) => {
+    const validatedParams =
+      checkBodyParams<GenCreateStudentDashboardInDatabaseProps>(req, [
+        "studentName",
+        "repPageId",
+        "studentPageId",
+        "folderLink",
+      ]);
+
+    if (!validatedParams.isValid)
+      return res.status(400).json({
+        message: validatedParams.error,
+      });
+
+    await genCreateStudentDashboardInDatabase(validatedParams.params);
+
+    return res.json({
+      message: "task created",
     });
   })
 );

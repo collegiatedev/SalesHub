@@ -7,6 +7,7 @@ const generatePostC1DebriefInDatabase_1 = require("../templates/table/generatePo
 const generateStudentBackgroundResponseInDatabase_1 = require("../templates/table/generateStudentBackgroundResponseInDatabase");
 const genEditStudentEssayInDatabase_1 = require("../templates/tasks/genEditStudentEssayInDatabase");
 const routers_1 = require("../utils/routers");
+const genCreateStudentDashboardInDatabase_1 = require("src/templates/tasks/genCreateStudentDashboardInDatabase");
 exports.createRouter = (0, express_1.Router)();
 exports.createRouter.get("/insight", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
@@ -74,5 +75,21 @@ exports.createRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) 
     await (0, genEditStudentEssayInDatabase_1.genEditStudentEssayInDatabase)(validatedParams.params);
     return res.json({
         message: "essay task created",
+    });
+}));
+exports.createRouter.get("/dashboard", (0, routers_1.asyncHandler)(async (req, res) => {
+    const validatedParams = (0, routers_1.checkBodyParams)(req, [
+        "studentName",
+        "repPageId",
+        "studentPageId",
+        "folderLink",
+    ]);
+    if (!validatedParams.isValid)
+        return res.status(400).json({
+            message: validatedParams.error,
+        });
+    await (0, genCreateStudentDashboardInDatabase_1.genCreateStudentDashboardInDatabase)(validatedParams.params);
+    return res.json({
+        message: "task created",
     });
 }));
