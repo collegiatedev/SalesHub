@@ -24,7 +24,7 @@ export const generateEditStudentEssayInDatabase = async ({
     },
     icon: {
       type: "emoji",
-      emoji: "🔥",
+      emoji: "🧩",
     },
     properties: {
       Name: {

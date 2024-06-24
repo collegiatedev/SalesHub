@@ -11,7 +11,7 @@ const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName
         },
         icon: {
             type: "emoji",
-            emoji: "🔥",
+            emoji: "🧩",
         },
         properties: {
             Name: {
