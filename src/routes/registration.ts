@@ -9,6 +9,10 @@ import {
   CreateDatabaseInPageProps,
   createDatabaseInPage,
 } from "../templates/createDatabaseInPage";
+import {
+  GenerateContactInfoInDatabaseProps,
+  generateContactInfoInDatabase,
+} from "../templates/generateContactInfoInDatabase";
 
 // For some reason, need GET for Make.com to behave
 export const registrationRouter: Router = Router();
@@ -65,6 +69,33 @@ registrationRouter.get(
 
     return res.json({
       message: "table created, page updated",
+    });
+  })
+);
+
+registrationRouter.get(
+  "/contact",
+  asyncHandler(async (req: Request, res: Response) => {
+    const validatedParams =
+      checkQueryParams<GenerateContactInfoInDatabaseProps>(req, [
+        "parentId",
+        "studentEmail",
+        "studentPhone",
+        "parentEmail",
+        "parentPhone",
+        "studentName",
+        "parentName",
+      ]);
+
+    if (!validatedParams.isValid)
+      return res.status(400).json({
+        message: validatedParams.error,
+      });
+
+    await generateContactInfoInDatabase(validatedParams.params);
+
+    return res.json({
+      message: "parent insight response created",
     });
   })
 );
