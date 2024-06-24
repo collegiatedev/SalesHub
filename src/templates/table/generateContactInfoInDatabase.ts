@@ -1,41 +1,23 @@
-import { notionClient } from "../utils/clients";
+import { notionClient } from "../../utils/clients";
 
-export interface GenerateParentInsightResponseInDatabaseProps {
+export interface GenerateContactInfoInDatabaseProps {
   parentId: string;
-  name: string;
-  whyNow: string;
-  programFit: string;
-  programSupport: string;
+  studentEmail: string;
+  studentPhone: string;
+  parentEmail: string;
+  parentPhone: string;
+  studentName: string;
+  parentName: string;
 }
-
-export const generateParentInsightResponseInDatabase = async ({
+export const generateContactInfoInDatabase = async ({
   parentId,
-  name,
-  whyNow,
-  programFit,
-  programSupport,
-}: GenerateParentInsightResponseInDatabaseProps) => {
-  const supports = programSupport.split(",").map((support) => ({
-    bulleted_list_item: {
-      rich_text: [
-        {
-          type: "text",
-          text: {
-            content: support,
-            link: null,
-          },
-          annotations: {
-            bold: false,
-            italic: false,
-            strikethrough: false,
-            underline: false,
-            code: false,
-            color: "default",
-          },
-        },
-      ],
-    },
-  }));
+  studentEmail,
+  studentPhone,
+  parentEmail,
+  parentPhone,
+  studentName,
+  parentName,
+}: GenerateContactInfoInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create({
     parent: {
@@ -44,14 +26,14 @@ export const generateParentInsightResponseInDatabase = async ({
     },
     icon: {
       type: "emoji",
-      emoji: "🔗",
+      emoji: "📞",
     },
     properties: {
       Name: {
         title: [
           {
             text: {
-              content: `${name}’s Parent Insight Response`,
+              content: `${studentName}'s Contact Info`,
             },
           },
         ],
@@ -62,12 +44,12 @@ export const generateParentInsightResponseInDatabase = async ({
     block_id: page.id,
     children: [
       {
-        heading_2: {
+        heading_3: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: "Why Now?",
+                content: "Student",
                 link: null,
               },
               annotations: {
@@ -85,12 +67,12 @@ export const generateParentInsightResponseInDatabase = async ({
         },
       },
       {
-        paragraph: {
+        bulleted_list_item: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: whyNow,
+                content: `email: ${studentEmail}`,
                 link: null,
               },
               annotations: {
@@ -107,35 +89,12 @@ export const generateParentInsightResponseInDatabase = async ({
         },
       },
       {
-        heading_2: {
+        bulleted_list_item: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: "Program Fit",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          is_toggleable: false,
-          color: "default",
-        },
-      },
-      {
-        paragraph: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: programFit,
+                content: `phone: ${studentPhone}`,
                 link: null,
               },
               annotations: {
@@ -152,12 +111,12 @@ export const generateParentInsightResponseInDatabase = async ({
         },
       },
       {
-        heading_2: {
+        heading_3: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: "Program Support",
+                content: "Parent",
                 link: null,
               },
               annotations: {
@@ -174,24 +133,73 @@ export const generateParentInsightResponseInDatabase = async ({
           color: "default",
         },
       },
-      // notion typing check is broken
-      // @ts-ignore
-      ...supports,
-      // @ts-ignore
       {
-        paragraph: {
-          rich_text: [],
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: `name: ${parentName}`,
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
           color: "default",
         },
       },
-      // @ts-ignore
       {
-        paragraph: {
-          rich_text: [],
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: `email: ${parentEmail}`,
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          color: "default",
+        },
+      },
+      {
+        bulleted_list_item: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: `phone: ${parentPhone}`,
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
           color: "default",
         },
       },
     ],
   });
-  keyMap.set("c4fc5284367a45519d15c9a0bad9f8bd", res.results);
+  keyMap.set("1f9f9997ab4441e2a4be000dbc14e9da", res.results);
 };

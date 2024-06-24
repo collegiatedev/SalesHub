@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createRouter = void 0;
 const express_1 = require("express");
-const generateParentInsightResponseInDatabase_1 = require("../templates/generateParentInsightResponseInDatabase");
+const generateParentInsightResponseInDatabase_1 = require("../templates/table/generateParentInsightResponseInDatabase");
+const generatePostC1DebriefInDatabase_1 = require("../templates/table/generatePostC1DebriefInDatabase");
+const generateStudentBackgroundResponseInDatabase_1 = require("../templates/table/generateStudentBackgroundResponseInDatabase");
+const generateEditStudentEssayInDatabase_1 = require("../templates/tasks/generateEditStudentEssayInDatabase");
 const routers_1 = require("../utils/routers");
-const generatePostC1DebriefInDatabase_1 = require("../templates/generatePostC1DebriefInDatabase");
-const generateStudentBackgroundResponseInDatabase_1 = require("../templates/generateStudentBackgroundResponseInDatabase");
-const generateEditStudentEssayInDatabase_1 = require("../templates/generateEditStudentEssayInDatabase");
 exports.createRouter = (0, express_1.Router)();
 exports.createRouter.get("/insight", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [

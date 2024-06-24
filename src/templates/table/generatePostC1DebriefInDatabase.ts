@@ -1,48 +1,27 @@
-import { notionClient } from "../utils/clients";
-import { notProvided } from "./utils/notProvided";
+import { notionClient } from "../../utils/clients";
 
-export interface GenerateStudentBackgroundResponseInDatabaseProps {
+export interface GeneratePostC1DebriefInDatabaseProps {
   parentId: string;
   name: string;
-  uGPA: string;
-  wGPA: string;
-  additionalAcademic: string;
-  additionalActivity: string;
-  professionalLinks: string;
-  transcripts: string;
-  resumePortfolios: string;
+  activities: string;
+  pronunciation: string;
+  pronouns: string;
+  intended: string;
+  plans: string;
+  profile: string;
+  additional: string;
 }
-export const generateStudentBackgroundResponseInDatabase = async ({
+export const generatePostC1DebriefInDatabase = async ({
   parentId,
   name,
-  uGPA,
-  wGPA,
-  additionalAcademic,
-  additionalActivity,
-  professionalLinks,
-  transcripts,
-  resumePortfolios,
-}: GenerateStudentBackgroundResponseInDatabaseProps) => {
-  const t =
-    transcripts !== ""
-      ? transcripts.split(",").map((transcript) => ({
-          bookmark: {
-            caption: [],
-            url: transcript,
-          },
-        }))
-      : notProvided("transcripts");
-
-  const rp =
-    resumePortfolios !== ""
-      ? resumePortfolios.split(",").map((resumePortfolio) => ({
-          bookmark: {
-            caption: [],
-            url: resumePortfolio,
-          },
-        }))
-      : notProvided("resume/portfolios");
-
+  activities,
+  pronunciation,
+  pronouns,
+  intended,
+  plans,
+  profile,
+  additional,
+}: GeneratePostC1DebriefInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create({
     parent: {
@@ -51,14 +30,14 @@ export const generateStudentBackgroundResponseInDatabase = async ({
     },
     icon: {
       type: "emoji",
-      emoji: "🚸",
+      emoji: "💬",
     },
     properties: {
       Name: {
         title: [
           {
             text: {
-              content: `${name}'s Student Background Response`,
+              content: `${name}'s Post-C1 Debrief`,
             },
           },
         ],
@@ -69,12 +48,12 @@ export const generateStudentBackgroundResponseInDatabase = async ({
     block_id: page.id,
     children: [
       {
-        heading_1: {
+        heading_2: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: "Academics",
+                content: "Name",
                 link: null,
               },
               annotations: {
@@ -92,12 +71,81 @@ export const generateStudentBackgroundResponseInDatabase = async ({
         },
       },
       {
-        heading_1: {
+        heading_2: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: "Activities",
+                content: "EC/Activity Analysis",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          is_toggleable: true,
+          color: "default",
+        },
+      },
+      {
+        heading_2: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Profile Analysis",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          is_toggleable: true,
+          color: "default",
+        },
+      },
+      {
+        heading_2: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Summer/Winter Plans",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          is_toggleable: true,
+          color: "default",
+        },
+      },
+      {
+        heading_2: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Else",
                 link: null,
               },
               annotations: {
@@ -116,116 +164,22 @@ export const generateStudentBackgroundResponseInDatabase = async ({
       },
     ],
   });
-  keyMap.set("af235ba604404652ae140e19167babca", res.results);
+  keyMap.set("22f0e49346f4401994d1a532bac9c303", res.results);
 
   let promises = [];
 
   promises.push(
     (async () => {
       const res = await notionClient.blocks.children.append({
-        block_id: keyMap.get("af235ba604404652ae140e19167babca")![1].id,
+        block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![1].id,
         children: [
           {
-            heading_3: {
-              rich_text: [
-                {
-                  type: "text",
-                  text: {
-                    content: "Resume/Portfolios",
-                    link: null,
-                  },
-                  annotations: {
-                    bold: false,
-                    italic: false,
-                    strikethrough: false,
-                    underline: false,
-                    code: false,
-                    color: "default",
-                  },
-                },
-              ],
-              is_toggleable: false,
-              color: "default",
-            },
-          },
-
-          // @ts-ignore
-          ...rp,
-          {
-            heading_3: {
-              rich_text: [
-                {
-                  type: "text",
-                  text: {
-                    content: "Professional Links",
-                    link: null,
-                  },
-                  annotations: {
-                    bold: false,
-                    italic: false,
-                    strikethrough: false,
-                    underline: false,
-                    code: false,
-                    color: "default",
-                  },
-                },
-              ],
-              is_toggleable: false,
-              color: "default",
-            },
-          },
-          {
             paragraph: {
               rich_text: [
                 {
                   type: "text",
                   text: {
-                    content: professionalLinks,
-                    link: null,
-                  },
-                  annotations: {
-                    bold: false,
-                    italic: false,
-                    strikethrough: false,
-                    underline: false,
-                    code: false,
-                    color: "default",
-                  },
-                },
-              ],
-              color: "default",
-            },
-          },
-          {
-            heading_3: {
-              rich_text: [
-                {
-                  type: "text",
-                  text: {
-                    content: "Additional Activity Info",
-                    link: null,
-                  },
-                  annotations: {
-                    bold: false,
-                    italic: false,
-                    strikethrough: false,
-                    underline: false,
-                    code: false,
-                    color: "default",
-                  },
-                },
-              ],
-              is_toggleable: false,
-              color: "default",
-            },
-          },
-          {
-            paragraph: {
-              rich_text: [
-                {
-                  type: "text",
-                  text: {
-                    content: additionalActivity,
+                    content: activities,
                     link: null,
                   },
                   annotations: {
@@ -243,15 +197,15 @@ export const generateStudentBackgroundResponseInDatabase = async ({
           },
         ],
       });
-      keyMap.set("6a467a1f-e15d-4cab-a51b-b88df742b836", res.results);
-      console.log("Created: 6a467a1f-e15d-4cab-a51b-b88df742b836");
+      keyMap.set("0c58594e-7e5a-4239-b338-01b88d5aa883", res.results);
+      console.log("Created: 0c58594e-7e5a-4239-b338-01b88d5aa883");
     })()
   );
 
   promises.push(
     (async () => {
       const res = await notionClient.blocks.children.append({
-        block_id: keyMap.get("af235ba604404652ae140e19167babca")![0].id,
+        block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![0].id,
         children: [
           {
             heading_3: {
@@ -259,7 +213,52 @@ export const generateStudentBackgroundResponseInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: "Grade",
+                    content: "Pronunciation",
+                    link: null,
+                  },
+                  annotations: {
+                    bold: true,
+                    italic: false,
+                    strikethrough: false,
+                    underline: false,
+                    code: false,
+                    color: "default",
+                  },
+                },
+              ],
+              is_toggleable: false,
+              color: "default",
+            },
+          },
+          {
+            paragraph: {
+              rich_text: [
+                {
+                  type: "text",
+                  text: {
+                    content: pronunciation,
+                    link: null,
+                  },
+                  annotations: {
+                    bold: false,
+                    italic: false,
+                    strikethrough: false,
+                    underline: false,
+                    code: false,
+                    color: "default",
+                  },
+                },
+              ],
+              color: "default",
+            },
+          },
+          {
+            heading_3: {
+              rich_text: [
+                {
+                  type: "text",
+                  text: {
+                    content: "Pronouns",
                     link: null,
                   },
                   annotations: {
@@ -282,7 +281,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: `uGPA: ${uGPA}, wGPA: ${wGPA}`,
+                    content: pronouns,
                     link: null,
                   },
                   annotations: {
@@ -304,32 +303,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: "Transcripts",
-                    link: null,
-                  },
-                  annotations: {
-                    bold: false,
-                    italic: false,
-                    strikethrough: false,
-                    underline: false,
-                    code: false,
-                    color: "default",
-                  },
-                },
-              ],
-              is_toggleable: false,
-              color: "default",
-            },
-          },
-          // @ts-ignore
-          ...t,
-          {
-            heading_3: {
-              rich_text: [
-                {
-                  type: "text",
-                  text: {
-                    content: "Additional Academic Info",
+                    content: "Intended Major/Career Interest",
                     link: null,
                   },
                   annotations: {
@@ -352,7 +326,7 @@ export const generateStudentBackgroundResponseInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: additionalAcademic,
+                    content: intended,
                     link: null,
                   },
                   annotations: {
@@ -370,8 +344,110 @@ export const generateStudentBackgroundResponseInDatabase = async ({
           },
         ],
       });
-      keyMap.set("8786c3af-0d3c-4057-978e-9588e328d879", res.results);
-      console.log("Created: 8786c3af-0d3c-4057-978e-9588e328d879");
+      keyMap.set("30c55fb7-57a9-4582-8cdb-1748941579fb", res.results);
+      console.log("Created: 30c55fb7-57a9-4582-8cdb-1748941579fb");
+    })()
+  );
+
+  promises.push(
+    (async () => {
+      const res = await notionClient.blocks.children.append({
+        block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![3].id,
+        children: [
+          {
+            paragraph: {
+              rich_text: [
+                {
+                  type: "text",
+                  text: {
+                    content: plans,
+                    link: null,
+                  },
+                  annotations: {
+                    bold: false,
+                    italic: false,
+                    strikethrough: false,
+                    underline: false,
+                    code: false,
+                    color: "default",
+                  },
+                },
+              ],
+              color: "default",
+            },
+          },
+        ],
+      });
+      keyMap.set("44145c96-26be-49b0-b706-3cf7c20db9b4", res.results);
+      console.log("Created: 44145c96-26be-49b0-b706-3cf7c20db9b4");
+    })()
+  );
+
+  promises.push(
+    (async () => {
+      const res = await notionClient.blocks.children.append({
+        block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![2].id,
+        children: [
+          {
+            paragraph: {
+              rich_text: [
+                {
+                  type: "text",
+                  text: {
+                    content: profile,
+                    link: null,
+                  },
+                  annotations: {
+                    bold: false,
+                    italic: false,
+                    strikethrough: false,
+                    underline: false,
+                    code: false,
+                    color: "default",
+                  },
+                },
+              ],
+              color: "default",
+            },
+          },
+        ],
+      });
+      keyMap.set("a474e3ff-96cc-4136-91b4-9538ca9886aa", res.results);
+      console.log("Created: a474e3ff-96cc-4136-91b4-9538ca9886aa");
+    })()
+  );
+
+  promises.push(
+    (async () => {
+      const res = await notionClient.blocks.children.append({
+        block_id: keyMap.get("22f0e49346f4401994d1a532bac9c303")![4].id,
+        children: [
+          {
+            paragraph: {
+              rich_text: [
+                {
+                  type: "text",
+                  text: {
+                    content: additional,
+                    link: null,
+                  },
+                  annotations: {
+                    bold: false,
+                    italic: false,
+                    strikethrough: false,
+                    underline: false,
+                    code: false,
+                    color: "default",
+                  },
+                },
+              ],
+              color: "default",
+            },
+          },
+        ],
+      });
+      keyMap.set("a671eb1e-75cc-4619-9d08-e8fec4df2cdf", res.results);
+      console.log("Created: a671eb1e-75cc-4619-9d08-e8fec4df2cdf");
     })()
   );
 

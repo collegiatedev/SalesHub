@@ -1,5 +1,5 @@
 // COMPLETED
-import { notionClient } from "../utils/clients";
+import { notionClient } from "../../utils/clients";
 
 export interface GenerateConductC1MeetingInDatabaseProps {
   parentId: string; // in terms of notionClient

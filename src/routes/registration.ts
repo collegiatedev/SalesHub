@@ -1,18 +1,18 @@
 import { Router, Request, Response } from "express";
 import {
-  generateConductC1MeetingInDatabase,
-  GenerateConductC1MeetingInDatabaseProps,
-} from "../templates/generateConductC1MeetingInDatabase";
-import { asyncHandler, checkQueryParams } from "../utils/routers";
-import { ACCELERATOR_TASKS_DB } from "../utils/constants";
-import {
   CreateDatabaseInPageProps,
   createDatabaseInPage,
 } from "../templates/createDatabaseInPage";
 import {
   GenerateContactInfoInDatabaseProps,
   generateContactInfoInDatabase,
-} from "../templates/generateContactInfoInDatabase";
+} from "../templates/table/generateContactInfoInDatabase";
+import {
+  GenerateConductC1MeetingInDatabaseProps,
+  generateConductC1MeetingInDatabase,
+} from "../templates/tasks/generateConductC1MeetingInDatabase";
+import { ACCELERATOR_TASKS_DB } from "../utils/constants";
+import { asyncHandler, checkQueryParams } from "../utils/routers";
 
 // For some reason, need GET for Make.com to behave
 export const registrationRouter: Router = Router();

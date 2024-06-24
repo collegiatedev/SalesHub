@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registrationRouter = void 0;
 const express_1 = require("express");
-const generateConductC1MeetingInDatabase_1 = require("../templates/generateConductC1MeetingInDatabase");
-const routers_1 = require("../utils/routers");
-const constants_1 = require("../utils/constants");
 const createDatabaseInPage_1 = require("../templates/createDatabaseInPage");
-const generateContactInfoInDatabase_1 = require("../templates/generateContactInfoInDatabase");
+const generateContactInfoInDatabase_1 = require("../templates/table/generateContactInfoInDatabase");
+const generateConductC1MeetingInDatabase_1 = require("../templates/tasks/generateConductC1MeetingInDatabase");
+const constants_1 = require("../utils/constants");
+const routers_1 = require("../utils/routers");
 // For some reason, need GET for Make.com to behave
 exports.registrationRouter = (0, express_1.Router)();
 // example url: http://localhost:8080/registration/conduct?studentId=kz7zh7t2aw&studentFullName=John%20Doe&studentEmail=johndoe@example.com&studentNumber=+19254873772&parentEmail=parent@example.com&parentNumber=+19254873772&repPageId=cece3b6098b3469ebd2261ebd7319aad&leadPageId=3eca26b8664a478a8e7060967dd79c3f&repId=737019&grade=8th&time=2021-10-01T00:00:00.000Z

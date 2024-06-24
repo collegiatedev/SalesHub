@@ -1,4 +1,4 @@
-import { notionClient } from "../utils/clients";
+import { notionClient } from "../../utils/clients";
 
 export interface GenerateEditStudentEssayInDatabaseProps {
   parentId: string;

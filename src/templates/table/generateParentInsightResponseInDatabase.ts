@@ -1,23 +1,41 @@
-import { notionClient } from "../utils/clients";
+import { notionClient } from "../../utils/clients";
 
-export interface GenerateContactInfoInDatabaseProps {
+export interface GenerateParentInsightResponseInDatabaseProps {
   parentId: string;
-  studentEmail: string;
-  studentPhone: string;
-  parentEmail: string;
-  parentPhone: string;
-  studentName: string;
-  parentName: string;
+  name: string;
+  whyNow: string;
+  programFit: string;
+  programSupport: string;
 }
-export const generateContactInfoInDatabase = async ({
+
+export const generateParentInsightResponseInDatabase = async ({
   parentId,
-  studentEmail,
-  studentPhone,
-  parentEmail,
-  parentPhone,
-  studentName,
-  parentName,
-}: GenerateContactInfoInDatabaseProps) => {
+  name,
+  whyNow,
+  programFit,
+  programSupport,
+}: GenerateParentInsightResponseInDatabaseProps) => {
+  const supports = programSupport.split(",").map((support) => ({
+    bulleted_list_item: {
+      rich_text: [
+        {
+          type: "text",
+          text: {
+            content: support,
+            link: null,
+          },
+          annotations: {
+            bold: false,
+            italic: false,
+            strikethrough: false,
+            underline: false,
+            code: false,
+            color: "default",
+          },
+        },
+      ],
+    },
+  }));
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create({
     parent: {
@@ -26,14 +44,14 @@ export const generateContactInfoInDatabase = async ({
     },
     icon: {
       type: "emoji",
-      emoji: "📞",
+      emoji: "🔗",
     },
     properties: {
       Name: {
         title: [
           {
             text: {
-              content: `${studentName}'s Contact Info`,
+              content: `${name}’s Parent Insight Response`,
             },
           },
         ],
@@ -44,12 +62,12 @@ export const generateContactInfoInDatabase = async ({
     block_id: page.id,
     children: [
       {
-        heading_3: {
+        heading_2: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: "Student",
+                content: "Why Now?",
                 link: null,
               },
               annotations: {
@@ -67,12 +85,12 @@ export const generateContactInfoInDatabase = async ({
         },
       },
       {
-        bulleted_list_item: {
+        paragraph: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: `email: ${studentEmail}`,
+                content: whyNow,
                 link: null,
               },
               annotations: {
@@ -89,34 +107,12 @@ export const generateContactInfoInDatabase = async ({
         },
       },
       {
-        bulleted_list_item: {
+        heading_2: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: `phone: ${studentPhone}`,
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        heading_3: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Parent",
+                content: "Program Fit",
                 link: null,
               },
               annotations: {
@@ -134,12 +130,12 @@ export const generateContactInfoInDatabase = async ({
         },
       },
       {
-        bulleted_list_item: {
+        paragraph: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: `name: ${parentName}`,
+                content: programFit,
                 link: null,
               },
               annotations: {
@@ -156,12 +152,12 @@ export const generateContactInfoInDatabase = async ({
         },
       },
       {
-        bulleted_list_item: {
+        heading_2: {
           rich_text: [
             {
               type: "text",
               text: {
-                content: `email: ${parentEmail}`,
+                content: "Program Support",
                 link: null,
               },
               annotations: {
@@ -174,32 +170,28 @@ export const generateContactInfoInDatabase = async ({
               },
             },
           ],
+          is_toggleable: false,
           color: "default",
         },
       },
+      // notion typing check is broken
+      // @ts-ignore
+      ...supports,
+      // @ts-ignore
       {
-        bulleted_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: `phone: ${parentPhone}`,
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
+        paragraph: {
+          rich_text: [],
+          color: "default",
+        },
+      },
+      // @ts-ignore
+      {
+        paragraph: {
+          rich_text: [],
           color: "default",
         },
       },
     ],
   });
-  keyMap.set("1f9f9997ab4441e2a4be000dbc14e9da", res.results);
+  keyMap.set("c4fc5284367a45519d15c9a0bad9f8bd", res.results);
 };

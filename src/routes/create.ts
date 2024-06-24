@@ -1,25 +1,25 @@
 import { Router, Request, Response } from "express";
 import {
-  generateParentInsightResponseInDatabase,
   GenerateParentInsightResponseInDatabaseProps,
-} from "../templates/generateParentInsightResponseInDatabase";
+  generateParentInsightResponseInDatabase,
+} from "../templates/table/generateParentInsightResponseInDatabase";
+import {
+  GeneratePostC1DebriefInDatabaseProps,
+  generatePostC1DebriefInDatabase,
+} from "../templates/table/generatePostC1DebriefInDatabase";
+import {
+  GenerateStudentBackgroundResponseInDatabaseProps,
+  generateStudentBackgroundResponseInDatabase,
+} from "../templates/table/generateStudentBackgroundResponseInDatabase";
+import {
+  GenerateEditStudentEssayInDatabaseProps,
+  generateEditStudentEssayInDatabase,
+} from "../templates/tasks/generateEditStudentEssayInDatabase";
 import {
   asyncHandler,
-  checkBodyParams,
   checkQueryParams,
+  checkBodyParams,
 } from "../utils/routers";
-import {
-  generatePostC1DebriefInDatabase,
-  GeneratePostC1DebriefInDatabaseProps,
-} from "../templates/generatePostC1DebriefInDatabase";
-import {
-  generateStudentBackgroundResponseInDatabase,
-  GenerateStudentBackgroundResponseInDatabaseProps,
-} from "../templates/generateStudentBackgroundResponseInDatabase";
-import {
-  generateEditStudentEssayInDatabase,
-  GenerateEditStudentEssayInDatabaseProps,
-} from "../templates/generateEditStudentEssayInDatabase";
 
 export const createRouter: Router = Router();
 
