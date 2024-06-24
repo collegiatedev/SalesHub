@@ -1,26 +1,26 @@
+import {
+  ACCELERATOR_TASKS_DB,
+  EDIT_STUDENT_ESSAY_TASK,
+} from "../../utils/constants";
 import { notionClient } from "../../utils/clients";
+import { RequiredTaskFields } from "../utils/requiredTaskFields";
 
-export interface GenerateEditStudentEssayInDatabaseProps {
-  parentId: string;
-  repId: string;
-  studentName: string;
-  studentPageId: string;
+export interface GenEditStudentEssayInDatabaseProps extends RequiredTaskFields {
   docLink: string;
   fileLink: string;
 }
-export const generateEditStudentEssayInDatabase = async ({
-  parentId,
-  repId,
+export const genEditStudentEssayInDatabase = async ({
   studentName,
   studentPageId,
+  repPageId,
   docLink,
   fileLink,
-}: GenerateEditStudentEssayInDatabaseProps) => {
+}: GenEditStudentEssayInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create({
     parent: {
       type: "database_id",
-      database_id: parentId,
+      database_id: ACCELERATOR_TASKS_DB,
     },
     icon: {
       type: "emoji",
@@ -46,14 +46,14 @@ export const generateEditStudentEssayInDatabase = async ({
       Assigned: {
         relation: [
           {
-            id: repId,
+            id: repPageId,
           },
         ],
       },
       "🚅 Task": {
         relation: [
           {
-            id: "0d286379401143628168cbf237940f66",
+            id: EDIT_STUDENT_ESSAY_TASK,
           },
         ],
       },

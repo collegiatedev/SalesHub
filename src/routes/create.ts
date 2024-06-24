@@ -12,10 +12,9 @@ import {
   generateStudentBackgroundResponseInDatabase,
 } from "../templates/table/generateStudentBackgroundResponseInDatabase";
 import {
-  GenerateEditStudentEssayInDatabaseProps,
-  generateEditStudentEssayInDatabase,
-} from "../templates/tasks/generateEditStudentEssayInDatabase";
-import { ACCELERATOR_TASKS_DB } from "../utils/constants";
+  GenEditStudentEssayInDatabaseProps,
+  genEditStudentEssayInDatabase,
+} from "../templates/tasks/genEditStudentEssayInDatabase";
 import {
   asyncHandler,
   checkQueryParams,
@@ -112,24 +111,17 @@ createRouter.get(
   "/essay",
   asyncHandler(async (req: Request, res: Response) => {
     // using body params because url string ruins the header query
-    const validatedParams =
-      checkBodyParams<GenerateEditStudentEssayInDatabaseProps>(req, [
-        "repId",
-        "studentName",
-        "studentPageId",
-        "docLink",
-        "fileLink",
-      ]);
+    const validatedParams = checkBodyParams<GenEditStudentEssayInDatabaseProps>(
+      req,
+      ["repPageId", "studentName", "studentPageId", "docLink", "fileLink"]
+    );
 
     if (!validatedParams.isValid)
       return res.status(400).json({
         message: validatedParams.error,
       });
 
-    await generateEditStudentEssayInDatabase({
-      ...validatedParams.params,
-      parentId: ACCELERATOR_TASKS_DB,
-    });
+    await genEditStudentEssayInDatabase(validatedParams.params);
 
     return res.json({
       message: "essay task created",

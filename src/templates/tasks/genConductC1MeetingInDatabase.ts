@@ -1,44 +1,44 @@
 // COMPLETED
+import {
+  ACCELERATOR_TASKS_DB,
+  CONDUCT_C1_MEETING_TASK,
+} from "../../utils/constants";
 import { notionClient } from "../../utils/clients";
+import { RequiredTaskFields } from "../utils/requiredTaskFields";
 
-export interface GenerateConductC1MeetingInDatabaseProps {
-  parentId: string; // in terms of notionClient
+export interface GenConductC1MeetingInDatabaseProps extends RequiredTaskFields {
   // passed from api
   studentId: string; // in terms of content
-  studentFullName: string;
   studentEmail: string;
   studentNumber: string;
   parentEmail: string;
   parentNumber: string;
-  leadPageId: string;
-  repPageId: string;
   repId: string;
   grade: string;
   time: string;
 }
-export const generateConductC1MeetingInDatabase = async ({
-  parentId,
+export const genConductC1MeetingInDatabase = async ({
   studentId,
-  studentFullName,
+  studentName,
   studentEmail,
+  studentPageId,
   studentNumber,
   parentEmail,
   parentNumber,
-  leadPageId,
   repPageId,
   repId,
   grade,
   time,
-}: GenerateConductC1MeetingInDatabaseProps) => {
+}: GenConductC1MeetingInDatabaseProps) => {
   try {
-    const studentInUrl = studentFullName.replace(" ", "%20");
+    const studentInUrl = studentName.replace(" ", "%20");
     const c2Link = `https://www.collegiate.dev/c2?id=${studentId}&fullname=${studentInUrl}&grade=${grade}`;
     const c3Link = `https://www.collegiate.dev/c3?id=${studentId}&fullname=${studentInUrl}&rep=${repId}`;
     const keyMap = new Map<string, Array<any>>();
     const page = await notionClient.pages.create({
       parent: {
         type: "database_id",
-        database_id: parentId,
+        database_id: ACCELERATOR_TASKS_DB,
       },
       icon: {
         type: "emoji",
@@ -49,7 +49,7 @@ export const generateConductC1MeetingInDatabase = async ({
           title: [
             {
               text: {
-                content: `${studentFullName} - Conduct C1 Meeting`,
+                content: `${studentName} - Conduct C1 Meeting`,
               },
             },
           ],
@@ -57,7 +57,7 @@ export const generateConductC1MeetingInDatabase = async ({
         "🚈 Lead": {
           relation: [
             {
-              id: leadPageId,
+              id: studentPageId,
             },
           ],
         },
@@ -71,7 +71,7 @@ export const generateConductC1MeetingInDatabase = async ({
         "🚅 Task": {
           relation: [
             {
-              id: "50161c5bf2c14905b7a49e6fa33d5d5b",
+              id: CONDUCT_C1_MEETING_TASK,
             },
           ],
         },
@@ -277,7 +277,7 @@ export const generateConductC1MeetingInDatabase = async ({
                 },
               },
             ],
-            url: `https://tally.so/r/npAVYb?id=${studentId}&fullname=${studentFullName}`,
+            url: `https://tally.so/r/npAVYb?id=${studentId}&fullname=${studentName}`,
           },
         },
       ],
@@ -1502,7 +1502,7 @@ export const generateConductC1MeetingInDatabase = async ({
                     type: "text",
                     text: {
                       content: `Hi ${
-                        studentFullName.split(" ")[0]
+                        studentName.split(" ")[0]
                       } and Family, it was a pleasure meeting! Here are the forms to complete to continue with Collegiate:`,
                       link: null,
                     },

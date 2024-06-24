@@ -1,5 +1,4 @@
-export interface GenerateConductC1MeetingInDatabaseProps {
-    parentId: string;
+export interface GenConductC1MeetingInDatabaseProps {
     studentId: string;
     studentFullName: string;
     studentEmail: string;
@@ -12,4 +11,4 @@ export interface GenerateConductC1MeetingInDatabaseProps {
     grade: string;
     time: string;
 }
-export declare const generateConductC1MeetingInDatabase: ({ parentId, studentId, studentFullName, studentEmail, studentNumber, parentEmail, parentNumber, leadPageId, repPageId, repId, grade, time, }: GenerateConductC1MeetingInDatabaseProps) => Promise<void>;
+export declare const genConductC1MeetingInDatabase: ({ studentId, studentFullName, studentEmail, studentNumber, parentEmail, parentNumber, leadPageId, repPageId, repId, grade, time, }: GenConductC1MeetingInDatabaseProps) => Promise<void>;

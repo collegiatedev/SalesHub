@@ -1,15 +1,13 @@
 import { Router, Request, Response } from "express";
-
 import { asyncHandler, checkQueryParams } from "../utils/routers";
-import { ACCELERATOR_TASKS_DB } from "../utils/constants";
 import {
   CreateDatabaseInPageProps,
   createDatabaseInPage,
 } from "../templates/createDatabaseInPage";
 import {
-  generateConductC1MeetingInDatabase,
-  GenerateConductC1MeetingInDatabaseProps,
-} from "../templates/tasks/generateConductC1MeetingInDatabase";
+  genConductC1MeetingInDatabase,
+  GenConductC1MeetingInDatabaseProps,
+} from "../templates/tasks/genConductC1MeetingInDatabase";
 import {
   GenerateContactInfoInDatabaseProps,
   generateContactInfoInDatabase,
@@ -23,15 +21,15 @@ registrationRouter.get(
   "/conduct",
   asyncHandler(async (req: Request, res: Response) => {
     const validatedParams =
-      checkQueryParams<GenerateConductC1MeetingInDatabaseProps>(req, [
+      checkQueryParams<GenConductC1MeetingInDatabaseProps>(req, [
         "studentId",
-        "studentFullName",
+        "studentName",
         "studentEmail",
         "studentNumber",
         "parentEmail",
         "parentNumber",
         "repPageId",
-        "leadPageId",
+        "studentPageId",
         "repId",
         "grade",
         "time",
@@ -42,10 +40,7 @@ registrationRouter.get(
         message: validatedParams.error,
       });
 
-    await generateConductC1MeetingInDatabase({
-      ...validatedParams.params,
-      parentId: ACCELERATOR_TASKS_DB,
-    });
+    await genConductC1MeetingInDatabase(validatedParams.params);
 
     return res.json({
       message: "task created",

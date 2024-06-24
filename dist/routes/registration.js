@@ -3,9 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.registrationRouter = void 0;
 const express_1 = require("express");
 const routers_1 = require("../utils/routers");
-const constants_1 = require("../utils/constants");
 const createDatabaseInPage_1 = require("../templates/createDatabaseInPage");
-const generateConductC1MeetingInDatabase_1 = require("../templates/tasks/generateConductC1MeetingInDatabase");
+const genConductC1MeetingInDatabase_1 = require("../templates/tasks/genConductC1MeetingInDatabase");
 const generateContactInfoInDatabase_1 = require("../templates/table/generateContactInfoInDatabase");
 // For some reason, need GET for Make.com to behave
 exports.registrationRouter = (0, express_1.Router)();
@@ -13,13 +12,13 @@ exports.registrationRouter = (0, express_1.Router)();
 exports.registrationRouter.get("/conduct", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
         "studentId",
-        "studentFullName",
+        "studentName",
         "studentEmail",
         "studentNumber",
         "parentEmail",
         "parentNumber",
         "repPageId",
-        "leadPageId",
+        "studentPageId",
         "repId",
         "grade",
         "time",
@@ -28,10 +27,7 @@ exports.registrationRouter.get("/conduct", (0, routers_1.asyncHandler)(async (re
         return res.status(400).json({
             message: validatedParams.error,
         });
-    await (0, generateConductC1MeetingInDatabase_1.generateConductC1MeetingInDatabase)({
-        ...validatedParams.params,
-        parentId: constants_1.ACCELERATOR_TASKS_DB,
-    });
+    await (0, genConductC1MeetingInDatabase_1.genConductC1MeetingInDatabase)(validatedParams.params);
     return res.json({
         message: "task created",
     });

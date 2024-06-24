@@ -4,9 +4,9 @@ exports.genConductC1MeetingInDatabase = void 0;
 // COMPLETED
 const constants_1 = require("../../utils/constants");
 const clients_1 = require("../../utils/clients");
-const genConductC1MeetingInDatabase = async ({ studentId, studentFullName, studentEmail, studentNumber, parentEmail, parentNumber, leadPageId, repPageId, repId, grade, time, }) => {
+const genConductC1MeetingInDatabase = async ({ studentId, studentName, studentEmail, studentPageId, studentNumber, parentEmail, parentNumber, repPageId, repId, grade, time, }) => {
     try {
-        const studentInUrl = studentFullName.replace(" ", "%20");
+        const studentInUrl = studentName.replace(" ", "%20");
         const c2Link = `https://www.collegiate.dev/c2?id=${studentId}&fullname=${studentInUrl}&grade=${grade}`;
         const c3Link = `https://www.collegiate.dev/c3?id=${studentId}&fullname=${studentInUrl}&rep=${repId}`;
         const keyMap = new Map();
@@ -24,7 +24,7 @@ const genConductC1MeetingInDatabase = async ({ studentId, studentFullName, stude
                     title: [
                         {
                             text: {
-                                content: `${studentFullName} - Conduct C1 Meeting`,
+                                content: `${studentName} - Conduct C1 Meeting`,
                             },
                         },
                     ],
@@ -32,7 +32,7 @@ const genConductC1MeetingInDatabase = async ({ studentId, studentFullName, stude
                 "🚈 Lead": {
                     relation: [
                         {
-                            id: leadPageId,
+                            id: studentPageId,
                         },
                     ],
                 },
@@ -46,7 +46,7 @@ const genConductC1MeetingInDatabase = async ({ studentId, studentFullName, stude
                 "🚅 Task": {
                     relation: [
                         {
-                            id: "50161c5bf2c14905b7a49e6fa33d5d5b",
+                            id: constants_1.CONDUCT_C1_MEETING_TASK,
                         },
                     ],
                 },
@@ -252,7 +252,7 @@ const genConductC1MeetingInDatabase = async ({ studentId, studentFullName, stude
                                 },
                             },
                         ],
-                        url: `https://tally.so/r/npAVYb?id=${studentId}&fullname=${studentFullName}`,
+                        url: `https://tally.so/r/npAVYb?id=${studentId}&fullname=${studentName}`,
                     },
                 },
             ],
@@ -1426,7 +1426,7 @@ const genConductC1MeetingInDatabase = async ({ studentId, studentFullName, stude
                                 {
                                     type: "text",
                                     text: {
-                                        content: `Hi ${studentFullName.split(" ")[0]} and Family, it was a pleasure meeting! Here are the forms to complete to continue with Collegiate:`,
+                                        content: `Hi ${studentName.split(" ")[0]} and Family, it was a pleasure meeting! Here are the forms to complete to continue with Collegiate:`,
                                         link: null,
                                     },
                                     annotations: {
