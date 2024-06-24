@@ -78,7 +78,6 @@ registrationRouter.get(
   asyncHandler(async (req: Request, res: Response) => {
     const validatedParams =
       checkQueryParams<GenerateContactInfoInDatabaseProps>(req, [
-        "parentId",
         "studentEmail",
         "studentPhone",
         "parentEmail",
@@ -92,7 +91,10 @@ registrationRouter.get(
         message: validatedParams.error,
       });
 
-    await generateContactInfoInDatabase(validatedParams.params);
+    await generateContactInfoInDatabase({
+      ...validatedParams.params,
+      parentId: ACCELERATOR_TASKS_DB,
+    });
 
     return res.json({
       message: "parent insight response created",
