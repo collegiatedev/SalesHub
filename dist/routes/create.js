@@ -59,7 +59,6 @@ exports.createRouter.get("/background", (0, routers_1.asyncHandler)(async (req, 
         return res.status(400).json({
             message: validatedParams.error,
         });
-    console.log("here");
     await (0, generateStudentBackgroundResponseInDatabase_1.generateStudentBackgroundResponseInDatabase)(validatedParams.params);
     return res.json({
         message: "student background response created",
@@ -69,6 +68,9 @@ exports.createRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) 
     // using body params because url string ruins the header query
     const validatedParams = (0, routers_1.checkBodyParams)(req, [
         "parentId",
+        "repId",
+        "studentName",
+        "studentPageId",
         "docLink",
         "fileLink",
     ]);
@@ -76,9 +78,8 @@ exports.createRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) 
         return res.status(400).json({
             message: validatedParams.error,
         });
-    console.log("here");
     await (0, generateEditStudentEssayInDatabase_1.generateEditStudentEssayInDatabase)(validatedParams.params);
     return res.json({
-        message: "student background response created",
+        message: "essay task created",
     });
 }));

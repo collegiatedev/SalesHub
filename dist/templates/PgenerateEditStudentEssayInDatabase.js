@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateEditStudentEssayInDatabase = void 0;
 const clients_1 = require("../utils/clients");
-const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName, studentPageId, docLink, fileLink, }) => {
+const generateEditStudentEssayInDatabase = async ({ parentId, docLink, fileLink, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
         parent: {
@@ -18,29 +18,8 @@ const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName
                 title: [
                     {
                         text: {
-                            content: `${studentName} - Edit Student Essay`,
+                            content: "Edit Student Essay",
                         },
-                    },
-                ],
-            },
-            "🚈 Lead": {
-                relation: [
-                    {
-                        id: studentPageId,
-                    },
-                ],
-            },
-            Assigned: {
-                relation: [
-                    {
-                        id: repId,
-                    },
-                ],
-            },
-            "🚅 Task": {
-                relation: [
-                    {
-                        id: "0d286379401143628168cbf237940f66",
                     },
                 ],
             },
@@ -95,35 +74,12 @@ const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName
                 },
             },
             {
-                heading_3: {
+                numbered_list_item: {
                     rich_text: [
                         {
                             type: "text",
                             text: {
-                                content: "Essay Feedback",
-                                link: null,
-                            },
-                            annotations: {
-                                bold: false,
-                                italic: false,
-                                strikethrough: false,
-                                underline: false,
-                                code: false,
-                                color: "default",
-                            },
-                        },
-                    ],
-                    is_toggleable: false,
-                    color: "default",
-                },
-            },
-            {
-                paragraph: {
-                    rich_text: [
-                        {
-                            type: "text",
-                            text: {
-                                content: "Use the ",
+                                content: "Give essay feedback based on the ",
                                 link: null,
                             },
                             annotations: {
@@ -151,7 +107,28 @@ const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName
                                 color: "default",
                             },
                         },
+                        {
+                            type: "text",
+                            text: {
+                                content: " ",
+                                link: null,
+                            },
+                            annotations: {
+                                bold: false,
+                                italic: false,
+                                strikethrough: false,
+                                underline: false,
+                                code: false,
+                                color: "default",
+                            },
+                        },
                     ],
+                    color: "default",
+                },
+            },
+            {
+                paragraph: {
+                    rich_text: [],
                     color: "default",
                 },
             },
@@ -164,38 +141,12 @@ const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName
             block_id: keyMap.get("0d286379401143628168cbf237940f66")[1].id,
             children: [
                 {
-                    callout: {
-                        rich_text: [
-                            {
-                                type: "text",
-                                text: {
-                                    content: "Student Doc:",
-                                    link: null,
-                                },
-                                annotations: {
-                                    bold: false,
-                                    italic: false,
-                                    strikethrough: false,
-                                    underline: false,
-                                    code: false,
-                                    color: "default",
-                                },
-                            },
-                        ],
-                        icon: {
-                            type: "emoji",
-                            emoji: "👉",
-                        },
-                        color: "gray_background",
-                    },
-                },
-                {
                     bulleted_list_item: {
                         rich_text: [
                             {
                                 type: "text",
                                 text: {
-                                    content: "Student File: ",
+                                    content: `student file: ${fileLink}`,
                                     link: null,
                                 },
                                 annotations: {
@@ -212,33 +163,31 @@ const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName
                     },
                 },
                 {
-                    bookmark: {
-                        caption: [],
-                        url: fileLink,
+                    bulleted_list_item: {
+                        rich_text: [
+                            {
+                                type: "text",
+                                text: {
+                                    content: `student doc: ${docLink}`,
+                                    link: null,
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                        ],
+                        color: "default",
                     },
                 },
             ],
         });
         keyMap.set("3d9b3e96-3c0e-48e3-b975-7cecedea8bef", res.results);
         console.log("Created: 3d9b3e96-3c0e-48e3-b975-7cecedea8bef");
-    })());
-    await Promise.all(promises);
-    console.log("Done with batch");
-    promises = [];
-    promises.push((async () => {
-        const res = await clients_1.notionClient.blocks.children.append({
-            block_id: keyMap.get("3d9b3e96-3c0e-48e3-b975-7cecedea8bef")[0].id,
-            children: [
-                {
-                    bookmark: {
-                        caption: [],
-                        url: docLink,
-                    },
-                },
-            ],
-        });
-        keyMap.set("7c90bafd-6262-4799-8f85-fa894e97cc38", res.results);
-        console.log("Created: 7c90bafd-6262-4799-8f85-fa894e97cc38");
     })());
     await Promise.all(promises);
     console.log("Done with batch");

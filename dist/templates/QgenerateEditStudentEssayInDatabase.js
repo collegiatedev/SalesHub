@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateEditStudentEssayInDatabase = void 0;
 const clients_1 = require("../utils/clients");
-const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName, studentPageId, docLink, fileLink, }) => {
+const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName, leadId, docLink, fileLink, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
         parent: {
@@ -26,7 +26,7 @@ const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName
             "🚈 Lead": {
                 relation: [
                     {
-                        id: studentPageId,
+                        id: leadId,
                     },
                 ],
             },
@@ -169,7 +169,7 @@ const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName
                             {
                                 type: "text",
                                 text: {
-                                    content: "Student Doc:",
+                                    content: "Student Doc: ",
                                     link: null,
                                 },
                                 annotations: {
@@ -211,34 +211,10 @@ const generateEditStudentEssayInDatabase = async ({ parentId, repId, studentName
                         color: "default",
                     },
                 },
-                {
-                    bookmark: {
-                        caption: [],
-                        url: fileLink,
-                    },
-                },
             ],
         });
         keyMap.set("3d9b3e96-3c0e-48e3-b975-7cecedea8bef", res.results);
         console.log("Created: 3d9b3e96-3c0e-48e3-b975-7cecedea8bef");
-    })());
-    await Promise.all(promises);
-    console.log("Done with batch");
-    promises = [];
-    promises.push((async () => {
-        const res = await clients_1.notionClient.blocks.children.append({
-            block_id: keyMap.get("3d9b3e96-3c0e-48e3-b975-7cecedea8bef")[0].id,
-            children: [
-                {
-                    bookmark: {
-                        caption: [],
-                        url: docLink,
-                    },
-                },
-            ],
-        });
-        keyMap.set("7c90bafd-6262-4799-8f85-fa894e97cc38", res.results);
-        console.log("Created: 7c90bafd-6262-4799-8f85-fa894e97cc38");
     })());
     await Promise.all(promises);
     console.log("Done with batch");

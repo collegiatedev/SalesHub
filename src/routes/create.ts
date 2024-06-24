@@ -99,8 +99,6 @@ createRouter.get(
         message: validatedParams.error,
       });
 
-    console.log("here");
-
     await generateStudentBackgroundResponseInDatabase(validatedParams.params);
 
     return res.json({
@@ -116,6 +114,9 @@ createRouter.get(
     const validatedParams =
       checkBodyParams<GenerateEditStudentEssayInDatabaseProps>(req, [
         "parentId",
+        "repId",
+        "studentName",
+        "studentPageId",
         "docLink",
         "fileLink",
       ]);
@@ -125,12 +126,10 @@ createRouter.get(
         message: validatedParams.error,
       });
 
-    console.log("here");
-
     await generateEditStudentEssayInDatabase(validatedParams.params);
 
     return res.json({
-      message: "student background response created",
+      message: "essay task created",
     });
   })
 );
