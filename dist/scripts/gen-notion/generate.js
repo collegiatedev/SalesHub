@@ -28,7 +28,7 @@ const getOutputFunctionName = (pageId, path) => {
     const title = getNestedProperty(headingJson, path);
     if (!title)
         throw new Error("Title not found in output.json");
-    return `generate${title.replace(/[^\w\s]/gi, "").replace(/\s+/g, "")}`;
+    return `gen${title.replace(/[^\w\s]/gi, "").replace(/\s+/g, "")}`;
 };
 // bfs through src/output/children to generate notion block functions
 const generateChildren = async (pageId) => {
