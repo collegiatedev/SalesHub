@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateEditStudentEssayInDatabase = void 0;
 const clients_1 = require("../utils/clients");
-const generateEditStudentEssayInDatabase = async ({ parentId, }) => {
+const generateEditStudentEssayInDatabase = async ({ parentId, docLink, fileLink, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
         parent: {
@@ -146,7 +146,7 @@ const generateEditStudentEssayInDatabase = async ({ parentId, }) => {
                             {
                                 type: "text",
                                 text: {
-                                    content: "student file: <>",
+                                    content: `student file: ${fileLink}`,
                                     link: null,
                                 },
                                 annotations: {
@@ -168,7 +168,7 @@ const generateEditStudentEssayInDatabase = async ({ parentId, }) => {
                             {
                                 type: "text",
                                 text: {
-                                    content: "student doc: <>",
+                                    content: `student doc: ${docLink}`,
                                     link: null,
                                 },
                                 annotations: {

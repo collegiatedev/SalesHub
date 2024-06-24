@@ -16,6 +16,10 @@ import {
   generateStudentBackgroundResponseInDatabase,
   GenerateStudentBackgroundResponseInDatabaseProps,
 } from "../templates/generateStudentBackgroundResponseInDatabase";
+import {
+  generateEditStudentEssayInDatabase,
+  GenerateEditStudentEssayInDatabaseProps,
+} from "../templates/generateEditStudentEssayInDatabase";
 
 export const createRouter: Router = Router();
 
@@ -98,6 +102,32 @@ createRouter.get(
     console.log("here");
 
     await generateStudentBackgroundResponseInDatabase(validatedParams.params);
+
+    return res.json({
+      message: "student background response created",
+    });
+  })
+);
+
+createRouter.get(
+  "/essay",
+  asyncHandler(async (req: Request, res: Response) => {
+    // using body params because url string ruins the header query
+    const validatedParams =
+      checkBodyParams<GenerateEditStudentEssayInDatabaseProps>(req, [
+        "parentId",
+        "docLink",
+        "fileLink",
+      ]);
+
+    if (!validatedParams.isValid)
+      return res.status(400).json({
+        message: validatedParams.error,
+      });
+
+    console.log("here");
+
+    await generateEditStudentEssayInDatabase(validatedParams.params);
 
     return res.json({
       message: "student background response created",

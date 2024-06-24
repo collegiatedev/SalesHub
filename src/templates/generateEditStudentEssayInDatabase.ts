@@ -2,9 +2,13 @@ import { notionClient } from "../utils/clients";
 
 export interface GenerateEditStudentEssayInDatabaseProps {
   parentId: string;
+  docLink: string;
+  fileLink: string;
 }
 export const generateEditStudentEssayInDatabase = async ({
   parentId,
+  docLink,
+  fileLink,
 }: GenerateEditStudentEssayInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create({
@@ -153,7 +157,7 @@ export const generateEditStudentEssayInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: "student file: <>",
+                    content: `student file: ${fileLink}`,
                     link: null,
                   },
                   annotations: {
@@ -175,7 +179,7 @@ export const generateEditStudentEssayInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: "student doc: <>",
+                    content: `student doc: ${docLink}`,
                     link: null,
                   },
                   annotations: {
