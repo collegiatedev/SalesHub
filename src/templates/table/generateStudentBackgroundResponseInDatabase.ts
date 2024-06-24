@@ -1,5 +1,5 @@
 import { notionClient } from "../../utils/clients";
-import { notProvided } from "../utils/notProvided";
+import { notProvided } from "../utils/shared";
 
 export interface GenerateStudentBackgroundResponseInDatabaseProps {
   parentId: string;

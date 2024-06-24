@@ -5,10 +5,10 @@ import {
 } from "../../utils/constants";
 import { notionClient } from "../../utils/clients";
 import { RequiredTaskFields } from "../utils/requiredTaskFields";
+import { addTaskProperties } from "../utils/shared";
 
 export interface GenConductC1MeetingInDatabaseProps extends RequiredTaskFields {
-  // passed from api
-  studentId: string; // in terms of content
+  studentId: string;
   studentEmail: string;
   studentNumber: string;
   parentEmail: string;
@@ -45,36 +45,13 @@ export const genConductC1MeetingInDatabase = async ({
         emoji: "🤝",
       },
       properties: {
-        Name: {
-          title: [
-            {
-              text: {
-                content: `${studentName} - Conduct C1 Meeting`,
-              },
-            },
-          ],
-        },
-        "🚈 Lead": {
-          relation: [
-            {
-              id: studentPageId,
-            },
-          ],
-        },
-        Assigned: {
-          relation: [
-            {
-              id: repPageId,
-            },
-          ],
-        },
-        "🚅 Task": {
-          relation: [
-            {
-              id: CONDUCT_C1_MEETING_TASK,
-            },
-          ],
-        },
+        ...addTaskProperties({
+          studentName,
+          studentPageId,
+          repPageId,
+          taskName: "Conduct C1 Meeting",
+          taskId: CONDUCT_C1_MEETING_TASK,
+        }),
         Time: {
           date: {
             start: time,

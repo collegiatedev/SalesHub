@@ -1,22 +1,20 @@
 import {
   ACCELERATOR_TASKS_DB,
-  EDIT_STUDENT_ESSAY_TASK,
+  CREATE_STUDENT_DASHBOARD_TASK,
 } from "../../utils/constants";
 import { notionClient } from "../../utils/clients";
 import { RequiredTaskFields } from "../utils/requiredTaskFields";
 import { addTaskProperties } from "../utils/shared";
 
-export interface GenEditStudentEssayInDatabaseProps extends RequiredTaskFields {
-  docLink: string;
-  fileLink: string;
+export interface GenCreateStudentDashboardInDatabaseProps
+  extends RequiredTaskFields {
+  parentId: string;
 }
-export const genEditStudentEssayInDatabase = async ({
+export const genCreateStudentDashboardInDatabase = async ({
   studentName,
   studentPageId,
   repPageId,
-  docLink,
-  fileLink,
-}: GenEditStudentEssayInDatabaseProps) => {
+}: GenCreateStudentDashboardInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create({
     parent: {
@@ -25,15 +23,15 @@ export const genEditStudentEssayInDatabase = async ({
     },
     icon: {
       type: "emoji",
-      emoji: "🧩",
+      emoji: "🚁",
     },
     properties: {
       ...addTaskProperties({
         studentName,
         studentPageId,
         repPageId,
-        taskName: "Edit Student Essay",
-        taskId: EDIT_STUDENT_ESSAY_TASK,
+        taskName: "Create Student Dashboard",
+        taskId: CREATE_STUDENT_DASHBOARD_TASK,
       }),
     },
   });
@@ -41,97 +39,13 @@ export const genEditStudentEssayInDatabase = async ({
     block_id: page.id,
     children: [
       {
-        heading_3: {
+        heading_1: {
           rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Essay Editing",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          is_toggleable: false,
-          color: "default",
-        },
-      },
-      {
-        numbered_list_item: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content:
-                  "Copy and paste the text content from the student’s essay file upload into their doc",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          color: "default",
-        },
-      },
-      {
-        heading_3: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Essay Feedback",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
-          ],
-          is_toggleable: false,
-          color: "default",
-        },
-      },
-      {
-        paragraph: {
-          rich_text: [
-            {
-              type: "text",
-              text: {
-                content: "Use the ",
-                link: null,
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
             {
               type: "mention",
               mention: {
-                page: {
-                  id: "2ed05a54-2ad3-4c2f-a98e-df4e57273494",
+                database: {
+                  id: "271a7f07-e25d-4fbd-a215-d7449802ad0b",
                 },
               },
               annotations: {
@@ -144,27 +58,125 @@ export const genEditStudentEssayInDatabase = async ({
               },
             },
           ],
+          is_toggleable: false,
+          color: "default",
+        },
+      },
+      {
+        callout: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Full Name: <>\nFolder Link: <>",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          icon: {
+            type: "emoji",
+            emoji: "💡",
+          },
+          color: "gray_background",
+        },
+      },
+      {
+        heading_3: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Todos",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          is_toggleable: false,
+          color: "default",
+        },
+      },
+      {
+        to_do: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Find all instances of <Student Full Name> and replace with student’s full name",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          checked: false,
+          color: "default",
+        },
+      },
+      {
+        to_do: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content:
+                  "Replace <Folder Link> (in Resources section) with the folder link",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          checked: false,
           color: "default",
         },
       },
     ],
   });
-  keyMap.set("0d286379401143628168cbf237940f66", res.results);
+  keyMap.set("c735d37a78cd43a28423a7caf9b37ab9", res.results);
 
   let promises = [];
 
   promises.push(
     (async () => {
       const res = await notionClient.blocks.children.append({
-        block_id: keyMap.get("0d286379401143628168cbf237940f66")![1].id,
+        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![4].id,
         children: [
           {
-            callout: {
+            to_do: {
               rich_text: [
                 {
                   type: "text",
                   text: {
-                    content: "Student Doc:",
+                    content: "Set display type to “Create Bookmark”",
                     link: null,
                   },
                   annotations: {
@@ -177,20 +189,29 @@ export const genEditStudentEssayInDatabase = async ({
                   },
                 },
               ],
-              icon: {
-                type: "emoji",
-                emoji: "👉",
-              },
-              color: "gray_background",
+              checked: false,
+              color: "default",
             },
           },
+        ],
+      });
+      keyMap.set("789c9aa8-3491-4d68-a062-00f28db5fa0f", res.results);
+      console.log("Created: 789c9aa8-3491-4d68-a062-00f28db5fa0f");
+    })()
+  );
+
+  promises.push(
+    (async () => {
+      const res = await notionClient.blocks.children.append({
+        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![3].id,
+        children: [
           {
             bulleted_list_item: {
               rich_text: [
                 {
                   type: "text",
                   text: {
-                    content: "Student File: ",
+                    content: "Should be done 3 times in total",
                     link: null,
                   },
                   annotations: {
@@ -206,38 +227,10 @@ export const genEditStudentEssayInDatabase = async ({
               color: "default",
             },
           },
-          {
-            bookmark: {
-              caption: [],
-              url: fileLink,
-            },
-          },
         ],
       });
-      keyMap.set("3d9b3e96-3c0e-48e3-b975-7cecedea8bef", res.results);
-      console.log("Created: 3d9b3e96-3c0e-48e3-b975-7cecedea8bef");
-    })()
-  );
-
-  await Promise.all(promises);
-  console.log("Done with batch");
-  promises = [];
-
-  promises.push(
-    (async () => {
-      const res = await notionClient.blocks.children.append({
-        block_id: keyMap.get("3d9b3e96-3c0e-48e3-b975-7cecedea8bef")![0].id,
-        children: [
-          {
-            bookmark: {
-              caption: [],
-              url: docLink,
-            },
-          },
-        ],
-      });
-      keyMap.set("7c90bafd-6262-4799-8f85-fa894e97cc38", res.results);
-      console.log("Created: 7c90bafd-6262-4799-8f85-fa894e97cc38");
+      keyMap.set("85fddfc7-1079-4f32-bb33-61803a5e7697", res.results);
+      console.log("Created: 85fddfc7-1079-4f32-bb33-61803a5e7697");
     })()
   );
 
