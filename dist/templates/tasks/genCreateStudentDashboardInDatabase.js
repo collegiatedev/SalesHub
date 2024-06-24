@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.genCreateStudentDashboardInDatabase = void 0;
 const constants_1 = require("../../utils/constants");
 const clients_1 = require("../../utils/clients");
+const shared_1 = require("../utils/shared");
 const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId, repPageId, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
@@ -15,7 +16,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
             emoji: "🚁",
         },
         properties: {
-            ...addTaskProperties({
+            ...(0, shared_1.addTaskProperties)({
                 studentName,
                 studentPageId,
                 repPageId,

@@ -4,6 +4,7 @@ exports.genConductC1MeetingInDatabase = void 0;
 // COMPLETED
 const constants_1 = require("../../utils/constants");
 const clients_1 = require("../../utils/clients");
+const shared_1 = require("../utils/shared");
 const genConductC1MeetingInDatabase = async ({ studentId, studentName, studentEmail, studentPageId, studentNumber, parentEmail, parentNumber, repPageId, repId, grade, time, }) => {
     try {
         const studentInUrl = studentName.replace(" ", "%20");
@@ -20,36 +21,13 @@ const genConductC1MeetingInDatabase = async ({ studentId, studentName, studentEm
                 emoji: "🤝",
             },
             properties: {
-                Name: {
-                    title: [
-                        {
-                            text: {
-                                content: `${studentName} - Conduct C1 Meeting`,
-                            },
-                        },
-                    ],
-                },
-                "🚈 Lead": {
-                    relation: [
-                        {
-                            id: studentPageId,
-                        },
-                    ],
-                },
-                Assigned: {
-                    relation: [
-                        {
-                            id: repPageId,
-                        },
-                    ],
-                },
-                "🚅 Task": {
-                    relation: [
-                        {
-                            id: constants_1.CONDUCT_C1_MEETING_TASK,
-                        },
-                    ],
-                },
+                ...(0, shared_1.addTaskProperties)({
+                    studentName,
+                    studentPageId,
+                    repPageId,
+                    taskName: "Conduct C1 Meeting",
+                    taskId: constants_1.CONDUCT_C1_MEETING_TASK,
+                }),
                 Time: {
                     date: {
                         start: time,

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.genEditStudentEssayInDatabase = void 0;
 const constants_1 = require("../../utils/constants");
 const clients_1 = require("../../utils/clients");
+const shared_1 = require("../utils/shared");
 const genEditStudentEssayInDatabase = async ({ studentName, studentPageId, repPageId, docLink, fileLink, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
@@ -15,36 +16,13 @@ const genEditStudentEssayInDatabase = async ({ studentName, studentPageId, repPa
             emoji: "🧩",
         },
         properties: {
-            Name: {
-                title: [
-                    {
-                        text: {
-                            content: `${studentName} - Edit Student Essay`,
-                        },
-                    },
-                ],
-            },
-            "🚈 Lead": {
-                relation: [
-                    {
-                        id: studentPageId,
-                    },
-                ],
-            },
-            Assigned: {
-                relation: [
-                    {
-                        id: repPageId,
-                    },
-                ],
-            },
-            "🚅 Task": {
-                relation: [
-                    {
-                        id: constants_1.EDIT_STUDENT_ESSAY_TASK,
-                    },
-                ],
-            },
+            ...(0, shared_1.addTaskProperties)({
+                studentName,
+                studentPageId,
+                repPageId,
+                taskName: "Edit Student Essay",
+                taskId: constants_1.EDIT_STUDENT_ESSAY_TASK,
+            }),
         },
     });
     let res = await clients_1.notionClient.blocks.children.append({

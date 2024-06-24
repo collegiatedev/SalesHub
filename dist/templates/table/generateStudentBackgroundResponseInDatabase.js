@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateStudentBackgroundResponseInDatabase = void 0;
 const clients_1 = require("../../utils/clients");
-const common_1 = require("../utils/common");
+const shared_1 = require("../utils/shared");
 const generateStudentBackgroundResponseInDatabase = async ({ parentId, name, uGPA, wGPA, additionalAcademic, additionalActivity, professionalLinks, transcripts, resumePortfolios, }) => {
     const t = transcripts !== ""
         ? transcripts.split(",").map((transcript) => ({
@@ -11,7 +11,7 @@ const generateStudentBackgroundResponseInDatabase = async ({ parentId, name, uGP
                 url: transcript,
             },
         }))
-        : (0, common_1.notProvided)("transcripts");
+        : (0, shared_1.notProvided)("transcripts");
     const rp = resumePortfolios !== ""
         ? resumePortfolios.split(",").map((resumePortfolio) => ({
             bookmark: {
@@ -19,7 +19,7 @@ const generateStudentBackgroundResponseInDatabase = async ({ parentId, name, uGP
                 url: resumePortfolio,
             },
         }))
-        : (0, common_1.notProvided)("resume/portfolios");
+        : (0, shared_1.notProvided)("resume/portfolios");
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
         parent: {
