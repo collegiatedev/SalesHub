@@ -235,9 +235,12 @@ export const genCreateStudentDashboardInDatabase = async ({
         block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![6].id,
         children: [
           {
-            embed: {
+            video: {
               caption: [],
-              url: "https://www.loom.com/share/5cb2a6f8c2074e249727a966cf60c450?sid=c1adba67-fcfd-4b4f-aefe-6bee73e228a3",
+              type: "external",
+              external: {
+                url: "https://www.loom.com/share/5cb2a6f8c2074e249727a966cf60c450?sid=fd882e11-c36a-4fc9-937d-d520fe80b850",
+              },
             },
           },
         ],
