@@ -126,7 +126,7 @@ const genCreateStudentDashboardInDatabase = async ({ parentId }) => {
                         {
                             "type": "text",
                             "text": {
-                                "content": "Link the lead field with the Student",
+                                "content": "Link the student with the lead field",
                                 "link": null
                             },
                             "annotations": {
@@ -175,7 +175,7 @@ const genCreateStudentDashboardInDatabase = async ({ parentId }) => {
                         {
                             "type": "text",
                             "text": {
-                                "content": "Find all instances of <Student Full Name> and replace with student’s full name",
+                                "content": "Replace all 3 instances of <Student Full Name> with student’s full name",
                                 "link": null
                             },
                             "annotations": {
@@ -198,7 +198,7 @@ const genCreateStudentDashboardInDatabase = async ({ parentId }) => {
                         {
                             "type": "text",
                             "text": {
-                                "content": "Replace <Folder Link> (in Resources section) with the folder link",
+                                "content": "Replace <Folder Block> (in Resources section) with the folder block",
                                 "link": null
                             },
                             "annotations": {
@@ -390,25 +390,8 @@ const genCreateStudentDashboardInDatabase = async ({ parentId }) => {
                             {
                                 "type": "text",
                                 "text": {
-                                    "content": "Copy Folder Link: ",
+                                    "content": "Copy Folder Block:",
                                     "link": null
-                                },
-                                "annotations": {
-                                    "bold": false,
-                                    "italic": false,
-                                    "strikethrough": false,
-                                    "underline": false,
-                                    "code": false,
-                                    "color": "default"
-                                }
-                            },
-                            {
-                                "type": "text",
-                                "text": {
-                                    "content": "https://voice.google.com/u/5/messages",
-                                    "link": {
-                                        "url": "https://voice.google.com/u/5/messages?itemId=t.%2B13479865208"
-                                    }
                                 },
                                 "annotations": {
                                     "bold": false,
@@ -426,66 +409,11 @@ const genCreateStudentDashboardInDatabase = async ({ parentId }) => {
                         },
                         "color": "gray_background"
                     }
-                },
-                {
-                    "to_do": {
-                        "rich_text": [
-                            {
-                                "type": "text",
-                                "text": {
-                                    "content": "Set display type to “Create Bookmark”",
-                                    "link": null
-                                },
-                                "annotations": {
-                                    "bold": false,
-                                    "italic": false,
-                                    "strikethrough": false,
-                                    "underline": false,
-                                    "code": false,
-                                    "color": "default"
-                                }
-                            }
-                        ],
-                        "checked": false,
-                        "color": "default"
-                    }
                 }
             ]
         });
         keyMap.set("789c9aa8-3491-4d68-a062-00f28db5fa0f", res.results);
         console.log("Created: 789c9aa8-3491-4d68-a062-00f28db5fa0f");
-    })());
-    promises.push((async () => {
-        const res = await clients_1.notionClient.blocks.children.append({
-            "block_id": keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[7].id,
-            "children": [
-                {
-                    "to_do": {
-                        "rich_text": [
-                            {
-                                "type": "text",
-                                "text": {
-                                    "content": "Should be done 3 times in total",
-                                    "link": null
-                                },
-                                "annotations": {
-                                    "bold": false,
-                                    "italic": false,
-                                    "strikethrough": false,
-                                    "underline": false,
-                                    "code": false,
-                                    "color": "default"
-                                }
-                            }
-                        ],
-                        "checked": false,
-                        "color": "default"
-                    }
-                }
-            ]
-        });
-        keyMap.set("85fddfc7-1079-4f32-bb33-61803a5e7697", res.results);
-        console.log("Created: 85fddfc7-1079-4f32-bb33-61803a5e7697");
     })());
     promises.push((async () => {
         const res = await clients_1.notionClient.blocks.children.append({
@@ -556,6 +484,24 @@ const genCreateStudentDashboardInDatabase = async ({ parentId }) => {
         });
         keyMap.set("b82f7351-e1a0-4d38-aae9-6ab05a7679bd", res.results);
         console.log("Created: b82f7351-e1a0-4d38-aae9-6ab05a7679bd");
+    })());
+    await Promise.all(promises);
+    console.log("Done with batch");
+    promises = [];
+    promises.push((async () => {
+        const res = await clients_1.notionClient.blocks.children.append({
+            "block_id": keyMap.get("789c9aa8-3491-4d68-a062-00f28db5fa0f")[0].id,
+            "children": [
+                {
+                    "bookmark": {
+                        "caption": [],
+                        "url": "https://drive.google.com/drive/u/0/folders/1Pl3_TSljZkfv98Qow7F-WOgRLqSW_mwJ"
+                    }
+                }
+            ]
+        });
+        keyMap.set("d7c95761-003d-482f-93a8-84617b9e3eb1", res.results);
+        console.log("Created: d7c95761-003d-482f-93a8-84617b9e3eb1");
     })());
     await Promise.all(promises);
     console.log("Done with batch");
