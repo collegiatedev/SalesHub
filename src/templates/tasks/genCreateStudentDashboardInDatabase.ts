@@ -47,7 +47,7 @@ export const genCreateStudentDashboardInDatabase = async ({
             {
               type: "text",
               text: {
-                content: "Add to ",
+                content: "Open in Separate Tab: ",
                 link: null,
               },
               annotations: {
