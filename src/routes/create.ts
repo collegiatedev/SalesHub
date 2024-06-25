@@ -23,7 +23,7 @@ import {
 import {
   genCreateStudentDashboardInDatabase,
   GenCreateStudentDashboardInDatabaseProps,
-} from "src/templates/tasks/genCreateStudentDashboardInDatabase";
+} from "../templates/tasks/genCreateStudentDashboardInDatabase";
 
 export const createRouter: Router = Router();
 
