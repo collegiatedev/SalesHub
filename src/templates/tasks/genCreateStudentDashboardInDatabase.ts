@@ -213,7 +213,7 @@ export const genCreateStudentDashboardInDatabase = async ({
               type: "text",
               text: {
                 content:
-                  "Replace <Folder Block> (in Resources section) with the folder block",
+                  "Replace <Folder Block> (in Logistics section) with the folder block",
                 link: null,
               },
               annotations: {

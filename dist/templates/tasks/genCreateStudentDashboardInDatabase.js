@@ -198,7 +198,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                         {
                             type: "text",
                             text: {
-                                content: "Replace <Folder Block> (in Resources section) with the folder block",
+                                content: "Replace <Folder Block> (in Logistics section) with the folder block",
                                 link: null,
                             },
                             annotations: {

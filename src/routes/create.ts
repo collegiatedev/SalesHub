@@ -24,6 +24,10 @@ import {
   genCreateStudentDashboardInDatabase,
   GenCreateStudentDashboardInDatabaseProps,
 } from "../templates/tasks/genCreateStudentDashboardInDatabase";
+import {
+  genGiveAdditionalFeedbacktoPersonalBrandInDatabase,
+  GenGiveAdditionalFeedbacktoPersonalBrandInDatabaseProps,
+} from "../templates/tasks/genGiveAdditionalFeedbacktoPersonalBrandInDatabase";
 
 export const createRouter: Router = Router();
 
@@ -154,6 +158,37 @@ createRouter.get(
 
     return res.json({
       message: "task created",
+    });
+  })
+);
+
+createRouter.get(
+  "/pb-feedback",
+  asyncHandler(async (req: Request, res: Response) => {
+    // using body params because url string ruins the header query
+    const validatedParams =
+      checkBodyParams<GenGiveAdditionalFeedbacktoPersonalBrandInDatabaseProps>(
+        req,
+        [
+          "repPageId",
+          "studentName",
+          "studentPageId",
+          "pbDocLink",
+          "studentDashboardPageId",
+        ]
+      );
+
+    if (!validatedParams.isValid)
+      return res.status(400).json({
+        message: validatedParams.error,
+      });
+
+    await genGiveAdditionalFeedbacktoPersonalBrandInDatabase(
+      validatedParams.params
+    );
+
+    return res.json({
+      message: "essay task created",
     });
   })
 );
