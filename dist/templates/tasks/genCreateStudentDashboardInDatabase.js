@@ -122,6 +122,52 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                         {
                             type: "text",
                             text: {
+                                content: "Add new item to Accelerator Dashboard",
+                                link: null,
+                            },
+                            annotations: {
+                                bold: false,
+                                italic: false,
+                                strikethrough: false,
+                                underline: false,
+                                code: false,
+                                color: "default",
+                            },
+                        },
+                    ],
+                    checked: false,
+                    color: "default",
+                },
+            },
+            {
+                to_do: {
+                    rich_text: [
+                        {
+                            type: "text",
+                            text: {
+                                content: "Link the lead field with the Student",
+                                link: null,
+                            },
+                            annotations: {
+                                bold: false,
+                                italic: false,
+                                strikethrough: false,
+                                underline: false,
+                                code: false,
+                                color: "default",
+                            },
+                        },
+                    ],
+                    checked: false,
+                    color: "default",
+                },
+            },
+            {
+                to_do: {
+                    rich_text: [
+                        {
+                            type: "text",
+                            text: {
                                 content: "Find all instances of <Student Full Name> and replace with student’s full name",
                                 link: null,
                             },
@@ -214,15 +260,44 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
     let promises = [];
     promises.push((async () => {
         const res = await clients_1.notionClient.blocks.children.append({
-            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[6].id,
+            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[8].id,
             children: [
                 {
-                    video: {
-                        caption: [],
-                        type: "external",
-                        external: {
-                            url: "https://www.loom.com/share/5cb2a6f8c2074e249727a966cf60c450?sid=fd882e11-c36a-4fc9-937d-d520fe80b850",
-                        },
+                    paragraph: {
+                        rich_text: [
+                            {
+                                type: "text",
+                                text: {
+                                    content: "See ",
+                                    link: null,
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                            {
+                                type: "mention",
+                                mention: {
+                                    page: {
+                                        id: "c735d37a-78cd-43a2-8423-a7caf9b37ab9",
+                                    },
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                        ],
+                        color: "default",
                     },
                 },
             ],
@@ -232,7 +307,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
     })());
     promises.push((async () => {
         const res = await clients_1.notionClient.blocks.children.append({
-            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[4].id,
+            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[6].id,
             children: [
                 {
                     to_do: {
@@ -264,7 +339,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
     })());
     promises.push((async () => {
         const res = await clients_1.notionClient.blocks.children.append({
-            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[3].id,
+            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[5].id,
             children: [
                 {
                     bulleted_list_item: {
@@ -295,7 +370,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
     })());
     promises.push((async () => {
         const res = await clients_1.notionClient.blocks.children.append({
-            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[5].id,
+            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[7].id,
             children: [
                 {
                     callout: {
