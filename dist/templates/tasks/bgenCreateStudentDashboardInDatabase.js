@@ -34,24 +34,8 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                         {
                             type: "text",
                             text: {
-                                content: "Open in Separate Tab: ",
+                                content: "Directions",
                                 link: null,
-                            },
-                            annotations: {
-                                bold: false,
-                                italic: false,
-                                strikethrough: false,
-                                underline: false,
-                                code: false,
-                                color: "default",
-                            },
-                        },
-                        {
-                            type: "mention",
-                            mention: {
-                                database: {
-                                    id: "271a7f07-e25d-4fbd-a215-d7449802ad0b",
-                                },
                             },
                             annotations: {
                                 bold: false,
@@ -68,12 +52,12 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                 },
             },
             {
-                callout: {
+                to_do: {
                     rich_text: [
                         {
                             type: "text",
                             text: {
-                                content: `Full Name: ${studentName}\nFolder Link: ${folderLink}`,
+                                content: "Copy student name",
                                 link: null,
                             },
                             annotations: {
@@ -86,20 +70,17 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                             },
                         },
                     ],
-                    icon: {
-                        type: "emoji",
-                        emoji: "💡",
-                    },
-                    color: "gray_background",
+                    checked: false,
+                    color: "default",
                 },
             },
             {
-                heading_1: {
+                to_do: {
                     rich_text: [
                         {
                             type: "text",
                             text: {
-                                content: "Todos",
+                                content: "Open in a separate tab",
                                 link: null,
                             },
                             annotations: {
@@ -112,7 +93,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                             },
                         },
                     ],
-                    is_toggleable: false,
+                    checked: false,
                     color: "default",
                 },
             },
@@ -237,7 +218,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                         {
                             type: "text",
                             text: {
-                                content: "Directions",
+                                content: "Tutorial",
                                 link: null,
                             },
                             annotations: {
@@ -258,6 +239,124 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
     });
     keyMap.set("c735d37a78cd43a28423a7caf9b37ab9", res.results);
     let promises = [];
+    promises.push((async () => {
+        const res = await clients_1.notionClient.blocks.children.append({
+            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[2].id,
+            children: [
+                {
+                    callout: {
+                        rich_text: [
+                            {
+                                type: "text",
+                                text: {
+                                    content: "Open: ",
+                                    link: null,
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                            {
+                                type: "mention",
+                                mention: {
+                                    database: {
+                                        id: "271a7f07-e25d-4fbd-a215-d7449802ad0b",
+                                    },
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                            {
+                                type: "text",
+                                text: {
+                                    content: " ",
+                                    link: null,
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                        ],
+                        icon: {
+                            type: "emoji",
+                            emoji: "💡",
+                        },
+                        color: "gray_background",
+                    },
+                },
+            ],
+        });
+        keyMap.set("0a1c3b74-4396-4232-a3e4-7698d98fc7cf", res.results);
+        console.log("Created: 0a1c3b74-4396-4232-a3e4-7698d98fc7cf");
+    })());
+    promises.push((async () => {
+        const res = await clients_1.notionClient.blocks.children.append({
+            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[4].id,
+            children: [
+                {
+                    callout: {
+                        rich_text: [
+                            {
+                                type: "text",
+                                text: {
+                                    content: "Copy Folder Link: ",
+                                    link: null,
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                            {
+                                type: "text",
+                                text: {
+                                    content: folderLink,
+                                    link: {
+                                        url: folderLink,
+                                    },
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                        ],
+                        icon: {
+                            type: "emoji",
+                            emoji: "💡",
+                        },
+                        color: "gray_background",
+                    },
+                },
+            ],
+        });
+        keyMap.set("3ca290e2-951e-4c34-b3b6-31981d4dd03c", res.results);
+        console.log("Created: 3ca290e2-951e-4c34-b3b6-31981d4dd03c");
+    })());
     promises.push((async () => {
         const res = await clients_1.notionClient.blocks.children.append({
             block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[8].id,
@@ -378,7 +477,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                             {
                                 type: "text",
                                 text: {
-                                    content: `Student Email: ${studentEmail}`,
+                                    content: `Copy Student Email: ${studentEmail}`,
                                     link: null,
                                 },
                                 annotations: {
@@ -393,7 +492,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                         ],
                         icon: {
                             type: "emoji",
-                            emoji: "✉️",
+                            emoji: "💡",
                         },
                         color: "gray_background",
                     },
@@ -402,6 +501,41 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
         });
         keyMap.set("b2674ba5-02a1-4c98-9c77-4bf87cfb7e1d", res.results);
         console.log("Created: b2674ba5-02a1-4c98-9c77-4bf87cfb7e1d");
+    })());
+    promises.push((async () => {
+        const res = await clients_1.notionClient.blocks.children.append({
+            block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")[1].id,
+            children: [
+                {
+                    callout: {
+                        rich_text: [
+                            {
+                                type: "text",
+                                text: {
+                                    content: `Copy Full Name: ${studentName}`,
+                                    link: null,
+                                },
+                                annotations: {
+                                    bold: false,
+                                    italic: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    code: false,
+                                    color: "default",
+                                },
+                            },
+                        ],
+                        icon: {
+                            type: "emoji",
+                            emoji: "💡",
+                        },
+                        color: "gray_background",
+                    },
+                },
+            ],
+        });
+        keyMap.set("b82f7351-e1a0-4d38-aae9-6ab05a7679bd", res.results);
+        console.log("Created: b82f7351-e1a0-4d38-aae9-6ab05a7679bd");
     })());
     await Promise.all(promises);
     console.log("Done with batch");

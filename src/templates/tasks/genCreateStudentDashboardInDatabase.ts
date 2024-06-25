@@ -157,6 +157,32 @@ export const genCreateStudentDashboardInDatabase = async ({
         },
       },
       {
+        divider: {},
+      },
+      {
+        to_do: {
+          rich_text: [
+            {
+              type: "text",
+              text: {
+                content: "Open the Dashboard Page",
+                link: null,
+              },
+              annotations: {
+                bold: false,
+                italic: false,
+                strikethrough: false,
+                underline: false,
+                code: false,
+                color: "default",
+              },
+            },
+          ],
+          checked: false,
+          color: "default",
+        },
+      },
+      {
         to_do: {
           rich_text: [
             {
@@ -210,7 +236,7 @@ export const genCreateStudentDashboardInDatabase = async ({
             {
               type: "text",
               text: {
-                content: "Share the dashboard with the student email:",
+                content: "Share the dashboard with the student email",
                 link: null,
               },
               annotations: {
@@ -328,62 +354,7 @@ export const genCreateStudentDashboardInDatabase = async ({
   promises.push(
     (async () => {
       const res = await notionClient.blocks.children.append({
-        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![4].id,
-        children: [
-          {
-            callout: {
-              rich_text: [
-                {
-                  type: "text",
-                  text: {
-                    content: "Copy Folder Link: ",
-                    link: null,
-                  },
-                  annotations: {
-                    bold: false,
-                    italic: false,
-                    strikethrough: false,
-                    underline: false,
-                    code: false,
-                    color: "default",
-                  },
-                },
-                {
-                  type: "text",
-                  text: {
-                    content: folderLink,
-                    link: {
-                      url: folderLink,
-                    },
-                  },
-                  annotations: {
-                    bold: false,
-                    italic: false,
-                    strikethrough: false,
-                    underline: false,
-                    code: false,
-                    color: "default",
-                  },
-                },
-              ],
-              icon: {
-                type: "emoji",
-                emoji: "💡",
-              },
-              color: "gray_background",
-            },
-          },
-        ],
-      });
-      keyMap.set("3ca290e2-951e-4c34-b3b6-31981d4dd03c", res.results);
-      console.log("Created: 3ca290e2-951e-4c34-b3b6-31981d4dd03c");
-    })()
-  );
-
-  promises.push(
-    (async () => {
-      const res = await notionClient.blocks.children.append({
-        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![8].id,
+        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![10].id,
         children: [
           {
             paragraph: {
@@ -433,8 +404,51 @@ export const genCreateStudentDashboardInDatabase = async ({
   promises.push(
     (async () => {
       const res = await notionClient.blocks.children.append({
-        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![6].id,
+        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![8].id,
         children: [
+          {
+            callout: {
+              rich_text: [
+                {
+                  type: "text",
+                  text: {
+                    content: "Copy Folder Link: ",
+                    link: null,
+                  },
+                  annotations: {
+                    bold: false,
+                    italic: false,
+                    strikethrough: false,
+                    underline: false,
+                    code: false,
+                    color: "default",
+                  },
+                },
+                {
+                  type: "text",
+                  text: {
+                    content: folderLink,
+                    link: {
+                      url: folderLink,
+                    },
+                  },
+                  annotations: {
+                    bold: false,
+                    italic: false,
+                    strikethrough: false,
+                    underline: false,
+                    code: false,
+                    color: "default",
+                  },
+                },
+              ],
+              icon: {
+                type: "emoji",
+                emoji: "💡",
+              },
+              color: "gray_background",
+            },
+          },
           {
             to_do: {
               rich_text: [
@@ -468,10 +482,10 @@ export const genCreateStudentDashboardInDatabase = async ({
   promises.push(
     (async () => {
       const res = await notionClient.blocks.children.append({
-        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![5].id,
+        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![7].id,
         children: [
           {
-            bulleted_list_item: {
+            to_do: {
               rich_text: [
                 {
                   type: "text",
@@ -489,6 +503,7 @@ export const genCreateStudentDashboardInDatabase = async ({
                   },
                 },
               ],
+              checked: false,
               color: "default",
             },
           },
@@ -502,7 +517,7 @@ export const genCreateStudentDashboardInDatabase = async ({
   promises.push(
     (async () => {
       const res = await notionClient.blocks.children.append({
-        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![7].id,
+        block_id: keyMap.get("c735d37a78cd43a28423a7caf9b37ab9")![9].id,
         children: [
           {
             callout: {
