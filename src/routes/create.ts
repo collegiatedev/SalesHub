@@ -142,6 +142,7 @@ createRouter.get(
         "repPageId",
         "studentPageId",
         "folderLink",
+        "studentEmail",
       ]);
 
     if (!validatedParams.isValid)

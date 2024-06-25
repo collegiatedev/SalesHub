@@ -1,28 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.genCreateStudentDashboardInDatabase = void 0;
-const constants_1 = require("../../utils/constants");
-const clients_1 = require("../../utils/clients");
-const shared_1 = require("../utils/shared");
-const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId, repPageId, folderLink, studentEmail, }) => {
+const clients_1 = require("../utils/clients");
+const genCreateStudentDashboardInDatabase = async ({ parentId, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
         parent: {
             type: "database_id",
-            database_id: constants_1.ACCELERATOR_TASKS_DB,
+            database_id: parentId,
         },
         icon: {
             type: "emoji",
             emoji: "🚁",
         },
         properties: {
-            ...(0, shared_1.addTaskProperties)({
-                studentName,
-                studentPageId,
-                repPageId,
-                taskName: "Create Student Dashboard",
-                taskId: constants_1.CREATE_STUDENT_DASHBOARD_TASK,
-            }),
+            Name: {
+                title: [
+                    {
+                        text: {
+                            content: "Create Student Dashboard",
+                        },
+                    },
+                ],
+            },
         },
     });
     let res = await clients_1.notionClient.blocks.children.append({
@@ -73,7 +73,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                         {
                             type: "text",
                             text: {
-                                content: `Full Name: ${studentName}\nFolder Link: ${folderLink}`,
+                                content: "Full Name: <name>\nFolder Link: <link>",
                                 link: null,
                             },
                             annotations: {
@@ -303,7 +303,7 @@ const genCreateStudentDashboardInDatabase = async ({ studentName, studentPageId,
                             {
                                 type: "text",
                                 text: {
-                                    content: `Student Email: ${studentEmail}`,
+                                    content: "Student Email: <email>",
                                     link: null,
                                 },
                                 annotations: {

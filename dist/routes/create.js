@@ -83,6 +83,7 @@ exports.createRouter.get("/dashboard", (0, routers_1.asyncHandler)(async (req, r
         "repPageId",
         "studentPageId",
         "folderLink",
+        "studentEmail",
     ]);
     if (!validatedParams.isValid)
         return res.status(400).json({
