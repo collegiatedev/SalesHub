@@ -9,6 +9,7 @@ const genEditStudentEssayInDatabase_1 = require("../templates/tasks/genEditStude
 const routers_1 = require("../utils/routers");
 const genCreateStudentDashboardInDatabase_1 = require("../templates/tasks/genCreateStudentDashboardInDatabase");
 const genGiveAdditionalFeedbacktoPersonalBrandInDatabase_1 = require("../templates/tasks/genGiveAdditionalFeedbacktoPersonalBrandInDatabase");
+const genConductC2MeetingPersonalBrandInDatabase_1 = require("../templates/tasks/genConductC2MeetingPersonalBrandInDatabase");
 exports.createRouter = (0, express_1.Router)();
 exports.createRouter.get("/insight", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
@@ -93,6 +94,24 @@ exports.createRouter.get("/dashboard", (0, routers_1.asyncHandler)(async (req, r
     await (0, genCreateStudentDashboardInDatabase_1.genCreateStudentDashboardInDatabase)(validatedParams.params);
     return res.json({
         message: "task created",
+    });
+}));
+exports.createRouter.get("/pb-conduct", (0, routers_1.asyncHandler)(async (req, res) => {
+    // using body params because url string ruins the header query
+    const validatedParams = (0, routers_1.checkBodyParams)(req, [
+        "repPageId",
+        "studentName",
+        "studentPageId",
+        "pbDocLink",
+        "studentId",
+    ]);
+    if (!validatedParams.isValid)
+        return res.status(400).json({
+            message: validatedParams.error,
+        });
+    await (0, genConductC2MeetingPersonalBrandInDatabase_1.genConductC2MeetingPersonalBrandInDatabase)(validatedParams.params);
+    return res.json({
+        message: "pb conduct meeting task created",
     });
 }));
 exports.createRouter.get("/pb-feedback", (0, routers_1.asyncHandler)(async (req, res) => {

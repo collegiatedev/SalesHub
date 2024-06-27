@@ -28,6 +28,10 @@ import {
   genGiveAdditionalFeedbacktoPersonalBrandInDatabase,
   GenGiveAdditionalFeedbacktoPersonalBrandInDatabaseProps,
 } from "../templates/tasks/genGiveAdditionalFeedbacktoPersonalBrandInDatabase";
+import {
+  genConductC2MeetingPersonalBrandInDatabase,
+  GenConductC2MeetingPersonalBrandInDatabaseProps,
+} from "../templates/tasks/genConductC2MeetingPersonalBrandInDatabase";
 
 export const createRouter: Router = Router();
 
@@ -158,6 +162,32 @@ createRouter.get(
 
     return res.json({
       message: "task created",
+    });
+  })
+);
+
+createRouter.get(
+  "/pb-conduct",
+  asyncHandler(async (req: Request, res: Response) => {
+    // using body params because url string ruins the header query
+    const validatedParams =
+      checkBodyParams<GenConductC2MeetingPersonalBrandInDatabaseProps>(req, [
+        "repPageId",
+        "studentName",
+        "studentPageId",
+        "pbDocLink",
+        "studentId",
+      ]);
+
+    if (!validatedParams.isValid)
+      return res.status(400).json({
+        message: validatedParams.error,
+      });
+
+    await genConductC2MeetingPersonalBrandInDatabase(validatedParams.params);
+
+    return res.json({
+      message: "pb conduct meeting task created",
     });
   })
 );
