@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.genPostC2DebriefInDatabase = void 0;
 const clients_1 = require("../../utils/clients");
-const genPostC2DebriefInDatabase = async ({ parentId, name, type, challenges, value, alternatives, }) => {
+const genPostC2DebriefInDatabase = async ({ parentId, studentName, repName, type, challenges, value, alternatives, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
         parent: {
@@ -18,7 +18,7 @@ const genPostC2DebriefInDatabase = async ({ parentId, name, type, challenges, va
                 title: [
                     {
                         text: {
-                            content: `${name}'s Post-C2 Debrief`,
+                            content: `${studentName}'s Post-C2 Debrief`,
                         },
                     },
                 ],
@@ -255,7 +255,7 @@ const genPostC2DebriefInDatabase = async ({ parentId, name, type, challenges, va
                             {
                                 type: "text",
                                 text: {
-                                    content: `Meeting With: {repName}`,
+                                    content: `Meeting With: ${repName}`,
                                     link: null,
                                 },
                                 annotations: {

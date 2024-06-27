@@ -98,7 +98,15 @@ createRouter.get(
   asyncHandler(async (req: Request, res: Response) => {
     const validatedParams = checkQueryParams<GenPostC2DebriefInDatabaseProps>(
       req,
-      ["parentId", "name", "type", "challenges", "value", "alternatives"]
+      [
+        "parentId",
+        "studentName",
+        "repName",
+        "type",
+        "challenges",
+        "value",
+        "alternatives",
+      ]
     );
 
     if (!validatedParams.isValid)

@@ -51,7 +51,15 @@ exports.createRouter.get("/debrief", (0, routers_1.asyncHandler)(async (req, res
     });
 }));
 exports.createRouter.get("/debrief-c2", (0, routers_1.asyncHandler)(async (req, res) => {
-    const validatedParams = (0, routers_1.checkQueryParams)(req, ["parentId", "name", "type", "challenges", "value", "alternatives"]);
+    const validatedParams = (0, routers_1.checkQueryParams)(req, [
+        "parentId",
+        "studentName",
+        "repName",
+        "type",
+        "challenges",
+        "value",
+        "alternatives",
+    ]);
     if (!validatedParams.isValid)
         return res.status(400).json({
             message: validatedParams.error,

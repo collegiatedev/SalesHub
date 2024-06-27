@@ -2,7 +2,8 @@ import { notionClient } from "../../utils/clients";
 
 export interface GenPostC2DebriefInDatabaseProps {
   parentId: string;
-  name: string;
+  studentName: string;
+  repName: string;
   type: string;
   challenges: string;
   value: string;
@@ -10,7 +11,8 @@ export interface GenPostC2DebriefInDatabaseProps {
 }
 export const genPostC2DebriefInDatabase = async ({
   parentId,
-  name,
+  studentName,
+  repName,
   type,
   challenges,
   value,
@@ -31,7 +33,7 @@ export const genPostC2DebriefInDatabase = async ({
         title: [
           {
             text: {
-              content: `${name}'s Post-C2 Debrief`,
+              content: `${studentName}'s Post-C2 Debrief`,
             },
           },
         ],
@@ -280,7 +282,7 @@ export const genPostC2DebriefInDatabase = async ({
                 {
                   type: "text",
                   text: {
-                    content: `Meeting With: {repName}`,
+                    content: `Meeting With: ${repName}`,
                     link: null,
                   },
                   annotations: {
