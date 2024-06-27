@@ -10,6 +10,7 @@ export interface GenConductC2MeetingPersonalBrandInDatabaseProps
   extends RequiredTaskFields {
   studentId: string;
   pbDocLink: string;
+  repName: string;
 }
 export const genConductC2MeetingPersonalBrandInDatabase = async ({
   studentName,
@@ -17,6 +18,7 @@ export const genConductC2MeetingPersonalBrandInDatabase = async ({
   repPageId,
   studentId,
   pbDocLink,
+  repName,
 }: GenConductC2MeetingPersonalBrandInDatabaseProps) => {
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create({
@@ -170,7 +172,7 @@ export const genConductC2MeetingPersonalBrandInDatabase = async ({
               },
             },
           ],
-          url: `https://tally.so/r/3yyQ1B?id=${studentId}&fullname=${studentName}&type=Personal%20Brand`,
+          url: `https://tally.so/r/3yyQ1B?id=${studentId}&fullname=${studentName}&type=Personal%20Brand&repName=${repName}`,
         },
       },
       {

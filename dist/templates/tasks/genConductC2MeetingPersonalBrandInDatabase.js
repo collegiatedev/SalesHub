@@ -4,7 +4,7 @@ exports.genConductC2MeetingPersonalBrandInDatabase = void 0;
 const constants_1 = require("../../utils/constants");
 const clients_1 = require("../../utils/clients");
 const shared_1 = require("../utils/shared");
-const genConductC2MeetingPersonalBrandInDatabase = async ({ studentName, studentPageId, repPageId, studentId, pbDocLink, }) => {
+const genConductC2MeetingPersonalBrandInDatabase = async ({ studentName, studentPageId, repPageId, studentId, pbDocLink, repName, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create({
         parent: {
@@ -157,7 +157,7 @@ const genConductC2MeetingPersonalBrandInDatabase = async ({ studentName, student
                             },
                         },
                     ],
-                    url: `https://tally.so/r/3yyQ1B?id=${studentId}&fullname=${studentName}&type=Personal%20Brand`,
+                    url: `https://tally.so/r/3yyQ1B?id=${studentId}&fullname=${studentName}&type=Personal%20Brand&repName=${repName}`,
                 },
             },
             {
