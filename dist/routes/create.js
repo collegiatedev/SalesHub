@@ -10,6 +10,7 @@ const routers_1 = require("../utils/routers");
 const genCreateStudentDashboardInDatabase_1 = require("../templates/tasks/genCreateStudentDashboardInDatabase");
 const genGiveAdditionalFeedbacktoPersonalBrandInDatabase_1 = require("../templates/tasks/genGiveAdditionalFeedbacktoPersonalBrandInDatabase");
 const genConductC2MeetingPersonalBrandInDatabase_1 = require("../templates/tasks/genConductC2MeetingPersonalBrandInDatabase");
+const genPostC2DebriefInDatabase_1 = require("../templates/table/genPostC2DebriefInDatabase");
 exports.createRouter = (0, express_1.Router)();
 exports.createRouter.get("/insight", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
@@ -47,6 +48,17 @@ exports.createRouter.get("/debrief", (0, routers_1.asyncHandler)(async (req, res
     await (0, generatePostC1DebriefInDatabase_1.generatePostC1DebriefInDatabase)(validatedParams.params);
     return res.json({
         message: "post-C1 debrief created",
+    });
+}));
+exports.createRouter.get("/debrief-c2", (0, routers_1.asyncHandler)(async (req, res) => {
+    const validatedParams = (0, routers_1.checkQueryParams)(req, ["parentId", "name", "type", "challenges", "value", "alternatives"]);
+    if (!validatedParams.isValid)
+        return res.status(400).json({
+            message: validatedParams.error,
+        });
+    await (0, genPostC2DebriefInDatabase_1.genPostC2DebriefInDatabase)(validatedParams.params);
+    return res.json({
+        message: "post-C2 debrief created",
     });
 }));
 exports.createRouter.get("/background", (0, routers_1.asyncHandler)(async (req, res) => {
@@ -104,6 +116,7 @@ exports.createRouter.get("/pb-conduct", (0, routers_1.asyncHandler)(async (req, 
         "studentPageId",
         "pbDocLink",
         "studentId",
+        "repName",
     ]);
     if (!validatedParams.isValid)
         return res.status(400).json({

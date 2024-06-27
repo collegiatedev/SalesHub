@@ -32,6 +32,10 @@ import {
   genConductC2MeetingPersonalBrandInDatabase,
   GenConductC2MeetingPersonalBrandInDatabaseProps,
 } from "../templates/tasks/genConductC2MeetingPersonalBrandInDatabase";
+import {
+  genPostC2DebriefInDatabase,
+  GenPostC2DebriefInDatabaseProps,
+} from "../templates/table/genPostC2DebriefInDatabase";
 
 export const createRouter: Router = Router();
 
@@ -85,6 +89,27 @@ createRouter.get(
 
     return res.json({
       message: "post-C1 debrief created",
+    });
+  })
+);
+
+createRouter.get(
+  "/debrief-c2",
+  asyncHandler(async (req: Request, res: Response) => {
+    const validatedParams = checkQueryParams<GenPostC2DebriefInDatabaseProps>(
+      req,
+      ["parentId", "name", "type", "challenges", "value", "alternatives"]
+    );
+
+    if (!validatedParams.isValid)
+      return res.status(400).json({
+        message: validatedParams.error,
+      });
+
+    await genPostC2DebriefInDatabase(validatedParams.params);
+
+    return res.json({
+      message: "post-C2 debrief created",
     });
   })
 );
@@ -177,6 +202,7 @@ createRouter.get(
         "studentPageId",
         "pbDocLink",
         "studentId",
+        "repName",
       ]);
 
     if (!validatedParams.isValid)
