@@ -13,7 +13,7 @@ const genEditStudentEssayInDatabase = async ({ studentName, studentPageId, repPa
         },
         icon: {
             type: "emoji",
-            emoji: "🧩",
+            emoji: "🪵",
         },
         properties: {
             ...(0, shared_1.addTaskProperties)({

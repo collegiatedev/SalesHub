@@ -25,7 +25,7 @@ export const genEditStudentEssayInDatabase = async ({
     },
     icon: {
       type: "emoji",
-      emoji: "🧩",
+      emoji: "🪵",
     },
     properties: {
       ...addTaskProperties({
