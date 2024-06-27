@@ -110,6 +110,6 @@ exports.createRouter.get("/pb-feedback", (0, routers_1.asyncHandler)(async (req,
         });
     await (0, genGiveAdditionalFeedbacktoPersonalBrandInDatabase_1.genGiveAdditionalFeedbacktoPersonalBrandInDatabase)(validatedParams.params);
     return res.json({
-        message: "essay task created",
+        message: "pb feedback task created",
     });
 }));
