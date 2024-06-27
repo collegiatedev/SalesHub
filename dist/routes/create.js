@@ -125,6 +125,7 @@ exports.createRouter.get("/pb-conduct", (0, routers_1.asyncHandler)(async (req, 
         "pbDocLink",
         "studentId",
         "repName",
+        "leadRepId",
     ]);
     if (!validatedParams.isValid)
         return res.status(400).json({

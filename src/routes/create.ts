@@ -211,6 +211,7 @@ createRouter.get(
         "pbDocLink",
         "studentId",
         "repName",
+        "leadRepId",
       ]);
 
     if (!validatedParams.isValid)

@@ -11,6 +11,7 @@ export interface GenConductC2MeetingPersonalBrandInDatabaseProps
   studentId: string;
   pbDocLink: string;
   repName: string;
+  leadRepId: string;
 }
 export const genConductC2MeetingPersonalBrandInDatabase = async ({
   studentName,
@@ -19,7 +20,9 @@ export const genConductC2MeetingPersonalBrandInDatabase = async ({
   studentId,
   pbDocLink,
   repName,
+  leadRepId,
 }: GenConductC2MeetingPersonalBrandInDatabaseProps) => {
+  const tallyUrl = `https://tally.so/r/3yyQ1B?id=${studentId}&fullname=${studentName}&type=Personal%20Brand&repName=${repName}&leadRepId=${leadRepId}`;
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create({
     parent: {
@@ -172,7 +175,7 @@ export const genConductC2MeetingPersonalBrandInDatabase = async ({
               },
             },
           ],
-          url: `https://tally.so/r/3yyQ1B?id=${studentId}&fullname=${studentName}&type=Personal%20Brand&repName=${repName}`,
+          url: tallyUrl,
         },
       },
       {
