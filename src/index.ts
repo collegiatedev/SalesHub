@@ -1,8 +1,7 @@
 import "dotenv/config";
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
-import { registrationRouter } from "./routes/registration";
-import { createRouter } from "./routes/create";
+import { createRouter, registrationRouter } from "./routes/routers";
 
 const app = express();
 app.use(bodyParser.json());

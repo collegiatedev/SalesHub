@@ -1,15 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registrationRouter = void 0;
-const express_1 = require("express");
-const routers_1 = require("../utils/routers");
 const createDatabaseInPage_1 = require("../templates/createDatabaseInPage");
 const genConductC1MeetingInDatabase_1 = require("../templates/tasks/genConductC1MeetingInDatabase");
-const generateContactInfoInDatabase_1 = require("../templates/table/generateContactInfoInDatabase");
+const generateContactInfoInDatabase_1 = require("../templates/info/generateContactInfoInDatabase");
+const routers_1 = require("./routers");
 // For some reason, need GET for Make.com to behave
-exports.registrationRouter = (0, express_1.Router)();
 // example url: http://localhost:8080/registration/conduct?studentId=kz7zh7t2aw&studentFullName=John%20Doe&studentEmail=johndoe@example.com&studentNumber=+19254873772&parentEmail=parent@example.com&parentNumber=+19254873772&repPageId=cece3b6098b3469ebd2261ebd7319aad&leadPageId=3eca26b8664a478a8e7060967dd79c3f&repId=737019&grade=8th&time=2021-10-01T00:00:00.000Z
-exports.registrationRouter.get("/conduct", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.registrationRouter.get("/conduct", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
         "studentId",
         "studentName",
@@ -32,7 +29,7 @@ exports.registrationRouter.get("/conduct", (0, routers_1.asyncHandler)(async (re
         message: "task created",
     });
 }));
-exports.registrationRouter.get("/crm", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.registrationRouter.get("/crm", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
         "pageId",
         "name",
@@ -46,7 +43,7 @@ exports.registrationRouter.get("/crm", (0, routers_1.asyncHandler)(async (req, r
         message: "table created, page updated",
     });
 }));
-exports.registrationRouter.get("/contact", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.registrationRouter.get("/contact", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
         "parentId",
         "studentEmail",

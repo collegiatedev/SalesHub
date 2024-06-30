@@ -1,5 +1,4 @@
-import { Router, Request, Response } from "express";
-import { asyncHandler, checkQueryParams } from "../utils/routers";
+import { Request, Response } from "express";
 import {
   CreateDatabaseInPageProps,
   createDatabaseInPage,
@@ -11,10 +10,10 @@ import {
 import {
   GenerateContactInfoInDatabaseProps,
   generateContactInfoInDatabase,
-} from "../templates/table/generateContactInfoInDatabase";
+} from "../templates/info/generateContactInfoInDatabase";
+import { asyncHandler, checkQueryParams, registrationRouter } from "./routers";
 
 // For some reason, need GET for Make.com to behave
-export const registrationRouter: Router = Router();
 
 // example url: http://localhost:8080/registration/conduct?studentId=kz7zh7t2aw&studentFullName=John%20Doe&studentEmail=johndoe@example.com&studentNumber=+19254873772&parentEmail=parent@example.com&parentNumber=+19254873772&repPageId=cece3b6098b3469ebd2261ebd7319aad&leadPageId=3eca26b8664a478a8e7060967dd79c3f&repId=737019&grade=8th&time=2021-10-01T00:00:00.000Z
 registrationRouter.get(

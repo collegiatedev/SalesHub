@@ -1,18 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createRouter = void 0;
-const express_1 = require("express");
-const generateParentInsightResponseInDatabase_1 = require("../templates/table/generateParentInsightResponseInDatabase");
-const generatePostC1DebriefInDatabase_1 = require("../templates/table/generatePostC1DebriefInDatabase");
-const generateStudentBackgroundResponseInDatabase_1 = require("../templates/table/generateStudentBackgroundResponseInDatabase");
+const generateParentInsightResponseInDatabase_1 = require("../templates/info/generateParentInsightResponseInDatabase");
+const generatePostC1DebriefInDatabase_1 = require("../templates/info/generatePostC1DebriefInDatabase");
+const generateStudentBackgroundResponseInDatabase_1 = require("../templates/info/generateStudentBackgroundResponseInDatabase");
 const genEditStudentEssayInDatabase_1 = require("../templates/tasks/genEditStudentEssayInDatabase");
-const routers_1 = require("../utils/routers");
 const genCreateStudentDashboardInDatabase_1 = require("../templates/tasks/genCreateStudentDashboardInDatabase");
 const genGiveAdditionalFeedbacktoPersonalBrandInDatabase_1 = require("../templates/tasks/genGiveAdditionalFeedbacktoPersonalBrandInDatabase");
 const genConductC2MeetingPersonalBrandInDatabase_1 = require("../templates/tasks/genConductC2MeetingPersonalBrandInDatabase");
-const genPostC2DebriefInDatabase_1 = require("../templates/table/genPostC2DebriefInDatabase");
-exports.createRouter = (0, express_1.Router)();
-exports.createRouter.get("/insight", (0, routers_1.asyncHandler)(async (req, res) => {
+const genPostC2DebriefInDatabase_1 = require("../templates/info/genPostC2DebriefInDatabase");
+const routers_1 = require("./routers");
+routers_1.createRouter.get("/insight", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
         "parentId",
         "name",
@@ -29,7 +26,7 @@ exports.createRouter.get("/insight", (0, routers_1.asyncHandler)(async (req, res
         message: "parent insight response created",
     });
 }));
-exports.createRouter.get("/debrief", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.createRouter.get("/debrief", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
         "parentId",
         "name",
@@ -50,7 +47,7 @@ exports.createRouter.get("/debrief", (0, routers_1.asyncHandler)(async (req, res
         message: "post-C1 debrief created",
     });
 }));
-exports.createRouter.get("/debrief-c2", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.createRouter.get("/debrief-c2", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkQueryParams)(req, [
         "parentId",
         "studentName",
@@ -69,7 +66,7 @@ exports.createRouter.get("/debrief-c2", (0, routers_1.asyncHandler)(async (req, 
         message: "post-C2 debrief created",
     });
 }));
-exports.createRouter.get("/background", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.createRouter.get("/background", (0, routers_1.asyncHandler)(async (req, res) => {
     // using body params because url string ruins the header query
     const validatedParams = (0, routers_1.checkBodyParams)(req, ["parentId", "name", "uGPA", "wGPA"], [
         "additionalAcademic",
@@ -87,7 +84,7 @@ exports.createRouter.get("/background", (0, routers_1.asyncHandler)(async (req, 
         message: "student background response created",
     });
 }));
-exports.createRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.createRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) => {
     // using body params because url string ruins the header query
     const validatedParams = (0, routers_1.checkBodyParams)(req, ["repPageId", "studentName", "studentPageId", "docLink", "fileLink"]);
     if (!validatedParams.isValid)
@@ -99,7 +96,7 @@ exports.createRouter.get("/essay", (0, routers_1.asyncHandler)(async (req, res) 
         message: "essay task created",
     });
 }));
-exports.createRouter.get("/dashboard", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.createRouter.get("/dashboard", (0, routers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, routers_1.checkBodyParams)(req, [
         "studentName",
         "repPageId",
@@ -116,7 +113,7 @@ exports.createRouter.get("/dashboard", (0, routers_1.asyncHandler)(async (req, r
         message: "task created",
     });
 }));
-exports.createRouter.get("/pb-conduct", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.createRouter.get("/pb-conduct", (0, routers_1.asyncHandler)(async (req, res) => {
     // using body params because url string ruins the header query
     const validatedParams = (0, routers_1.checkBodyParams)(req, [
         "repPageId",
@@ -136,7 +133,7 @@ exports.createRouter.get("/pb-conduct", (0, routers_1.asyncHandler)(async (req, 
         message: "pb conduct meeting task created",
     });
 }));
-exports.createRouter.get("/pb-feedback", (0, routers_1.asyncHandler)(async (req, res) => {
+routers_1.createRouter.get("/pb-feedback", (0, routers_1.asyncHandler)(async (req, res) => {
     // using body params because url string ruins the header query
     const validatedParams = (0, routers_1.checkBodyParams)(req, [
         "repPageId",

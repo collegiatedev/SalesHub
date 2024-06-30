@@ -1,25 +1,20 @@
-import { Router, Request, Response } from "express";
+import { Request, Response } from "express";
 import {
   GenerateParentInsightResponseInDatabaseProps,
   generateParentInsightResponseInDatabase,
-} from "../templates/table/generateParentInsightResponseInDatabase";
+} from "../templates/info/generateParentInsightResponseInDatabase";
 import {
   GeneratePostC1DebriefInDatabaseProps,
   generatePostC1DebriefInDatabase,
-} from "../templates/table/generatePostC1DebriefInDatabase";
+} from "../templates/info/generatePostC1DebriefInDatabase";
 import {
   GenerateStudentBackgroundResponseInDatabaseProps,
   generateStudentBackgroundResponseInDatabase,
-} from "../templates/table/generateStudentBackgroundResponseInDatabase";
+} from "../templates/info/generateStudentBackgroundResponseInDatabase";
 import {
   GenEditStudentEssayInDatabaseProps,
   genEditStudentEssayInDatabase,
 } from "../templates/tasks/genEditStudentEssayInDatabase";
-import {
-  asyncHandler,
-  checkQueryParams,
-  checkBodyParams,
-} from "../utils/routers";
 import {
   genCreateStudentDashboardInDatabase,
   GenCreateStudentDashboardInDatabaseProps,
@@ -35,9 +30,13 @@ import {
 import {
   genPostC2DebriefInDatabase,
   GenPostC2DebriefInDatabaseProps,
-} from "../templates/table/genPostC2DebriefInDatabase";
-
-export const createRouter: Router = Router();
+} from "../templates/info/genPostC2DebriefInDatabase";
+import {
+  asyncHandler,
+  checkQueryParams,
+  checkBodyParams,
+  createRouter,
+} from "./routers";
 
 createRouter.get(
   "/insight",

@@ -1,9 +1,18 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import {
+  Request,
+  Response,
+  NextFunction,
+  RequestHandler,
+  Router,
+} from "express";
+
+export const createRouter: Router = Router();
+export const registrationRouter: Router = Router();
 
 export const asyncHandler = (fn: RequestHandler): RequestHandler => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await fn(req, res, next);
+      fn(req, res, next); // had await, double check that it's not needed
     } catch (error) {
       res.status(500).json({
         message: "An error occurred",
