@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "gen-notion": "tsx ./src/scripts/gen-notion/main.ts",
     "lint": "next lint"
   },
   "dependencies": {
