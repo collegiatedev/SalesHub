@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { retrieveField } from "@/src/utils/tally";
+import { retrieveField } from "~/lib/tally";
 
 interface TallyC2Props {
   id: string;

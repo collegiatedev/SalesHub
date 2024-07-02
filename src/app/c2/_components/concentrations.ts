@@ -1,4 +1,3 @@
-// concentration: c2_link
 export const concentrationToCal = new Map<string, string>([
   ["Personal Branding", "team/collegiate/branding"],
   ["EC Discovery", "team/collegiate/ec"],

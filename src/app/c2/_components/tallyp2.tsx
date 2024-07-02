@@ -1,6 +1,6 @@
 "use client";
 
-import { concentrationToTally } from "./concentrationLinks";
+import { concentrationToTally } from "./concentrations";
 
 interface TallyC2P2Props {
   id: string;

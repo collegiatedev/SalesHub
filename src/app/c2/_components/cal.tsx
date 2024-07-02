@@ -1,13 +1,10 @@
 "use client";
 
-import { InvalidLink } from "@/src/components/invalidLink";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
-import {
-  concentrationToCal,
-  concentrationToNotion,
-} from "./concentrationLinks";
+import { concentrationToCal, concentrationToNotion } from "./concentrations";
 import { useQuery } from "@tanstack/react-query";
+import { InvalidLink } from "~/components/invalidLink";
 
 export type Cal2Props = {
   id: string;

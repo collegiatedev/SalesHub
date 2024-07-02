@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { Cal1Prefills } from "./cal";
-import { retrieveField } from "@/src/utils/tally";
+import { retrieveField } from "~/lib/tally";
 
 interface TallyC1Props {
   id: string;

@@ -1,10 +1,10 @@
 "use client";
 
-import { InvalidLink } from "@/src/components/invalidLink";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
 import { calIdToLink } from "./links";
 import { useQuery } from "@tanstack/react-query";
+import { InvalidLink } from "~/components/invalidLink";
 
 export type Cal3Props = {
   id: string; // student id
