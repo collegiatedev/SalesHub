@@ -1,6 +1,6 @@
+import { notionReadOnlyClient } from "src/clients";
 import { CHILDREN_DIRECTORY } from "../constants";
 import { createOutput, deleteDirectoryIfExists } from "./create";
-import { notionReadOnlyClient } from "src/utils/clients";
 
 const parseBlock = (block: any) => {
   // remove plain text, href fields from block object

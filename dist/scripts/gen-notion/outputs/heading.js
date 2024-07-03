@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.outputPageHeading = exports.outputDatabaseHeading = void 0;
-const clients_1 = require("src/utils/clients");
+const clients_1 = require("src/clients");
 const constants_1 = require("../constants");
 const create_1 = require("./create");
 const outputDatabaseHeading = async (pageId) => {

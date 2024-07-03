@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.outputChildren = void 0;
+const clients_1 = require("src/clients");
 const constants_1 = require("../constants");
 const create_1 = require("./create");
-const clients_1 = require("src/utils/clients");
 const parseBlock = (block) => {
     // remove plain text, href fields from block object
     // todo: remove type from mention objects

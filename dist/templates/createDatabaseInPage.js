@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createDatabaseInPage = void 0;
 const clients_1 = require("../utils/clients");
 const createDatabaseInPage = async ({ name, pageId, }) => {
     const response = await clients_1.notionClient.databases.create({
@@ -40,4 +39,3 @@ const createDatabaseInPage = async ({ name, pageId, }) => {
         },
     });
 };
-exports.createDatabaseInPage = createDatabaseInPage;

@@ -1,4 +1,4 @@
-import { notionReadOnlyClient } from "src/utils/clients";
+import { notionReadOnlyClient } from "src/clients";
 import { HEADING_DIRECTORY, PARENT_ID_PLACEHOLDER } from "../constants";
 import { createOutput, deleteDirectoryIfExists } from "./create";
 

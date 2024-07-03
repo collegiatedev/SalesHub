@@ -6,6 +6,7 @@ tsconfig.tsbuildinfo
 
 # local src notion folder
 src/output
+src/templates
 
 # temp downloads
 downloads
