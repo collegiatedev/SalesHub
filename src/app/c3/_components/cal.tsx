@@ -2,25 +2,36 @@
 
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
-import { calIdToLink } from "./links";
-import { useQuery } from "@tanstack/react-query";
 import { InvalidLink } from "~/components/invalidLink";
 
-export type Cal3Props = {
+// notion sales rep page id -> cal c3 embed link
+const getCalLink = new Map<string, string>([
+  ["cece3b60-98b3-469e-bd22-61ebd7319aad", "jesse-lee/c3"],
+  ["4808b0f6-992a-4f3a-8d8a-58946d7804f6", "ibansal/c3"],
+  ["d17c02cd-3050-4f66-a763-eefe698087c5", "mridulp/c3"],
+  // in-training
+  ["a767aaef-c343-43fb-bdec-828befc5a26c", "team/collegiate/c3-r"], // raghu
+]);
+
+type Cal3Props = {
   id: string; // student id
-  name: string; // student full name
-  rep: string; // sales rep id
+  name: string; // student name
+  repPageId?: string;
+  parentEmail: string;
+  studentEmail: string;
+  parentPhone: string;
   setCalIsScheduled: (props: boolean) => void;
 };
-
-export const CalC3 = ({ id, name, rep, setCalIsScheduled }: Cal3Props) => {
-  const calLink = calIdToLink.get(rep);
-  const webhook = `https://hook.us1.make.com/p96owipfvhi0af2yk4i1to33r8solivk?id=${id}`;
-
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["c3 cal prefills", id],
-    queryFn: () => fetch(webhook).then((res) => res.json()),
-  });
+export const CalC3 = ({
+  id,
+  name,
+  repPageId,
+  parentEmail,
+  studentEmail,
+  parentPhone,
+  setCalIsScheduled,
+}: Cal3Props) => {
+  const calLink = getCalLink.get(repPageId as string);
 
   useEffect(() => {
     (async function () {
@@ -41,14 +52,6 @@ export const CalC3 = ({ id, name, rep, setCalIsScheduled }: Cal3Props) => {
   });
 
   if (!calLink) return <InvalidLink />;
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !data) return <InvalidLink />;
-
-  const email = data["parentEmail"];
-  const guests = data["studentEmail"];
-  const smsReminderNumber = data["parentNumber"];
-
-  if (!email || !guests || !smsReminderNumber) return <InvalidLink />;
 
   return (
     <Cal
@@ -57,10 +60,10 @@ export const CalC3 = ({ id, name, rep, setCalIsScheduled }: Cal3Props) => {
       config={{
         layout: "month_view",
         name,
-        email,
         id,
-        guests,
-        smsReminderNumber,
+        email: parentEmail,
+        guests: studentEmail,
+        smsReminderNumber: parentPhone,
       }}
     />
   );

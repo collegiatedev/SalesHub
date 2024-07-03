@@ -2,43 +2,36 @@
 
 import { useSearchParams } from "next/navigation";
 import { CalC3 } from "./_components/cal";
-import { InvalidLink } from "@/src/components/invalidLink";
 import { Suspense, useState } from "react";
 import { TallyC3 } from "./_components/tally";
-
-export const dynamic = "force-dynamic";
+import { IdForm } from "~/components/idForm";
+import { LeadFields } from "../api/lead/notion";
 
 export default function C3() {
-  return (
-    <main>
-      <Suspense fallback={<div>Loading...</div>}>
-        <C3Content />
-      </Suspense>
-    </main>
-  );
-}
-
-function C3Content() {
   const [calIsScheduled, setCalIsScheduled] = useState(false);
 
-  const params = useSearchParams();
-  const id = params.get("id");
-  const rep = params.get("rep");
-  const fullname = params.get("fullname");
-
-  if (!id || !rep || !fullname) return <InvalidLink />;
+  const id = useSearchParams().get("id");
   return (
-    <>
-      {!calIsScheduled ? (
-        <CalC3
-          id={id}
-          name={fullname}
-          rep={rep}
-          setCalIsScheduled={setCalIsScheduled}
-        />
-      ) : (
-        <TallyC3 name={fullname.split(" ")[0]} id={id} />
-      )}
-    </>
+    <IdForm id={id}>
+      {(leadFields: LeadFields) => {
+        return (
+          <>
+            {!calIsScheduled ? (
+              <CalC3
+                id={leadFields.id}
+                name={leadFields.name}
+                repPageId={leadFields.pageRefs.leadRep}
+                parentEmail={leadFields.contact.parentEmail}
+                studentEmail={leadFields.contact.studentEmail}
+                parentPhone={leadFields.contact.parentPhone}
+                setCalIsScheduled={setCalIsScheduled}
+              />
+            ) : (
+              <TallyC3 name={leadFields.name} id={leadFields.id} />
+            )}
+          </>
+        );
+      }}
+    </IdForm>
   );
 }

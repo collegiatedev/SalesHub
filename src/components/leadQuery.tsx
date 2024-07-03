@@ -7,8 +7,9 @@ import { LeadHandlerResponse } from "../app/api/lead/route";
 type LeadQueryResponse =
   | { ready: true; data: LeadFields }
   | { ready: false; data: string };
-export const useLeadQuery = (id: string | null): LeadQueryResponse => {
-  if (id === null) return { ready: false, data: "No id provided" };
+export const useLeadQuery = (id: string | undefined): LeadQueryResponse => {
+  if (!id) return { ready: false, data: "No id provided" };
+  console.log("id", id);
 
   const query = useQuery({
     queryKey: ["lead data fetch", id as string],

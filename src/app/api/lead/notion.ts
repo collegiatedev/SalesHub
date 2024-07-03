@@ -12,8 +12,7 @@ export const getLead = async (leadId: string) => {
       },
     },
   });
-  if (response.results.length === 0)
-    throw new Error(`No lead found with id ${leadId}`);
+  if (response.results.length === 0) throw new Error(`Invalid ID: ${leadId}`);
 
   // @ts-ignore
   // notion's response is not typed correctly
