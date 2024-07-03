@@ -8,6 +8,8 @@ import { IdForm } from "~/components/idForm";
 import { useSearchParams } from "next/navigation";
 import { LeadFields } from "../api/lead/notion";
 
+export const dynamic = "force-dynamic";
+
 export default function C2() {
   return (
     <main>

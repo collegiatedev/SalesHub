@@ -3,6 +3,16 @@ import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Home() {
+  return (
+    <main>
+      <Suspense fallback={<div>Loading...</div>}>
+        <HomeContent />
+      </Suspense>
+    </main>
+  );
+}
+
+function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
