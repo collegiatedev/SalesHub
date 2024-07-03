@@ -10,4 +10,4 @@ export interface StudentBackgroundInDatabaseProps extends RequiredInfoFields {
     transcripts: string;
     resumePortfolios: string;
 }
-export declare const studentBackgroundInDatabase: ({ studentName, infoId, time, uGPA, wGPA, additionalAcademic, additionalActivity, professionalLinks, transcripts, resumePortfolios, }: StudentBackgroundInDatabaseProps) => Promise<void>;
+export declare const studentBackgroundInDatabase: ({ studentName, infoId, uGPA, wGPA, additionalAcademic, additionalActivity, professionalLinks, transcripts, resumePortfolios, }: StudentBackgroundInDatabaseProps) => Promise<void>;

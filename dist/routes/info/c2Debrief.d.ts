@@ -8,4 +8,4 @@ export interface PostC2DebriefInDatabaseProps extends RequiredInfoFields {
     value: string;
     alternatives: string;
 }
-export declare const postC2DebriefInDatabase: ({ studentName, infoId, time, repName, type, challenges, value, alternatives, }: PostC2DebriefInDatabaseProps) => Promise<void>;
+export declare const postC2DebriefInDatabase: ({ studentName, infoId, repName, type, challenges, value, alternatives, }: PostC2DebriefInDatabaseProps) => Promise<void>;

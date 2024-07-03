@@ -51,7 +51,7 @@ export const createInfoDatabaseInPage = async ({
         title: {},
       },
       Time: {
-        date: {},
+        created_time: {},
       },
     },
     is_inline: true,

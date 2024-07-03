@@ -11,7 +11,6 @@ export const c1Debrief: RequestHandler = asyncHandler(
     const validatedParams = checkBodyParams<PostC1DebriefInDatabaseProps>(req, [
       "studentName",
       "infoId",
-      "time",
       "activities",
       "pronunciation",
       "pronouns",
@@ -46,7 +45,6 @@ export interface PostC1DebriefInDatabaseProps extends RequiredInfoFields {
 export const postC1DebriefInDatabase = async ({
   studentName,
   infoId,
-  time,
   activities,
   pronunciation,
   pronouns,
@@ -60,7 +58,6 @@ export const postC1DebriefInDatabase = async ({
     createInfoPageProps({
       studentName,
       infoId,
-      time,
       infoName: "Post-C1 Debrief",
       emoji: "1️⃣",
     })

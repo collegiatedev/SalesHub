@@ -3,7 +3,6 @@ import { EmojiRequest } from "./emojis";
 export interface RequiredInfoFields {
   studentName: string;
   infoId: string;
-  time: string;
 }
 
 interface InfoPageProps extends RequiredInfoFields {
@@ -13,7 +12,6 @@ interface InfoPageProps extends RequiredInfoFields {
 export const createInfoPageProps = ({
   studentName,
   infoId,
-  time,
   // should be provided by server
   infoName,
   emoji,
@@ -36,13 +34,6 @@ export const createInfoPageProps = ({
             },
           },
         ],
-      },
-      Time: {
-        date: {
-          start: time,
-          end: null,
-          time_zone: null,
-        },
       },
     },
   };

@@ -10,4 +10,4 @@ export interface PostC1DebriefInDatabaseProps extends RequiredInfoFields {
     profile: string;
     additional: string;
 }
-export declare const postC1DebriefInDatabase: ({ studentName, infoId, time, activities, pronunciation, pronouns, intended, plans, profile, additional, }: PostC1DebriefInDatabaseProps) => Promise<void>;
+export declare const postC1DebriefInDatabase: ({ studentName, infoId, activities, pronunciation, pronouns, intended, plans, profile, additional, }: PostC1DebriefInDatabaseProps) => Promise<void>;

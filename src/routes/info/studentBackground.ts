@@ -12,7 +12,7 @@ export const studentBackground: RequestHandler = asyncHandler(
     // using body params because url string ruins the header query
     const validatedParams = checkBodyParams<StudentBackgroundInDatabaseProps>(
       req,
-      ["studentName", "infoId", "time", "uGPA", "wGPA"],
+      ["studentName", "infoId", "uGPA", "wGPA"],
       [
         "additionalAcademic",
         "additionalActivity",
@@ -47,7 +47,6 @@ export interface StudentBackgroundInDatabaseProps extends RequiredInfoFields {
 export const studentBackgroundInDatabase = async ({
   studentName,
   infoId,
-  time,
   uGPA,
   wGPA,
   additionalAcademic,
@@ -61,7 +60,6 @@ export const studentBackgroundInDatabase = async ({
     createInfoPageProps({
       studentName,
       infoId,
-      time,
       infoName: "Student Background Response",
       emoji: "🚸",
     })

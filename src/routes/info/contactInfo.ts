@@ -11,7 +11,6 @@ export const contactInfo: RequestHandler = asyncHandler(
     const validatedParams = checkBodyParams<ContactInfoInDatabaseProps>(req, [
       "studentName",
       "infoId",
-      "time",
       "studentEmail",
       "studentPhone",
       "parentEmail",
@@ -42,7 +41,6 @@ interface ContactInfoInDatabaseProps extends RequiredInfoFields {
 const contactInfoInDatabase = async ({
   studentName,
   infoId,
-  time,
   studentEmail,
   studentPhone,
   parentEmail,
@@ -54,7 +52,6 @@ const contactInfoInDatabase = async ({
     createInfoPageProps({
       studentName,
       infoId,
-      time,
       infoName: "Contact Info",
       emoji: "📞",
     })

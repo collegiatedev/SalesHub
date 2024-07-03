@@ -8,7 +8,6 @@ exports.c2Debrief = (0, helpers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, helpers_1.checkBodyParams)(req, [
         "studentName",
         "infoId",
-        "time",
         "repName",
         "type",
         "challenges",
@@ -24,12 +23,11 @@ exports.c2Debrief = (0, helpers_1.asyncHandler)(async (req, res) => {
         message: "Post-C1 Debrief Info - Generated",
     });
 });
-const postC2DebriefInDatabase = async ({ studentName, infoId, time, repName, type, challenges, value, alternatives, }) => {
+const postC2DebriefInDatabase = async ({ studentName, infoId, repName, type, challenges, value, alternatives, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create((0, studentInfo_1.createInfoPageProps)({
         studentName,
         infoId,
-        time,
         infoName: "Post-C2 Debrief",
         emoji: "2️⃣",
     }));

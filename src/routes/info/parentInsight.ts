@@ -11,7 +11,6 @@ export const parentInsight: RequestHandler = asyncHandler(
     const validatedParams = checkBodyParams<ParentInsightInDatabaseProps>(req, [
       "studentName",
       "infoId",
-      "time",
       "whyNow",
       "programFit",
       "programSupport",
@@ -38,7 +37,6 @@ interface ParentInsightInDatabaseProps extends RequiredInfoFields {
 const parentInsightInDatabase = async ({
   studentName,
   infoId,
-  time,
   whyNow,
   programFit,
   programSupport,
@@ -48,7 +46,6 @@ const parentInsightInDatabase = async ({
     createInfoPageProps({
       studentName,
       infoId,
-      time,
       infoName: "Parent Insight Response",
       emoji: "🔗",
     })

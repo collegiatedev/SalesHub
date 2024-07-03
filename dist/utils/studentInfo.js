@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createInfoPageProps = void 0;
-const createInfoPageProps = ({ studentName, infoId, time, 
+const createInfoPageProps = ({ studentName, infoId, 
 // should be provided by server
 infoName, emoji, }) => {
     return {
@@ -22,13 +22,6 @@ infoName, emoji, }) => {
                         },
                     },
                 ],
-            },
-            Time: {
-                date: {
-                    start: time,
-                    end: null,
-                    time_zone: null,
-                },
             },
         },
     };

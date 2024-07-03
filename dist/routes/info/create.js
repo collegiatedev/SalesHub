@@ -36,7 +36,7 @@ const createInfoDatabaseInPage = async ({ name, pageId, }) => {
                 title: {},
             },
             Time: {
-                date: {},
+                created_time: {},
             },
         },
         is_inline: true,

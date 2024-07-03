@@ -7,7 +7,7 @@ const studentInfo_1 = require("../../utils/studentInfo");
 const notProvided_1 = require("../../utils/notProvided");
 exports.studentBackground = (0, helpers_1.asyncHandler)(async (req, res) => {
     // using body params because url string ruins the header query
-    const validatedParams = (0, helpers_1.checkBodyParams)(req, ["studentName", "infoId", "time", "uGPA", "wGPA"], [
+    const validatedParams = (0, helpers_1.checkBodyParams)(req, ["studentName", "infoId", "uGPA", "wGPA"], [
         "additionalAcademic",
         "additionalActivity",
         "professionalLinks",
@@ -23,12 +23,11 @@ exports.studentBackground = (0, helpers_1.asyncHandler)(async (req, res) => {
         message: "student background response created",
     });
 });
-const studentBackgroundInDatabase = async ({ studentName, infoId, time, uGPA, wGPA, additionalAcademic, additionalActivity, professionalLinks, transcripts, resumePortfolios, }) => {
+const studentBackgroundInDatabase = async ({ studentName, infoId, uGPA, wGPA, additionalAcademic, additionalActivity, professionalLinks, transcripts, resumePortfolios, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create((0, studentInfo_1.createInfoPageProps)({
         studentName,
         infoId,
-        time,
         infoName: "Student Background Response",
         emoji: "🚸",
     }));
