@@ -8,6 +8,16 @@ import { IdForm } from "~/components/idForm";
 import { LeadFields } from "../api/lead/notion";
 
 export default function C3() {
+  return (
+    <main>
+      <Suspense fallback={<div>Loading...</div>}>
+        <C3Content />
+      </Suspense>
+    </main>
+  );
+}
+
+function C3Content() {
   const [calIsScheduled, setCalIsScheduled] = useState(false);
 
   const id = useSearchParams().get("id");

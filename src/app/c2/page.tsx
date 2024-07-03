@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { CalC2 } from "./_components/cal";
 import { TallyC2 } from "./_components/tally";
 import { TallyC2P2 } from "./_components/tallyp2";
@@ -9,6 +9,16 @@ import { useSearchParams } from "next/navigation";
 import { LeadFields } from "../api/lead/notion";
 
 export default function C2() {
+  return (
+    <main>
+      <Suspense fallback={<div>Loading...</div>}>
+        <C2Content />
+      </Suspense>
+    </main>
+  );
+}
+
+function C2Content() {
   const [concentration, setConcentration] = useState(null);
   const [calIsScheduled, setCalIsScheduled] = useState(false);
 
