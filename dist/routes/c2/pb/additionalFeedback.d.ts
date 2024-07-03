@@ -1,4 +1,6 @@
+import { RequestHandler } from "express";
 import { RequiredAcceleratorTaskFields } from "../../../utils/acceleratorTask";
+export declare const additionalFeedback: RequestHandler;
 export interface AdditionalFeedbackToPBInDatabaseProps extends RequiredAcceleratorTaskFields {
     pbDocLink: string;
     dashboardPageId: string;

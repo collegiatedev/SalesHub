@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { asyncHandler, c1Router, checkBodyParams } from "../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../helpers";
 import { notionClient } from "../../clients";
 import {
   RequiredAcceleratorTaskFields,
   createAcceleratorTaskProps,
 } from "../../utils/acceleratorTask";
 
-c1Router.get(
-  "/gc",
-  asyncHandler(async (req: Request, res: Response) => {
+export const createFamilyGC: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams = checkBodyParams<CreateFamilyGCInDatabaseProps>(
       req,
       [
@@ -32,7 +31,7 @@ c1Router.get(
     return res.json({
       message: "Create Family GC Task - Generated",
     });
-  })
+  }
 );
 
 const CREATE_FAMILY_GC_TASK = "5576b4a91e2f45999e1e209f467b60be";

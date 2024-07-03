@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.conductC2MeetingEssayInDatabase = void 0;
-const routers_1 = require("../../routers");
+exports.conductC2MeetingEssayInDatabase = exports.conductEssayC2 = void 0;
+const helpers_1 = require("../../helpers");
 const clients_1 = require("../../../clients");
 const acceleratorTask_1 = require("../../../utils/acceleratorTask");
-routers_1.c2Router.get("essay/conduct", (0, routers_1.asyncHandler)(async (req, res) => {
-    const validatedParams = (0, routers_1.checkBodyParams)(req, [
+exports.conductEssayC2 = (0, helpers_1.asyncHandler)(async (req, res) => {
+    const validatedParams = (0, helpers_1.checkBodyParams)(req, [
         "studentName",
         "studentPageId",
         "repPageId",
@@ -23,7 +23,7 @@ routers_1.c2Router.get("essay/conduct", (0, routers_1.asyncHandler)(async (req, 
     return res.json({
         message: "Conduct Essay Editing C2 Meeting Task - Generated",
     });
-}));
+});
 const CONDUCT_C2_MEETING_ESSAY_TASK = "0248e350f0d34aafab6b28b0d8b86e59";
 const conductC2MeetingEssayInDatabase = async ({ studentName, studentPageId, repPageId, time, studentId, essayDocLink, repName, leadRepId, }) => {
     const keyMap = new Map();

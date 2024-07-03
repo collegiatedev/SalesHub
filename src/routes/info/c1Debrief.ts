@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { asyncHandler, infoRouter, checkBodyParams } from "../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../helpers";
 import { notionClient } from "../../clients";
 import {
   createInfoPageProps,
   RequiredInfoFields,
 } from "../../utils/studentInfo";
 
-infoRouter.get(
-  "/c1",
-  asyncHandler(async (req: Request, res: Response) => {
+export const c1Debrief: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams = checkBodyParams<PostC1DebriefInDatabaseProps>(req, [
       "studentName",
       "infoId",
@@ -32,7 +31,7 @@ infoRouter.get(
     return res.json({
       message: "Post-C1 Debrief Info - Generated",
     });
-  })
+  }
 );
 
 export interface PostC1DebriefInDatabaseProps extends RequiredInfoFields {

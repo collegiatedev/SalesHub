@@ -1,4 +1,6 @@
+import { RequestHandler } from "express";
 import { RequiredInfoFields } from "../../utils/studentInfo";
+export declare const c1Debrief: RequestHandler;
 export interface PostC1DebriefInDatabaseProps extends RequiredInfoFields {
     activities: string;
     pronunciation: string;

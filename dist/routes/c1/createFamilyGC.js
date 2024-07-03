@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const routers_1 = require("../routers");
+exports.createFamilyGC = void 0;
+const helpers_1 = require("../helpers");
 const clients_1 = require("../../clients");
 const acceleratorTask_1 = require("../../utils/acceleratorTask");
-routers_1.c1Router.get("/gc", (0, routers_1.asyncHandler)(async (req, res) => {
-    const validatedParams = (0, routers_1.checkBodyParams)(req, [
+exports.createFamilyGC = (0, helpers_1.asyncHandler)(async (req, res) => {
+    const validatedParams = (0, helpers_1.checkBodyParams)(req, [
         "studentName",
         "repPageId",
         "studentPageId",
@@ -21,7 +22,7 @@ routers_1.c1Router.get("/gc", (0, routers_1.asyncHandler)(async (req, res) => {
     return res.json({
         message: "Create Family GC Task - Generated",
     });
-}));
+});
 const CREATE_FAMILY_GC_TASK = "5576b4a91e2f45999e1e209f467b60be";
 const createFamilyGCInDatabase = async ({ studentName, studentPageId, repPageId, time, studentId, parentName, studentPhone, parentPhone, }) => {
     const keyMap = new Map();

@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.conductC2MeetingPBInDatabase = void 0;
-const routers_1 = require("../../routers");
+exports.conductC2MeetingPBInDatabase = exports.conductPbC2 = void 0;
+const helpers_1 = require("../../helpers");
 const clients_1 = require("../../../clients");
 const acceleratorTask_1 = require("../../../utils/acceleratorTask");
-routers_1.c2Router.get("pb/conduct", (0, routers_1.asyncHandler)(async (req, res) => {
-    const validatedParams = (0, routers_1.checkBodyParams)(req, [
+exports.conductPbC2 = (0, helpers_1.asyncHandler)(async (req, res) => {
+    const validatedParams = (0, helpers_1.checkBodyParams)(req, [
         "studentName",
         "studentPageId",
         "repPageId",
@@ -23,7 +23,7 @@ routers_1.c2Router.get("pb/conduct", (0, routers_1.asyncHandler)(async (req, res
     return res.json({
         message: "Conduct Personal Branding C2 Meeting Task - Generated",
     });
-}));
+});
 const CONDUCT_C2_MEETING_PB_TASK = "29d8e847ce87449988c992015b46a7a6";
 const conductC2MeetingPBInDatabase = async ({ studentName, studentPageId, repPageId, time, studentId, pbDocLink, repName, leadRepId, }) => {
     const keyMap = new Map();

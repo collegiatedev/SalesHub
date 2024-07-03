@@ -1,7 +1,10 @@
 import "dotenv/config";
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
-import { c1Router, c2Router, c3Router, infoRouter } from "./routes/routers";
+import { infoRouter } from "./routes/info";
+import { c1Router } from "./routes/c1";
+import { c2Router } from "./routes/c2";
+import { c3Router } from "./routes/c3";
 
 const app = express();
 app.use(bodyParser.json());

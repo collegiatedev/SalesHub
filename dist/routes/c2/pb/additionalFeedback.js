@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.additionalFeedbackToPBInDatabase = void 0;
-const routers_1 = require("../../routers");
+exports.additionalFeedbackToPBInDatabase = exports.additionalFeedback = void 0;
+const helpers_1 = require("../../helpers");
 const clients_1 = require("../../../clients");
 const acceleratorTask_1 = require("../../../utils/acceleratorTask");
-routers_1.c2Router.get("pb/feedback", (0, routers_1.asyncHandler)(async (req, res) => {
-    const validatedParams = (0, routers_1.checkBodyParams)(req, [
+exports.additionalFeedback = (0, helpers_1.asyncHandler)(async (req, res) => {
+    const validatedParams = (0, helpers_1.checkBodyParams)(req, [
         "studentName",
         "studentPageId",
         "repPageId",
@@ -21,7 +21,7 @@ routers_1.c2Router.get("pb/feedback", (0, routers_1.asyncHandler)(async (req, re
     return res.json({
         message: "Give Additional Feedback to Personal Brand Task - Generated",
     });
-}));
+});
 const GIVE_ADDITIONAL_FEEDBACK_TO_PB_TASK = "63c03a42c94d4d38b30835434dd22e01";
 const additionalFeedbackToPBInDatabase = async ({ studentName, studentPageId, repPageId, time, pbDocLink, dashboardPageId, }) => {
     const keyMap = new Map();

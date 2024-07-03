@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.studentBackgroundInDatabase = void 0;
-const routers_1 = require("../routers");
+exports.studentBackgroundInDatabase = exports.studentBackground = void 0;
+const helpers_1 = require("../helpers");
 const clients_1 = require("../../clients");
 const studentInfo_1 = require("../../utils/studentInfo");
 const notProvided_1 = require("../../utils/notProvided");
-routers_1.infoRouter.get("/background", (0, routers_1.asyncHandler)(async (req, res) => {
+exports.studentBackground = (0, helpers_1.asyncHandler)(async (req, res) => {
     // using body params because url string ruins the header query
-    const validatedParams = (0, routers_1.checkBodyParams)(req, ["studentName", "infoId", "time", "uGPA", "wGPA"], [
+    const validatedParams = (0, helpers_1.checkBodyParams)(req, ["studentName", "infoId", "time", "uGPA", "wGPA"], [
         "additionalAcademic",
         "additionalActivity",
         "professionalLinks",
@@ -22,7 +22,7 @@ routers_1.infoRouter.get("/background", (0, routers_1.asyncHandler)(async (req, 
     return res.json({
         message: "student background response created",
     });
-}));
+});
 const studentBackgroundInDatabase = async ({ studentName, infoId, time, uGPA, wGPA, additionalAcademic, additionalActivity, professionalLinks, transcripts, resumePortfolios, }) => {
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create((0, studentInfo_1.createInfoPageProps)({

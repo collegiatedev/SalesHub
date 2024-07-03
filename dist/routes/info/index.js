@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.infoRouter = void 0;
+const express_1 = require("express");
+const create_1 = require("./create");
+const studentBackground_1 = require("./studentBackground");
+const contactInfo_1 = require("./contactInfo");
+const parentInsight_1 = require("./parentInsight");
+const c1Debrief_1 = require("./c1Debrief");
+const c2Debrief_1 = require("./c2Debrief");
+exports.infoRouter = (0, express_1.Router)();
+exports.infoRouter.get("/create", create_1.create);
+exports.infoRouter.get("/background", studentBackground_1.studentBackground);
+exports.infoRouter.get("/contact", contactInfo_1.contactInfo);
+exports.infoRouter.get("/insight", parentInsight_1.parentInsight);
+exports.infoRouter.get("/c1", c1Debrief_1.c1Debrief);
+exports.infoRouter.get("/c2", c2Debrief_1.c2Debrief);

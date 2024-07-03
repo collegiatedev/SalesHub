@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { asyncHandler, c1Router, checkBodyParams } from "../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../helpers";
 import { notionClient } from "../../clients";
 import {
   RequiredAcceleratorTaskFields,
   createAcceleratorTaskProps,
 } from "../../utils/acceleratorTask";
 
-c1Router.get(
-  "/conduct",
-  asyncHandler(async (req: Request, res: Response) => {
+export const conductC1: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams = checkBodyParams<ConductC1MeetingInDatabaseProps>(
       req,
       [
@@ -34,7 +33,7 @@ c1Router.get(
     return res.json({
       message: "Conduct C1 Meeting Task - Generated",
     });
-  })
+  }
 );
 
 const CONDUCT_C1_MEETING_TASK = "50161c5bf2c14905b7a49e6fa33d5d5b";

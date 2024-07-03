@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { asyncHandler, infoRouter, checkBodyParams } from "../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../helpers";
 import { notionClient } from "../../clients";
 import {
   createInfoPageProps,
@@ -7,9 +7,8 @@ import {
 } from "../../utils/studentInfo";
 import { notProvided } from "../../utils/notProvided";
 
-infoRouter.get(
-  "/background",
-  asyncHandler(async (req: Request, res: Response) => {
+export const studentBackground: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     // using body params because url string ruins the header query
     const validatedParams = checkBodyParams<StudentBackgroundInDatabaseProps>(
       req,
@@ -33,7 +32,7 @@ infoRouter.get(
     return res.json({
       message: "student background response created",
     });
-  })
+  }
 );
 
 export interface StudentBackgroundInDatabaseProps extends RequiredInfoFields {

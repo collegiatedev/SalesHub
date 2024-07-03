@@ -1,4 +1,6 @@
+import { RequestHandler } from "express";
 import { RequiredAcceleratorTaskFields } from "../../../utils/acceleratorTask";
+export declare const conductPbC2: RequestHandler;
 export interface ConductC2MeetingPBInDatabaseProps extends RequiredAcceleratorTaskFields {
     studentId: string;
     pbDocLink: string;

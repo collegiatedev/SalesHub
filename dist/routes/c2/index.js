@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.c2Router = void 0;
+const express_1 = require("express");
+const conductEssayC2_1 = require("./essay/conductEssayC2");
+const editEssay_1 = require("./essay/editEssay");
+const additionalFeedback_1 = require("./pb/additionalFeedback");
+const conductPbC2_1 = require("./pb/conductPbC2");
+exports.c2Router = (0, express_1.Router)();
+exports.c2Router.get("/essay/conduct", conductEssayC2_1.conductEssayC2);
+exports.c2Router.get("/essay/edit", editEssay_1.editEssay);
+exports.c2Router.get("/pb/conduct", conductPbC2_1.conductPbC2);
+exports.c2Router.get("/pb/feedback", additionalFeedback_1.additionalFeedback);

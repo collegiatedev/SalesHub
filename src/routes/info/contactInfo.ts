@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { asyncHandler, infoRouter, checkBodyParams } from "../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../helpers";
 import { notionClient } from "../../clients";
 import {
   createInfoPageProps,
   RequiredInfoFields,
 } from "../../utils/studentInfo";
 
-infoRouter.get(
-  "/contact",
-  asyncHandler(async (req: Request, res: Response) => {
+export const contactInfo: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams = checkBodyParams<ContactInfoInDatabaseProps>(req, [
       "studentName",
       "infoId",
@@ -30,7 +29,7 @@ infoRouter.get(
     return res.json({
       message: "Contact Info - Generated",
     });
-  })
+  }
 );
 
 interface ContactInfoInDatabaseProps extends RequiredInfoFields {

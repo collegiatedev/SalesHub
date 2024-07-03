@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { asyncHandler, c2Router, checkBodyParams } from "../../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../../helpers";
 import { notionClient } from "../../../clients";
 import {
   RequiredAcceleratorTaskFields,
   createAcceleratorTaskProps,
 } from "../../../utils/acceleratorTask";
 
-c2Router.get(
-  "pb/conduct",
-  asyncHandler(async (req: Request, res: Response) => {
+export const conductPbC2: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams = checkBodyParams<ConductC2MeetingPBInDatabaseProps>(
       req,
       [
@@ -33,7 +32,7 @@ c2Router.get(
     return res.json({
       message: "Conduct Personal Branding C2 Meeting Task - Generated",
     });
-  })
+  }
 );
 
 const CONDUCT_C2_MEETING_PB_TASK = "29d8e847ce87449988c992015b46a7a6";

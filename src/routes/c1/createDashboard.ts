@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { asyncHandler, c1Router, checkBodyParams } from "../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../helpers";
 import { notionClient } from "../../clients";
 import {
   RequiredAcceleratorTaskFields,
   createAcceleratorTaskProps,
 } from "../../utils/acceleratorTask";
 
-c1Router.get(
-  "/dashboard",
-  asyncHandler(async (req: Request, res: Response) => {
+export const createDashboard: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams =
       checkBodyParams<CreateStudentDashboardInDatabaseProps>(req, [
         "studentName",
@@ -29,7 +28,7 @@ c1Router.get(
     return res.json({
       message: "Create Student Dashboard Task - Generated",
     });
-  })
+  }
 );
 
 const CREATE_STUDENT_DASHBOARD_TASK = "c735d37a78cd43a28423a7caf9b37ab9";

@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { asyncHandler, c2Router, checkBodyParams } from "../../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../../helpers";
 import { notionClient } from "../../../clients";
 import {
   RequiredAcceleratorTaskFields,
   createAcceleratorTaskProps,
 } from "../../../utils/acceleratorTask";
 
-c2Router.get(
-  "essay/edit",
-  asyncHandler(async (req: Request, res: Response) => {
+export const editEssay: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams = checkBodyParams<EditStudentEssayInDatabaseProps>(
       req,
       [
@@ -31,7 +30,7 @@ c2Router.get(
     return res.json({
       message: "Edit Student Essay Task - Generated",
     });
-  })
+  }
 );
 
 const EDIT_STUDENT_ESSAY_TASK = "0d286379401143628168cbf237940f66";

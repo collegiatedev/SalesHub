@@ -1,4 +1,6 @@
+import { RequestHandler } from "express";
 import { RequiredAcceleratorTaskFields } from "../../../utils/acceleratorTask";
+export declare const conductEssayC2: RequestHandler;
 export interface ConductC2MeetingEssayInDatabaseProps extends RequiredAcceleratorTaskFields {
     studentId: string;
     essayDocLink: string;

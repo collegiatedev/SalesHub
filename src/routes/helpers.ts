@@ -1,18 +1,4 @@
-import {
-  Request,
-  Response,
-  NextFunction,
-  RequestHandler,
-  Router,
-} from "express";
-
-export const createRouter: Router = Router();
-export const registrationRouter: Router = Router();
-
-export const c1Router: Router = Router();
-export const c2Router: Router = Router();
-export const c3Router: Router = Router();
-export const infoRouter: Router = Router();
+import { Request, Response, NextFunction, RequestHandler } from "express";
 
 export const asyncHandler = (fn: RequestHandler): RequestHandler => {
   return async (req: Request, res: Response, next: NextFunction) => {

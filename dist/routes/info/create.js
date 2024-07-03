@@ -1,19 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const routers_1 = require("../routers");
+exports.createInfoDatabaseInPage = exports.create = void 0;
+const helpers_1 = require("../helpers");
 const clients_1 = require("../../clients");
-routers_1.infoRouter.get("/create", (0, routers_1.asyncHandler)(async (req, res) => {
-    const validatedParams = (0, routers_1.checkBodyParams)(req, ["name", "pageId"]);
-    if (!validatedParams.isValid)
+exports.create = (0, helpers_1.asyncHandler)(async (req, res) => {
+    const validatedParams = (0, helpers_1.checkBodyParams)(req, ["name", "pageId"]);
+    if (!validatedParams.isValid) {
         return res.status(400).json({
             message: validatedParams.error,
         });
-    const infoId = await createInfoDatabaseInPage(validatedParams.params);
+    }
+    const infoId = await (0, exports.createInfoDatabaseInPage)(validatedParams.params);
     return res.json({
         message: "Info Table - Generated, Student Page - Updated",
         infoId,
     });
-}));
+});
 const createInfoDatabaseInPage = async ({ name, pageId, }) => {
     const response = await clients_1.notionClient.databases.create({
         parent: {
@@ -56,3 +58,4 @@ const createInfoDatabaseInPage = async ({ name, pageId, }) => {
     });
     return response.id;
 };
+exports.createInfoDatabaseInPage = createInfoDatabaseInPage;

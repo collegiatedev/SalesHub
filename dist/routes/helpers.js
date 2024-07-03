@@ -1,11 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkBodyParams = exports.asyncHandler = exports.infoRouter = exports.c3Router = exports.c2Router = exports.c1Router = void 0;
-const express_1 = require("express");
-exports.c1Router = (0, express_1.Router)();
-exports.c2Router = (0, express_1.Router)();
-exports.c3Router = (0, express_1.Router)();
-exports.infoRouter = (0, express_1.Router)();
+exports.checkBodyParams = exports.asyncHandler = void 0;
 const asyncHandler = (fn) => {
     return async (req, res, next) => {
         try {

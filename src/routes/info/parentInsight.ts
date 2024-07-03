@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { asyncHandler, infoRouter, checkBodyParams } from "../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../helpers";
 import { notionClient } from "../../clients";
 import {
   createInfoPageProps,
   RequiredInfoFields,
 } from "../../utils/studentInfo";
 
-infoRouter.get(
-  "/insight",
-  asyncHandler(async (req: Request, res: Response) => {
+export const parentInsight: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams = checkBodyParams<ParentInsightInDatabaseProps>(req, [
       "studentName",
       "infoId",
@@ -28,7 +27,7 @@ infoRouter.get(
     return res.json({
       message: "Parent Insight Info - Generated",
     });
-  })
+  }
 );
 
 interface ParentInsightInDatabaseProps extends RequiredInfoFields {

@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editStudentEssayInDatabase = void 0;
-const routers_1 = require("../../routers");
+exports.editStudentEssayInDatabase = exports.editEssay = void 0;
+const helpers_1 = require("../../helpers");
 const clients_1 = require("../../../clients");
 const acceleratorTask_1 = require("../../../utils/acceleratorTask");
-routers_1.c2Router.get("essay/edit", (0, routers_1.asyncHandler)(async (req, res) => {
-    const validatedParams = (0, routers_1.checkBodyParams)(req, [
+exports.editEssay = (0, helpers_1.asyncHandler)(async (req, res) => {
+    const validatedParams = (0, helpers_1.checkBodyParams)(req, [
         "studentName",
         "studentPageId",
         "repPageId",
@@ -21,7 +21,7 @@ routers_1.c2Router.get("essay/edit", (0, routers_1.asyncHandler)(async (req, res
     return res.json({
         message: "Edit Student Essay Task - Generated",
     });
-}));
+});
 const EDIT_STUDENT_ESSAY_TASK = "0d286379401143628168cbf237940f66";
 const editStudentEssayInDatabase = async ({ studentName, studentPageId, repPageId, time, docLink, fileLink, }) => {
     const keyMap = new Map();

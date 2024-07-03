@@ -1,19 +1,19 @@
-import { Request, Response } from "express";
-import { asyncHandler, checkBodyParams, infoRouter } from "../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../helpers";
 import { notionClient } from "../../clients";
 
-infoRouter.get(
-  "/create",
-  asyncHandler(async (req: Request, res: Response) => {
+export const create: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams = checkBodyParams<CreateInfoDatabaseInPageProps>(
       req,
       ["name", "pageId"]
     );
 
-    if (!validatedParams.isValid)
+    if (!validatedParams.isValid) {
       return res.status(400).json({
         message: validatedParams.error,
       });
+    }
 
     const infoId = await createInfoDatabaseInPage(validatedParams.params);
 
@@ -21,14 +21,14 @@ infoRouter.get(
       message: "Info Table - Generated, Student Page - Updated",
       infoId,
     });
-  })
+  }
 );
 
-interface CreateInfoDatabaseInPageProps {
+export interface CreateInfoDatabaseInPageProps {
   name: string;
   pageId: string;
 }
-const createInfoDatabaseInPage = async ({
+export const createInfoDatabaseInPage = async ({
   name,
   pageId,
 }: CreateInfoDatabaseInPageProps) => {

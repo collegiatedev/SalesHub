@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { asyncHandler, c2Router, checkBodyParams } from "../../routers";
+import { Request, RequestHandler, Response } from "express";
+import { asyncHandler, checkBodyParams } from "../../helpers";
 import { notionClient } from "../../../clients";
 import {
   RequiredAcceleratorTaskFields,
   createAcceleratorTaskProps,
 } from "../../../utils/acceleratorTask";
 
-c2Router.get(
-  "pb/feedback",
-  asyncHandler(async (req: Request, res: Response) => {
+export const additionalFeedback: RequestHandler = asyncHandler(
+  async (req: Request, res: Response) => {
     const validatedParams =
       checkBodyParams<AdditionalFeedbackToPBInDatabaseProps>(req, [
         "studentName",
@@ -29,7 +28,7 @@ c2Router.get(
     return res.json({
       message: "Give Additional Feedback to Personal Brand Task - Generated",
     });
-  })
+  }
 );
 
 const GIVE_ADDITIONAL_FEEDBACK_TO_PB_TASK = "63c03a42c94d4d38b30835434dd22e01";
