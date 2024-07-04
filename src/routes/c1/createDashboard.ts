@@ -31,8 +31,6 @@ export const createDashboard: RequestHandler = asyncHandler(
   }
 );
 
-const CREATE_STUDENT_DASHBOARD_TASK = "c735d37a78cd43a28423a7caf9b37ab9";
-
 interface CreateStudentDashboardInDatabaseProps
   extends RequiredAcceleratorTaskFields {
   folderLink: string;
@@ -46,6 +44,7 @@ const createStudentDashboardInDatabase = async ({
   folderLink,
   studentEmail,
 }: CreateStudentDashboardInDatabaseProps) => {
+  const CREATE_STUDENT_DASHBOARD_TASK = "c735d37a78cd43a28423a7caf9b37ab9";
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create(
     createAcceleratorTaskProps({

@@ -25,8 +25,8 @@ exports.conductC1 = (0, helpers_1.asyncHandler)(async (req, res) => {
         message: "Conduct C1 Meeting Task - Generated",
     });
 });
-const CONDUCT_C1_MEETING_TASK = "50161c5bf2c14905b7a49e6fa33d5d5b";
 const conductC1MeetingInDatabase = async ({ studentName, studentPageId, repPageId, time, studentId, studentEmail, studentNumber, parentEmail, parentNumber, }) => {
+    const CONDUCT_C1_MEETING_TASK = "50161c5bf2c14905b7a49e6fa33d5d5b";
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create((0, acceleratorTask_1.createAcceleratorTaskProps)({
         studentName,

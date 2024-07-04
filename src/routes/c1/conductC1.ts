@@ -36,8 +36,6 @@ export const conductC1: RequestHandler = asyncHandler(
   }
 );
 
-const CONDUCT_C1_MEETING_TASK = "50161c5bf2c14905b7a49e6fa33d5d5b";
-
 interface ConductC1MeetingInDatabaseProps
   extends RequiredAcceleratorTaskFields {
   studentId: string;
@@ -57,6 +55,7 @@ const conductC1MeetingInDatabase = async ({
   parentEmail,
   parentNumber,
 }: ConductC1MeetingInDatabaseProps) => {
+  const CONDUCT_C1_MEETING_TASK = "50161c5bf2c14905b7a49e6fa33d5d5b";
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create(
     createAcceleratorTaskProps({

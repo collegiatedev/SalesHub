@@ -22,8 +22,8 @@ exports.createDashboard = (0, helpers_1.asyncHandler)(async (req, res) => {
         message: "Create Student Dashboard Task - Generated",
     });
 });
-const CREATE_STUDENT_DASHBOARD_TASK = "c735d37a78cd43a28423a7caf9b37ab9";
 const createStudentDashboardInDatabase = async ({ studentName, studentPageId, repPageId, time, folderLink, studentEmail, }) => {
+    const CREATE_STUDENT_DASHBOARD_TASK = "c735d37a78cd43a28423a7caf9b37ab9";
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create((0, acceleratorTask_1.createAcceleratorTaskProps)({
         studentName,
