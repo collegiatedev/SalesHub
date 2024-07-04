@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editStudentEssayInDatabase = exports.editEssay = void 0;
+exports.editEssay = void 0;
 const helpers_1 = require("../../helpers");
 const clients_1 = require("../../../clients");
 const acceleratorTask_1 = require("../../../utils/acceleratorTask");
@@ -17,13 +17,13 @@ exports.editEssay = (0, helpers_1.asyncHandler)(async (req, res) => {
         return res.status(400).json({
             message: validatedParams.error,
         });
-    await (0, exports.editStudentEssayInDatabase)(validatedParams.params);
+    await editStudentEssayInDatabase(validatedParams.params);
     return res.json({
         message: "Edit Student Essay Task - Generated",
     });
 });
-const EDIT_STUDENT_ESSAY_TASK = "0d286379401143628168cbf237940f66";
 const editStudentEssayInDatabase = async ({ studentName, studentPageId, repPageId, time, docLink, fileLink, }) => {
+    const EDIT_STUDENT_ESSAY_TASK = "0d286379401143628168cbf237940f66";
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create((0, acceleratorTask_1.createAcceleratorTaskProps)({
         studentName,
@@ -232,4 +232,3 @@ const editStudentEssayInDatabase = async ({ studentName, studentPageId, repPageI
     console.log("Done with batch");
     promises = [];
 };
-exports.editStudentEssayInDatabase = editStudentEssayInDatabase;

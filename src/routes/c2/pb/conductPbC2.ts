@@ -35,16 +35,14 @@ export const conductPbC2: RequestHandler = asyncHandler(
   }
 );
 
-const CONDUCT_C2_MEETING_PB_TASK = "29d8e847ce87449988c992015b46a7a6";
-
-export interface ConductC2MeetingPBInDatabaseProps
+interface ConductC2MeetingPBInDatabaseProps
   extends RequiredAcceleratorTaskFields {
   studentId: string;
   pbDocLink: string;
   repName: string;
   leadRepId: string;
 }
-export const conductC2MeetingPBInDatabase = async ({
+const conductC2MeetingPBInDatabase = async ({
   studentName,
   studentPageId,
   repPageId,
@@ -54,6 +52,7 @@ export const conductC2MeetingPBInDatabase = async ({
   repName,
   leadRepId,
 }: ConductC2MeetingPBInDatabaseProps) => {
+  const CONDUCT_C2_MEETING_PB_TASK = "29d8e847ce87449988c992015b46a7a6";
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create(
     createAcceleratorTaskProps({

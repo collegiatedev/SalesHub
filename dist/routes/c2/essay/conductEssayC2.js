@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.conductC2MeetingEssayInDatabase = exports.conductEssayC2 = void 0;
+exports.conductEssayC2 = void 0;
 const helpers_1 = require("../../helpers");
 const clients_1 = require("../../../clients");
 const acceleratorTask_1 = require("../../../utils/acceleratorTask");
@@ -19,13 +19,13 @@ exports.conductEssayC2 = (0, helpers_1.asyncHandler)(async (req, res) => {
         return res.status(400).json({
             message: validatedParams.error,
         });
-    await (0, exports.conductC2MeetingEssayInDatabase)(validatedParams.params);
+    await conductC2MeetingEssayInDatabase(validatedParams.params);
     return res.json({
         message: "Conduct Essay Editing C2 Meeting Task - Generated",
     });
 });
-const CONDUCT_C2_MEETING_ESSAY_TASK = "0248e350f0d34aafab6b28b0d8b86e59";
 const conductC2MeetingEssayInDatabase = async ({ studentName, studentPageId, repPageId, time, studentId, essayDocLink, repName, leadRepId, }) => {
+    const CONDUCT_C2_MEETING_ESSAY_TASK = "0248e350f0d34aafab6b28b0d8b86e59";
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create((0, acceleratorTask_1.createAcceleratorTaskProps)({
         studentName,
@@ -1039,4 +1039,3 @@ const conductC2MeetingEssayInDatabase = async ({ studentName, studentPageId, rep
     console.log("Done with batch");
     promises = [];
 };
-exports.conductC2MeetingEssayInDatabase = conductC2MeetingEssayInDatabase;

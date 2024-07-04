@@ -31,14 +31,12 @@ export const additionalFeedback: RequestHandler = asyncHandler(
   }
 );
 
-const GIVE_ADDITIONAL_FEEDBACK_TO_PB_TASK = "63c03a42c94d4d38b30835434dd22e01";
-
-export interface AdditionalFeedbackToPBInDatabaseProps
+interface AdditionalFeedbackToPBInDatabaseProps
   extends RequiredAcceleratorTaskFields {
   pbDocLink: string;
   dashboardPageId: string;
 }
-export const additionalFeedbackToPBInDatabase = async ({
+const additionalFeedbackToPBInDatabase = async ({
   studentName,
   studentPageId,
   repPageId,
@@ -46,6 +44,8 @@ export const additionalFeedbackToPBInDatabase = async ({
   pbDocLink,
   dashboardPageId,
 }: AdditionalFeedbackToPBInDatabaseProps) => {
+  const GIVE_ADDITIONAL_FEEDBACK_TO_PB_TASK =
+    "63c03a42c94d4d38b30835434dd22e01";
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create(
     createAcceleratorTaskProps({

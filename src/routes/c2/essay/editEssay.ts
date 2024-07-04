@@ -33,14 +33,12 @@ export const editEssay: RequestHandler = asyncHandler(
   }
 );
 
-const EDIT_STUDENT_ESSAY_TASK = "0d286379401143628168cbf237940f66";
-
-export interface EditStudentEssayInDatabaseProps
+interface EditStudentEssayInDatabaseProps
   extends RequiredAcceleratorTaskFields {
   docLink: string;
   fileLink: string;
 }
-export const editStudentEssayInDatabase = async ({
+const editStudentEssayInDatabase = async ({
   studentName,
   studentPageId,
   repPageId,
@@ -48,6 +46,7 @@ export const editStudentEssayInDatabase = async ({
   docLink,
   fileLink,
 }: EditStudentEssayInDatabaseProps) => {
+  const EDIT_STUDENT_ESSAY_TASK = "0d286379401143628168cbf237940f66";
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create(
     createAcceleratorTaskProps({

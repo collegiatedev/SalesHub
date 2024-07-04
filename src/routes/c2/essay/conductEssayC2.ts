@@ -33,17 +33,14 @@ export const conductEssayC2: RequestHandler = asyncHandler(
   }
 );
 
-const CONDUCT_C2_MEETING_ESSAY_TASK = "0248e350f0d34aafab6b28b0d8b86e59";
-
-export interface ConductC2MeetingEssayInDatabaseProps
+interface ConductC2MeetingEssayInDatabaseProps
   extends RequiredAcceleratorTaskFields {
   studentId: string;
   essayDocLink: string;
   repName: string;
   leadRepId: string;
 }
-
-export const conductC2MeetingEssayInDatabase = async ({
+const conductC2MeetingEssayInDatabase = async ({
   studentName,
   studentPageId,
   repPageId,
@@ -53,6 +50,7 @@ export const conductC2MeetingEssayInDatabase = async ({
   repName,
   leadRepId,
 }: ConductC2MeetingEssayInDatabaseProps) => {
+  const CONDUCT_C2_MEETING_ESSAY_TASK = "0248e350f0d34aafab6b28b0d8b86e59";
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create(
     createAcceleratorTaskProps({

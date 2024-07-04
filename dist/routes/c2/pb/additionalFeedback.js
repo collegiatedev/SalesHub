@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.additionalFeedbackToPBInDatabase = exports.additionalFeedback = void 0;
+exports.additionalFeedback = void 0;
 const helpers_1 = require("../../helpers");
 const clients_1 = require("../../../clients");
 const acceleratorTask_1 = require("../../../utils/acceleratorTask");
@@ -17,13 +17,13 @@ exports.additionalFeedback = (0, helpers_1.asyncHandler)(async (req, res) => {
         return res.status(400).json({
             message: validatedParams.error,
         });
-    await (0, exports.additionalFeedbackToPBInDatabase)(validatedParams.params);
+    await additionalFeedbackToPBInDatabase(validatedParams.params);
     return res.json({
         message: "Give Additional Feedback to Personal Brand Task - Generated",
     });
 });
-const GIVE_ADDITIONAL_FEEDBACK_TO_PB_TASK = "63c03a42c94d4d38b30835434dd22e01";
 const additionalFeedbackToPBInDatabase = async ({ studentName, studentPageId, repPageId, time, pbDocLink, dashboardPageId, }) => {
+    const GIVE_ADDITIONAL_FEEDBACK_TO_PB_TASK = "63c03a42c94d4d38b30835434dd22e01";
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create((0, acceleratorTask_1.createAcceleratorTaskProps)({
         studentName,
@@ -252,4 +252,3 @@ const additionalFeedbackToPBInDatabase = async ({ studentName, studentPageId, re
     console.log("Done with batch");
     promises = [];
 };
-exports.additionalFeedbackToPBInDatabase = additionalFeedbackToPBInDatabase;
