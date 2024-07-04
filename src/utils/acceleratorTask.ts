@@ -1,7 +1,5 @@
 import { EmojiRequest } from "./emojis";
 
-export const ACCELERATOR_TASKS_DB = "c152f19a8b944a0bebab93ad9da6da2";
-
 export interface RequiredAcceleratorTaskFields {
   studentName: string;
   studentPageId: string;
@@ -24,6 +22,7 @@ export const createAcceleratorTaskProps = ({
   taskId,
   emoji,
 }: AcceleratorTaskProps) => {
+  const ACCELERATOR_TASKS_DB = "c152fc19a8b944a0bebab93ad9da6da2";
   return {
     parent: {
       type: "database_id",

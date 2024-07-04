@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createAcceleratorTaskProps = exports.ACCELERATOR_TASKS_DB = void 0;
-exports.ACCELERATOR_TASKS_DB = "c152f19a8b944a0bebab93ad9da6da2";
+exports.createAcceleratorTaskProps = void 0;
 const createAcceleratorTaskProps = ({ studentName, studentPageId, repPageId, time, 
 // should be provided by server
 taskName, taskId, emoji, }) => {
+    const ACCELERATOR_TASKS_DB = "c152fc19a8b944a0bebab93ad9da6da2";
     return {
         parent: {
             type: "database_id",
-            database_id: exports.ACCELERATOR_TASKS_DB,
+            database_id: ACCELERATOR_TASKS_DB,
         },
         icon: {
             type: "emoji",

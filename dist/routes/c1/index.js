@@ -7,5 +7,5 @@ const conductC1_1 = require("./conductC1");
 const createDashboard_1 = require("./createDashboard");
 exports.c1Router = (0, express_1.Router)();
 exports.c1Router.get("/conduct", conductC1_1.conductC1);
-exports.c1Router.get("/gc", createFamilyGC_1.createFamilyGC);
+exports.c1Router.post("/gc", createFamilyGC_1.createFamilyGC);
 exports.c1Router.get("/dashboard", createDashboard_1.createDashboard);

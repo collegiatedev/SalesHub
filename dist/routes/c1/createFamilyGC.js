@@ -6,6 +6,7 @@ const clients_1 = require("../../clients");
 const acceleratorTask_1 = require("../../utils/acceleratorTask");
 exports.createFamilyGC = (0, helpers_1.asyncHandler)(async (req, res) => {
     const validatedParams = (0, helpers_1.checkBodyParams)(req, [
+        "studentId",
         "studentName",
         "repPageId",
         "studentPageId",
@@ -23,8 +24,8 @@ exports.createFamilyGC = (0, helpers_1.asyncHandler)(async (req, res) => {
         message: "Create Family GC Task - Generated",
     });
 });
-const CREATE_FAMILY_GC_TASK = "5576b4a91e2f45999e1e209f467b60be";
 const createFamilyGCInDatabase = async ({ studentName, studentPageId, repPageId, time, studentId, parentName, studentPhone, parentPhone, }) => {
+    const CREATE_FAMILY_GC_TASK = "5576b4a91e2f45999e1e209f467b60be";
     const keyMap = new Map();
     const page = await clients_1.notionClient.pages.create((0, acceleratorTask_1.createAcceleratorTaskProps)({
         studentName,

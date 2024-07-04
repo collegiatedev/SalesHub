@@ -11,6 +11,7 @@ export const createFamilyGC: RequestHandler = asyncHandler(
     const validatedParams = checkBodyParams<CreateFamilyGCInDatabaseProps>(
       req,
       [
+        "studentId",
         "studentName",
         "repPageId",
         "studentPageId",
@@ -34,8 +35,6 @@ export const createFamilyGC: RequestHandler = asyncHandler(
   }
 );
 
-const CREATE_FAMILY_GC_TASK = "5576b4a91e2f45999e1e209f467b60be";
-
 interface CreateFamilyGCInDatabaseProps extends RequiredAcceleratorTaskFields {
   studentId: string;
   parentName: string;
@@ -52,6 +51,7 @@ const createFamilyGCInDatabase = async ({
   studentPhone,
   parentPhone,
 }: CreateFamilyGCInDatabaseProps) => {
+  const CREATE_FAMILY_GC_TASK = "5576b4a91e2f45999e1e209f467b60be";
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create(
     createAcceleratorTaskProps({
