@@ -5,12 +5,14 @@ import { useEffect } from "react";
 import { InvalidLink } from "~/components/invalidLink";
 
 // notion sales rep page id -> cal c3 embed link
+// make sure its in dash-format
 const getCalLink = new Map<string, string>([
   ["cece3b60-98b3-469e-bd22-61ebd7319aad", "jesse-lee/c3"],
   ["4808b0f6-992a-4f3a-8d8a-58946d7804f6", "ibansal/c3"],
   ["d17c02cd-3050-4f66-a763-eefe698087c5", "mridulp/c3"],
-  // in-training
+  // require one of the above to be present
   ["a767aaef-c343-43fb-bdec-828befc5a26c", "team/collegiate/c3-r"], // raghu
+  ["7aa42588-e95c-490a-9ca3-6cd8a0b56487", "team/collegiate/c3-s"], // shashank
 ]);
 
 type Cal3Props = {
