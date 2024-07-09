@@ -1,44 +1,30 @@
 "use client";
 
-import { concentrationToTally } from "./concentrations";
+import { useEffect } from "react";
 
 interface TallyC2P2Props {
   id: string;
   name: string;
   grade: string;
-  concentration: string;
+  tallyId: string;
+  setTallyP2: (tally: boolean) => void;
 }
-
-const getConcentrationString = (concentrationInput: any) => {
-  if (
-    typeof concentrationInput === "object" &&
-    concentrationInput !== null &&
-    "concentration" in concentrationInput
-  ) {
-    return concentrationInput.concentration;
-  }
-  return concentrationInput; // Return the input directly if it's not an object with a concentration property
-};
-
-export const TallyC2P2 = ({ id, name, concentration }: TallyC2P2Props) => {
-  const concentrationString = getConcentrationString(concentration);
-  const tallyId = concentrationToTally.get(concentrationString.toString());
-
-  if (tallyId === null) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          width: "100vw",
-        }}
-      >
-        <p>Thank We Will See You Soon! No Further Information Needed</p>
-      </div>
-    );
-  }
+export const TallyC2P2 = ({
+  id,
+  name,
+  tallyId,
+  setTallyP2,
+}: TallyC2P2Props) => {
+  useEffect(() => {
+    const handleFormSubmit = (event: any) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.event === "Tally.FormSubmitted") setTallyP2(true);
+      } catch (error) {}
+    };
+    window.addEventListener("message", handleFormSubmit);
+    return () => window.removeEventListener("message", handleFormSubmit);
+  }, [id, setTallyP2]);
 
   return (
     <div
@@ -62,7 +48,7 @@ export const TallyC2P2 = ({ id, name, concentration }: TallyC2P2Props) => {
           left: 0,
           border: "none",
         }}
-        title="Student Work Call Registration"
+        title="Module Registration"
       ></iframe>
     </div>
   );

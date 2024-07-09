@@ -7,7 +7,7 @@ interface TallyC2Props {
   id: string;
   name: string;
   grade: string;
-  setConcentration: any;
+  setConcentration: (concentration: string) => void;
 }
 
 export const TallyC2 = ({
@@ -20,12 +20,9 @@ export const TallyC2 = ({
     const handleFormSubmit = (event: any) => {
       try {
         const data = JSON.parse(event.data);
-
         if (data.event === "Tally.FormSubmitted") {
           const concentration = retrieveField(data, "concentration");
-
-          setConcentration({ concentration });
-          console.log("concentration:", concentration);
+          setConcentration(concentration);
         }
       } catch (error) {}
     };

@@ -66,7 +66,10 @@ export const IdForm = ({ id, children }: IdFormProps) => {
     setSubmittedId(submitData.id);
   };
 
-  if (firstRender && isFetching) return <div>Loading...</div>;
+  if (firstRender && isFetching) {
+    console.log("firstRender and isFetching", firstRender, isFetching);
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       {!leadFields ? (
