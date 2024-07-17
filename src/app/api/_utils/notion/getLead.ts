@@ -1,4 +1,4 @@
-import { notionClient } from "~/lib/clients";
+import { notionClient } from "~/app/api/_utils/notion";
 
 export const getLead = async (leadId: string) => {
   const LEAD_DATABASE_ID = "27386326248f4dae9374811627be3036";

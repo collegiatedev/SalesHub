@@ -5,7 +5,7 @@ import { CalC3 } from "./_components/cal";
 import { Suspense, useState } from "react";
 import { TallyC3 } from "./_components/tally";
 import { IdForm } from "~/components/idForm";
-import { LeadFields } from "../api/lead/getLead";
+import { LeadFields } from "../api/_utils/notion/getLead";
 
 export default function C3() {
   return (

@@ -1,5 +1,5 @@
 import { ApiResponse, reqHandler } from "../_utils/handlers";
-import { getLead, LeadFields } from "./getLead";
+import { getLead, LeadFields } from "../_utils/notion/getLead";
 
 export const GET = reqHandler<LeadFields>({
   required: { params: ["id"] },

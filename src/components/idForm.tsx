@@ -17,7 +17,7 @@ import {
 import { Input } from "./ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { LeadHandlerResponse } from "~/app/api/lead/route";
-import { LeadFields } from "~/app/api/lead/getLead";
+import { LeadFields } from "~/app/api/_utils/notion/getLead";
 import { Loader2 } from "lucide-react";
 
 interface IdFormProps {
