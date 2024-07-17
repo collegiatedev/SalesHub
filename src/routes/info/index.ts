@@ -8,9 +8,14 @@ import { c2Debrief } from "./c2Debrief";
 
 export const infoRouter: Router = Router();
 
-infoRouter.get("/create", create);
+// on c1 registration
+infoRouter.post("/create", create);
+infoRouter.post("/contact", contactInfo);
+// on post-c1 forms
 infoRouter.get("/background", studentBackground);
-infoRouter.get("/contact", contactInfo);
 infoRouter.get("/insight", parentInsight);
+// sales debrief
 infoRouter.get("/c1", c1Debrief);
+// on post-c2 forms
+// sales debrief
 infoRouter.get("/c2", c2Debrief);
