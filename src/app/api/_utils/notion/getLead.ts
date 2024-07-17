@@ -1,7 +1,6 @@
-import { notionClient } from "~/app/api/_utils/notion";
+import { LEAD_DATABASE_ID, notionClient } from "~/app/api/_utils/notion";
 
 export const getLead = async (leadId: string) => {
-  const LEAD_DATABASE_ID = "27386326248f4dae9374811627be3036";
   const response = await notionClient.databases.query({
     database_id: LEAD_DATABASE_ID,
     page_size: 1,
@@ -13,7 +12,7 @@ export const getLead = async (leadId: string) => {
     },
   });
 
-  // need to text number if no error
+  // need to text number if no id error
   if (response.results.length === 0) throw new Error(`Invalid ID: ${leadId}`);
 
   // @ts-ignore

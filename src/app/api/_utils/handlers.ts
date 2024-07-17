@@ -9,11 +9,12 @@ export type ApiResponse<T> = {
   message: string;
   data: T | null;
 };
-type HandlerFunction<T> = (utilContext: Record<string, string>) => Promise<T>;
+type HandlerFunction<T> = (utilContext: Record<string, any>) => Promise<T>;
 
 type HandlerConfig<T> = {
   required: { params?: string[]; body?: string[] };
   handler: HandlerFunction<T>;
+  requestBody?: any;
 };
 
 const validateParams = (
@@ -34,30 +35,31 @@ const validateParams = (
 
   return [utilContext, missingParams];
 };
-const validateBody = async (
-  req: NextRequest,
+const validateBody = (
+  body: any,
   requiredBody: string[] | undefined
-): Promise<[Record<string, string>, string[]]> => {
-  const utilContext: Record<string, string> = {};
+): [Record<string, any>, string[]] => {
+  const utilContext: Record<string, any> = {};
   const missingBody: string[] = [];
 
-  let body;
-  try {
-    body = await req.json();
-  } catch (error) {
-    body = {};
-  }
-
   requiredBody?.forEach((field) => {
-    if (!(field in body)) {
-      missingBody.push(field);
-    } else {
-      utilContext[field] = body[field];
+    const fieldParts = field.split(".");
+    let current = body;
+    for (let i = 0; i < fieldParts.length; i++) {
+      if (!(fieldParts[i]! in current)) {
+        missingBody.push(field);
+        break;
+      } else if (i === fieldParts.length - 1) {
+        utilContext[field] = current[fieldParts[i]!];
+      } else {
+        current = current[fieldParts[i]!];
+      }
     }
   });
 
   return [utilContext, missingBody];
 };
+
 const handleError = (error: unknown): NextResponse<ApiResponse<any>> => {
   console.error(error);
 
@@ -69,9 +71,15 @@ const handleError = (error: unknown): NextResponse<ApiResponse<any>> => {
   return NextResponse.json(errorResponse, { status: 500 });
 };
 
-export const reqHandler = <T>({ required, handler }: HandlerConfig<T>) => {
+export const reqHandler = <T>({
+  required,
+  handler,
+  requestBody,
+}: HandlerConfig<T>) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     try {
+      const reqBody = requestBody || (await req.json());
+
       const { searchParams } = new URL(req.url);
       const [paramsContext, missingParams] = validateParams(
         searchParams,
@@ -90,7 +98,7 @@ export const reqHandler = <T>({ required, handler }: HandlerConfig<T>) => {
         );
       }
 
-      const [bodyContext, missingBody] = await validateBody(req, required.body);
+      const [bodyContext, missingBody] = validateBody(reqBody, required.body);
 
       if (missingBody.length > 0) {
         return NextResponse.json(
@@ -127,7 +135,11 @@ const verifyTallySignature = (
     .digest("base64");
   return receivedSignature === calculatedSignature;
 };
-export const webhookHandler = <T>({ required, handler }: HandlerConfig<T>) => {
+
+export const webhookHandler = <T>(
+  required: { params?: string[]; body?: string[] },
+  handler: HandlerFunction<T>
+) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     const webhookPayload = await req.json();
     const receivedSignature = req.headers.get("tally-signature") as string;
@@ -140,6 +152,6 @@ export const webhookHandler = <T>({ required, handler }: HandlerConfig<T>) => {
     }
 
     // Proceed with reqHandler as usual
-    return reqHandler({ required, handler })(req);
+    return reqHandler({ required, handler, requestBody: webhookPayload })(req);
   };
 };
