@@ -1,13 +1,20 @@
 import { ApiResponse, webhookHandler } from "../_utils/handlers";
 import { createLead, parseCreateLeadFields } from "../_utils/notion/createLead";
+import { createInfo } from "../_utils/axios/info";
 
-// create lead in notion, using accelerator registration webhook
+// using accelerator registration webhook
 export const POST = webhookHandler<CreatedFields>(
   { body: ["data.fields"] },
   async (utilContext: any) => {
     const { "data.fields": fields } = utilContext;
+    // create lead in notion
     const leadFields = parseCreateLeadFields(fields);
     const lead = await createLead(leadFields);
+
+    // call info/create and info/contact server endpoints
+    const info = await createInfo(leadFields["Student Name"], lead.id);
+
+    console.log(info);
 
     return { lead };
   }

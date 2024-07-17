@@ -128,8 +128,11 @@ const verifyTallySignature = (
   payload: any,
   receivedSignature: string
 ): boolean => {
+  if (!process.env.SIGNING_SECRET) {
+    throw new Error("SIGNING_SECRET is not defined");
+  }
   const calculatedSignature = crypto
-    .createHmac("sha256", process.env.SIGNING_SECRET!)
+    .createHmac("sha256", process.env.SIGNING_SECRET)
     .update(JSON.stringify(payload))
     .digest("base64");
   return receivedSignature === calculatedSignature;
