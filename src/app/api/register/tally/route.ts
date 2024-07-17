@@ -1,6 +1,9 @@
-import { ApiResponse, webhookHandler } from "../_utils/handlers";
-import { createLead, parseCreateLeadFields } from "../_utils/notion/createLead";
-import { createInfo, infoContact } from "../_utils/axios/info";
+import { ApiResponse, webhookHandler } from "../../_utils/handlers";
+import {
+  createLead,
+  parseCreateLeadFields,
+} from "../../_utils/notion/createLead";
+import { createInfo, infoContact } from "../../_utils/axios/info";
 
 // using accelerator registration webhook
 export const POST = webhookHandler<CreatedFields>(
