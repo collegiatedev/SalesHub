@@ -12,6 +12,8 @@ export const getLead = async (leadId: string) => {
       },
     },
   });
+
+  // need to text number if no error
   if (response.results.length === 0) throw new Error(`Invalid ID: ${leadId}`);
 
   // @ts-ignore
@@ -19,6 +21,8 @@ export const getLead = async (leadId: string) => {
   // return parseLeadResponse(response.results[0].properties);
   return parseLeadResponse(response.results[0].properties);
 };
+
+// might need to extend
 const parseLeadResponse = (properties: any): LeadFields => {
   return {
     id: properties.id.rich_text[0].plain_text,

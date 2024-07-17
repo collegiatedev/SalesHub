@@ -6,7 +6,7 @@ import { TallyC2 } from "./_components/tally";
 import { TallyC2P2 } from "./_components/tallyp2";
 import { IdForm } from "~/components/idForm";
 import { useSearchParams } from "next/navigation";
-import { LeadFields } from "../api/lead/notion";
+import { LeadFields } from "../api/lead/getLead";
 import { concentrationToTally } from "./_components/concentrations";
 
 export default function C2() {
