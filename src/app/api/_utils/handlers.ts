@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { NextApiRequest, NextApiResponse } from "next/types";
 import crypto from "crypto";
 
 // 1. validate query params and body
