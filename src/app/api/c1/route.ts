@@ -1,6 +1,6 @@
 import { ApiResponse, webhookHandler } from "../_utils/handlers";
 import { createLead, parseCreateLeadFields } from "../_utils/notion/createLead";
-import { createInfo } from "../_utils/axios/info";
+import { createInfo, infoContact } from "../_utils/axios/info";
 
 // using accelerator registration webhook
 export const POST = webhookHandler<CreatedFields>(
@@ -13,8 +13,15 @@ export const POST = webhookHandler<CreatedFields>(
 
     // call info/create and info/contact server endpoints
     const info = await createInfo(leadFields["Student Name"], lead.id);
-
-    console.log(info);
+    await infoContact({
+      infoId: info.infoId,
+      studentName: leadFields["Student Name"],
+      studentEmail: leadFields["Student's Email"],
+      studentPhone: leadFields["Student's Phone"],
+      parentName: leadFields["Parent Name"],
+      parentEmail: leadFields["Parent's Email"],
+      parentPhone: leadFields["Parent's Phone"],
+    });
 
     return { lead };
   }
