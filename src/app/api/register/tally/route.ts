@@ -5,7 +5,7 @@ import {
 } from "../../_utils/notion/createLead";
 import { createInfo, infoContact } from "../../_utils/axios/info";
 
-// using accelerator registration webhook
+// using accelerator registration tally webhook
 export const POST = webhookHandler<CreatedFields>(
   { body: ["data.fields"] },
   async (utilContext: any) => {
@@ -17,7 +17,7 @@ export const POST = webhookHandler<CreatedFields>(
     // call info/create and info/contact server endpoints
     const info = await createInfo(leadFields["Student Name"], lead.id);
     await infoContact({
-      infoId: info.infoId,
+      infoId: info.infoId, // see express server, src/routes/info/create.ts
       studentName: leadFields["Student Name"],
       studentEmail: leadFields["Student's Email"],
       studentPhone: leadFields["Student's Phone"],
