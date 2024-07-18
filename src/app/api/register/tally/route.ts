@@ -17,8 +17,7 @@ export const POST = webhookHandler<CreatedFields>(
     // call info/create and info/contact server endpoints
     const info = await createInfo(leadFields["Student Name"], lead.id);
 
-    console.log("info", info);
-    // dont await cuz it takes too long lol
+    // dont await cuz it takes too long in serverless env
     infoContact({
       infoId: info.infoId, // see express server, src/routes/info/create.ts
       studentName: leadFields["Student Name"],

@@ -1,5 +1,4 @@
 import { ApiResponse, reqHandler, webhookHandler } from "../_utils/handlers";
-import { createLead, parseCreateLeadFields } from "../_utils/notion/createLead";
 import { getLead, LeadFields } from "../_utils/notion/getLead";
 
 // get lead from notion, using id

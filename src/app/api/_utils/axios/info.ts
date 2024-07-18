@@ -25,7 +25,6 @@ interface ContactInfo {
 }
 export const infoContact = async (contactInfo: ContactInfo) => {
   try {
-    console.log("contactInfo", contactInfo);
     const response = await axios.post(
       `${SERVER_URL}/info/contact`,
       contactInfo

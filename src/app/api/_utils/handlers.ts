@@ -60,7 +60,7 @@ const validateBody = (
 };
 
 const handleError = (error: unknown): NextResponse<ApiResponse<any>> => {
-  console.error(error);
+  console.error("handleError", error);
 
   const errorResponse = {
     message: error instanceof Error ? error.message : "Unknown error occurred",
@@ -77,7 +77,12 @@ export const reqHandler = <T>({
 }: HandlerConfig<T>) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     try {
-      const reqBody = requestBody || (await req.json());
+      let reqBody = requestBody;
+      if (!reqBody) {
+        const bodyText = await req.text();
+        if (bodyText) reqBody = JSON.parse(bodyText);
+        else reqBody = {};
+      }
 
       const { searchParams } = new URL(req.url);
       const [paramsContext, missingParams] = validateParams(

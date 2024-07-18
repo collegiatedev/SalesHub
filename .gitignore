@@ -43,3 +43,5 @@ next-env.d.ts
 
 # local src notion folder
 src/output
+
+credentials.json
