@@ -2,14 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 
 // 1. validate query params and body
-// 2. try-catch error handling (todo: with twilio and sentry notifications)
+// 2. try-catch error handling (todo: with twilio/sentry notifications)
 
 export type ApiResponse<T> = {
   message: string;
   data: T | null;
 };
 type HandlerFunction<T> = (utilContext: Record<string, any>) => Promise<T>;
-
 type HandlerConfig<T> = {
   required: { params?: string[]; body?: string[] };
   handler: HandlerFunction<T>;
@@ -89,7 +88,6 @@ export const reqHandler = <T>({
         searchParams,
         required.params
       );
-
       if (missingParams.length > 0) {
         return NextResponse.json(
           {
@@ -103,7 +101,6 @@ export const reqHandler = <T>({
       }
 
       const [bodyContext, missingBody] = validateBody(reqBody, required.body);
-
       if (missingBody.length > 0) {
         return NextResponse.json(
           {
@@ -116,7 +113,6 @@ export const reqHandler = <T>({
 
       const utilContext = { ...paramsContext, ...bodyContext };
       const data = await handler(utilContext);
-
       return NextResponse.json({
         message: "Success",
         data,
@@ -128,25 +124,25 @@ export const reqHandler = <T>({
 };
 
 // 3. Verify that webhook signature is legit
-
-const verifyTallySignature = (
-  payload: any,
-  receivedSignature: string
-): boolean => {
-  if (!process.env.SIGNING_SECRET) {
-    throw new Error("SIGNING_SECRET is not defined");
-  }
-  const calculatedSignature = crypto
-    .createHmac("sha256", process.env.SIGNING_SECRET)
-    .update(JSON.stringify(payload))
-    .digest("base64");
-  return receivedSignature === calculatedSignature;
-};
-
+// extends reqHandler, use for endpoints with tally webhook
 export const webhookHandler = <T>(
   required: { params?: string[]; body?: string[] },
   handler: HandlerFunction<T>
 ) => {
+  const verifyTallySignature = (
+    payload: any,
+    receivedSignature: string
+  ): boolean => {
+    if (!process.env.SIGNING_SECRET) {
+      throw new Error("SIGNING_SECRET is not defined");
+    }
+    const calculatedSignature = crypto
+      .createHmac("sha256", process.env.SIGNING_SECRET)
+      .update(JSON.stringify(payload))
+      .digest("base64");
+    return receivedSignature === calculatedSignature;
+  };
+
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     const webhookPayload = await req.json();
     const receivedSignature = req.headers.get("tally-signature") as string;
@@ -158,7 +154,6 @@ export const webhookHandler = <T>(
       );
     }
 
-    // Proceed with reqHandler as usual
     return reqHandler({ required, handler, requestBody: webhookPayload })(req);
   };
 };
