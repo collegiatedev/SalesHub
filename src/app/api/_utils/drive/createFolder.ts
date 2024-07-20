@@ -1,35 +1,32 @@
-const createFolder = async (folderId: string) => {
-  const fs = require("fs");
-  const { GoogleAuth } = require("google-auth-library");
-  const { google } = require("googleapis");
-  // Get credentials and build service
-  // TODO (developer) - Use appropriate auth mechanism for your app
-  const auth = new GoogleAuth({
-    scopes: "https://www.googleapis.com/auth/drive",
-  });
-  const service = google.drive({ version: "v3", auth });
+// src/utils/drive/createFolder.ts
+import { google } from "googleapis";
+import { authorizeDrive } from "./setup";
 
-  // TODO(developer): set folder
-  // folderId = '1lWo8HghUBd-3mN4s98ArNFMdqmhqCXH7';
-  const fileMetadata = {
-    name: "photo.jpg",
-    parents: [folderId],
-  };
-  const media = {
-    mimeType: "image/jpeg",
-    body: fs.createReadStream("files/photo.jpg"),
-  };
-
+export async function listFiles() {
   try {
-    const file = await service.files.create({
-      requestBody: fileMetadata,
-      media: media,
-      fields: "id",
+    const auth = await authorizeDrive();
+    if (!auth) return false;
+
+    const drive = google.drive({ version: "v3", auth });
+
+    const res = await drive.files.list({
+      pageSize: 10,
+      fields: "nextPageToken, files(id, name)",
     });
-    console.log("File Id:", file.data.id);
-    return file.data.id;
-  } catch (err) {
-    // TODO(developer) - Handle error
-    throw err;
+
+    const files = res.data.files;
+    if (files && files.length) {
+      console.log("Files:");
+      files.forEach((file) => {
+        console.log(`${file.name} (${file.id})`);
+      });
+    } else {
+      console.log("No files found.");
+    }
+
+    return true;
+  } catch (error) {
+    console.error("The API returned an error:", error);
+    return false;
   }
-};
+}
