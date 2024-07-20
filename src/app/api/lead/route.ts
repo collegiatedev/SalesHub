@@ -1,4 +1,4 @@
-import { reqHandler } from "../_utils/handlers";
+import { ApiResponse, reqHandler } from "../_utils/handlers";
 import { getLead, LeadFields } from "../_utils/notion/getLead";
 
 // get lead from notion, using id
@@ -12,3 +12,5 @@ export const GET = reqHandler<LeadFields>({
     return { ...lead };
   },
 });
+
+export type LeadHandlerResponse = ApiResponse<LeadFields>;
