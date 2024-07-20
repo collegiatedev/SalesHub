@@ -7,18 +7,18 @@ import { updateLead, updateLeadHelpers } from "../../_utils/notion/updateLead";
 type CreatedFolder = Awaited<ReturnType<typeof updateLead>>;
 
 // todo: change to post
-export const GET = oauthHandler<CreatedFolder>({
+export const POST = oauthHandler<CreatedFolder>({
   // leadRef is reference to student's notion page in Accelerator CRM
-  required: { params: ["name", "leadRef"] },
-  handler: async (utilContext, googleClient) => {
-    const { name, leadRef } = utilContext;
-
+  required: { body: ["name", "leadRef", "studentEmail", "parentEmail"] },
+  handler: async (utilContext, _req, googleClient) => {
+    const { name, leadRef, studentEmail, parentEmail } = utilContext;
     const folderName = `${name}'s Assets`;
-    const folderRef = await createFolder(
-      googleClient,
+    const folderRef = await createFolder({
+      authClient: googleClient,
       folderName,
-      OUTREACH_ACCELERATOR_FOLDER
-    );
+      parentFolderId: OUTREACH_ACCELERATOR_FOLDER,
+      emailsToShareWith: [studentEmail, parentEmail],
+    });
     const folderId = folderRef.id;
 
     // update lead page with folder ref
@@ -27,5 +27,5 @@ export const GET = oauthHandler<CreatedFolder>({
     });
     return response;
   },
-  useRedirect: false,
+  useRedirect: false, // exposed to all clients, so don't redirect
 });

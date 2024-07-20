@@ -6,7 +6,10 @@ export type ApiResponse<T> = {
   message: string;
   data: T | null;
 };
-type HandlerFunction<T> = (utilContext: Record<string, any>) => Promise<T>;
+type HandlerFunction<T> = (
+  utilContext: Record<string, any>,
+  req: NextRequest
+) => Promise<T>;
 type HandlerConfig<T> = {
   required: { params?: string[]; body?: string[] };
   handler: HandlerFunction<T>;
@@ -57,12 +60,11 @@ const validateBody = (
 };
 
 const handleError = (error: unknown): NextResponse<ApiResponse<any>> => {
-  console.error("handleError", error);
-
   const errorResponse = {
     message: error instanceof Error ? error.message : "Unknown error occurred",
     data: null,
   };
+  console.error("handleError", errorResponse);
 
   return NextResponse.json(errorResponse, { status: 500 });
 };
@@ -108,9 +110,8 @@ export const reqHandler = <T>({
           { status: 400 }
         );
       }
-
       const utilContext = { ...paramsContext, ...bodyContext };
-      const data = await handler(utilContext);
+      const data = await handler(utilContext, req);
       // allows for custom responses (i.e. redirect)
       if (data instanceof NextResponse) return data;
 
@@ -167,6 +168,7 @@ import * as fs from "fs/promises";
 
 type HandlerFunctionWithOAuth<T> = (
   utilContext: Record<string, any>,
+  req: NextRequest,
   googleClient?: any
 ) => Promise<T>;
 
@@ -212,7 +214,7 @@ export const oauthHandler = <T>({
       }
 
       const enhancedHandler = async (utilContext: Record<string, any>) =>
-        handler(utilContext, googleClient);
+        handler(utilContext, req, googleClient);
 
       return reqHandler({
         handler: enhancedHandler,
