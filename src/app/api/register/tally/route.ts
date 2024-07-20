@@ -28,6 +28,8 @@ export const POST = webhookHandler<CreatedFields>(
       parentPhone: leadFields["Parent's Phone"],
     });
 
+    // const redirectUrl = new URL(`/api/auth/init?origin=${origin}`, req.url);
+
     return { lead };
   }
 );

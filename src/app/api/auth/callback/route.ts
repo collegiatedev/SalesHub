@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { oauth2Client, TOKEN_PATH } from "../../_utils/constants";
-import { ApiResponse, reqHandler } from "../../_utils/handlers";
+import { reqHandler } from "../../_utils/handlers";
 import * as fs from "fs/promises";
 
 export const GET = reqHandler<any>({

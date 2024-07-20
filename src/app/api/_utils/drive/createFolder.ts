@@ -1,18 +1,29 @@
-// src/utils/drive/createFolder.ts
 import { google } from "googleapis";
-import { authorizeDrive } from "./setup";
 
-export const listFiles = async () => {
-  const auth = await authorizeDrive();
-  if (!auth) return false; // change me
+export const createFolder = async (
+  authClient: any,
+  folderName: string,
+  parentFolderId: string
+) => {
+  const drive = google.drive({ version: "v3", auth: authClient });
 
-  const drive = google.drive({ version: "v3", auth });
-  const res = await drive.files.list({
-    pageSize: 10,
-    fields: "nextPageToken, files(id, name)",
+  // parentFolderId should be const
+
+  // API call to create the folder
+  const response = await drive.files.create({
+    requestBody: {
+      name: folderName,
+      mimeType: "application/vnd.google-apps.folder",
+      parents: [parentFolderId],
+    },
+    fields: "id, name",
   });
 
-  const files = res.data.files;
-  if (!files) return [];
-  return files.map((file) => ({ id: file.id, name: file.name }));
+  // need to share it
+
+  // Folder creation successful
+  console.log(
+    `Folder '${folderName}' created successfully with ID: ${response.data.id}`
+  );
+  return response.data;
 };

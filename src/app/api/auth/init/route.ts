@@ -1,12 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { oauth2Client } from "../../_utils/constants";
+import { reqHandler } from "../../_utils/handlers";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const origin = searchParams.get("origin") || "/";
-  const authUrl = await getAuthUrl(origin);
-  return NextResponse.redirect(authUrl);
-}
+export const GET = reqHandler<any>({
+  required: { params: ["origin"] },
+  handler: async (utilContext) => {
+    const { origin } = utilContext;
+    const authUrl = await getAuthUrl(origin as string);
+    return NextResponse.redirect(authUrl);
+  },
+});
 
 const getAuthUrl = async (origin: string) => {
   const SCOPES = ["https://www.googleapis.com/auth/drive"];

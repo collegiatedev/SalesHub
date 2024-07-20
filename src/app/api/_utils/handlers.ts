@@ -167,35 +167,42 @@ import * as fs from "fs/promises";
 
 type HandlerFunctionWithOAuth<T> = (
   utilContext: Record<string, any>,
-  googleClient: any
+  googleClient?: any
 ) => Promise<T>;
 
 type OAuthHandlerConfig<T> = {
   required: { params?: string[]; body?: string[] };
   handler: HandlerFunctionWithOAuth<T>;
   requestBody?: any;
+  // default true, redirects to oauth flow if no credentials
+  // false, we throw an error if no credentials
+  useRedirect?: boolean;
+};
+
+const loadSavedCredentialsIfExist = async () => {
+  try {
+    const content = await fs.readFile(TOKEN_PATH);
+    const credentials = JSON.parse(content.toString());
+    oauth2Client.setCredentials(credentials);
+    return oauth2Client;
+  } catch (err) {
+    return null;
+  }
 };
 
 export const oauthHandler = <T>({
   required,
   handler,
   requestBody,
+  useRedirect = true,
 }: OAuthHandlerConfig<T>) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
-    const loadSavedCredentialsIfExist = async () => {
-      try {
-        const content = await fs.readFile(TOKEN_PATH);
-        const credentials = JSON.parse(content.toString());
-        oauth2Client.setCredentials(credentials);
-        return oauth2Client;
-      } catch (err) {
-        return null;
-      }
-    };
-
     try {
       const googleClient = await loadSavedCredentialsIfExist();
+
       if (!googleClient) {
+        if (!useRedirect) throw new Error("No credentials");
+
         const origin = encodeURIComponent(req.url);
         const redirectUrl = new URL(`/api/auth/init?origin=${origin}`, req.url);
         return NextResponse.json(

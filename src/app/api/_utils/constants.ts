@@ -19,3 +19,6 @@ export const oauth2Client = new google.auth.OAuth2(
   `${process.env.NEXTAUTH_URL}/api/auth/callback/`
 );
 export const TOKEN_PATH = path.join(process.cwd(), "token.json");
+
+// drive setup
+export const OUTREACH_ACCELERATOR_FOLDER = "1BbpKFfIXVyacLC4q7s0zsZ70DSJd0mbH";
