@@ -2,31 +2,17 @@
 import { google } from "googleapis";
 import { authorizeDrive } from "./setup";
 
-export async function listFiles() {
-  try {
-    const auth = await authorizeDrive();
-    if (!auth) return false;
+export const listFiles = async () => {
+  const auth = await authorizeDrive();
+  if (!auth) return false; // change me
 
-    const drive = google.drive({ version: "v3", auth });
+  const drive = google.drive({ version: "v3", auth });
+  const res = await drive.files.list({
+    pageSize: 10,
+    fields: "nextPageToken, files(id, name)",
+  });
 
-    const res = await drive.files.list({
-      pageSize: 10,
-      fields: "nextPageToken, files(id, name)",
-    });
-
-    const files = res.data.files;
-    if (files && files.length) {
-      console.log("Files:");
-      files.forEach((file) => {
-        console.log(`${file.name} (${file.id})`);
-      });
-    } else {
-      console.log("No files found.");
-    }
-
-    return true;
-  } catch (error) {
-    console.error("The API returned an error:", error);
-    return false;
-  }
-}
+  const files = res.data.files;
+  if (!files) return [];
+  return files.map((file) => ({ id: file.id, name: file.name }));
+};

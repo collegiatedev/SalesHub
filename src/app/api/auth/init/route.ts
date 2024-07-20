@@ -1,18 +1,18 @@
-// pages/api/auth/google/init.ts
+import { NextRequest, NextResponse } from "next/server";
+import { oauth2Client } from "../../_utils/constants";
 
-import { NextResponse } from "next/server";
-import { getAuthUrl } from "../../_utils/drive/setup";
-
-// export const GET = reqHandler<AuthUrlResponse>({
-//   required: {},
-//   handler: async () => {
-//     const authUrl = await getAuthUrl();
-//     return { authUrl };
-//     NextResponse.redirect(`${process.env.NEXTAUTH_URL}/api/auth/init`);
-//   },
-// });
-export async function GET() {
-  const authUrl = await getAuthUrl();
-  console.log("authUrl", authUrl);
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const origin = searchParams.get("origin") || "/";
+  const authUrl = await getAuthUrl(origin);
   return NextResponse.redirect(authUrl);
 }
+
+const getAuthUrl = async (origin: string) => {
+  const SCOPES = ["https://www.googleapis.com/auth/drive"];
+  return oauth2Client.generateAuthUrl({
+    access_type: "offline",
+    scope: SCOPES,
+    state: encodeURIComponent(origin), // Include the origin URL in the state parameter
+  });
+};

@@ -1,10 +1,28 @@
-import { NextRequest, NextResponse } from "next/server";
-import { listFiles } from "../../_utils/drive/createFolder";
+import { google } from "googleapis";
+import { oauthHandler } from "../../_utils/handlers";
 
-export async function GET(request: NextRequest) {
-  const works = await listFiles();
-  const redirectUrl = new URL("/api/auth/init", request.url);
-  if (!works) return NextResponse.redirect(redirectUrl);
+type ListFilesResponse = Array<{ id: string; name: string }>;
 
-  return NextResponse.redirect(redirectUrl);
-}
+export const GET = oauthHandler<ListFilesResponse>({
+  required: { params: [] },
+  handler: async (_, googleClient) => {
+    const drive = google.drive({ version: "v3", auth: googleClient });
+    const res = await drive.files.list({
+      pageSize: 10,
+      fields: "nextPageToken, files(id, name)",
+    });
+
+    const files = res.data.files;
+    if (!files) return [];
+
+    return files
+      .filter(
+        (file) =>
+          file.id !== null &&
+          file.id !== undefined &&
+          file.name !== null &&
+          file.name !== undefined
+      )
+      .map((file) => ({ id: file.id!, name: file.name! }));
+  },
+});

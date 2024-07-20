@@ -1,8 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
-
 // 1. validate query params and body
 // 2. try-catch error handling (todo: with twilio/sentry notifications)
+import { NextRequest, NextResponse } from "next/server";
 
 export type ApiResponse<T> = {
   message: string;
@@ -113,6 +111,9 @@ export const reqHandler = <T>({
 
       const utilContext = { ...paramsContext, ...bodyContext };
       const data = await handler(utilContext);
+      // allows for custom responses (i.e. redirect)
+      if (data instanceof NextResponse) return data;
+
       return NextResponse.json({
         message: "Success",
         data,
@@ -123,8 +124,10 @@ export const reqHandler = <T>({
   };
 };
 
-// 3. Verify that webhook signature is legit
+// b1. Verify that webhook signature is legit
 // extends reqHandler, use for endpoints with tally webhook
+import crypto from "crypto";
+
 export const webhookHandler = <T>(
   required: { params?: string[]; body?: string[] },
   handler: HandlerFunction<T>
@@ -155,5 +158,62 @@ export const webhookHandler = <T>(
     }
 
     return reqHandler({ required, handler, requestBody: webhookPayload })(req);
+  };
+};
+
+// c1. google oauth handler with redirect
+import { oauth2Client, TOKEN_PATH } from "./constants";
+import * as fs from "fs/promises";
+
+type HandlerFunctionWithOAuth<T> = (
+  utilContext: Record<string, any>,
+  googleClient: any
+) => Promise<T>;
+
+type OAuthHandlerConfig<T> = {
+  required: { params?: string[]; body?: string[] };
+  handler: HandlerFunctionWithOAuth<T>;
+  requestBody?: any;
+};
+
+export const oauthHandler = <T>({
+  required,
+  handler,
+  requestBody,
+}: OAuthHandlerConfig<T>) => {
+  return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
+    const loadSavedCredentialsIfExist = async () => {
+      try {
+        const content = await fs.readFile(TOKEN_PATH);
+        const credentials = JSON.parse(content.toString());
+        oauth2Client.setCredentials(credentials);
+        return oauth2Client;
+      } catch (err) {
+        return null;
+      }
+    };
+
+    try {
+      const googleClient = await loadSavedCredentialsIfExist();
+      if (!googleClient) {
+        const origin = encodeURIComponent(req.url);
+        const redirectUrl = new URL(`/api/auth/init?origin=${origin}`, req.url);
+        return NextResponse.json(
+          { message: "Redirecting to OAuth", data: null },
+          { status: 307, headers: { Location: redirectUrl.toString() } }
+        );
+      }
+
+      const enhancedHandler = async (utilContext: Record<string, any>) =>
+        handler(utilContext, googleClient);
+
+      return reqHandler({
+        handler: enhancedHandler,
+        required,
+        requestBody,
+      })(req);
+    } catch (error) {
+      return handleError(error);
+    }
   };
 };

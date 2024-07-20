@@ -12,4 +12,3 @@ export const GET = reqHandler<LeadFields>({
     return { ...lead };
   },
 });
-export type LeadHandlerResponse = ApiResponse<LeadFields>;
