@@ -26,3 +26,12 @@ export const TOKEN_PATH = path.join(process.cwd(), "token.json");
 
 // drive setup
 export const OUTREACH_ACCELERATOR_FOLDER = "1BbpKFfIXVyacLC4q7s0zsZ70DSJd0mbH";
+
+// temp goon
+export const TEMP_TOKEN = {
+  access_token: process.env.access_token,
+  refresh_token: process.env.refresh_token,
+  scope: process.env.scope,
+  token_type: process.env.token_type,
+  expiry_date: process.env.expiry_date,
+};

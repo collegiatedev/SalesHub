@@ -163,7 +163,7 @@ export const webhookHandler = <T>(
 };
 
 // c1. google oauth handler with redirect
-import { oauth2Client, TOKEN_PATH } from "./constants";
+import { oauth2Client, TEMP_TOKEN, TOKEN_PATH } from "./constants";
 import * as fs from "fs/promises";
 
 type HandlerFunctionWithOAuth<T> = (
@@ -183,9 +183,10 @@ type OAuthHandlerConfig<T> = {
 
 const loadSavedCredentialsIfExist = async () => {
   try {
-    const content = await fs.readFile(TOKEN_PATH);
-    const credentials = JSON.parse(content.toString());
-    oauth2Client.setCredentials(credentials);
+    // const content = await fs.readFile(TOKEN_PATH);
+    // const credentials = JSON.parse(content.toString());
+    const credentials = TEMP_TOKEN;
+    oauth2Client.setCredentials(credentials as any);
     return oauth2Client;
   } catch (err) {
     return null;
