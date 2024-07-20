@@ -13,6 +13,8 @@ export const POST = oauthHandler<CreatedFolder>({
   handler: async (utilContext, _req, googleClient) => {
     const { name, leadRef, studentEmail, parentEmail } = utilContext;
     const folderName = `${name}'s Assets`;
+    console.log("folderName", folderName);
+
     const folderRef = await createFolder({
       authClient: googleClient,
       folderName,

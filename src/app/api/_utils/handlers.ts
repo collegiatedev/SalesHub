@@ -186,7 +186,9 @@ const loadSavedCredentialsIfExist = async () => {
     // const content = await fs.readFile(TOKEN_PATH);
     // const credentials = JSON.parse(content.toString());
     const credentials = TEMP_TOKEN;
+    console.log("credentials", credentials);
     oauth2Client.setCredentials(credentials as any);
+    console.log("oauth2Client", oauth2Client);
     return oauth2Client;
   } catch (err) {
     return null;
@@ -202,8 +204,11 @@ export const oauthHandler = <T>({
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     try {
       const googleClient = await loadSavedCredentialsIfExist();
+      console.log("herere");
 
       if (!googleClient) {
+        console.log("no google client");
+
         if (!useRedirect) throw new Error("No credentials");
 
         const origin = encodeURIComponent(req.url);
@@ -213,6 +218,7 @@ export const oauthHandler = <T>({
           { status: 307, headers: { Location: redirectUrl.toString() } }
         );
       }
+      console.log("dawg");
 
       const enhancedHandler = async (utilContext: Record<string, any>) =>
         handler(utilContext, req, googleClient);
