@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { oauth2Client } from "../../_utils/constants";
-import { reqHandler } from "../../_utils/handlers";
+import { oauth2Client } from "../../constants";
+import { reqHandler } from "../../_handlers";
 
 export const GET = reqHandler<any>({
   required: { params: ["origin"] },

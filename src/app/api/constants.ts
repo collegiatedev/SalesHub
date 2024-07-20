@@ -15,20 +15,19 @@ const NEXT_URL = isProduction ? deployedURL : "http://localhost:3000"; // might 
 
 // google auth setup
 import { google } from "googleapis";
-import * as path from "path";
 
 export const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
   `${NEXT_URL}/api/auth/callback/`
 );
-export const TOKEN_PATH = path.join(process.cwd(), "token.json");
 
 // drive setup
 export const OUTREACH_ACCELERATOR_FOLDER = "1BbpKFfIXVyacLC4q7s0zsZ70DSJd0mbH";
 
-// temp goon
-export const TEMP_TOKEN = {
+// "temp" token.json for outreach account
+// honestly, it lasts basically forever, so we can just use it
+export const OUTREACH_TOKEN = {
   access_token: process.env.access_token,
   refresh_token: process.env.refresh_token,
   scope: process.env.scope,

@@ -1,4 +1,4 @@
-import { notionClient } from "../constants";
+import { notionClient } from "../../constants";
 
 export const updateLead = async (
   pageId: string,

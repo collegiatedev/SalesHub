@@ -15,8 +15,8 @@ Notion Utils
 - [x] 1. (Notion Util) createLead -> adds lead to Notion CRM
 - [x] 2. (Axios Util) createInfo -> creates info table, adds to lead page in Notion CRM
 - [x] 3. (Axios Util) infoContact -> populates the info table with contact info page
-- [ ] 4. (Drive Util) createFolder -> creates shared Google Drive folder in outreach account, Accelerator folder
-- [ ] 5. (Notion Util) updateLead -> updates lead in Notion CRM (specifically with drive folder ref)
+- [x] 4. (Drive Util) createFolder -> creates shared Google Drive folder in outreach account, Accelerator folder
+- [x] 5. (Notion Util) updateLead -> updates lead in Notion CRM (specifically with drive folder ref)
 
 ## POST /api/register/cal
 

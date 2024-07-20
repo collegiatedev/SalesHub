@@ -1,4 +1,4 @@
-import { LEAD_DATABASE_ID, notionClient } from "~/app/api/_utils/constants";
+import { notionClient, LEAD_DATABASE_ID } from "../../constants";
 
 export type CreatedLeadFields = {
   "Student Name": string;

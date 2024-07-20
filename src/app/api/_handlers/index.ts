@@ -6,7 +6,7 @@ export type ApiResponse<T> = {
   message: string;
   data: T | null;
 };
-type HandlerFunction<T> = (
+export type HandlerFunction<T> = (
   utilContext: Record<string, any>,
   req: NextRequest
 ) => Promise<T>;
@@ -59,7 +59,7 @@ const validateBody = (
   return [utilContext, missingBody];
 };
 
-const handleError = (error: unknown): NextResponse<ApiResponse<any>> => {
+export const handleError = (error: unknown): NextResponse<ApiResponse<any>> => {
   const errorResponse = {
     message: error instanceof Error ? error.message : "Unknown error occurred",
     data: null,
@@ -125,46 +125,8 @@ export const reqHandler = <T>({
   };
 };
 
-// b1. Verify that webhook signature is legit
-// extends reqHandler, use for endpoints with tally webhook
-import crypto from "crypto";
-
-export const webhookHandler = <T>(
-  required: { params?: string[]; body?: string[] },
-  handler: HandlerFunction<T>
-) => {
-  const verifyTallySignature = (
-    payload: any,
-    receivedSignature: string
-  ): boolean => {
-    if (!process.env.SIGNING_SECRET) {
-      throw new Error("SIGNING_SECRET is not defined");
-    }
-    const calculatedSignature = crypto
-      .createHmac("sha256", process.env.SIGNING_SECRET)
-      .update(JSON.stringify(payload))
-      .digest("base64");
-    return receivedSignature === calculatedSignature;
-  };
-
-  return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
-    const webhookPayload = await req.json();
-    const receivedSignature = req.headers.get("tally-signature") as string;
-
-    if (!verifyTallySignature(webhookPayload, receivedSignature)) {
-      return NextResponse.json(
-        { message: "Invalid signature", data: null },
-        { status: 401 }
-      );
-    }
-
-    return reqHandler({ required, handler, requestBody: webhookPayload })(req);
-  };
-};
-
 // c1. google oauth handler with redirect
-import { oauth2Client, TEMP_TOKEN, TOKEN_PATH } from "./constants";
-import * as fs from "fs/promises";
+import { oauth2Client, OUTREACH_TOKEN } from "../constants";
 
 type HandlerFunctionWithOAuth<T> = (
   utilContext: Record<string, any>,
@@ -185,10 +147,8 @@ const loadSavedCredentialsIfExist = async () => {
   try {
     // const content = await fs.readFile(TOKEN_PATH);
     // const credentials = JSON.parse(content.toString());
-    const credentials = TEMP_TOKEN;
-    console.log("credentials", credentials);
+    const credentials = OUTREACH_TOKEN; // todoswitch to credential store in very distant future
     oauth2Client.setCredentials(credentials as any);
-    console.log("oauth2Client", oauth2Client);
     return oauth2Client;
   } catch (err) {
     return null;
@@ -204,11 +164,8 @@ export const oauthHandler = <T>({
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     try {
       const googleClient = await loadSavedCredentialsIfExist();
-      console.log("herere");
 
       if (!googleClient) {
-        console.log("no google client");
-
         if (!useRedirect) throw new Error("No credentials");
 
         const origin = encodeURIComponent(req.url);
@@ -218,7 +175,6 @@ export const oauthHandler = <T>({
           { status: 307, headers: { Location: redirectUrl.toString() } }
         );
       }
-      console.log("dawg");
 
       const enhancedHandler = async (utilContext: Record<string, any>) =>
         handler(utilContext, req, googleClient);

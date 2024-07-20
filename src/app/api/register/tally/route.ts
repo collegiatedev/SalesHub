@@ -1,4 +1,4 @@
-import { ApiResponse, webhookHandler } from "../../_utils/handlers";
+import { ApiResponse } from "../../_handlers";
 import {
   createLead,
   parseCreateLeadFields,
@@ -6,6 +6,7 @@ import {
 import { createInfo, infoContact } from "../../_utils/axios/info";
 import { NextRequest } from "next/server";
 import axios from "axios";
+import { webhookHandler } from "../../_handlers/webhook";
 
 // using accelerator registration tally webhook
 export const POST = webhookHandler<CreatedFields>(
