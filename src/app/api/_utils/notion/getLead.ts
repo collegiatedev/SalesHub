@@ -17,7 +17,6 @@ export const getLead = async (leadId: string) => {
 
   // @ts-ignore
   // notion's response is not typed correctly
-  // return parseLeadResponse(response.results[0].properties);
   return parseLeadResponse(response.results[0].properties);
 };
 

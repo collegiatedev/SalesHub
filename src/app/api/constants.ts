@@ -27,6 +27,7 @@ export const OUTREACH_ACCELERATOR_FOLDER = "1BbpKFfIXVyacLC4q7s0zsZ70DSJd0mbH";
 
 // "temp" token.json for outreach account
 // honestly, it lasts basically forever, so we can just use it
+// should probably learn how service accounts work though
 export const OUTREACH_TOKEN = {
   access_token: process.env.access_token,
   refresh_token: process.env.refresh_token,

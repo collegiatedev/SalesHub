@@ -6,12 +6,12 @@ import {
 import { createInfo, infoContact } from "../../_utils/axios/info";
 import { NextRequest } from "next/server";
 import axios from "axios";
-import { webhookHandler } from "../../_handlers/webhook";
+import { SignatureTypes, webhookHandler } from "../../_handlers/webhook";
 
 // using accelerator registration tally webhook
-export const POST = webhookHandler<CreatedFields>(
-  { body: ["data.fields"] },
-  async (utilContext: any, req: NextRequest) => {
+export const POST = webhookHandler<CreatedFields>({
+  required: { body: ["data.fields"] },
+  handler: async (utilContext: any, req: NextRequest) => {
     const { "data.fields": fields } = utilContext;
     // create lead in notion
     const leadFields = parseCreateLeadFields(fields);
@@ -40,8 +40,9 @@ export const POST = webhookHandler<CreatedFields>(
     });
 
     return { lead };
-  }
-);
+  },
+  type: SignatureTypes.Tally,
+});
 
 type CreatedLead = Awaited<ReturnType<typeof createLead>>;
 type CreatedFields = {
