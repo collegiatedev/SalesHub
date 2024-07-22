@@ -15,14 +15,18 @@ export const getLead = async (leadId: string) => {
   // need to text number if no id error
   if (response.results.length === 0) throw new Error(`Invalid ID: ${leadId}`);
 
-  // @ts-ignore
-  // notion's response is not typed correctly
-  return parseLeadResponse(response.results[0].properties);
+  return parseLeadResponse(
+    // @ts-ignore
+    // notion's response properties is not typed correctly
+    response.results[0].properties,
+    response.results[0]!.id
+  );
 };
 
 // might need to extend
-const parseLeadResponse = (properties: any): LeadFields => {
+const parseLeadResponse = (properties: any, pageId: string): LeadFields => {
   return {
+    pageId,
     id: properties.id.rich_text[0].plain_text,
     name: properties["Student Name"].title[0].plain_text,
     status: properties.Status.select.name,
@@ -49,6 +53,7 @@ const parseLeadResponse = (properties: any): LeadFields => {
 };
 export type LeadFields = {
   id: string;
+  pageId: string;
   name: string;
   status: string;
   grade: string;

@@ -22,6 +22,8 @@ Notion Utils
 
 **Called by cal webhook on scheduling submission for Accelerator Registration (c1)**
 
-- [ ] 1. (Notion Util) Calls getLead -> retrieves lead from Notion CRM
-- [ ] 2. (Notion Util) Calls getRep -> retrieves sales rep from Notion CRM
-- [ ] 3. (Notion Util) updateLead -> updates lead in Notion CRM (specifically with drive folder ref)
+- [x] 1. (Notion Util) getLead -> retrieves lead from Notion CRM
+- [x] 2. (Notion Util) getRep -> retrieves sales rep from Notion CRM
+- [x] 3. (Notion Util) updateLead -> updates lead in Notion CRM (specifically with drive folder ref)
+- [ ] 4. (Drive Util) getFolder -> gets folder link based on folder ref
+- [ ] 4. (Axios Util) express c1/ tasks -> for each task, create a task in Notion using express endpoint

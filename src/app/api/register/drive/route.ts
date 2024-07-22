@@ -2,7 +2,7 @@
 import { oauthHandler } from "../../_handlers";
 import { createFolder } from "../../_utils/drive/createFolder";
 import { OUTREACH_ACCELERATOR_FOLDER } from "../../constants";
-import { updateLead, updateLeadHelpers } from "../../_utils/notion/updateLead";
+import { updateLead, leadHelpers } from "../../_utils/notion/updateLead";
 
 type CreatedFolder = Awaited<ReturnType<typeof updateLead>>;
 
@@ -24,7 +24,7 @@ export const POST = oauthHandler<CreatedFolder>({
 
     // update lead page with folder ref
     const response = await updateLead(leadRef, {
-      ...updateLeadHelpers.setFolderRef(folderId as string),
+      ...leadHelpers.setFolderRef(folderId as string),
     });
     return response;
   },
