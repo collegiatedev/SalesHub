@@ -23,22 +23,26 @@ const verifySignature = (
   if (!process.env.SIGNING_SECRET)
     throw new Error("SIGNING_SECRET is not defined");
 
-  let receivedSignature;
+  let receivedSignature, calculatedSignature;
   switch (type) {
     case SignatureTypes.Tally:
       receivedSignature = headers.get("tally-signature") as string;
+      calculatedSignature = crypto
+        .createHmac("sha256", process.env.SIGNING_SECRET)
+        .update(JSON.stringify(payload))
+        .digest("base64");
       break;
     case SignatureTypes.Cal:
-      receivedSignature = headers.get("X-Cal-Signature-256") as string;
+      receivedSignature = headers.get("x-cal-signature-256") as string;
+      calculatedSignature = crypto
+        .createHmac("sha256", process.env.SIGNING_SECRET)
+        .update(JSON.stringify(payload))
+        .digest("hex"); // cal uses hex instead of base64
       break;
     default:
       throw new Error("Invalid signature type");
   }
 
-  const calculatedSignature = crypto
-    .createHmac("sha256", process.env.SIGNING_SECRET)
-    .update(JSON.stringify(payload))
-    .digest("base64");
   return receivedSignature === calculatedSignature;
 };
 
