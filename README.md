@@ -2,7 +2,7 @@
 
 ## Forms
 
-NextJS Vercel app, which manage forms and logistics for SalesHub.
+NextJS Vercel app, which manage forms and process logistics.
 
 ## Generator
 
