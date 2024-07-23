@@ -1,15 +1,3 @@
-.env
-node_modules
-tsconfig.tsbuildinfo
-.DS_Store
-.vscode
-
-# local src notion folder
-src/output
-src/templates
-
-# temp downloads
-downloads
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # envs
