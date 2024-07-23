@@ -10,7 +10,7 @@ NextJS Vercel app, which manage forms and process logistics.
 
 ## Generator
 
-Express DigitalOcean Dockerized app, which generate custom pages for tasks, client data, and more.
+Express DigitalOcean Dockerized app, which generate custom pages for tasks, lead data, and more.
 
 ## Notion Interface
 
