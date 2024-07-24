@@ -1,8 +1,8 @@
 // own endpoint since we need to use oauth, combined with webhook logic later
-import { oauthHandler } from "../../_handlers";
-import { createFolder } from "../../_utils/drive/createFolder";
-import { OUTREACH_ACCELERATOR_FOLDER } from "../../constants";
-import { updateLead, leadHelpers } from "../../_utils/notion/updateLead";
+import { oauthHandler } from "../../../_handlers";
+import { createFolder } from "../../../_utils/drive/createFolder";
+import { OUTREACH_ACCELERATOR_FOLDER } from "../../../constants";
+import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
 
 type CreatedFolder = Awaited<ReturnType<typeof updateLead>>;
 

@@ -1,12 +1,12 @@
-import { ApiResponse } from "../../_handlers";
+import { ApiResponse } from "../../../_handlers";
 import {
   createLead,
   parseCreateLeadFields,
-} from "../../_utils/notion/createLead";
-import { createInfo, infoContact } from "../../_utils/axios/info";
+} from "../../../_utils/notion/createLead";
+import { createInfo, infoContact } from "../../../_utils/axios/info";
 import { NextRequest } from "next/server";
 import axios from "axios";
-import { SignatureTypes, webhookHandler } from "../../_handlers/webhook";
+import { SignatureTypes, webhookHandler } from "../../../_handlers/webhook";
 
 // using accelerator registration tally webhook
 export const POST = webhookHandler<CreatedFields>({
@@ -18,7 +18,7 @@ export const POST = webhookHandler<CreatedFields>({
     const lead = await createLead(leadFields);
 
     // create google drive folder via seperate endpoint
-    const driveEndpoint = new URL("/api/register/drive", req.url);
+    const driveEndpoint = new URL("/api/register/c1/drive", req.url);
     await axios.post(driveEndpoint.toString(), {
       leadRef: lead.id,
       name: leadFields["Student Name"],
