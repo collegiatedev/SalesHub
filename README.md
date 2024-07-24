@@ -1,6 +1,6 @@
 # [SalesHub](https://www.notion.so/collegiate/SalesHub-3748bb21fbb249449288da23eb131611)
 
-SalesHub is a platform for our Sales Team to manage different stages of our Accelerator Program. It is built on top of Notion and Google Drive.
+SalesHub is a platform for our Sales Team to manage different stages of our Accelerator Program. It is built on top of Notion, Tally Forms, Cal.com, and Google Drive.
 
 The platform is divided into 3 main parts:
 
