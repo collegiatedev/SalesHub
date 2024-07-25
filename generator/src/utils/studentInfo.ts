@@ -11,7 +11,7 @@ interface InfoPageProps extends RequiredInfoFields {
 }
 export const createInfoPageProps = ({
   studentName,
-  infoId,
+  infoId, // id of the notion database located in lead's page (db-ref); ex: John Doe's Info
   // should be provided by server
   infoName,
   emoji,
