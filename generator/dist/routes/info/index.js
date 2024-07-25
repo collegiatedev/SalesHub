@@ -13,10 +13,10 @@ exports.infoRouter = (0, express_1.Router)();
 exports.infoRouter.post("/create", create_1.create);
 exports.infoRouter.post("/contact", contactInfo_1.contactInfo);
 // on post-c1 forms
-exports.infoRouter.get("/background", studentBackground_1.studentBackground);
-exports.infoRouter.get("/insight", parentInsight_1.parentInsight);
+exports.infoRouter.post("/background", studentBackground_1.studentBackground);
+exports.infoRouter.post("/insight", parentInsight_1.parentInsight);
 // sales debrief
-exports.infoRouter.get("/c1", c1Debrief_1.c1Debrief);
+exports.infoRouter.post("/c1", c1Debrief_1.c1Debrief);
 // on post-c2 forms
 // sales debrief
-exports.infoRouter.get("/c2", c2Debrief_1.c2Debrief);
+exports.infoRouter.post("/c2", c2Debrief_1.c2Debrief);

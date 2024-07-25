@@ -12,10 +12,10 @@ export const infoRouter: Router = Router();
 infoRouter.post("/create", create);
 infoRouter.post("/contact", contactInfo);
 // on post-c1 forms
-infoRouter.get("/background", studentBackground);
-infoRouter.get("/insight", parentInsight);
+infoRouter.post("/background", studentBackground);
+infoRouter.post("/insight", parentInsight);
 // sales debrief
-infoRouter.get("/c1", c1Debrief);
+infoRouter.post("/c1", c1Debrief);
 // on post-c2 forms
 // sales debrief
-infoRouter.get("/c2", c2Debrief);
+infoRouter.post("/c2", c2Debrief);
