@@ -1,4 +1,5 @@
 import { notionClient } from "../../constants";
+import { Statuses, Stages } from "./types";
 
 export const updateLead = async (
   pageId: string,
@@ -82,14 +83,3 @@ export const leadHelpers = {
     };
   },
 };
-// exend when needed
-export enum Statuses {
-  Issue = "Issue",
-  Ongoing = "Ongoing",
-}
-export enum Stages {
-  C0 = "C0",
-  C1 = "C1",
-  C2 = "C2",
-  C3 = "C3",
-}

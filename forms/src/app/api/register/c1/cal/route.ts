@@ -2,12 +2,8 @@ import { NextRequest } from "next/server";
 import { SignatureTypes, webhookHandler } from "../../../_handlers/webhook";
 import { getLead } from "../../../_utils/notion/getLead";
 import { getRep } from "../../../_utils/notion/getRep";
-import {
-  Stages,
-  Statuses,
-  updateLead,
-  leadHelpers,
-} from "../../../_utils/notion/updateLead";
+import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
+import { Stages, Statuses } from "~/app/api/_utils/notion/types";
 
 // required: { body: ["data.fields"] },
 // handler: async (utilContext: any, req: NextRequest) => {

@@ -1,4 +1,5 @@
 import { notionClient, LEAD_DATABASE_ID } from "../../constants";
+import { Statuses } from "./types";
 
 export type CreatedLeadFields = {
   "Student Name": string;
@@ -88,7 +89,7 @@ export const createLead = async (fields: CreatedLeadFields) => {
       },
       Status: {
         select: {
-          name: "Issue",
+          name: Statuses.Incomplete,
         },
       },
     },

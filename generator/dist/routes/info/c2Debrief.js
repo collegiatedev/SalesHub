@@ -20,7 +20,7 @@ exports.c2Debrief = (0, helpers_1.asyncHandler)(async (req, res) => {
         });
     await (0, exports.postC2DebriefInDatabase)(validatedParams.params);
     return res.json({
-        message: "Post-C1 Debrief Info - Generated",
+        message: "Post-C2 Debrief Info - Generated",
     });
 });
 const postC2DebriefInDatabase = async ({ studentName, infoId, repName, type, challenges, value, alternatives, }) => {
