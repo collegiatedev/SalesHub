@@ -40,4 +40,4 @@ Notion Utils
 - [x] 2. (Notion Util) getRep -> retrieves sales rep from Notion CRM
 - [x] 3. (Notion Util) updateLead -> updates lead in Notion CRM (specifically with drive folder ref)
 - [ ] 4. (Drive Util) getFolder -> gets folder link based on folder ref
-- [ ] 4. (Axios Util) express c1/ tasks -> for each task, create a task in Notion using express endpoint
+- [ ] 5. (Axios Util) express c1/ tasks -> for each task, create a task in Notion using express endpoint
