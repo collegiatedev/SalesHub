@@ -2,12 +2,9 @@ import { NextRequest } from "next/server";
 import { SignatureTypes, webhookHandler } from "../../_handlers/webhook";
 import { getFieldValue } from "../../helpers";
 import { getLead } from "../../_utils/notion/getLead";
-import {
-  leadHelpers,
-  Stages,
-  updateLead,
-} from "../../_utils/notion/updateLead";
+import { leadHelpers, updateLead } from "../../_utils/notion/updateLead";
 import { c1Debrief } from "../../_utils/generator/c1Debrief";
+import { Stages } from "../../_utils/notion/types";
 
 export const POST = webhookHandler<C1Debrief>({
   required: { body: ["data.fields"] },
