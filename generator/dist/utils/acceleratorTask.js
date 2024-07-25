@@ -52,6 +52,11 @@ taskName, taskId, emoji, }) => {
                     time_zone: null,
                 },
             },
+            Status: {
+                select: {
+                    name: "Todo",
+                },
+            },
         },
     };
 };

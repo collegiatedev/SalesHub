@@ -1,7 +1,6 @@
 // exend when needed
 export enum Statuses {
   Incomplete = "Incomplete",
-  Issue = "Issue",
   Ongoing = "Ongoing",
 }
 export enum Stages {

@@ -49,6 +49,11 @@ export declare const createAcceleratorTaskProps: ({ studentName, studentPageId, 
                 time_zone: null;
             };
         };
+        Status: {
+            select: {
+                name: string;
+            };
+        };
     };
 };
 export {};

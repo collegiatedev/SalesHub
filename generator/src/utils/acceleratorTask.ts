@@ -70,6 +70,11 @@ export const createAcceleratorTaskProps = ({
           time_zone: null,
         },
       },
+      Status: {
+        select: {
+          name: "Todo",
+        },
+      },
     },
   };
 };
