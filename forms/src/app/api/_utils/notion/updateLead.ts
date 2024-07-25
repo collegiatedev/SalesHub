@@ -62,6 +62,7 @@ export const leadHelpers = {
       },
     };
   },
+  // todo, formulate an appender function
   setCompletedStages: (completedStages: Stages[]) => {
     return {
       "Completed Stages": {

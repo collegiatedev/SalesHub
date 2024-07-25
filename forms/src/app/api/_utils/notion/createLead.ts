@@ -13,40 +13,6 @@ export type CreatedLeadFields = {
   "Parent's Phone": string;
   Origin: string[];
 };
-export const parseCreateLeadFields = (fields: any): CreatedLeadFields => {
-  const getFieldValue = (label: string) => {
-    const field = fields.find((f: any) => f.label === label);
-    if (!field) return "";
-    if (field.type === "MULTIPLE_CHOICE") {
-      const selectedOptions = field.value.map(
-        (value: string) =>
-          field.options.find((option: any) => option.id === value)?.text
-      );
-      return selectedOptions.join(", ");
-    }
-    return field.value || "";
-  };
-
-  const parsedFields: CreatedLeadFields = {
-    "Student Name": `${getFieldValue("student_first_name")} ${getFieldValue(
-      "student_last_name"
-    )}`,
-    Grade: getFieldValue("Current Grade Level"),
-    Major: getFieldValue("major"),
-    School: `${getFieldValue("school")}, ${getFieldValue("state")}`,
-    id: getFieldValue("id"),
-    "Parent Name": `${getFieldValue("parent_first_name")} ${getFieldValue(
-      "parent_last_name"
-    )}`,
-    "Student's Email": getFieldValue("student_email"),
-    "Student's Phone": getFieldValue("student_number"),
-    "Parent's Email": getFieldValue("parent_email"),
-    "Parent's Phone": getFieldValue("parent_number"),
-    Origin: getFieldValue("origin").split(", "),
-  };
-
-  return parsedFields;
-};
 
 export const createLead = async (fields: CreatedLeadFields) => {
   const response = await notionClient.pages.create({

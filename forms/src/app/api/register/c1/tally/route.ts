@@ -1,12 +1,13 @@
 import { ApiResponse } from "../../../_handlers";
 import {
+  CreatedLeadFields,
   createLead,
-  parseCreateLeadFields,
 } from "../../../_utils/notion/createLead";
-import { createInfo, infoContact } from "../../../_utils/axios/info";
+import { createInfo, infoContact } from "../../../_utils/generator/info";
 import { NextRequest } from "next/server";
 import axios from "axios";
 import { SignatureTypes, webhookHandler } from "../../../_handlers/webhook";
+import { getFieldValue } from "~/app/api/helpers";
 
 // using accelerator registration tally webhook
 export const POST = webhookHandler<CreatedFields>({
@@ -14,7 +15,7 @@ export const POST = webhookHandler<CreatedFields>({
   handler: async (utilContext: any, req: NextRequest) => {
     const { "data.fields": fields } = utilContext;
     // create lead in notion
-    const leadFields = parseCreateLeadFields(fields);
+    const leadFields = parseTallyC1Registration(fields);
     const lead = await createLead(leadFields);
 
     // create google drive folder via seperate endpoint
@@ -43,6 +44,25 @@ export const POST = webhookHandler<CreatedFields>({
   },
   type: SignatureTypes.Tally,
 });
+
+// tally fields -> createLead data shape
+const parseTallyC1Registration = (fields: any): CreatedLeadFields => {
+  const gfv = (label: string) => getFieldValue(label, fields);
+
+  return {
+    "Student Name": `${gfv("student_first_name")} ${gfv("student_last_name")}`,
+    Grade: gfv("Current Grade Level"),
+    Major: gfv("major"),
+    School: `${gfv("school")}, ${gfv("state")}`,
+    id: gfv("id"),
+    "Parent Name": `${gfv("parent_first_name")} ${gfv("parent_last_name")}`,
+    "Student's Email": gfv("student_email"),
+    "Student's Phone": gfv("student_number"),
+    "Parent's Email": gfv("parent_email"),
+    "Parent's Phone": gfv("parent_number"),
+    Origin: gfv("origin").split(", "),
+  };
+};
 
 type CreatedLead = Awaited<ReturnType<typeof createLead>>;
 type CreatedFields = {

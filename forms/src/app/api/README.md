@@ -14,7 +14,7 @@ This folder contains the handlers for the API endpoints. Handlers are middleware
 
 This folder should contain the actual business logic for working with external services. `route.ts` files should be reserved to call \_utils functions.
 
-- axios -> uses axios to make requests to our express server
+- generator -> uses axios to make requests to our express server
 - notion -> uses notion client to make requests to notion
 - drive -> uses google drive api to make requests to google drive
 
@@ -24,8 +24,8 @@ This folder should contain the actual business logic for working with external s
 
 Authentication endpoints for google oauth
 
-- `GET /api/auth/init` (reqHandler)
-- `GET /api/auth/callback` (reqHandler)
+- [x] `GET /api/auth/init` (reqHandler)
+- [x] `GET /api/auth/callback` (reqHandler)
 
 ### lead
 
@@ -37,9 +37,9 @@ Used by c2, c3 pages to retrieve lead info.
 
 Register endpoints are client-facing; they're called whenever a user submit pre-meeting forms at various stages of the program.
 
-- [x] `POST /api/register/c1/cal` (webhookHandler)
 - [x] `POST /api/register/c1/drive` (oauthHandler, called by `POST /api/register/c1/tally`)
 - [x] `POST /api/register/c1/tally` (webhookHandler)
+- [ ] `POST /api/register/c1/cal` (webhookHandler)
 
 - [] `POST /api/register/c2/cal` (webhookHandler)
 - [] `POST /api/register/c2/tally` (webhookHandler)

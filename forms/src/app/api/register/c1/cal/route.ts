@@ -16,6 +16,7 @@ import {
 
 // using accelerator registration tally webhook
 export const POST = webhookHandler<any>({
+  type: SignatureTypes.Cal,
   required: { body: ["payload"] },
   handler: async (utilContext: any, req: NextRequest) => {
     const { payload } = utilContext;
@@ -37,7 +38,6 @@ export const POST = webhookHandler<any>({
       ...leadHelpers.setLeadRep(rep.pageId),
     });
   },
-  type: SignatureTypes.Cal,
 });
 
 const parseCalPayload = (payload: any): CalPayload => {

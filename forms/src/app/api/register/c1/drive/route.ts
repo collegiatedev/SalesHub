@@ -6,7 +6,6 @@ import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
 
 type CreatedFolder = Awaited<ReturnType<typeof updateLead>>;
 
-// todo: change to post
 export const POST = oauthHandler<CreatedFolder>({
   // leadRef is reference to student's notion page in Accelerator CRM
   required: { body: ["name", "leadRef", "studentEmail", "parentEmail"] },

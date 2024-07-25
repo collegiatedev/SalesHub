@@ -35,7 +35,7 @@ export const oauthHandler = <T>({
   required,
   handler,
   requestBody,
-  useRedirect = true,
+  useRedirect = false,
 }: OAuthHandlerConfig<T>) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     try {
