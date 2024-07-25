@@ -43,7 +43,7 @@ Register endpoints are client-facing; they're called whenever a user submit pre-
 
 - [] `POST /api/register/c2/cal` (webhookHandler)
 - [] `POST /api/register/c2/tally` (webhookHandler)
-- [] `POST /api/register/c2/add/essay` (webhookHandler) -> PAINNNN!!
+- [] `POST /api/register/c2/add/essay` (webhookHandler) -> PAINNNN!! (extend this on scoping)
 
 - [] `POST /api/register/c3/cal` (webhookHandler)
 - [] `POST /api/register/c3/tally` (webhookHandler)
