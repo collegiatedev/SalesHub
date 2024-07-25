@@ -26,7 +26,7 @@ export const c2Debrief: RequestHandler = asyncHandler(
     await postC2DebriefInDatabase(validatedParams.params);
 
     return res.json({
-      message: "Post-C1 Debrief Info - Generated",
+      message: "Post-C2 Debrief Info - Generated",
     });
   }
 );
