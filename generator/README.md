@@ -16,4 +16,4 @@ Deployment is automatically synced by DigitalOcean when a PR is merged to the ma
 
 ## Todos
 
-- [] Stuff
+- []
