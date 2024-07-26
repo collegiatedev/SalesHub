@@ -11,7 +11,7 @@ import { Stages, Statuses } from "~/app/api/_utils/notion/types";
 //   // create lead in notion
 
 // using accelerator registration tally webhook
-export const POST = webhookHandler<any>({
+export const POST = webhookHandler<CalPayload | boolean>({
   type: SignatureTypes.Cal,
   required: { body: ["payload"] },
   handler: async (utilContext: any, req: NextRequest) => {
@@ -21,7 +21,7 @@ export const POST = webhookHandler<any>({
     if (!cal.studentId) {
       // todo, save into debug log db
       console.log("no student id");
-      return;
+      return false;
     }
 
     const lead = await getLead(cal.studentId);
@@ -33,6 +33,11 @@ export const POST = webhookHandler<any>({
       ...leadHelpers.setStatus(Statuses.Ongoing),
       ...leadHelpers.setLeadRep(rep.pageId),
     });
+
+    // create task in accelerator tasks db
+    // ADD HERE
+
+    return cal;
   },
 });
 
