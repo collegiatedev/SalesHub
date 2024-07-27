@@ -43,7 +43,7 @@ export const POST = webhookHandler<CalPayload | boolean>({
     conductC1Task({
       studentName: lead.name,
       studentPageId: lead.pageId,
-      repPageId: lead.pageRefs.leadRep!,
+      repPageId: rep.pageId,
       time: cal.startTime,
       studentId: lead.id,
       studentEmail: lead.contact.studentEmail,
@@ -54,7 +54,7 @@ export const POST = webhookHandler<CalPayload | boolean>({
     createDashboardTask({
       studentName: lead.name,
       studentPageId: lead.pageId,
-      repPageId: lead.pageRefs.leadRep!,
+      repPageId: rep.pageId,
       time: cal.startTime,
       folderLink: lead.otherRefs.folderRef!, // todo, check if this is correct
       studentEmail: lead.contact.studentEmail,
@@ -62,7 +62,7 @@ export const POST = webhookHandler<CalPayload | boolean>({
     createGCTask({
       studentName: lead.name,
       studentPageId: lead.pageId,
-      repPageId: lead.pageRefs.leadRep!,
+      repPageId: rep.pageId,
       time: cal.startTime,
       studentId: lead.id,
       parentName: lead.contact.parentName,
