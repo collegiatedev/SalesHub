@@ -23,7 +23,7 @@ export const POST = oauthHandler<CreatedFolder>({
 
     // update lead page with folder ref
     const response = await updateLead(leadRef, {
-      ...leadHelpers.setFolderRef(folderId as string),
+      ...leadHelpers.setFolderRef("test"),
     });
     return response;
   },
