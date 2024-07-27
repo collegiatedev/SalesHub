@@ -8,7 +8,7 @@ import {
   conductC1Task,
   createDashboardTask,
   createGCTask,
-} from "~/app/api/_utils/generator/c1tasks";
+} from "~/app/api/_utils/generator/c1Tasks";
 
 // required: { body: ["data.fields"] },
 // handler: async (utilContext: any, req: NextRequest) => {
