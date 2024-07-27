@@ -4,6 +4,11 @@ import { getLead } from "../../../_utils/notion/getLead";
 import { getRep } from "../../../_utils/notion/getRep";
 import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
 import { Stages, Statuses } from "~/app/api/_utils/notion/types";
+import {
+  conductC1Task,
+  createDashboardTask,
+  createGCTask,
+} from "~/app/api/_utils/generator/c1tasks";
 
 // required: { body: ["data.fields"] },
 // handler: async (utilContext: any, req: NextRequest) => {
@@ -35,7 +40,35 @@ export const POST = webhookHandler<CalPayload | boolean>({
     });
 
     // create task in accelerator tasks db
-    // ADD HERE
+    conductC1Task({
+      studentName: lead.name,
+      studentPageId: lead.pageId,
+      repPageId: lead.pageRefs.leadRep!,
+      time: cal.startTime,
+      studentId: lead.id,
+      studentEmail: lead.contact.studentEmail,
+      studentNumber: lead.contact.studentPhone,
+      parentEmail: lead.contact.parentEmail,
+      parentNumber: lead.contact.parentPhone,
+    });
+    createDashboardTask({
+      studentName: lead.name,
+      studentPageId: lead.pageId,
+      repPageId: lead.pageRefs.leadRep!,
+      time: cal.startTime,
+      folderLink: lead.otherRefs.folderRef!, // todo, check if this is correct
+      studentEmail: lead.contact.studentEmail,
+    });
+    createGCTask({
+      studentName: lead.name,
+      studentPageId: lead.pageId,
+      repPageId: lead.pageRefs.leadRep!,
+      time: cal.startTime,
+      studentId: lead.id,
+      parentName: lead.contact.parentName,
+      studentPhone: lead.contact.studentPhone,
+      parentPhone: lead.contact.parentPhone,
+    });
 
     return cal;
   },
