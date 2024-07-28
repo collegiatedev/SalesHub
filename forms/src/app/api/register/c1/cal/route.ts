@@ -21,24 +21,26 @@ export const POST = oauthHandler<CalPayload>({
 
     const lead = await getLead(cal.studentId);
     const rep = await getRep(cal.repId);
+
     const folder = await getFolder({
       authClient: googleClient,
       folderId: lead.otherRefs.folderRef as string,
     });
 
-    await updateLead(lead.pageId, {
-      ...leadHelpers.setCompletedStages([Stages.C0]),
-      ...leadHelpers.setLatestMeeting(cal.startTime),
-      ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
-      ...leadHelpers.setLeadRep(rep.pageId),
-    });
-
-    await createC1Tasks({
-      lead,
-      folderLink: folder.data.webViewLink as string,
-      calStartTime: cal.startTime,
-      repPageId: rep.pageId,
-    });
+    await Promise.all([
+      await updateLead(lead.pageId, {
+        ...leadHelpers.setCompletedStages([Stages.C0]),
+        ...leadHelpers.setLatestMeeting(cal.startTime),
+        ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
+        ...leadHelpers.setLeadRep(rep.pageId),
+      }),
+      await createC1Tasks({
+        lead,
+        folderLink: folder.data.webViewLink as string,
+        calStartTime: cal.startTime,
+        repPageId: rep.pageId,
+      }),
+    ]);
 
     return cal;
   },
