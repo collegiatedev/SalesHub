@@ -27,10 +27,8 @@ interface ContactInfo {
 }
 export const infoContact = async (contactInfo: ContactInfo) => {
   try {
-    const response = await axios.post(
-      `${SERVER_URL}/info/contact`,
-      contactInfo
-    );
+    const endpoint = withEndpoint("/info/contact", SERVER_URL);
+    const response = await axios.post(endpoint, contactInfo);
     return response.data;
   } catch (error) {
     console.error("Error creating info:", error);
