@@ -4,9 +4,8 @@ import { withEndpoint } from "../../helpers";
 
 export const createInfo = async (name: string, pageId: string) => {
   try {
-    const THIS_URL = withEndpoint("/info/create", "http://localhost:8080");
-
-    const response = await axios.post(THIS_URL, {
+    const endpoint = withEndpoint("/info/create", SERVER_URL);
+    const response = await axios.post(endpoint, {
       name,
       pageId,
     });

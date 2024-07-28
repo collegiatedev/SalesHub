@@ -10,8 +10,10 @@ export const REP_DATABASE_ID = "8a18df75a9234fd8878ce0a3643e0ca7";
 // express server setup
 // next url
 const isProduction = process.env.VERCEL_ENV === "production";
-const deployedURL = `https://${process.env.VERCEL_URL}`;
-const NEXT_URL = isProduction ? deployedURL : "http://localhost:3000"; // might be 3001 sometimes
+
+const NEXT_URL = isProduction
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000"; // might be 3001 sometimes
 
 export const SERVER_URL = isProduction
   ? "https://king-prawn-app-onivj.ondigitalocean.app"
