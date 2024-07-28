@@ -18,11 +18,11 @@ export const SERVER_URL = isProduction
   : "http://localhost:8080"; // generator url
 
 export const INITIAL_TALLY_STATUS = isProduction
-  ? Statuses.Test
-  : Statuses.Incomplete;
+  ? Statuses.Incomplete
+  : Statuses.Test;
 export const INITIAL_CAL_STATUS = isProduction
-  ? Statuses.Test
-  : Statuses.Ongoing;
+  ? Statuses.Ongoing
+  : Statuses.Test;
 
 // google auth setup
 import { google } from "googleapis";
