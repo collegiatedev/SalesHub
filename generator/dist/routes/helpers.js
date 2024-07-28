@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkBodyParams = exports.asyncHandler = void 0;
+exports.asyncHandler = void 0;
+exports.checkBodyParams = checkBodyParams;
 const asyncHandler = (fn) => {
     return async (req, res, next) => {
         try {
@@ -58,7 +59,6 @@ function checkBodyParams(req, requiredParams, optionalParams = []) {
         params: params,
     };
 }
-exports.checkBodyParams = checkBodyParams;
 // depreciated
 // function checkQueryParams<T extends Record<string, any>>(
 //   req: Request,

@@ -1,5 +1,6 @@
 // exend when needed
 export enum Statuses {
+  Test = "Test",
   Incomplete = "Incomplete",
   Ongoing = "Ongoing",
 }

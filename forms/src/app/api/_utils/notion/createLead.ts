@@ -1,12 +1,16 @@
-import { notionClient, LEAD_DATABASE_ID } from "../../constants";
-import { Statuses } from "./types";
+import { generateId } from "~/lib/id";
+import {
+  notionClient,
+  LEAD_DATABASE_ID,
+  INITIAL_TALLY_STATUS,
+} from "../../constants";
 
 export type CreatedLeadFields = {
+  id?: string;
   "Student Name": string;
   Grade: string;
   Major: string;
   School: string;
-  id: string;
   "Parent Name": string;
   "Student's Email": string;
   "Student's Phone": string;
@@ -55,7 +59,7 @@ export const createLead = async (fields: CreatedLeadFields) => {
         rich_text: [
           {
             text: {
-              content: fields.id,
+              content: fields.id ? fields.id : generateId(), // id is generated if not provided
             },
           },
         ],
@@ -89,7 +93,7 @@ export const createLead = async (fields: CreatedLeadFields) => {
       },
       Status: {
         select: {
-          name: Statuses.Incomplete,
+          name: INITIAL_TALLY_STATUS,
         },
       },
     },

@@ -10,3 +10,8 @@ export const getFieldValue = (label: string, fields: any) => {
   }
   return field.value || "";
 };
+
+export const useEndpoint = (url: string, reqUrl: string) => {
+  const endpoint = new URL(url, reqUrl);
+  return endpoint.toString();
+};

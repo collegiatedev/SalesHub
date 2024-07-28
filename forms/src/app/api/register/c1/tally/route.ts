@@ -4,32 +4,41 @@ import {
   createLead,
 } from "../../../_utils/notion/createLead";
 import { createInfo, infoContact } from "../../../_utils/generator/info";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { SignatureTypes, webhookHandler } from "../../../_handlers/webhook";
-import { getFieldValue } from "~/app/api/helpers";
+import { getFieldValue, useEndpoint } from "~/app/api/helpers";
+import { leadHelpers, updateLead } from "~/app/api/_utils/notion/updateLead";
+import { oauthHandler } from "~/app/api/_handlers/oauth";
+import { createStudentFolder } from "~/app/api/_utils/drive/createFolder";
 
 // using accelerator registration tally webhook
-export const POST = webhookHandler<CreatedFields>({
+export const POST = oauthHandler<CreatedLead>({
+  type: SignatureTypes.Tally, // tally webhook
+  useRedirect: false, // client facing, so don't redirect for oauth
   required: { body: ["data.fields"] },
-  handler: async (utilContext: any, req: NextRequest) => {
+  handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { "data.fields": fields } = utilContext;
     // create lead in notion
     const leadFields = parseTallyC1Registration(fields);
     const lead = await createLead(leadFields);
+    const info = await createInfo(leadFields["Student Name"], lead.id);
 
-    // create google drive folder via seperate endpoint
-    const driveEndpoint = new URL("/api/register/c1/drive", req.url);
-    await axios.post(driveEndpoint.toString(), {
-      leadRef: lead.id,
-      name: leadFields["Student Name"],
-      studentEmail: leadFields["Student's Email"],
-      parentEmail: leadFields["Parent's Email"],
+    // no need to await the rest
+    updateLead(lead.id, {
+      ...leadHelpers.setInfoId(info.infoId),
+    });
+    createStudentFolder({
+      googleClient,
+      lead: {
+        leadRef: lead.id,
+        name: leadFields["Student Name"],
+        studentEmail: leadFields["Student's Email"],
+        parentEmail: leadFields["Parent's Email"],
+      },
     });
 
-    // call info/create and info/contact server endpoints
-    const info = await createInfo(leadFields["Student Name"], lead.id);
-    // dont await cuz it takes too long in serverless env
+    // create contact page in info table
     infoContact({
       infoId: info.infoId, // see express server for output shape, src/routes/info/create.ts
       studentName: leadFields["Student Name"],
@@ -40,12 +49,11 @@ export const POST = webhookHandler<CreatedFields>({
       parentPhone: leadFields["Parent's Phone"],
     });
 
-    return { lead };
+    return lead;
   },
-  type: SignatureTypes.Tally,
 });
+type CreatedLead = Awaited<ReturnType<typeof createLead>>;
 
-// tally fields -> createLead data shape
 const parseTallyC1Registration = (fields: any): CreatedLeadFields => {
   const gfv = (label: string) => getFieldValue(label, fields);
 
@@ -63,10 +71,3 @@ const parseTallyC1Registration = (fields: any): CreatedLeadFields => {
     Origin: gfv("origin").split(", "),
   };
 };
-
-type CreatedLead = Awaited<ReturnType<typeof createLead>>;
-type CreatedFields = {
-  lead: CreatedLead;
-};
-
-export type HookHandlerResponse = ApiResponse<CreatedFields>;

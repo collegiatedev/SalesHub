@@ -3,6 +3,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { oauth2Client, OUTREACH_TOKEN } from "../constants";
 import { ApiResponse, handleError, reqHandler } from ".";
+import { useEndpoint } from "../helpers";
+import { SignatureTypes, webhookHandler } from "./webhook";
 
 type HandlerFunctionWithOAuth<T> = (
   utilContext: Record<string, any>,
@@ -13,7 +15,8 @@ type HandlerFunctionWithOAuth<T> = (
 type OAuthHandlerConfig<T> = {
   required: { params?: string[]; body?: string[] };
   handler: HandlerFunctionWithOAuth<T>;
-  requestBody?: any;
+
+  type?: SignatureTypes; // if using webhooks
   // default true, redirects to oauth flow if no credentials
   // false, we throw an error if no credentials
   useRedirect?: boolean;
@@ -34,7 +37,7 @@ const loadSavedCredentialsIfExist = async () => {
 export const oauthHandler = <T>({
   required,
   handler,
-  requestBody,
+  type,
   useRedirect = false,
 }: OAuthHandlerConfig<T>) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
@@ -45,21 +48,30 @@ export const oauthHandler = <T>({
         if (!useRedirect) throw new Error("No credentials");
 
         const origin = encodeURIComponent(req.url);
-        const redirectUrl = new URL(`/api/auth/init?origin=${origin}`, req.url);
+        const Location = useEndpoint(
+          `/api/auth/init?origin=${origin}`,
+          req.url
+        );
         return NextResponse.json(
           { message: "Redirecting to OAuth", data: null },
-          { status: 307, headers: { Location: redirectUrl.toString() } }
+          { status: 307, headers: { Location } }
         );
       }
 
       const enhancedHandler = async (utilContext: Record<string, any>) =>
         handler(utilContext, req, googleClient);
 
-      return reqHandler({
-        handler: enhancedHandler,
-        required,
-        requestBody,
-      })(req);
+      // if type is defined, we're using webhooks
+      return type
+        ? webhookHandler({
+            handler: enhancedHandler,
+            required,
+            type,
+          })(req)
+        : reqHandler({
+            handler: enhancedHandler,
+            required,
+          })(req);
     } catch (error) {
       return handleError(error);
     }

@@ -1,9 +1,14 @@
 import axios from "axios";
 import { SERVER_URL } from "../../constants";
+import { useEndpoint } from "../../helpers";
 
 export const createInfo = async (name: string, pageId: string) => {
   try {
-    const response = await axios.post(`${SERVER_URL}/info/create`, {
+    // const response = await axios.post(`${SERVER_URL}/info/create`, {
+    // `${SERVER_URL}/info/create`
+    const THIS_URL = useEndpoint("/info/create", "http://localhost:8080");
+
+    const response = await axios.post(THIS_URL, {
       name,
       pageId,
     });

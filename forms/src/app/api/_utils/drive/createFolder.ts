@@ -1,12 +1,45 @@
 import { google } from "googleapis";
+import { OUTREACH_ACCELERATOR_FOLDER } from "../../constants";
+import { leadHelpers, updateLead } from "../notion/updateLead";
 
+// crates folder, then updates lead page with folder ref
+interface CreateStudentFolderProps {
+  googleClient: any;
+  lead: {
+    leadRef: string;
+    name: string;
+    studentEmail: string;
+    parentEmail: string;
+  };
+}
+export const createStudentFolder = async ({
+  googleClient,
+  lead,
+}: CreateStudentFolderProps) => {
+  const folderName = `${lead.name}'s Assets`;
+
+  const folderRef = await createFolder({
+    folderName,
+    authClient: googleClient,
+    parentFolderId: OUTREACH_ACCELERATOR_FOLDER,
+    emailsToShareWith: [lead.studentEmail, lead.parentEmail],
+  });
+  const folderId = folderRef.data.id;
+
+  // update lead page with folder ref
+  const response = await updateLead(lead.leadRef, {
+    ...leadHelpers.setFolderRef(folderId as string),
+  });
+};
+
+// craetes folder in drive
 interface CreateFolderParams {
   authClient: any;
   folderName: string;
   parentFolderId: string;
   emailsToShareWith: string[];
 }
-export const createFolder = async ({
+const createFolder = async ({
   authClient,
   folderName,
   parentFolderId,
@@ -40,9 +73,5 @@ export const createFolder = async ({
     })
   );
 
-  // Folder creation and sharing successful
-  console.log(
-    `Folder '${folderName}' created successfully with ID: ${folderId}`
-  );
-  return response.data;
+  return response;
 };

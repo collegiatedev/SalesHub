@@ -1,73 +1,44 @@
 import { NextRequest } from "next/server";
-import { SignatureTypes, webhookHandler } from "../../../_handlers/webhook";
+import { SignatureTypes } from "../../../_handlers/webhook";
 import { getLead } from "../../../_utils/notion/getLead";
 import { getRep } from "../../../_utils/notion/getRep";
 import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
-import { Stages, Statuses } from "~/app/api/_utils/notion/types";
-import {
-  conductC1Task,
-  createDashboardTask,
-  createGCTask,
-} from "~/app/api/_utils/generator/c1Tasks";
+import { Stages } from "~/app/api/_utils/notion/types";
+import { createC1Tasks } from "~/app/api/_utils/generator/c1Tasks";
+import { oauthHandler } from "~/app/api/_handlers/oauth";
+import { getFolder } from "~/app/api/_utils/drive/getFolder";
+import { INITIAL_CAL_STATUS } from "~/app/api/constants";
 
-// required: { body: ["data.fields"] },
-// handler: async (utilContext: any, req: NextRequest) => {
-//   const { "data.fields": fields } = utilContext;
-//   // create lead in notion
-
-// using accelerator registration tally webhook
-export const POST = webhookHandler<CalPayload | boolean>({
+export const POST = oauthHandler<CalPayload>({
   type: SignatureTypes.Cal,
+  useRedirect: false, // client facing, so don't redirect for oauth
   required: { body: ["payload"] },
-  handler: async (utilContext: any, req: NextRequest) => {
+  handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { payload } = utilContext;
 
     const cal = parseCalPayload(payload);
-    if (!cal.studentId) {
-      // todo, save into debug log db
-      console.log("no student id");
-      return false;
-    }
+    if (!cal.studentId) throw new Error("no student id");
 
     const lead = await getLead(cal.studentId);
     const rep = await getRep(cal.repId);
+    const folder = await getFolder({
+      authClient: googleClient,
+      folderId: lead.otherRefs.folderRef as string,
+    });
 
-    await updateLead(lead.pageId, {
+    // no need to await the rest
+
+    updateLead(lead.pageId, {
       ...leadHelpers.setCompletedStages([Stages.C0]),
       ...leadHelpers.setLatestMeeting(cal.startTime),
-      ...leadHelpers.setStatus(Statuses.Ongoing),
+      ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
       ...leadHelpers.setLeadRep(rep.pageId),
     });
-
-    // create task in accelerator tasks db
-    conductC1Task({
-      studentName: lead.name,
-      studentPageId: lead.pageId,
+    createC1Tasks({
+      lead,
+      folderLink: folder.data.webViewLink as string,
+      calStartTime: cal.startTime,
       repPageId: rep.pageId,
-      time: cal.startTime,
-      studentId: lead.id,
-      studentEmail: lead.contact.studentEmail,
-      studentNumber: lead.contact.studentPhone,
-      parentEmail: lead.contact.parentEmail,
-      parentNumber: lead.contact.parentPhone,
-    });
-    createDashboardTask({
-      studentName: lead.name,
-      studentPageId: lead.pageId,
-      repPageId: rep.pageId,
-      time: cal.startTime,
-      folderLink: lead.otherRefs.folderRef!, // todo, check if this is correct
-      studentEmail: lead.contact.studentEmail,
-    });
-    createGCTask({
-      studentName: lead.name,
-      studentPageId: lead.pageId,
-      repPageId: rep.pageId,
-      time: cal.startTime,
-      studentId: lead.id,
-      parentName: lead.contact.parentName,
-      studentPhone: lead.contact.studentPhone,
-      parentPhone: lead.contact.parentPhone,
     });
 
     return cal;
@@ -82,7 +53,6 @@ const parseCalPayload = (payload: any): CalPayload => {
     endTime: payload.endTime,
   };
 };
-
 type CalPayload = {
   repId: string;
   // might be null, depending on flow

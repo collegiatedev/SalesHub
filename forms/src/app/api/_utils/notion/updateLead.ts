@@ -82,4 +82,17 @@ export const leadHelpers = {
       },
     };
   },
+  setInfoId: (infoId: string) => {
+    return {
+      "db-ref": {
+        rich_text: [
+          {
+            text: {
+              content: infoId,
+            },
+          },
+        ],
+      },
+    };
+  },
 };
