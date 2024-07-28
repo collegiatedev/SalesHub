@@ -27,14 +27,13 @@ export const POST = oauthHandler<CalPayload>({
       folderId: lead.otherRefs.folderRef as string,
     });
 
-    // no need to await the rest
-
-    updateLead(lead.pageId, {
+    await updateLead(lead.pageId, {
       ...leadHelpers.setCompletedStages([Stages.C0]),
       ...leadHelpers.setLatestMeeting(cal.startTime),
       ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
       ...leadHelpers.setLeadRep(rep.pageId),
     });
+    // no need to await the rest
     createC1Tasks({
       lead,
       folderLink: folder.data.webViewLink as string,

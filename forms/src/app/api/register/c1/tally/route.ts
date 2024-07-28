@@ -33,12 +33,13 @@ export const POST = oauthHandler<CreatedLead>({
       },
     });
 
-    // no need to await the rest
-    updateLead(lead.id, {
+    // no need to await the rest,
+    // testing this out as workaround for issues
+    await updateLead(lead.id, {
       ...leadHelpers.setInfoId(info.infoId),
     });
     // create contact page in info table
-    infoContact({
+    await infoContact({
       infoId: info.infoId, // see express server for output shape, src/routes/info/create.ts
       studentName: leadFields["Student Name"],
       studentEmail: leadFields["Student's Email"],

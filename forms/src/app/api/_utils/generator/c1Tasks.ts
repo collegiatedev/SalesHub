@@ -82,7 +82,7 @@ export const createC1Tasks = async ({
   folderLink,
 }: C1TaskFields) => {
   await Promise.all([
-    conductC1Task({
+    await conductC1Task({
       studentName: lead.name,
       studentPageId: lead.pageId,
       repPageId: repPageId,
@@ -93,7 +93,7 @@ export const createC1Tasks = async ({
       parentEmail: lead.contact.parentEmail,
       parentNumber: lead.contact.parentPhone,
     }),
-    createDashboardTask({
+    await createDashboardTask({
       folderLink,
       studentName: lead.name,
       studentPageId: lead.pageId,
@@ -101,7 +101,7 @@ export const createC1Tasks = async ({
       time: calStartTime,
       studentEmail: lead.contact.studentEmail,
     }),
-    createGCTask({
+    await createGCTask({
       studentName: lead.name,
       studentPageId: lead.pageId,
       repPageId: repPageId,
