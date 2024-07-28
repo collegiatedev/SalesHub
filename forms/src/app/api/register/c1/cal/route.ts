@@ -15,6 +15,7 @@ export const POST = oauthHandler<CalPayload>({
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { payload } = utilContext;
+    console.log("we here");
 
     const cal = parseCalPayload(payload);
     if (!cal.studentId) throw new Error("no student id");
@@ -54,9 +55,8 @@ const parseCalPayload = (payload: any): CalPayload => {
   };
 };
 type CalPayload = {
-  repId: string;
   // might be null, depending on flow
-  // todo, save into debug log db
+  repId: string;
   studentId?: string;
   startTime: string;
   endTime: string;
