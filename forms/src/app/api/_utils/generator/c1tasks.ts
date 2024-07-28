@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SERVER_URL } from "../../constants";
-import { LeadFields } from "../notion/getLead";
+import { type LeadFields } from "../notion/getLead";
 // I can change this probably to one interface and then use partials?
 interface conductC1Info {
   studentName: string;
