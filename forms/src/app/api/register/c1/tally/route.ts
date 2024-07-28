@@ -1,13 +1,11 @@
-import { ApiResponse } from "../../../_handlers";
 import {
   CreatedLeadFields,
   createLead,
 } from "../../../_utils/notion/createLead";
 import { createInfo, infoContact } from "../../../_utils/generator/info";
-import { NextRequest, NextResponse } from "next/server";
-import axios from "axios";
-import { SignatureTypes, webhookHandler } from "../../../_handlers/webhook";
-import { getFieldValue, withEndpoint } from "~/app/api/helpers";
+import { NextRequest } from "next/server";
+import { SignatureTypes } from "../../../_handlers/webhook";
+import { getFieldValue } from "~/app/api/helpers";
 import { leadHelpers, updateLead } from "~/app/api/_utils/notion/updateLead";
 import { oauthHandler } from "~/app/api/_handlers/oauth";
 import { createStudentFolder } from "~/app/api/_utils/drive/createFolder";
