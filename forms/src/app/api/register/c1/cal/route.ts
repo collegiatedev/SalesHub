@@ -15,7 +15,6 @@ export const POST = oauthHandler<CalPayload>({
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { payload } = utilContext;
-    console.log("we here");
 
     const cal = parseCalPayload(payload);
     if (!cal.studentId) throw new Error("no student id");
@@ -33,8 +32,8 @@ export const POST = oauthHandler<CalPayload>({
       ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
       ...leadHelpers.setLeadRep(rep.pageId),
     });
-    // no need to await the rest
-    createC1Tasks({
+
+    await createC1Tasks({
       lead,
       folderLink: folder.data.webViewLink as string,
       calStartTime: cal.startTime,
