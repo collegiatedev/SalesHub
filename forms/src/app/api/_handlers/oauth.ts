@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { oauth2Client, OUTREACH_TOKEN } from "../constants";
 import { ApiResponse, handleError, reqHandler } from ".";
-import { useEndpoint } from "../helpers";
+import { withEndpoint } from "../helpers";
 import { SignatureTypes, webhookHandler } from "./webhook";
 
 type HandlerFunctionWithOAuth<T> = (
@@ -48,7 +48,7 @@ export const oauthHandler = <T>({
         if (!useRedirect) throw new Error("No credentials");
 
         const origin = encodeURIComponent(req.url);
-        const Location = useEndpoint(
+        const Location = withEndpoint(
           `/api/auth/init?origin=${origin}`,
           req.url
         );

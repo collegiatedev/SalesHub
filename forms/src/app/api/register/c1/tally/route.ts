@@ -7,7 +7,7 @@ import { createInfo, infoContact } from "../../../_utils/generator/info";
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import { SignatureTypes, webhookHandler } from "../../../_handlers/webhook";
-import { getFieldValue, useEndpoint } from "~/app/api/helpers";
+import { getFieldValue, withEndpoint } from "~/app/api/helpers";
 import { leadHelpers, updateLead } from "~/app/api/_utils/notion/updateLead";
 import { oauthHandler } from "~/app/api/_handlers/oauth";
 import { createStudentFolder } from "~/app/api/_utils/drive/createFolder";
