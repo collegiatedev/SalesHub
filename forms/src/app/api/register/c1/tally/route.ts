@@ -22,11 +22,8 @@ export const POST = oauthHandler<CreatedLead>({
     const lead = await createLead(leadFields);
     const info = await createInfo(leadFields["Student Name"], lead.id);
 
-    // no need to await the rest
-    updateLead(lead.id, {
-      ...leadHelpers.setInfoId(info.infoId),
-    });
-    createStudentFolder({
+    // need to await since updateLead depends on folder creation await
+    await createStudentFolder({
       googleClient,
       lead: {
         leadRef: lead.id,
@@ -36,6 +33,10 @@ export const POST = oauthHandler<CreatedLead>({
       },
     });
 
+    // no need to await the rest
+    updateLead(lead.id, {
+      ...leadHelpers.setInfoId(info.infoId),
+    });
     // create contact page in info table
     infoContact({
       infoId: info.infoId, // see express server for output shape, src/routes/info/create.ts
