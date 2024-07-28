@@ -6,8 +6,8 @@ import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
 import { Stages } from "~/app/api/_utils/notion/types";
 import { oauthHandler } from "~/app/api/_handlers/oauth";
 import { getFolder } from "~/app/api/_utils/drive/getFolder";
+import { createC1Tasks } from "~/app/api/_utils/generator/c1Tasks";
 import { INITIAL_CAL_STATUS } from "~/app/api/constants";
-import createC1Tasks from "~/app/api/_utils/generator/c1Tasks"; // weird issue with this import, need to set as default export
 
 export const POST = oauthHandler<CalPayload>({
   type: SignatureTypes.Cal,
