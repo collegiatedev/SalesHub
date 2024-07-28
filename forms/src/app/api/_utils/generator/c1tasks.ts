@@ -8,7 +8,7 @@ interface C1TaskFields {
   repPageId: string;
   folderLink: string;
 }
-export const createC1Tasks = async ({
+export const createTasks = async ({
   lead,
   calStartTime,
   repPageId,

@@ -7,7 +7,7 @@ import { Stages } from "~/app/api/_utils/notion/types";
 import { oauthHandler } from "~/app/api/_handlers/oauth";
 import { getFolder } from "~/app/api/_utils/drive/getFolder";
 import { INITIAL_CAL_STATUS } from "~/app/api/constants";
-import { createC1Tasks } from "~/app/api/_utils/generator/c1Tasks";
+import { createTasks } from "~/app/api/_utils/generator/c1Tasks";
 
 export const POST = oauthHandler<CalPayload>({
   type: SignatureTypes.Cal,
@@ -34,7 +34,7 @@ export const POST = oauthHandler<CalPayload>({
       ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
       ...leadHelpers.setLeadRep(rep.pageId),
     });
-    createC1Tasks({
+    createTasks({
       lead,
       folderLink: folder.data.webViewLink as string,
       calStartTime: cal.startTime,
