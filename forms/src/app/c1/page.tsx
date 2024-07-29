@@ -6,6 +6,8 @@ import { TallyC1 } from "./_components/tally";
 import { generateId } from "~/lib/id";
 
 export default function C1() {
+  console.log("C1", process.env.NEXT_PUBLIC_NGROK_URL);
+
   const [prefills, setPrefills] = useState<Cal1Prefills | null>(null);
 
   const [id, setId] = useState<string | null>(null);

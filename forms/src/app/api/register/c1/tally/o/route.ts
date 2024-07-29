@@ -13,6 +13,7 @@ import { oauthHandler } from "~/app/api/_handlers/oauth";
 import { createOutreachFolder } from "~/app/api/_utils/drive/createFolder";
 
 export const POST = oauthHandler<CreatedLeadFields>({
+  internal: true, // should only be called by tally /i endpoint
   required: { body: ["fields"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { fields } = utilContext;

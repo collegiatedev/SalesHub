@@ -35,7 +35,7 @@ Used by c2, c3 pages to retrieve lead info.
 
 ### register
 
-Register endpoints are client-facing; they're called whenever a user submit pre-meeting forms at various stages of the program.
+Register endpoints are client-facing; they're called whenever a user submit pre-meeting forms at various stages of the program. We use /i to recieve requests, /o to handle responses.
 
 ### debrief
 

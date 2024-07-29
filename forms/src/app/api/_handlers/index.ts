@@ -1,5 +1,5 @@
 // 1. validate query params and body
-// 2. try-catch error handling (todo: with twilio/sentry notifications)
+// 2. try-catch error handling
 import { NextRequest, NextResponse } from "next/server";
 
 export type ApiResponse<T> = {
@@ -10,10 +10,11 @@ export type HandlerFunction<T> = (
   utilContext: Record<string, any>,
   req: NextRequest
 ) => Promise<T>;
-type HandlerConfig<T> = {
+export type HandlerConfig<T> = {
   required: { params?: string[]; body?: string[] };
   handler: HandlerFunction<T>;
-  requestBody?: any;
+  requestBody?: any; // since reqs can only be parsed once, we pass request body if reqHandler is being called by another handler
+  internal?: boolean; // when true, requires INTERNAL_SECRET to be passed to body as a secret; true when function is only being called by our queue but not clients
 };
 
 const validateParams = (
@@ -73,6 +74,7 @@ export const reqHandler = <T>({
   required,
   handler,
   requestBody,
+  internal = false,
 }: HandlerConfig<T>) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     try {
@@ -82,6 +84,11 @@ export const reqHandler = <T>({
         if (bodyText) reqBody = JSON.parse(bodyText);
         else reqBody = {};
       }
+      if (internal && reqBody.secret !== process.env.INTERNAL_SECRET)
+        NextResponse.json(
+          { message: "Missing or invalid secret", data: null },
+          { status: 401 }
+        );
 
       const { searchParams } = new URL(req.url);
       const [paramsContext, missingParams] = validateParams(

@@ -1,5 +1,0 @@
-{
-	"dependencies": {
-		"@upstash/qstash": "^2.6.2"
-	}
-}

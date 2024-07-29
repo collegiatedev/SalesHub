@@ -9,6 +9,7 @@ import { Stages } from "~/app/api/_utils/notion/types";
 import { INITIAL_CAL_STATUS } from "~/app/api/constants";
 
 export const POST = oauthHandler<CalPayload>({
+  internal: true, // should only be called by cal /i endpoint
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { payload } = utilContext;
