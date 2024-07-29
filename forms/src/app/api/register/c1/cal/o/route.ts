@@ -1,17 +1,14 @@
 import { NextRequest } from "next/server";
-import { SignatureTypes } from "../../../_handlers/webhook";
-import { getLead } from "../../../_utils/notion/getLead";
-import { getRep } from "../../../_utils/notion/getRep";
-import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
-import { createC1Tasks } from "../../../_utils/generator/c1Tasks";
-import { oauthHandler } from "../../../_handlers/oauth";
-import { getFolder } from "../../../_utils/drive/getFolder";
+import { getLead } from "../../../../_utils/notion/getLead";
+import { getRep } from "../../../../_utils/notion/getRep";
+import { updateLead, leadHelpers } from "../../../../_utils/notion/updateLead";
+import { createC1Tasks } from "../../../../_utils/generator/c1Tasks";
+import { oauthHandler } from "../../../../_handlers/oauth";
+import { getFolder } from "../../../../_utils/drive/getFolder";
 import { Stages } from "~/app/api/_utils/notion/types";
 import { INITIAL_CAL_STATUS } from "~/app/api/constants";
 
 export const POST = oauthHandler<CalPayload>({
-  type: SignatureTypes.Cal,
-  useRedirect: false, // client facing, so don't redirect for oauth
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { payload } = utilContext;
@@ -28,13 +25,13 @@ export const POST = oauthHandler<CalPayload>({
     });
 
     await Promise.all([
-      await updateLead(lead.pageId, {
+      updateLead(lead.pageId, {
         ...leadHelpers.setCompletedStages([Stages.C0]),
         ...leadHelpers.setLatestMeeting(cal.startTime),
         ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
         ...leadHelpers.setLeadRep(rep.pageId),
       }),
-      await createC1Tasks({
+      createC1Tasks({
         lead,
         folderLink: folder.data.webViewLink as string,
         calStartTime: cal.startTime,
@@ -55,8 +52,7 @@ const parseCalPayload = (payload: any): CalPayload => {
   };
 };
 type CalPayload = {
-  // might be null, depending on flow
-  repId: string;
+  repId: string; // might be null, depending on flow
   studentId?: string;
   startTime: string;
   endTime: string;

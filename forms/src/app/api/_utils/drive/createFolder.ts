@@ -26,8 +26,7 @@ export const createStudentFolder = async ({
   });
   const folderId = folderRef.data.id;
 
-  // no need to await the rest
-  updateLead(lead.leadRef, {
+  await updateLead(lead.leadRef, {
     ...leadHelpers.setFolderRef(folderId as string),
   });
 };
