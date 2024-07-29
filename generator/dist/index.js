@@ -15,6 +15,9 @@ app.use(body_parser_1.default.json());
 app.get("/", (_req, res) => {
     res.send("Hello World!");
 });
+app.post("/", (_req, res) => {
+    res.send("Hello World via POST!");
+});
 app.use("/c1", c1_1.c1Router);
 app.use("/c2", c2_1.c2Router);
 app.use("/c3", c3_1.c3Router);
