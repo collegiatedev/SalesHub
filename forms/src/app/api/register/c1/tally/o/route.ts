@@ -31,12 +31,10 @@ export const POST = oauthHandler<CreatedLead>({
       },
     });
 
-    // no need to await the rest,
-    // testing this out as workaround for issues
     await updateLead(lead.id, {
       ...leadHelpers.setInfoId(info.infoId),
     });
-    // create contact page in info table
+    // create contact page in info table, change shape of this data
     await infoContact({
       infoId: info.infoId, // see express server for output shape, src/routes/info/create.ts
       studentName: leadFields["Student Name"],
@@ -54,7 +52,6 @@ type CreatedLead = Awaited<ReturnType<typeof createLead>>;
 
 const parseTallyC1Registration = (fields: any): CreatedLeadFields => {
   const gfv = (label: string) => getFieldValue(label, fields);
-
   return {
     "Student Name": `${gfv("student_first_name")} ${gfv("student_last_name")}`,
     Grade: gfv("Current Grade Level"),

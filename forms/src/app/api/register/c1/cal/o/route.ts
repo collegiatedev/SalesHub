@@ -12,8 +12,6 @@ export const POST = oauthHandler<CalPayload>({
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { payload } = utilContext;
-    // simple checker, will implement into handlers later
-    // if (secret !== process.env.My_SECRET) throw new Error("invalid secret");
 
     const cal = parseCalPayload(payload);
     if (!cal.studentId) throw new Error("no student id");
@@ -27,13 +25,13 @@ export const POST = oauthHandler<CalPayload>({
     });
 
     await Promise.all([
-      await updateLead(lead.pageId, {
+      updateLead(lead.pageId, {
         ...leadHelpers.setCompletedStages([Stages.C0]),
         ...leadHelpers.setLatestMeeting(cal.startTime),
         ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
         ...leadHelpers.setLeadRep(rep.pageId),
       }),
-      await createC1Tasks({
+      createC1Tasks({
         lead,
         folderLink: folder.data.webViewLink as string,
         calStartTime: cal.startTime,
@@ -54,8 +52,7 @@ const parseCalPayload = (payload: any): CalPayload => {
   };
 };
 type CalPayload = {
-  // might be null, depending on flow
-  repId: string;
+  repId: string; // might be null, depending on flow
   studentId?: string;
   startTime: string;
   endTime: string;
