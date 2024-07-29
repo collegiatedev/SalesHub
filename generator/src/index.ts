@@ -9,6 +9,7 @@ import { c3Router } from "./routes/c3";
 const app = express();
 app.use(bodyParser.json());
 app.get("/", (_req: Request, res: Response) => {
+  console.log("GET request received!");
   res.send("Hello World!");
 });
 app.post("/", (_req: Request, res: Response) => {

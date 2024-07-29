@@ -13,6 +13,7 @@ const c3_1 = require("./routes/c3");
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.get("/", (_req, res) => {
+    console.log("GET request received!");
     res.send("Hello World!");
 });
 app.post("/", (_req, res) => {

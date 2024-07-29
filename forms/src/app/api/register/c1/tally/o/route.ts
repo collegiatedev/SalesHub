@@ -1,10 +1,10 @@
 import {
   CreatedLeadFields,
   createLead,
-} from "../../../_utils/notion/createLead";
-import { createInfo, infoContact } from "../../../_utils/generator/info";
+} from "../../../../_utils/notion/createLead";
+import { createInfo, infoContact } from "../../../../_utils/generator/info";
 import { NextRequest } from "next/server";
-import { SignatureTypes } from "../../../_handlers/webhook";
+import { SignatureTypes } from "../../../../_handlers/webhook";
 import { getFieldValue } from "~/app/api/helpers";
 import { leadHelpers, updateLead } from "~/app/api/_utils/notion/updateLead";
 import { oauthHandler } from "~/app/api/_handlers/oauth";
@@ -14,15 +14,17 @@ import { createStudentFolder } from "~/app/api/_utils/drive/createFolder";
 export const POST = oauthHandler<CreatedLead>({
   type: SignatureTypes.Tally, // tally webhook
   useRedirect: false, // client facing, so don't redirect for oauth
-  required: { body: ["data.fields"] },
+  required: { body: ["fields"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
-    const { "data.fields": fields } = utilContext;
+    const { fields } = utilContext;
+
     // create lead in notion
     const leadFields = parseTallyC1Registration(fields);
+
     const lead = await createLead(leadFields);
     const info = await createInfo(leadFields["Student Name"], lead.id);
 
-    // need to await since updateLead depends on folder creation await
+    // todo, break up this logic
     await createStudentFolder({
       googleClient,
       lead: {

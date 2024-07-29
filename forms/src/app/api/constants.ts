@@ -1,7 +1,13 @@
-import { Client } from "@notionhq/client";
+import { Client as NotionClient } from "@notionhq/client";
+import { Client as UpstashClient } from "@upstash/qstash";
+
+// upstash setup
+export const qstashClient = new UpstashClient({
+  token: process.env.QSTASH_TOKEN as string,
+});
 
 // notion setup
-export const notionClient = new Client({
+export const notionClient = new NotionClient({
   auth: process.env.NOTION_API_KEY,
 });
 export const LEAD_DATABASE_ID = "27386326248f4dae9374811627be3036";
@@ -11,7 +17,7 @@ export const REP_DATABASE_ID = "8a18df75a9234fd8878ce0a3643e0ca7";
 // next url
 const isProduction = process.env.VERCEL_ENV === "production";
 
-const NEXT_URL = isProduction
+export const NEXT_URL = isProduction
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000"; // might be 3001 sometimes
 

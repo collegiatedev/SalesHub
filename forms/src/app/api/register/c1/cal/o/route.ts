@@ -1,20 +1,20 @@
 import { NextRequest } from "next/server";
-import { SignatureTypes } from "../../../_handlers/webhook";
-import { getLead } from "../../../_utils/notion/getLead";
-import { getRep } from "../../../_utils/notion/getRep";
-import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
-import { createC1Tasks } from "../../../_utils/generator/c1Tasks";
-import { oauthHandler } from "../../../_handlers/oauth";
-import { getFolder } from "../../../_utils/drive/getFolder";
+import { getLead } from "../../../../_utils/notion/getLead";
+import { getRep } from "../../../../_utils/notion/getRep";
+import { updateLead, leadHelpers } from "../../../../_utils/notion/updateLead";
+import { createC1Tasks } from "../../../../_utils/generator/c1Tasks";
+import { oauthHandler } from "../../../../_handlers/oauth";
+import { getFolder } from "../../../../_utils/drive/getFolder";
 import { Stages } from "~/app/api/_utils/notion/types";
 import { INITIAL_CAL_STATUS } from "~/app/api/constants";
 
 export const POST = oauthHandler<CalPayload>({
-  type: SignatureTypes.Cal,
   useRedirect: false, // client facing, so don't redirect for oauth
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { payload } = utilContext;
+    // simple checker, will implement into handlers later
+    // if (secret !== process.env.My_SECRET) throw new Error("invalid secret");
 
     const cal = parseCalPayload(payload);
     if (!cal.studentId) throw new Error("no student id");
