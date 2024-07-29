@@ -2,7 +2,7 @@
 // extends reqHandler, use for endpoints that require google oauth services
 import { NextRequest, NextResponse } from "next/server";
 import { oauth2Client, OUTREACH_TOKEN } from "../constants";
-import { ApiResponse, handleError, reqHandler } from ".";
+import { ApiResponse, handleError, HandlerConfig, reqHandler } from ".";
 import { withEndpoint } from "../helpers";
 import { SignatureTypes, webhookHandler } from "./webhook";
 
@@ -12,33 +12,29 @@ type HandlerFunctionWithOAuth<T> = (
   googleClient?: any
 ) => Promise<T>;
 
-type OAuthHandlerConfig<T> = {
-  required: { params?: string[]; body?: string[] };
+type OAuthHandlerConfig<T> = Omit<HandlerConfig<T>, "handler"> & {
   handler: HandlerFunctionWithOAuth<T>;
-
   type?: SignatureTypes; // if using webhooks
-  // default false, since we assume endpoint is meant to be used by client to interact with outreach folder
-  // if true, redirects to oauth flow if no credentials
-  useRedirect?: boolean;
+  useRedirect?: boolean; // if true, redirects to oauth flow if no credentials; throws error on false when invalid credentials
 };
 
 const loadSavedCredentialsIfExist = async () => {
   try {
     // const content = await fs.readFile(TOKEN_PATH);
     // const credentials = JSON.parse(content.toString());
-    const credentials = OUTREACH_TOKEN; // todoswitch to credential store in very distant future
+    const credentials = OUTREACH_TOKEN; // todo, switch to credential store in very distant future
     oauth2Client.setCredentials(credentials as any);
     return oauth2Client;
   } catch (err) {
     return null;
   }
 };
-
 export const oauthHandler = <T>({
-  required,
   handler,
+  required,
   type,
   useRedirect = false,
+  internal = false,
 }: OAuthHandlerConfig<T>) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     try {
@@ -67,10 +63,12 @@ export const oauthHandler = <T>({
             handler: enhancedHandler,
             required,
             type,
+            internal,
           })(req)
         : reqHandler({
             handler: enhancedHandler,
             required,
+            internal,
           })(req);
     } catch (error) {
       return handleError(error);

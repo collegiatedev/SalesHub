@@ -10,7 +10,7 @@ export const POST = webhookHandler<any>({
     const { payload } = utilContext;
     return await qstashClient.publishJSON({
       url: withEndpoint("/api/register/c1/cal/o", NEXT_URL),
-      body: { payload },
+      body: { payload, secret: process.env.INTERNAL_SECRET },
       delay: 300, // cal endpoint dependent on tally endpoint, so we add delay longer than serverless timeout total
     });
   },

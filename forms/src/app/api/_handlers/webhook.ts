@@ -2,18 +2,12 @@
 // extends reqHandler, use with webhook endpoints that require verifcation
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { ApiResponse, HandlerFunction, reqHandler } from ".";
+import { ApiResponse, HandlerConfig, HandlerFunction, reqHandler } from ".";
 
 export enum SignatureTypes {
   Tally,
   Cal,
 }
-
-type WebhookHandlerParams<T> = {
-  required: { params?: string[]; body?: string[] };
-  handler: HandlerFunction<T>;
-  type: SignatureTypes;
-};
 
 const verifySignature = (
   payload: any,
@@ -46,11 +40,13 @@ const verifySignature = (
   return receivedSignature === calculatedSignature;
 };
 
+type WebhookHandlerConfig<T> = HandlerConfig<T> & { type: SignatureTypes };
 export const webhookHandler = <T>({
   required,
   handler,
   type,
-}: WebhookHandlerParams<T>) => {
+  internal = false,
+}: WebhookHandlerConfig<T>) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     const webhookPayload = await req.json();
     if (!verifySignature(webhookPayload, req.headers, type)) {
@@ -60,6 +56,11 @@ export const webhookHandler = <T>({
       );
     }
 
-    return reqHandler({ required, handler, requestBody: webhookPayload })(req);
+    return reqHandler({
+      required,
+      handler,
+      internal,
+      requestBody: webhookPayload,
+    })(req);
   };
 };

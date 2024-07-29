@@ -27,7 +27,7 @@ export const INITIAL_CAL_STATUS = isProduction
 // next url
 export const NEXT_URL = isProduction
   ? `https://${process.env.VERCEL_URL}`
-  : process.env.NEXT_PUBLIC_NGROK_URL; // no more localhost
+  : (process.env.NEXT_PUBLIC_NGROK_URL as string); // no more localhost
 
 // generator server url
 export const SERVER_URL = isProduction

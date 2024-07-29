@@ -12,7 +12,7 @@ export const POST = webhookHandler<any>({
     const { "data.fields": fields } = utilContext;
     return await qstashClient.publishJSON({
       url: withEndpoint("/api/register/c1/tally/o", NEXT_URL),
-      body: { fields },
+      body: { fields, secret: process.env.INTERNAL_SECRET },
     });
   },
 });
