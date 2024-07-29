@@ -17,8 +17,8 @@ type OAuthHandlerConfig<T> = {
   handler: HandlerFunctionWithOAuth<T>;
 
   type?: SignatureTypes; // if using webhooks
-  // default true, redirects to oauth flow if no credentials
-  // false, we throw an error if no credentials
+  // default false, since we assume endpoint is meant to be used by client to interact with outreach folder
+  // if true, redirects to oauth flow if no credentials
   useRedirect?: boolean;
 };
 

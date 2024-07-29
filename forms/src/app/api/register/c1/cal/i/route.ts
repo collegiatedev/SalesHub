@@ -8,19 +8,10 @@ export const POST = webhookHandler<any>({
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest) => {
     const { payload } = utilContext;
-
-    // const endpoint = withEndpoint("/api/register/c1/tasks", NEXT_URL);
-    const endpoint = withEndpoint(
-      "/api/register/c1/cal/o",
-      "https://a85f-50-230-201-134.ngrok-free.app"
-    );
-    await qstashClient.publishJSON({
-      url: endpoint,
-      body: { payload, secret: process.env.My_SECRET },
-      // we need to make sure that tally endpoint is fully completed, so we add delay longer than function timeout
-      delay: 300,
+    return await qstashClient.publishJSON({
+      url: withEndpoint("/api/register/c1/cal/o", NEXT_URL),
+      body: { payload },
+      delay: 300, // endpoint dependent on tally, so we add delay to be longer than the serverless timeout
     });
-
-    return;
   },
 });

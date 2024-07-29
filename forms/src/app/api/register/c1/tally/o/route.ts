@@ -4,16 +4,12 @@ import {
 } from "../../../../_utils/notion/createLead";
 import { createInfo, infoContact } from "../../../../_utils/generator/info";
 import { NextRequest } from "next/server";
-import { SignatureTypes } from "../../../../_handlers/webhook";
 import { getFieldValue } from "~/app/api/helpers";
 import { leadHelpers, updateLead } from "~/app/api/_utils/notion/updateLead";
 import { oauthHandler } from "~/app/api/_handlers/oauth";
 import { createStudentFolder } from "~/app/api/_utils/drive/createFolder";
 
-// using accelerator registration tally webhook
 export const POST = oauthHandler<CreatedLead>({
-  type: SignatureTypes.Tally, // tally webhook
-  useRedirect: false, // client facing, so don't redirect for oauth
   required: { body: ["fields"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { fields } = utilContext;

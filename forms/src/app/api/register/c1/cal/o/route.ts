@@ -9,7 +9,6 @@ import { Stages } from "~/app/api/_utils/notion/types";
 import { INITIAL_CAL_STATUS } from "~/app/api/constants";
 
 export const POST = oauthHandler<CalPayload>({
-  useRedirect: false, // client facing, so don't redirect for oauth
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { payload } = utilContext;
