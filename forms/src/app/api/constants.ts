@@ -1,29 +1,21 @@
-import { Client as NotionClient } from "@notionhq/client";
-import { Client as UpstashClient } from "@upstash/qstash";
+const isProduction = process.env.VERCEL_ENV === "production";
 
 // upstash setup
+import { Client as UpstashClient } from "@upstash/qstash";
+
 export const qstashClient = new UpstashClient({
   token: process.env.QSTASH_TOKEN as string,
 });
 
 // notion setup
+import { Client as NotionClient } from "@notionhq/client";
+
 export const notionClient = new NotionClient({
   auth: process.env.NOTION_API_KEY,
 });
+
 export const LEAD_DATABASE_ID = "27386326248f4dae9374811627be3036";
 export const REP_DATABASE_ID = "8a18df75a9234fd8878ce0a3643e0ca7";
-
-// express server setup
-// next url
-const isProduction = process.env.VERCEL_ENV === "production";
-
-export const NEXT_URL = isProduction
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000"; // might be 3001 sometimes
-
-export const SERVER_URL = isProduction
-  ? "https://king-prawn-app-onivj.ondigitalocean.app"
-  : "http://localhost:8080"; // generator url
 
 export const INITIAL_TALLY_STATUS = isProduction
   ? Statuses.Incomplete
@@ -31,6 +23,16 @@ export const INITIAL_TALLY_STATUS = isProduction
 export const INITIAL_CAL_STATUS = isProduction
   ? Statuses.Ongoing
   : Statuses.Test;
+
+// next url
+export const NEXT_URL = isProduction
+  ? `https://${process.env.VERCEL_URL}`
+  : process.env.NEXT_PUBLIC_NGROK_URL; // no more localhost
+
+// generator server url
+export const SERVER_URL = isProduction
+  ? "https://king-prawn-app-onivj.ondigitalocean.app"
+  : "http://localhost:8080"; // generator local url
 
 // google auth setup
 import { google } from "googleapis";
