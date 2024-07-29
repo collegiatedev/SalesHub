@@ -1,13 +1,20 @@
 import axios from "axios";
 import { SERVER_URL } from "../../constants";
 import { withEndpoint } from "../../helpers";
+import { CreatedLeadFields } from "../notion/createLead";
 
-export const createInfo = async (name: string, pageId: string) => {
+export const createInfoTable = async ({
+  studentName,
+  leadId,
+}: {
+  studentName: string;
+  leadId: string;
+}) => {
   try {
     const endpoint = withEndpoint("/info/create", SERVER_URL);
     const response = await axios.post(endpoint, {
-      name,
-      pageId,
+      name: studentName,
+      pageId: leadId,
     });
     return response.data;
   } catch (error) {
@@ -16,19 +23,25 @@ export const createInfo = async (name: string, pageId: string) => {
   }
 };
 
-interface ContactInfo {
+export const contactInfo = async ({
+  infoId,
+  leadFields,
+}: {
   infoId: string;
-  studentName: string;
-  studentEmail: string;
-  studentPhone: string;
-  parentName: string;
-  parentEmail: string;
-  parentPhone: string;
-}
-export const infoContact = async (contactInfo: ContactInfo) => {
+  leadFields: CreatedLeadFields;
+}) => {
+  const contact = {
+    infoId,
+    studentName: leadFields["Student Name"],
+    studentEmail: leadFields["Student's Email"],
+    studentPhone: leadFields["Student's Phone"],
+    parentName: leadFields["Parent Name"],
+    parentEmail: leadFields["Parent's Email"],
+    parentPhone: leadFields["Parent's Phone"],
+  };
   try {
     const endpoint = withEndpoint("/info/contact", SERVER_URL);
-    const response = await axios.post(endpoint, contactInfo);
+    const response = await axios.post(endpoint, contact);
     return response.data;
   } catch (error) {
     console.error("Error creating info:", error);
