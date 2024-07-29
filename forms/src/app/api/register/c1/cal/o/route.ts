@@ -12,30 +12,32 @@ export const POST = oauthHandler<CalPayload>({
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { payload } = utilContext;
-
     const cal = parseCalPayload(payload);
     if (!cal.studentId) throw new Error("no student id");
 
     const lead = await getLead(cal.studentId);
-    const rep = await getRep(cal.repId);
+    if (!lead || !lead.otherRefs.folderRef) throw new Error("invalid lead");
 
-    const folder = await getFolder({
-      authClient: googleClient,
-      folderId: lead.otherRefs.folderRef as string,
-    });
+    const [{ pageId: repPageId }, folder] = await Promise.all([
+      getRep(cal.repId),
+      getFolder({
+        authClient: googleClient,
+        folderId: lead.otherRefs.folderRef,
+      }),
+    ]);
 
     await Promise.all([
       updateLead(lead.pageId, {
         ...leadHelpers.setCompletedStages([Stages.C0]),
         ...leadHelpers.setLatestMeeting(cal.startTime),
         ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
-        ...leadHelpers.setLeadRep(rep.pageId),
+        ...leadHelpers.setLeadRep(repPageId),
       }),
       createC1Tasks({
         lead,
+        repPageId,
         folderLink: folder.data.webViewLink as string,
         calStartTime: cal.startTime,
-        repPageId: rep.pageId,
       }),
     ]);
 
@@ -43,6 +45,12 @@ export const POST = oauthHandler<CalPayload>({
   },
 });
 
+type CalPayload = {
+  repId: string; // might be null, depending on flow
+  studentId?: string;
+  startTime: string;
+  endTime: string;
+};
 const parseCalPayload = (payload: any): CalPayload => {
   return {
     repId: payload.organizer.id.toString(),
@@ -50,10 +58,4 @@ const parseCalPayload = (payload: any): CalPayload => {
     startTime: payload.startTime,
     endTime: payload.endTime,
   };
-};
-type CalPayload = {
-  repId: string; // might be null, depending on flow
-  studentId?: string;
-  startTime: string;
-  endTime: string;
 };
