@@ -2,54 +2,48 @@ import {
   CreatedLeadFields,
   createLead,
 } from "../../../../_utils/notion/createLead";
-import { createInfo, infoContact } from "../../../../_utils/generator/info";
+import {
+  createInfoTable,
+  contactInfo,
+} from "../../../../_utils/generator/info";
 import { NextRequest } from "next/server";
 import { getFieldValue } from "~/app/api/helpers";
 import { leadHelpers, updateLead } from "~/app/api/_utils/notion/updateLead";
 import { oauthHandler } from "~/app/api/_handlers/oauth";
-import { createStudentFolder } from "~/app/api/_utils/drive/createFolder";
+import { createOutreachFolder } from "~/app/api/_utils/drive/createFolder";
 
-export const POST = oauthHandler<CreatedLead>({
+export const POST = oauthHandler<CreatedLeadFields>({
   required: { body: ["fields"] },
   handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
     const { fields } = utilContext;
-
-    // create lead in notion
     const leadFields = parseTallyC1Registration(fields);
+    const studentName = leadFields["Student Name"];
 
-    const lead = await createLead(leadFields);
-    const info = await createInfo(leadFields["Student Name"], lead.id);
+    const [{ id: leadId }, folderId] = await Promise.all([
+      createLead(leadFields),
+      createOutreachFolder({
+        googleClient,
+        studentName,
+        shareWith: [
+          leadFields["Student's Email"],
+          leadFields["Parent's Email"],
+        ],
+      }),
+    ]);
 
-    // todo, break up this logic
-    await createStudentFolder({
-      googleClient,
-      lead: {
-        leadRef: lead.id,
-        name: leadFields["Student Name"],
-        studentEmail: leadFields["Student's Email"],
-        parentEmail: leadFields["Parent's Email"],
-      },
-    });
+    const { infoId } = await createInfoTable({ leadId, studentName });
 
-    await updateLead(lead.id, {
-      ...leadHelpers.setInfoId(info.infoId),
-    });
-    // create contact page in info table, change shape of this data
-    await infoContact({
-      infoId: info.infoId, // see express server for output shape, src/routes/info/create.ts
-      studentName: leadFields["Student Name"],
-      studentEmail: leadFields["Student's Email"],
-      studentPhone: leadFields["Student's Phone"],
-      parentName: leadFields["Parent Name"],
-      parentEmail: leadFields["Parent's Email"],
-      parentPhone: leadFields["Parent's Phone"],
-    });
+    await Promise.all([
+      contactInfo({ infoId, leadFields }),
+      updateLead(leadId, {
+        ...leadHelpers.setFolderRef(folderId),
+        ...leadHelpers.setInfoId(infoId),
+      }),
+    ]);
 
-    return lead;
+    return leadFields;
   },
 });
-type CreatedLead = Awaited<ReturnType<typeof createLead>>;
-
 const parseTallyC1Registration = (fields: any): CreatedLeadFields => {
   const gfv = (label: string) => getFieldValue(label, fields);
   return {
