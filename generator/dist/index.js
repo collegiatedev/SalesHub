@@ -16,6 +16,7 @@ app.get("/", (_req, res) => {
     res.send("Hello World!");
 });
 app.post("/", (_req, res) => {
+    console.log("POST request received!");
     res.send("Hello World via POST!");
 });
 app.use("/c1", c1_1.c1Router);

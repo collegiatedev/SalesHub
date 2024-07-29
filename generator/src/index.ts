@@ -12,6 +12,7 @@ app.get("/", (_req: Request, res: Response) => {
   res.send("Hello World!");
 });
 app.post("/", (_req: Request, res: Response) => {
+  console.log("POST request received!");
   res.send("Hello World via POST!");
 });
 
