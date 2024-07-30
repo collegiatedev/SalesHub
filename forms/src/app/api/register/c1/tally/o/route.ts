@@ -6,18 +6,15 @@ import {
   createInfoTable,
   contactInfo,
 } from "../../../../_utils/generator/info";
-import { NextRequest } from "next/server";
 import { getFieldValue } from "~/app/api/helpers";
 import { leadHelpers, updateLead } from "~/app/api/_utils/notion/updateLead";
-import { oauthHandler } from "~/app/api/_handlers/oauth";
 import { createOutreachFolder } from "~/app/api/_utils/drive/createFolder";
+import { HandlerTypes, outputHandler } from "~/app/api/_handlers/io";
 
-export const POST = oauthHandler<CreatedLeadFields>({
-  internal: true, // should only be called by tally /i endpoint
-  required: { body: ["fields"] },
-  handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
-    const { fields } = utilContext;
-    const leadFields = parseTallyC1Registration(fields);
+export const POST = outputHandler<CreatedLeadFields>({
+  type: HandlerTypes.OAuth,
+  handler: async (input, googleClient) => {
+    const leadFields = parseTallyC1(input);
     const studentName = leadFields["Student Name"];
 
     const [{ id: leadId }, folderId] = await Promise.all([
@@ -45,7 +42,7 @@ export const POST = oauthHandler<CreatedLeadFields>({
     return leadFields;
   },
 });
-const parseTallyC1Registration = (fields: any): CreatedLeadFields => {
+const parseTallyC1 = (fields: any): CreatedLeadFields => {
   const gfv = (label: string) => getFieldValue(label, fields);
   return {
     "Student Name": `${gfv("student_first_name")} ${gfv("student_last_name")}`,

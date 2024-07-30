@@ -1,16 +1,7 @@
-import { NextRequest } from "next/server";
-import { SignatureTypes, webhookHandler } from "../../../../_handlers/webhook";
-import { NEXT_URL, qstashClient } from "~/app/api/constants";
-import { withEndpoint } from "~/app/api/helpers";
+import { inputHandler } from "~/app/api/_handlers/io";
+import { SignatureTypes } from "~/app/api/_handlers/webhook";
 
-export const POST = webhookHandler<any>({
+export const POST = inputHandler({
   type: SignatureTypes.Cal,
-  required: { body: ["payload"] },
-  handler: async (utilContext: any, _req: NextRequest) => {
-    const { payload } = utilContext;
-    return await qstashClient.publishJSON({
-      url: withEndpoint("/api/register/c2/cal/o", NEXT_URL),
-      body: { payload, secret: process.env.INTERNAL_SECRET },
-    });
-  },
+  route: "/api/register/c2/cal/o",
 });
