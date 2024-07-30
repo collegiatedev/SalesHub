@@ -1,31 +1,41 @@
-import { NextRequest } from "next/server";
-import { SignatureTypes } from "../../../../_handlers/webhook";
-import { reqHandler } from "~/app/api/_handlers";
-import { getLead } from "~/app/api/_utils/notion/getLead";
 import { getFieldValue } from "~/app/api/helpers";
+import { HandlerTypes, outputHandler } from "~/app/api/_handlers/io";
+import { getLead } from "~/app/api/_utils/notion/getLead";
+import {
+  backgroundInfo,
+  C2Form,
+  OptionalC2Form,
+} from "~/app/api/_utils/generator/info";
 
-export const POST = reqHandler<any>({
-  internal: true,
-  required: { body: ["fields"] },
-  handler: async (utilContext: any, _req: NextRequest) => {
-    const { payload } = utilContext;
+export const POST = outputHandler<any>({
+  type: HandlerTypes.Req,
+  handler: async (input) => {
+    const response = parseTallyC2(input);
+    if (!response.id) throw new Error("no student id");
+    const lead = await getLead(response.id);
+    if (!lead || !lead.otherRefs.folderRef) throw new Error("invalid lead");
 
-    const lead = await getLead(cal.studentId);
+    await backgroundInfo({
+      ...response,
+      studentName: lead.name,
+      infoId: lead.otherRefs.dbRef,
+    });
+
+    return response;
   },
 });
-const parseTallyC2 = (fields: any): CreatedLeadFields => {
+
+const parseTallyC2 = (fields: any): any => {
   const gfv = (label: string) => getFieldValue(label, fields);
+
   return {
-    "Student Name": `${gfv("student_first_name")} ${gfv("student_last_name")}`,
-    Grade: gfv("Current Grade Level"),
-    Major: gfv("major"),
-    School: `${gfv("school")}, ${gfv("state")}`,
     id: gfv("id"),
-    "Parent Name": `${gfv("parent_first_name")} ${gfv("parent_last_name")}`,
-    "Student's Email": gfv("student_email"),
-    "Student's Phone": gfv("student_number"),
-    "Parent's Email": gfv("parent_email"),
-    "Parent's Phone": gfv("parent_number"),
-    Origin: gfv("origin").split(", "),
-  };
+    uGPA: gfv("uGPA"),
+    wGPA: gfv("wGPA"),
+    additionalAcademic: gfv("more academic info"),
+    additionalActivity: gfv("additional activity info"),
+    transcripts: gfv("transcripts"),
+    resumePortfolios: gfv("resume or portfolio"),
+    professionalLinks: gfv("links"),
+  } as C2Form & OptionalC2Form;
 };

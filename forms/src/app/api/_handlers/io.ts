@@ -1,4 +1,5 @@
 // input, output handlers
+// break me up
 
 import { NextRequest } from "next/server";
 import { qstashClient, NEXT_URL } from "../constants";
@@ -7,6 +8,7 @@ import { SignatureTypes, webhookHandler } from "./webhook";
 import { oauthHandler } from "./oauth";
 import { reqHandler } from ".";
 
+// input handler
 interface InputHandler {
   type: SignatureTypes;
   route: string;
@@ -38,20 +40,22 @@ export const inputHandler = ({ type, route, delay = 0 }: InputHandler) => {
   });
 };
 
+// output handler
+
 // extend as needed
 export enum HandlerTypes {
   Req = "req",
   OAuth = "oauth",
   // Webhook = "webhook" not added, since input are already handled by webhooks
 }
-interface OutputHandlerBase<T> {
+interface OutputHandlerBase {
   type: HandlerTypes;
 }
-interface OAuthHandler<T> extends OutputHandlerBase<T> {
+interface OAuthHandler<T> extends OutputHandlerBase {
   type: HandlerTypes.OAuth;
   handler: (input: T, googleClient: any) => Promise<any>;
 }
-interface ReqHandler<T> extends OutputHandlerBase<T> {
+interface ReqHandler<T> extends OutputHandlerBase {
   type: HandlerTypes.Req;
   handler: (input: T) => Promise<any>;
 }
@@ -66,7 +70,7 @@ export const outputHandler = <T>({ handler, type }: OutputHandler<T>) => {
         internal: true, // should only be called by associated /i endpoint
         useRedirect: false, // since internal already, no point in redirecting
         handler: async (utilContext, _req, googleClient) => {
-          const input = utilContext["input"];
+          const { input } = utilContext;
           return handler(input, googleClient);
         },
       });
@@ -75,7 +79,7 @@ export const outputHandler = <T>({ handler, type }: OutputHandler<T>) => {
         required: { body: ["input"] },
         internal: true, // should only be called by associated /i endpoint
         handler: async (utilContext, _req) => {
-          const input = utilContext["input"];
+          const { input } = utilContext;
           return handler(input);
         },
       });
