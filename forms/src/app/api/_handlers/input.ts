@@ -44,5 +44,5 @@ export const qstashPublish = async ({
   await qstashClient.publishJSON({
     url: withEndpoint(route, NEXT_URL),
     body: { input, secret: process.env.INTERNAL_SECRET },
-    delay, // in ms
+    delay, // in seconds
   });

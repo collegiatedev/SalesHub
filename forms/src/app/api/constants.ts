@@ -1,5 +1,9 @@
 const isProduction = process.env.VERCEL_ENV === "production";
 
+// seconds, used for endpoints that are dependent on previous apis calls
+// 300s is longer than serverless timeout
+export const ENDPOINT_DELAY = 300;
+
 // upstash setup
 import { Client as UpstashClient } from "@upstash/qstash";
 

@@ -1,22 +1,21 @@
 // initial router for cal endpoints, using singular webhook
 
 import { SignatureTypes, webhookHandler } from "~/app/api/_handlers/webhook";
-import { NEXT_URL } from "../constants";
+import { ENDPOINT_DELAY, NEXT_URL } from "../constants";
 import { NextRequest } from "next/server";
 import { withEndpoint } from "../helpers";
 import { Published, qstashPublish } from "../_handlers/input";
 
-export const POST = webhookHandler<Published | undefined>({
+// todo, revisit how cal links are being organized
+export const POST = webhookHandler<Array<Published>>({
   type: SignatureTypes.Cal,
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest) => {
     const input = utilContext["payload"];
-
-    const config = routeConfig(input.type);
-
-    if (!config) return; // not a register cal route, so we're done
-
-    return await qstashPublish({ ...config, input });
+    const publishing = publishEndpoints(input.type);
+    return await Promise.all(
+      publishing.map(async (config) => qstashPublish({ ...config, input }))
+    );
   },
 });
 
@@ -24,24 +23,25 @@ type Config = {
   route: string;
   delay?: number;
 };
-// todo, revisit how cal links are being organized
-const routeConfig = (type: string): Config | undefined => {
-  const valid = (l: string[]) => l.includes(type);
-  const endpoint = (r: string) => withEndpoint(r, NEXT_URL);
 
-  if (valid(["c1"])) {
-    return {
-      route: endpoint("/api/register/c1/cal"),
-      delay: 300, // longer than serverless timeout total
-    };
-  } else if (valid(["c2", "editing", "branding", "ec", "org", "internship"])) {
-    return {
-      route: endpoint("/api/register/c2/cal"),
-    };
-  } else if (valid(["c3", "c3-r", "c3-s", "c3-v"])) {
-    return {
-      route: endpoint("/api/register/c3/cal"),
-    };
-  }
-  return;
+// determines which endpoints get published (called by server)
+const publishEndpoints = (type: string): Array<Config> => {
+  const publishing: Array<Config> = [];
+  const valid = (l: string[]) => l.includes(type);
+
+  // add /api/register endpoint
+  const addEndpoint = (r: string, d?: number) =>
+    publishing.push({
+      route: withEndpoint(`/api/register${r}`, NEXT_URL),
+      delay: d,
+    });
+
+  if (valid(["c1"])) addEndpoint("c1/cal", ENDPOINT_DELAY);
+  else if (valid(["c2", "branding", "editing", "ec", "org", "internship"])) {
+    addEndpoint("/c2/cal");
+    if (valid(["branding"])) addEndpoint("/c2/add/branding", ENDPOINT_DELAY);
+    else if (valid(["editing"])) addEndpoint("/c2/add/editing", ENDPOINT_DELAY);
+  } else if (valid(["c3", "c3-r", "c3-s", "c3-v"])) addEndpoint("/c3/cal");
+
+  return publishing;
 };
