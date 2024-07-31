@@ -73,7 +73,7 @@ export const studentBackgroundInDatabase = async ({
             url: transcript,
           },
         }))
-      : notProvided("transcripts");
+      : [notProvided("transcripts")];
 
   const rp =
     resumePortfolios !== ""
@@ -83,7 +83,7 @@ export const studentBackgroundInDatabase = async ({
             url: resumePortfolio,
           },
         }))
-      : notProvided("resume/portfolios");
+      : [notProvided("resume/portfolios")];
 
   let res = await notionClient.blocks.children.append({
     block_id: page.id,
@@ -168,8 +168,6 @@ export const studentBackgroundInDatabase = async ({
               color: "default",
             },
           },
-
-          // @ts-ignore
           ...rp,
           {
             heading_3: {
@@ -341,7 +339,6 @@ export const studentBackgroundInDatabase = async ({
               color: "default",
             },
           },
-          // @ts-ignore
           ...t,
           {
             heading_3: {

@@ -2,21 +2,6 @@
 // 2. try-catch error handling
 import { NextRequest, NextResponse } from "next/server";
 
-export type ApiResponse<T> = {
-  message: string;
-  data: T | null;
-};
-export type HandlerFunction<T> = (
-  utilContext: Record<string, any>,
-  req: NextRequest
-) => Promise<T>;
-export type HandlerConfig<T> = {
-  required: { params?: string[]; body?: string[] };
-  handler: HandlerFunction<T>;
-  requestBody?: any; // since reqs can only be parsed once, we pass request body if reqHandler is being called by another handler
-  internal?: boolean; // when true, requires INTERNAL_SECRET to be passed to body as a secret; true when function is only being called by our queue but not clients
-};
-
 const validateParams = (
   searchParams: URLSearchParams,
   requiredParams: string[] | undefined
@@ -68,6 +53,22 @@ export const handleError = (error: unknown): NextResponse<ApiResponse<any>> => {
   console.error("handleError", errorResponse);
 
   return NextResponse.json(errorResponse, { status: 500 });
+};
+
+export type ApiResponse<T> = {
+  message: string;
+  data: T | null;
+};
+export type HandlerFunction<T> = (
+  utilContext: Record<string, any>,
+  req: NextRequest
+) => Promise<T>;
+
+export type HandlerConfig<T> = {
+  required: { params?: string[]; body?: string[] };
+  handler: HandlerFunction<T>;
+  requestBody?: any; // since reqs can only be parsed once, we pass request body if reqHandler is being called by another handler
+  internal?: boolean; // when true, requires INTERNAL_SECRET to be passed to body as a secret; true when function is only being called by our queue but not clients
 };
 
 export const reqHandler = <T>({
