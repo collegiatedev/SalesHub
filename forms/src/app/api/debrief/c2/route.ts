@@ -16,7 +16,7 @@ export const POST = webhookHandler<C2Debrief>({
 
     // no need to await
     updateLead(lead.pageId, {
-      ...leadHelpers.setCompletedStages([Stages.C0, Stages.C1, Stages.C2]),
+      ...leadHelpers.setCompletedStages([Stages.C2, Stages.C1, Stages.C0]),
     });
     c2Debrief({
       studentName: lead.name,

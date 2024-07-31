@@ -1,8 +1,6 @@
-import { inputHandler } from "~/app/api/_handlers/output";
-import { SignatureTypes } from "~/app/api/_handlers/webhook";
+import { tallyInputHandler } from "~/app/api/_handlers/input";
 
 // using academic background tally webhook
-export const POST = inputHandler({
-  type: SignatureTypes.Tally,
+export const POST = tallyInputHandler({
   route: "/api/register/c2/tally/o",
 });
