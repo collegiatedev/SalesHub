@@ -1,44 +1,5 @@
-// input, output handlers
-// break me up
-
-import { NextRequest } from "next/server";
-import { qstashClient, NEXT_URL } from "../constants";
-import { withEndpoint } from "../helpers";
-import { SignatureTypes, webhookHandler } from "./webhook";
 import { oauthHandler } from "./oauth";
 import { reqHandler } from ".";
-
-// input handler
-interface InputHandler {
-  type: SignatureTypes;
-  route: string;
-  delay?: number;
-}
-export const inputHandler = ({ type, route, delay = 0 }: InputHandler) => {
-  let bodyName: string;
-  switch (type) {
-    case SignatureTypes.Tally:
-      bodyName = "data.fields";
-      break;
-    case SignatureTypes.Cal:
-      bodyName = "payload";
-      break;
-    default:
-      throw new Error("invalid signature type");
-  }
-  return webhookHandler<any>({
-    type,
-    required: { body: [bodyName] },
-    handler: async (utilContext: any, _req: NextRequest) => {
-      const input = utilContext[bodyName];
-      return await qstashClient.publishJSON({
-        url: withEndpoint(route, NEXT_URL),
-        body: { input, secret: process.env.INTERNAL_SECRET },
-        delay, // in ms
-      });
-    },
-  });
-};
 
 // output handler
 

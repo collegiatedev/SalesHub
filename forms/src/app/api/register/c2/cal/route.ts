@@ -1,7 +1,7 @@
-import { getLead } from "../../../../_utils/notion/getLead";
-import { getRep } from "../../../../_utils/notion/getRep";
-import { updateLead, leadHelpers } from "../../../../_utils/notion/updateLead";
-import { HandlerTypes, outputHandler } from "~/app/api/_handlers/io";
+import { getLead } from "../../../_utils/notion/getLead";
+import { getRep } from "../../../_utils/notion/getRep";
+import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
+import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
 
 export const POST = outputHandler<CalPayload>({
   type: HandlerTypes.Req,

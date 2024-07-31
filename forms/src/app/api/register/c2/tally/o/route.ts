@@ -1,5 +1,5 @@
 import { getFieldValue } from "~/app/api/helpers";
-import { HandlerTypes, outputHandler } from "~/app/api/_handlers/io";
+import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
 import { getLead } from "~/app/api/_utils/notion/getLead";
 import {
   backgroundInfo,

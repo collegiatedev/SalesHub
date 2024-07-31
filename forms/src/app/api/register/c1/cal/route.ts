@@ -1,13 +1,11 @@
-import { NextRequest } from "next/server";
-import { getLead } from "../../../../_utils/notion/getLead";
-import { getRep } from "../../../../_utils/notion/getRep";
-import { updateLead, leadHelpers } from "../../../../_utils/notion/updateLead";
-import { createC1Tasks } from "../../../../_utils/generator/c1Tasks";
-import { oauthHandler } from "../../../../_handlers/oauth";
-import { getFolder } from "../../../../_utils/drive/getFolder";
+import { getLead } from "../../../_utils/notion/getLead";
+import { getRep } from "../../../_utils/notion/getRep";
+import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
+import { createC1Tasks } from "../../../_utils/generator/c1Tasks";
+import { getFolder } from "../../../_utils/drive/getFolder";
 import { Stages } from "~/app/api/_utils/notion/types";
 import { INITIAL_CAL_STATUS } from "~/app/api/constants";
-import { HandlerTypes, outputHandler } from "~/app/api/_handlers/io";
+import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
 
 export const POST = outputHandler<CalPayload>({
   type: HandlerTypes.OAuth,

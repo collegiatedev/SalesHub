@@ -9,7 +9,7 @@ import {
 import { getFieldValue } from "~/app/api/helpers";
 import { leadHelpers, updateLead } from "~/app/api/_utils/notion/updateLead";
 import { createOutreachFolder } from "~/app/api/_utils/drive/createFolder";
-import { HandlerTypes, outputHandler } from "~/app/api/_handlers/io";
+import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
 
 export const POST = outputHandler<CreatedLeadFields>({
   type: HandlerTypes.OAuth,

@@ -1,4 +1,4 @@
-import { inputHandler } from "~/app/api/_handlers/io";
+import { inputHandler } from "~/app/api/_handlers/output";
 import { SignatureTypes } from "~/app/api/_handlers/webhook";
 
 // using academic background tally webhook
