@@ -14,6 +14,7 @@ export const POST = outputHandler<CalPayload>({
   handler: async (input, googleClient) => {
     const cal = parseCalPayload(input);
     if (!cal.studentId) throw new Error("no student id");
+
     const lead = await getLead(cal.studentId);
     if (!lead || !lead.otherRefs.folderRef) throw new Error("invalid lead");
 
@@ -45,8 +46,8 @@ export const POST = outputHandler<CalPayload>({
 });
 
 type CalPayload = {
-  repId: string; // might be null, depending on flow
   studentId?: string;
+  repId: string;
   startTime: string;
   endTime: string;
 };
