@@ -7,13 +7,12 @@ import { oauthHandler } from "../../../../_handlers/oauth";
 import { getFolder } from "../../../../_utils/drive/getFolder";
 import { Stages } from "~/app/api/_utils/notion/types";
 import { INITIAL_CAL_STATUS } from "~/app/api/constants";
+import { HandlerTypes, outputHandler } from "~/app/api/_handlers/io";
 
-export const POST = oauthHandler<CalPayload>({
-  internal: true, // should only be called by cal /i endpoint
-  required: { body: ["payload"] },
-  handler: async (utilContext: any, _req: NextRequest, googleClient: any) => {
-    const { payload } = utilContext;
-    const cal = parseCalPayload(payload);
+export const POST = outputHandler<CalPayload>({
+  type: HandlerTypes.OAuth,
+  handler: async (input, googleClient) => {
+    const cal = parseCalPayload(input);
     if (!cal.studentId) throw new Error("no student id");
 
     const lead = await getLead(cal.studentId);
@@ -47,8 +46,8 @@ export const POST = oauthHandler<CalPayload>({
 });
 
 type CalPayload = {
-  repId: string; // might be null, depending on flow
   studentId?: string;
+  repId: string;
   startTime: string;
   endTime: string;
 };

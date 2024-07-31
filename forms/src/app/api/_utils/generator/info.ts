@@ -1,3 +1,5 @@
+// break me up
+
 import axios from "axios";
 import { SERVER_URL } from "../../constants";
 import { withEndpoint } from "../../helpers";
@@ -42,6 +44,37 @@ export const contactInfo = async ({
   try {
     const endpoint = withEndpoint("/info/contact", SERVER_URL);
     const response = await axios.post(endpoint, contact);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating info:", error);
+    throw error;
+  }
+};
+
+// from getLead call
+type C2Lead = {
+  studentName: string;
+  infoId: string;
+};
+export type C2Form = {
+  uGPA: string;
+  wGPA: string;
+};
+export type OptionalC2Form = Partial<{
+  additionalAcademic: string;
+  additionalActivity: string;
+  professionalLinks: string;
+  transcripts: string;
+  resumePortfolios: string;
+}>;
+interface BackgroundInfo {
+  params: C2Lead & C2Form & OptionalC2Form;
+} // using params pattern to be less verbose
+export const backgroundInfo = async (params: BackgroundInfo) => {
+  try {
+    const endpoint = withEndpoint("/info/background", SERVER_URL);
+    console.log("trying with", endpoint, params);
+    const response = await axios.post(endpoint, params); // something fucking wrong
     return response.data;
   } catch (error) {
     console.error("Error creating info:", error);

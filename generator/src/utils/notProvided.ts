@@ -3,9 +3,9 @@ export const notProvided = (info: string) => {
     paragraph: {
       rich_text: [
         {
-          type: "text",
+          type: "text" as const,
           text: {
-            content: `${info} info not provided`,
+            content: `"${info}" info not provided`,
             link: null,
           },
           annotations: {
@@ -14,11 +14,11 @@ export const notProvided = (info: string) => {
             strikethrough: false,
             underline: false,
             code: false,
-            color: "default",
+            color: "default" as const,
           },
         },
       ],
-      color: "default",
+      color: "default" as const,
     },
   };
 };

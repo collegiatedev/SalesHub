@@ -8,7 +8,7 @@ const notProvided = (info) => {
                 {
                     type: "text",
                     text: {
-                        content: `${info} info not provided`,
+                        content: `"${info}" info not provided`,
                         link: null,
                     },
                     annotations: {

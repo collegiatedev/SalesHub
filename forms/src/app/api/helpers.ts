@@ -1,14 +1,21 @@
-export const getFieldValue = (label: string, fields: any) => {
+export const getFieldValue = (label: string, fields: any): string => {
   const field = fields.find((f: any) => f.label === label);
-  if (!field) return "";
-  if (field.type === "MULTIPLE_CHOICE") {
-    const selectedOptions = field.value.map(
-      (value: string) =>
-        field.options.find((option: any) => option.id === value)?.text
-    );
-    return selectedOptions.join(", ");
+  if (!field || !field.value) return "";
+
+  switch (field.type) {
+    case "MULTIPLE_CHOICE":
+      return field.value
+        .map(
+          (value: string) =>
+            field.options.find((option: any) => option.id === value)?.text
+        )
+        .join(", ");
+    case "FILE_UPLOAD":
+      // expected format for generator endpoint, double check shape lmao
+      return field.value.map((file: any) => file.url).join(",");
+    default:
+      return field.value as string;
   }
-  return field.value || "";
 };
 
 export const withEndpoint = (url: string, reqUrl: string) => {

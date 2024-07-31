@@ -6,7 +6,7 @@ import { ApiResponse, handleError, HandlerConfig, reqHandler } from ".";
 import { withEndpoint } from "../helpers";
 import { SignatureTypes, webhookHandler } from "./webhook";
 
-type HandlerFunctionWithOAuth<T> = (
+export type HandlerFunctionWithOAuth<T> = (
   utilContext: Record<string, any>,
   req: NextRequest,
   googleClient?: any
@@ -14,7 +14,7 @@ type HandlerFunctionWithOAuth<T> = (
 
 type OAuthHandlerConfig<T> = Omit<HandlerConfig<T>, "handler"> & {
   handler: HandlerFunctionWithOAuth<T>;
-  type?: SignatureTypes; // if using webhooks
+  type?: SignatureTypes; // if using webhooks after oauth
   useRedirect?: boolean; // if true, redirects to oauth flow if no credentials; throws error on false when invalid credentials
 };
 
