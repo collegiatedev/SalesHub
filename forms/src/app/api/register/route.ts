@@ -24,7 +24,7 @@ type Config = {
   delay?: number;
 };
 
-// determines which endpoints get published (called by server)
+// orchestrates which endpoints gets called
 const publishEndpoints = (type: string): Array<Config> => {
   const publishing: Array<Config> = [];
   const valid = (l: string[]) => l.includes(type);
@@ -36,11 +36,11 @@ const publishEndpoints = (type: string): Array<Config> => {
       delay: d,
     });
 
-  if (valid(["c1"])) addEndpoint("c1/cal", ENDPOINT_DELAY);
+  if (valid(["c1"])) addEndpoint("/c1/cal", ENDPOINT_DELAY);
   else if (valid(["c2", "branding", "editing", "ec", "org", "internship"])) {
     addEndpoint("/c2/cal");
-    if (valid(["branding"])) addEndpoint("/c2/add/branding", ENDPOINT_DELAY);
-    else if (valid(["editing"])) addEndpoint("/c2/add/editing", ENDPOINT_DELAY);
+    if (valid(["branding"])) addEndpoint("/c2/add/branding", 10);
+    else if (valid(["editing"])) addEndpoint("/c2/add/editing", 10);
   } else if (valid(["c3", "c3-r", "c3-s", "c3-v"])) addEndpoint("/c3/cal");
 
   return publishing;
