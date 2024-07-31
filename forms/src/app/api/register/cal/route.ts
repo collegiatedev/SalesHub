@@ -1,10 +1,10 @@
-// initial router for cal endpoints, using singular webhook
+// router for handling cal endpoints, using singular webhook
 
 import { SignatureTypes, webhookHandler } from "~/app/api/_handlers/webhook";
-import { ENDPOINT_DELAY, NEXT_URL } from "../constants";
+import { ENDPOINT_DELAY, NEXT_URL } from "../../constants";
 import { NextRequest } from "next/server";
-import { withEndpoint } from "../helpers";
-import { Published, qstashPublish } from "../_handlers/input";
+import { withEndpoint } from "../../helpers";
+import { Published, qstashPublish } from "../../_handlers/input";
 
 // todo, revisit how cal links are being organized
 export const POST = webhookHandler<Array<Published>>({
