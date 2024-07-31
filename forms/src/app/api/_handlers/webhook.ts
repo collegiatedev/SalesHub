@@ -2,7 +2,7 @@
 // extends reqHandler, use with webhook endpoints that require verifcation
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { ApiResponse, HandlerConfig, HandlerFunction, reqHandler } from ".";
+import { ApiResponse, HandlerConfig, reqHandler } from ".";
 
 export enum SignatureTypes {
   Tally,

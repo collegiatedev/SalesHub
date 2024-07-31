@@ -18,18 +18,7 @@ export const tallyInputHandler = ({ route, delay = 0 }: TallyInputHandler) => {
   });
 };
 
-// no cal input handler, since cal routing is handled by singular webhook; see register/route.ts
-
-export const calInputHandler = ({ route, delay = 0 }: TallyInputHandler) => {
-  return webhookHandler<Published>({
-    type: SignatureTypes.Cal,
-    required: { body: ["payload"] },
-    handler: async (utilContext: any, _req: NextRequest) => {
-      const input = utilContext["payload"];
-      return await qstashPublish({ route, input, delay });
-    },
-  });
-};
+// no cal input handler, since cal routing is handled by singular webhook; see register/cal/route.ts
 
 export type Published = Awaited<ReturnType<typeof qstashPublish>>;
 export const qstashPublish = async ({
@@ -43,6 +32,9 @@ export const qstashPublish = async ({
 }) =>
   await qstashClient.publishJSON({
     url: withEndpoint(route, NEXT_URL),
+    // todo, switch from personal implementation to qstash sdk
+    // see Error catching and security
+    // https://upstash.com/docs/qstash/quickstarts/vercel-nextjs
     body: { input, secret: process.env.INTERNAL_SECRET },
     delay, // in seconds
   });
