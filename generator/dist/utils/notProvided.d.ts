@@ -1,7 +1,7 @@
 export declare const notProvided: (info: string) => {
     paragraph: {
         rich_text: {
-            type: string;
+            type: "text";
             text: {
                 content: string;
                 link: null;
@@ -12,9 +12,9 @@ export declare const notProvided: (info: string) => {
                 strikethrough: boolean;
                 underline: boolean;
                 code: boolean;
-                color: string;
+                color: "default";
             };
         }[];
-        color: string;
+        color: "default";
     };
 };

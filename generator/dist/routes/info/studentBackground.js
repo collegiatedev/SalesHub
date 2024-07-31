@@ -38,7 +38,7 @@ const studentBackgroundInDatabase = async ({ studentName, infoId, uGPA, wGPA, ad
                 url: transcript,
             },
         }))
-        : (0, notProvided_1.notProvided)("transcripts");
+        : [(0, notProvided_1.notProvided)("transcripts")];
     const rp = resumePortfolios !== ""
         ? resumePortfolios.split(",").map((resumePortfolio) => ({
             bookmark: {
@@ -46,7 +46,7 @@ const studentBackgroundInDatabase = async ({ studentName, infoId, uGPA, wGPA, ad
                 url: resumePortfolio,
             },
         }))
-        : (0, notProvided_1.notProvided)("resume/portfolios");
+        : [(0, notProvided_1.notProvided)("resume/portfolios")];
     let res = await clients_1.notionClient.blocks.children.append({
         block_id: page.id,
         children: [
@@ -127,7 +127,6 @@ const studentBackgroundInDatabase = async ({ studentName, infoId, uGPA, wGPA, ad
                         color: "default",
                     },
                 },
-                // @ts-ignore
                 ...rp,
                 {
                     heading_3: {
@@ -296,7 +295,6 @@ const studentBackgroundInDatabase = async ({ studentName, infoId, uGPA, wGPA, ad
                         color: "default",
                     },
                 },
-                // @ts-ignore
                 ...t,
                 {
                     heading_3: {
