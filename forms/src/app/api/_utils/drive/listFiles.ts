@@ -1,7 +1,8 @@
 import { google } from "googleapis";
+import { GoogleAPI } from "./types";
 // great for debugging
-export const listFiles = async (authClient: any) => {
-  const drive = google.drive({ version: "v3", auth: authClient });
+export const listFiles = async ({ googleClient }: GoogleAPI) => {
+  const drive = google.drive({ version: "v3", auth: googleClient });
   const res = await drive.files.list({
     pageSize: 10,
     fields: "nextPageToken, files(id, name)",

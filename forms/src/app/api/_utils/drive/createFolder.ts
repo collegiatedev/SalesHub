@@ -1,9 +1,10 @@
 import { google } from "googleapis";
 import { OUTREACH_ACCELERATOR_FOLDER } from "../../constants";
+import { updatePerms } from "./updatePerms";
+import { GoogleAPI } from "./types";
 
-interface CreateFolderParams {
+interface CreateFolderParams extends GoogleAPI {
   studentName: string;
-  googleClient: any;
   shareWith: string[];
 }
 export const createOutreachFolder = async ({
@@ -24,18 +25,6 @@ export const createOutreachFolder = async ({
   });
 
   const fileId = response.data.id as string;
-  await Promise.all(
-    shareWith.map(async (email) => {
-      await drive.permissions.create({
-        fileId,
-        requestBody: {
-          role: "writer",
-          type: "user",
-          emailAddress: email,
-        },
-      });
-    })
-  );
-
+  await updatePerms({ googleClient, fileId, shareWith });
   return response.data.id as string; // folderId
 };

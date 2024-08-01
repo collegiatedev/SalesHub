@@ -73,8 +73,7 @@ interface BackgroundInfo {
 export const backgroundInfo = async (params: BackgroundInfo) => {
   try {
     const endpoint = withEndpoint("/info/background", SERVER_URL);
-    console.log("trying with", endpoint, params);
-    const response = await axios.post(endpoint, params); // something fucking wrong
+    const response = await axios.post(endpoint, params);
     return response.data;
   } catch (error) {
     console.error("Error creating info:", error);
