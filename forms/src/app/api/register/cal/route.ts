@@ -23,13 +23,12 @@ type Config = {
   route: string;
   delay?: number;
 };
-
 // orchestrates which endpoints gets called
 const publishEndpoints = (type: string): Array<Config> => {
   const publishing: Array<Config> = [];
   const valid = (l: string[]) => l.includes(type);
 
-  // add /api/register endpoint
+  // specifically for /api/register endpoints
   const addEndpoint = (r: string, d?: number) =>
     publishing.push({
       route: withEndpoint(`/api/register${r}`, NEXT_URL),

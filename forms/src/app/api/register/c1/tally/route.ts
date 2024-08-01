@@ -1,15 +1,12 @@
-import {
-  CreatedLeadFields,
-  createLead,
-} from "../../../../_utils/notion/createLead";
-import {
-  createInfoTable,
-  contactInfo,
-} from "../../../../_utils/generator/info";
 import { getFieldValue } from "~/app/api/helpers";
 import { leadHelpers, updateLead } from "~/app/api/_utils/notion/updateLead";
 import { createOutreachFolder } from "~/app/api/_utils/drive/createFolder";
 import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
+import { createInfoTable, contactInfo } from "~/app/api/_utils/generator/info";
+import {
+  CreatedLeadFields,
+  createLead,
+} from "~/app/api/_utils/notion/createLead";
 
 export const POST = outputHandler<CreatedLeadFields>({
   type: HandlerTypes.OAuth,

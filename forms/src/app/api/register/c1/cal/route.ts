@@ -19,7 +19,7 @@ export const POST = outputHandler<CalPayload>({
     const [{ pageId: repPageId }, folder] = await Promise.all([
       getRep(cal.repId),
       getFolder({
-        authClient: googleClient,
+        googleClient,
         folderId: lead.otherRefs.folderRef,
       }),
     ]);
