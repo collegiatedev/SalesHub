@@ -48,8 +48,10 @@ export const oauth2Client = new google.auth.OAuth2(
   `${NEXT_URL}/api/auth/callback/`
 );
 
-// drive setup
+// drive, doc templates
 export const OUTREACH_ACCELERATOR_FOLDER = "1BbpKFfIXVyacLC4q7s0zsZ70DSJd0mbH";
+export const PB_DOC_TEMP = "1SdOCFymZGqomuln6-V1njjZrRPSqRo8gnatrp-SDxuU";
+export const ESSAY_DOC_TEMP = "1Xf18-hbfw0FxJTt170pppiHeBpUFL3d72p7EXHtI8hE";
 
 // "temp" token.json for outreach account
 // honestly, it lasts basically forever, so we can just use it

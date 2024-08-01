@@ -2,6 +2,10 @@ import { docs_v1, google } from "googleapis";
 import { GoogleAPI } from "./types";
 import { updatePerms } from "./updatePerms";
 
+type TemplateParams = {
+  variable: string;
+  text: string;
+};
 interface CreateTemplateParams extends CopyTemplateParams {
   shareWith: string[];
   content: TemplateParams[];
@@ -13,40 +17,36 @@ export const createTemplate = async ({
   templateId,
   shareWith,
 }: CreateTemplateParams) => {
+  const withTemplate = ({ variable, text }: TemplateParams) =>
+    ({
+      replaceAllText: {
+        containsText: {
+          text: `{{${variable}}}`, // assume all variables are formatted with {{}}
+          matchCase: true,
+        },
+        replaceText: text,
+      },
+    } as docs_v1.Schema$Request);
+
+  const requests = content.map(withTemplate);
   const documentId = (await copyTemplate({
     googleClient,
     templateId,
     title,
   })) as string;
 
-  const requests = content.map(withTemplate);
-  await updateTemplate({
-    googleClient,
-    documentId,
-    requests,
-  });
-
-  await updatePerms({
-    googleClient,
-    fileId: documentId,
-    shareWith,
-  });
-};
-
-type TemplateParams = {
-  variable: string;
-  text: string;
-};
-const withTemplate = ({ variable, text }: TemplateParams) => {
-  return {
-    replaceAllText: {
-      containsText: {
-        text: `{{${variable}}}`,
-        matchCase: true,
-      },
-      replaceText: text,
-    },
-  } as docs_v1.Schema$Request;
+  await Promise.all([
+    updateTemplate({
+      googleClient,
+      documentId,
+      requests,
+    }),
+    updatePerms({
+      googleClient,
+      fileId: documentId,
+      shareWith,
+    }),
+  ]);
 };
 
 type CopyTemplateParams = {
