@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import { GoogleAPI } from "./types";
+import { GoogleAPI } from "../../types";
 // great for debugging
 export const listFiles = async ({ googleClient }: GoogleAPI) => {
   const drive = google.drive({ version: "v3", auth: googleClient });

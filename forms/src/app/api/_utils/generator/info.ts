@@ -67,9 +67,8 @@ export type OptionalC2Form = Partial<{
   transcripts: string;
   resumePortfolios: string;
 }>;
-interface BackgroundInfo {
-  params: C2Lead & C2Form & OptionalC2Form;
-} // using params pattern to be less verbose
+type BackgroundInfo = C2Lead & C2Form & OptionalC2Form;
+// using params to be less verbose
 export const backgroundInfo = async (params: BackgroundInfo) => {
   try {
     const endpoint = withEndpoint("/info/background", SERVER_URL);

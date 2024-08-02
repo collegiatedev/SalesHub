@@ -13,7 +13,7 @@ export const POST = outputHandler<any>({
     const response = parseTallyC2(input);
     if (!response.id) throw new Error("no student id");
     const lead = await getLead(response.id);
-    if (!lead || !lead.otherRefs.folderRef) throw new Error("invalid lead");
+    if (!lead.otherRefs.dbRef) throw new Error("invalid lead");
 
     await backgroundInfo({
       ...response,
@@ -25,7 +25,11 @@ export const POST = outputHandler<any>({
   },
 });
 
-const parseTallyC2 = (fields: any): any => {
+type TallyC2 = C2Form &
+  OptionalC2Form & {
+    id: string;
+  };
+const parseTallyC2 = (fields: any): TallyC2 => {
   const gfv = (label: string) => getFieldValue(label, fields);
 
   return {
@@ -37,5 +41,5 @@ const parseTallyC2 = (fields: any): any => {
     transcripts: gfv("transcripts"),
     resumePortfolios: gfv("resume or portfolio"),
     professionalLinks: gfv("links"),
-  } as C2Form & OptionalC2Form;
+  };
 };

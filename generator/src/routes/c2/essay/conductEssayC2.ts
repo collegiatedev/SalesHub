@@ -15,7 +15,7 @@ export const conductEssayC2: RequestHandler = asyncHandler(
         "repPageId",
         "time",
         "studentId",
-        "essayDocLink",
+        "docLink",
         "repName",
         "leadRepId",
       ]);
@@ -36,7 +36,7 @@ export const conductEssayC2: RequestHandler = asyncHandler(
 interface ConductC2MeetingEssayInDatabaseProps
   extends RequiredAcceleratorTaskFields {
   studentId: string;
-  essayDocLink: string;
+  docLink: string;
   repName: string;
   leadRepId: string;
 }
@@ -46,7 +46,7 @@ const conductC2MeetingEssayInDatabase = async ({
   repPageId,
   time,
   studentId,
-  essayDocLink,
+  docLink,
   repName,
   leadRepId,
 }: ConductC2MeetingEssayInDatabaseProps) => {
@@ -788,7 +788,7 @@ const conductC2MeetingEssayInDatabase = async ({
           {
             bookmark: {
               caption: [],
-              url: essayDocLink,
+              url: docLink,
             },
           },
         ],

@@ -6,10 +6,12 @@ export const ENDPOINT_DELAY = 300;
 
 // upstash setup
 import { Client as UpstashClient } from "@upstash/qstash";
+import { Redis } from "@upstash/redis";
 
 export const qstashClient = new UpstashClient({
   token: process.env.QSTASH_TOKEN as string,
 });
+export const redis = Redis.fromEnv();
 
 // notion setup
 import { Client as NotionClient } from "@notionhq/client";

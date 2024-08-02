@@ -1,5 +1,5 @@
 import { docs_v1, google } from "googleapis";
-import { GoogleAPI } from "./types";
+import { GoogleAPI } from "../../types";
 import { updatePerms } from "./updatePerms";
 
 type TemplateParams = {
@@ -7,7 +7,7 @@ type TemplateParams = {
   text: string;
 };
 interface CreateTemplateParams extends CopyTemplateParams {
-  shareWith: string[];
+  shareWith?: string[];
   content: TemplateParams[];
 }
 export const createTemplate = async ({
@@ -15,7 +15,7 @@ export const createTemplate = async ({
   content,
   title,
   templateId,
-  shareWith,
+  shareWith = [],
 }: CreateTemplateParams) => {
   const withTemplate = ({ variable, text }: TemplateParams) =>
     ({
@@ -29,11 +29,12 @@ export const createTemplate = async ({
     } as docs_v1.Schema$Request);
 
   const requests = content.map(withTemplate);
-  const documentId = (await copyTemplate({
+  const template = await copyTemplate({
     googleClient,
     templateId,
     title,
-  })) as string;
+  });
+  const documentId = template.id as string;
 
   await Promise.all([
     updateTemplate({
@@ -47,6 +48,7 @@ export const createTemplate = async ({
       shareWith,
     }),
   ]);
+  return template;
 };
 
 type CopyTemplateParams = {
@@ -65,7 +67,7 @@ const copyTemplate = async ({
       name: title,
     },
   });
-  return res.data.id;
+  return res.data;
 };
 
 type UpdateTemplateParams = {

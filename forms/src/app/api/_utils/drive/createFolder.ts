@@ -1,7 +1,7 @@
 import { google } from "googleapis";
 import { OUTREACH_ACCELERATOR_FOLDER } from "../../constants";
 import { updatePerms } from "./updatePerms";
-import { GoogleAPI } from "./types";
+import { GoogleAPI } from "../../types";
 
 interface CreateFolderParams extends GoogleAPI {
   studentName: string;

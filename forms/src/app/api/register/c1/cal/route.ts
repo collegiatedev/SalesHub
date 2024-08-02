@@ -17,7 +17,7 @@ export const POST = outputHandler<CalPayload>({
     if (!lead || !lead.otherRefs.folderRef) throw new Error("invalid lead");
 
     const [{ pageId: repPageId }, folder] = await Promise.all([
-      getRep(cal.repId),
+      getRep({ calId: cal.repId }),
       getFolder({
         googleClient,
         folderId: lead.otherRefs.folderRef,

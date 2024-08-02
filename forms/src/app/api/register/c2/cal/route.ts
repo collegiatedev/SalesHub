@@ -9,7 +9,7 @@ export const POST = outputHandler<CalPayload>({
     const cal = parseCalPayload(input);
     if (!cal.studentId) throw new Error("no student id");
     const lead = await getLead(cal.studentId);
-    const rep = await getRep(cal.repId);
+    const rep = await getRep({ calId: cal.repId });
 
     await updateLead(lead.pageId, {
       ...leadHelpers.setModuleRep(rep.pageId),

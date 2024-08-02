@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import { GoogleAPI } from "./types";
+import { GoogleAPI } from "../../types";
 
 interface UpdatePermsParams extends GoogleAPI {
   fileId: string;

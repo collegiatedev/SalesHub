@@ -11,12 +11,14 @@ export const getFieldValue = (label: string, fields: any): string => {
         )
         .join(", ");
     case "FILE_UPLOAD":
-      // expected format for generator endpoint, double check shape lmao
+      // expected format for generator endpoint
       return field.value.map((file: any) => file.url).join(",");
     default:
       return field.value as string;
   }
 };
+// see above, for how we handling "FILE_UPLOAD"
+export const urlsFromField = (field: any): string[] => field.split(",");
 
 export const withEndpoint = (url: string, reqUrl: string) => {
   const endpoint = new URL(url, reqUrl);

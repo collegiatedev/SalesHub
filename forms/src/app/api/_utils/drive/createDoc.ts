@@ -1,5 +1,5 @@
 import { google, docs_v1 } from "googleapis";
-import { GoogleAPI } from "./types";
+import { GoogleAPI } from "../../types";
 
 interface CreateDocParams extends GoogleAPI {
   title: string;
