@@ -35,7 +35,6 @@ export const POST = outputHandler<any>({
           ...formatEssayTemplate({ lead, response, upload }),
           googleClient,
         });
-        // id
 
         const essayTask: EssayTaskParams = {
           leadRepId: rep.id,
@@ -49,7 +48,7 @@ export const POST = outputHandler<any>({
           time: "", // will be updated by actual task call
         };
 
-        await redis.set(rep.id, JSON.stringify(essayTask));
+        await redis.set(lead.id, JSON.stringify(essayTask));
 
         // save somewhere else
         // await essayTasks(save);
