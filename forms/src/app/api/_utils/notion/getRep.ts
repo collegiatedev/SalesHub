@@ -35,9 +35,9 @@ export const getRep = async (params: GetRepParams) => {
       page_id: params.pageId,
     });
 
-    console.log(response);
-
-    return parseRepResponse(response.object, response.id);
+    // @ts-ignore
+    // notion's response is not typed correctly
+    return parseRepResponse(response.properties, response.id);
   }
   throw new Error("invalid rep params");
 };
