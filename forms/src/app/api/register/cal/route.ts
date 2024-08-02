@@ -39,8 +39,7 @@ const publishEndpoints = (type: string): Array<Config> => {
   else if (valid(["c2", "branding", "editing", "ec", "org", "internship"])) {
     addEndpoint("/c2/cal");
     if (valid(["branding"])) addEndpoint("/c2/add/branding", ENDPOINT_DELAY);
-    else if (valid(["editing"]))
-      addEndpoint("/c2/add/editing/tasks", ENDPOINT_DELAY);
+    else if (valid(["editing"])) addEndpoint("/c2/add/editing", ENDPOINT_DELAY);
   } else if (valid(["c3", "c3-r", "c3-s", "c3-v"])) addEndpoint("/c3/cal");
 
   return publishing;
