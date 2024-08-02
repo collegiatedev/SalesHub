@@ -15,7 +15,6 @@ import { getFieldValue, urlsFromField } from "~/app/api/helpers";
 export const POST = outputHandler<any>({
   type: HandlerTypes.OAuth,
   handler: async (input, googleClient) => {
-    console.log("/c2/add/editing", input);
     const response = parseTallyEditing(input);
     if (!response.id) throw new Error("no student id");
 
