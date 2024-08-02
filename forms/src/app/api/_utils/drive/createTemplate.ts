@@ -66,6 +66,7 @@ const copyTemplate = async ({
     requestBody: {
       name: title,
     },
+    fields: "id, name, webViewLink",
   });
   return res.data;
 };
