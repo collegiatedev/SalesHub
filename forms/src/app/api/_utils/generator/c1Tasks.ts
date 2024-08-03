@@ -14,6 +14,7 @@ export const createC1Tasks = async ({
   repPageId,
   folderLink,
 }: C1TaskFields) => {
+  // todo, clean up code
   await Promise.all([
     conductC1Task({
       studentName: lead.name,

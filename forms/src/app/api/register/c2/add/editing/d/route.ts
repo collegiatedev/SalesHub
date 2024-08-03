@@ -33,7 +33,7 @@ export const POST = outputHandler<any>({
           googleClient,
         });
 
-        const essayTask: EssayTaskParams = {
+        const essayTasks: EssayTaskParams = {
           leadRepId: rep.id,
           repName: rep.name,
           repPageId: rep.pageId,
@@ -44,7 +44,7 @@ export const POST = outputHandler<any>({
           fileLink: upload.webViewLink as string,
           time: "", // will be updated by actual task call
         };
-        await redis.set(lead.id, essayTask);
+        await redis.set(lead.id, essayTasks);
 
         // save somewhere else
         // await essayTasks(save);

@@ -9,5 +9,5 @@ export const c2Router: Router = Router();
 c2Router.post("/essay/conduct", conductEssayC2);
 c2Router.post("/essay/edit", editEssay);
 
-c2Router.post("/branding/conduct", conductBrandingC2);
 c2Router.post("/branding/feedback", additionalFeedback);
+c2Router.post("/branding/conduct", conductBrandingC2);

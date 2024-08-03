@@ -9,14 +9,11 @@ import {
 export const additionalFeedback: RequestHandler = asyncHandler(
   async (req: Request, res: Response) => {
     const validatedParams =
-      checkBodyParams<AdditionalFeedbackToPBInDatabaseProps>(req, [
-        "studentName",
-        "studentPageId",
-        "repPageId",
-        "time",
-        "pbDocLink",
-        "dashboardPageId",
-      ]);
+      checkBodyParams<AdditionalFeedbackToPBInDatabaseProps>(
+        req,
+        ["studentName", "studentPageId", "repPageId", "time", "pbDocLink"],
+        ["dashboardPageId"]
+      );
 
     if (!validatedParams.isValid)
       return res.status(400).json({
@@ -34,7 +31,7 @@ export const additionalFeedback: RequestHandler = asyncHandler(
 interface AdditionalFeedbackToPBInDatabaseProps
   extends RequiredAcceleratorTaskFields {
   pbDocLink: string;
-  dashboardPageId: string;
+  dashboardPageId?: string;
 }
 const additionalFeedbackToPBInDatabase = async ({
   studentName,
@@ -58,6 +55,22 @@ const additionalFeedbackToPBInDatabase = async ({
       taskId: GIVE_ADDITIONAL_FEEDBACK_TO_PB_TASK,
     })
   );
+
+  const dashboardFallback = dashboardPageId
+    ? {
+        type: "mention" as const,
+        mention: {
+          database: {
+            id: dashboardPageId,
+          },
+        },
+      }
+    : {
+        type: "text" as const,
+        text: {
+          content: "Dashboard not provided",
+        },
+      };
 
   let res = await notionClient.blocks.children.append({
     block_id: page.id,
@@ -218,22 +231,7 @@ const additionalFeedbackToPBInDatabase = async ({
                 color: "default",
               },
             },
-            {
-              type: "mention",
-              mention: {
-                database: {
-                  id: dashboardPageId,
-                },
-              },
-              annotations: {
-                bold: false,
-                italic: false,
-                strikethrough: false,
-                underline: false,
-                code: false,
-                color: "default",
-              },
-            },
+            dashboardFallback,
             {
               type: "text",
               text: {

@@ -8,11 +8,14 @@ type TemplateParams = {
 };
 interface CreateTemplateParams extends CopyTemplateParams {
   shareWith?: string[];
-  content: TemplateParams[];
+  content?: TemplateParams[];
 }
+
+// adjust typing to make this more explict
+// rather than drive_v3.Schema$File just type cast it
 export const createTemplate = async ({
   googleClient,
-  content,
+  content = [],
   title,
   templateId,
   shareWith = [],

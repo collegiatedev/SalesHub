@@ -5,14 +5,7 @@ const helpers_1 = require("../../helpers");
 const clients_1 = require("../../../clients");
 const acceleratorTask_1 = require("../../../utils/acceleratorTask");
 exports.additionalFeedback = (0, helpers_1.asyncHandler)(async (req, res) => {
-    const validatedParams = (0, helpers_1.checkBodyParams)(req, [
-        "studentName",
-        "studentPageId",
-        "repPageId",
-        "time",
-        "pbDocLink",
-        "dashboardPageId",
-    ]);
+    const validatedParams = (0, helpers_1.checkBodyParams)(req, ["studentName", "studentPageId", "repPageId", "time", "pbDocLink"], ["dashboardPageId"]);
     if (!validatedParams.isValid)
         return res.status(400).json({
             message: validatedParams.error,
@@ -34,6 +27,21 @@ const additionalFeedbackToPBInDatabase = async ({ studentName, studentPageId, re
         taskName: "Conduct C2 Meeting - Personal Brand",
         taskId: GIVE_ADDITIONAL_FEEDBACK_TO_PB_TASK,
     }));
+    const dashboardFallback = dashboardPageId
+        ? {
+            type: "mention",
+            mention: {
+                database: {
+                    id: dashboardPageId,
+                },
+            },
+        }
+        : {
+            type: "text",
+            text: {
+                content: "Dashboard not provided",
+            },
+        };
     let res = await clients_1.notionClient.blocks.children.append({
         block_id: page.id,
         children: [
@@ -193,22 +201,7 @@ const additionalFeedbackToPBInDatabase = async ({ studentName, studentPageId, re
                                 color: "default",
                             },
                         },
-                        {
-                            type: "mention",
-                            mention: {
-                                database: {
-                                    id: dashboardPageId,
-                                },
-                            },
-                            annotations: {
-                                bold: false,
-                                italic: false,
-                                strikethrough: false,
-                                underline: false,
-                                code: false,
-                                color: "default",
-                            },
-                        },
+                        dashboardFallback,
                         {
                             type: "text",
                             text: {

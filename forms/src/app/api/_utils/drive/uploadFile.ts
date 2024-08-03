@@ -1,5 +1,4 @@
 import { google } from "googleapis";
-import { ReadStream } from "fs";
 import { FileUpload, GoogleAPI } from "../../types";
 
 interface UploadFileParams extends GoogleAPI {

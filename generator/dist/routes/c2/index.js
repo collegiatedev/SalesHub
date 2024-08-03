@@ -9,5 +9,5 @@ const conductBrandingC2_1 = require("./branding/conductBrandingC2");
 exports.c2Router = (0, express_1.Router)();
 exports.c2Router.post("/essay/conduct", conductEssayC2_1.conductEssayC2);
 exports.c2Router.post("/essay/edit", editEssay_1.editEssay);
-exports.c2Router.post("/branding/conduct", conductBrandingC2_1.conductBrandingC2);
 exports.c2Router.post("/branding/feedback", additionalFeedback_1.additionalFeedback);
+exports.c2Router.post("/branding/conduct", conductBrandingC2_1.conductBrandingC2);

@@ -1,9 +1,37 @@
 import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
+import { createTemplate } from "~/app/api/_utils/drive/createTemplate";
+import { BrandingTaskParams } from "~/app/api/_utils/generator/brandingTasks";
+import { getLead, LeadFields } from "~/app/api/_utils/notion/getLead";
+import { getRep } from "~/app/api/_utils/notion/getRep";
+import { BRANDING_DOC_TEMP } from "~/app/api/constants";
 
 export const POST = outputHandler<any>({
   type: HandlerTypes.OAuth,
   handler: async (input, googleClient) => {
-    console.log("/c2/add/branding", input);
+    const studentId = input.responses.id.value as string;
+    const lead = await getLead(studentId);
+    if (!lead.pageRefs.leadRep) throw new Error("Lead rep not found");
+    const rep = await getRep({ pageId: lead.pageRefs.leadRep });
+
+    const template = await createTemplate({
+      title: `${lead.name}'s Personal Brand Planner`,
+      templateId: BRANDING_DOC_TEMP,
+      googleClient,
+    });
+
+    const brandingTasks: BrandingTaskParams = {
+      leadRepId: rep.id,
+      repName: rep.name,
+      repPageId: rep.pageId,
+      studentName: lead.name,
+      time: "", // will be updated by actual task call
+      studentId: lead.id,
+      studentPageId: lead.pageId,
+      pbDocLink: template.webViewLink as string,
+      // dependnt on lead rep completing task, so fallback exists for function call
+      dashboardPageId: lead.pageRefs.dashboard as string,
+    };
+
     return input;
   },
 });
