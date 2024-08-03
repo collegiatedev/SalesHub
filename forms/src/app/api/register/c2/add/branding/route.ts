@@ -27,7 +27,7 @@ export const POST = outputHandler<any>({
       repName: rep.name,
       repPageId: rep.pageId,
       studentName: lead.name,
-      time: "", // will be updated by actual task call
+      time: input.startTime,
       studentId: lead.id,
       studentPageId: lead.pageId,
       pbDocLink: template.webViewLink as string,
