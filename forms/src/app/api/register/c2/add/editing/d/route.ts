@@ -45,9 +45,6 @@ export const POST = outputHandler<any>({
           time: "", // will be updated by actual task call
         };
         await redis.set(lead.id, essayTasks);
-
-        // save somewhere else
-        // await essayTasks(save);
       },
     });
     return input;
