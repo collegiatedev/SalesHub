@@ -1,4 +1,4 @@
-import { google, docs_v1 } from "googleapis";
+import { google } from "googleapis";
 import { GoogleAPI } from "../../types";
 
 interface CreateDocParams extends GoogleAPI {
