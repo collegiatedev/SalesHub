@@ -6,11 +6,10 @@ import {
   createAcceleratorTaskProps,
 } from "../../../utils/acceleratorTask";
 
-export const conductPbC2: RequestHandler = asyncHandler(
+export const conductBrandingC2: RequestHandler = asyncHandler(
   async (req: Request, res: Response) => {
-    const validatedParams = checkBodyParams<ConductC2MeetingPBInDatabaseProps>(
-      req,
-      [
+    const validatedParams =
+      checkBodyParams<ConductC2MeetingBrandingInDatabaseProps>(req, [
         "studentName",
         "studentPageId",
         "repPageId",
@@ -19,15 +18,14 @@ export const conductPbC2: RequestHandler = asyncHandler(
         "pbDocLink",
         "repName",
         "leadRepId",
-      ]
-    );
+      ]);
 
     if (!validatedParams.isValid)
       return res.status(400).json({
         message: validatedParams.error,
       });
 
-    await conductC2MeetingPBInDatabase(validatedParams.params);
+    await conductC2MeetingBrandingInDatabase(validatedParams.params);
 
     return res.json({
       message: "Conduct Personal Branding C2 Meeting Task - Generated",
@@ -35,14 +33,14 @@ export const conductPbC2: RequestHandler = asyncHandler(
   }
 );
 
-interface ConductC2MeetingPBInDatabaseProps
+interface ConductC2MeetingBrandingInDatabaseProps
   extends RequiredAcceleratorTaskFields {
   studentId: string;
   pbDocLink: string;
   repName: string;
   leadRepId: string;
 }
-const conductC2MeetingPBInDatabase = async ({
+const conductC2MeetingBrandingInDatabase = async ({
   studentName,
   studentPageId,
   repPageId,
@@ -51,8 +49,8 @@ const conductC2MeetingPBInDatabase = async ({
   pbDocLink,
   repName,
   leadRepId,
-}: ConductC2MeetingPBInDatabaseProps) => {
-  const CONDUCT_C2_MEETING_PB_TASK = "29d8e847ce87449988c992015b46a7a6";
+}: ConductC2MeetingBrandingInDatabaseProps) => {
+  const CONDUCT_C2_MEETING_BRANDING_TASK = "29d8e847ce87449988c992015b46a7a6";
   const keyMap = new Map<string, Array<any>>();
   const page = await notionClient.pages.create(
     createAcceleratorTaskProps({
@@ -62,7 +60,7 @@ const conductC2MeetingPBInDatabase = async ({
       time,
       emoji: "2️⃣",
       taskName: "Conduct C2 Meeting - Personal Brand",
-      taskId: CONDUCT_C2_MEETING_PB_TASK,
+      taskId: CONDUCT_C2_MEETING_BRANDING_TASK,
     })
   );
   const tallyLink = `https://tally.so/r/3yyQ1B?id=${studentId}&fullname=${studentName}&type=Personal%20Brand&repName=${repName}&leadRepId=${leadRepId}`;
