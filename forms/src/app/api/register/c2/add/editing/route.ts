@@ -11,8 +11,11 @@ import { redis } from "~/app/api/constants";
 export const POST = outputHandler<any>({
   type: HandlerTypes.Req,
   handler: async (input) => {
+    const studentId = input.responses.id.value;
+    if (!studentId) throw new Error("student id not provided");
+
     const essay = JSON.parse(
-      (await redis.get(input.id)) as string
+      (await redis.get(studentId)) as string
     ) as EssayTaskParams;
 
     if (!essay) throw new Error("Essay pre-reqs not completed");
@@ -21,7 +24,7 @@ export const POST = outputHandler<any>({
       ...essay,
       time: input.startTime,
     });
-    await redis.del(input.id);
+    await redis.del(studentId);
 
     return input;
   },

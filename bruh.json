@@ -1,0 +1,133 @@
+{
+  "input": {
+    "bookerUrl": "https://cal.com",
+    "type": "editing",
+    "title": "Accelerator Program C2 âÂ Essay Editing Module between Raghuram Padmanabhuni and Mohith Matapathi",
+    "description": "Transform your essay draft to a winning application â learn the best storytelling techniques to distinguish your profile from top applicants.",
+    "additionalNotes": "",
+    "customInputs": {},
+    "startTime": "2024-08-07T00:00:00Z",
+    "endTime": "2024-08-07T00:45:00Z",
+    "organizer": {
+      "id": 917492,
+      "name": "Raghuram Padmanabhuni",
+      "email": "raghuram.padmanabhuni@gmail.com",
+      "username": "raghup",
+      "timeZone": "America/Los_Angeles",
+      "language": { "locale": "en" },
+      "timeFormat": "h:mma",
+      "utcOffset": -420
+    },
+    "responses": {
+      "name": {
+        "label": "your_name",
+        "value": "Mohith Matapathi",
+        "isHidden": false
+      },
+      "email": {
+        "label": "email_address",
+        "value": "mohithmatapathi@gmail.com",
+        "isHidden": false
+      },
+      "location": {
+        "label": "location",
+        "value": { "optionValue": "", "value": "conferencing" },
+        "isHidden": false
+      },
+      "title": { "label": "what_is_this_meeting_about", "isHidden": true },
+      "id": { "label": "id", "value": "4d0ai9gx81", "isHidden": true },
+      "concentrationId": {
+        "label": "concentrationId",
+        "value": "C2-EE",
+        "isHidden": true
+      },
+      "smsReminderNumber": {
+        "label": "number_text_notifications",
+        "value": "+18329386996",
+        "isHidden": false
+      },
+      "notes": { "label": "additional_notes", "isHidden": true },
+      "guests": {
+        "label": "additional_guests",
+        "value": [],
+        "isHidden": false
+      },
+      "rescheduleReason": {
+        "label": "reason_for_reschedule",
+        "isHidden": false
+      }
+    },
+    "userFieldsResponses": {
+      "id": { "label": "id", "value": "4d0ai9gx81", "isHidden": true },
+      "concentrationId": {
+        "label": "concentrationId",
+        "value": "C2-EE",
+        "isHidden": true
+      }
+    },
+    "attendees": [
+      {
+        "email": "mohithmatapathi@gmail.com",
+        "name": "Mohith Matapathi",
+        "firstName": "",
+        "lastName": "",
+        "timeZone": "America/Chicago",
+        "language": { "locale": "en" },
+        "utcOffset": -300
+      }
+    ],
+    "location": "integrations:google:meet",
+    "destinationCalendar": [
+      {
+        "id": 277430,
+        "integration": "google_calendar",
+        "externalId": "ef91d9df3f95db02cb304a55b7fda190fddbb88961c5dfbc708bf75b78577b85@group.calendar.google.com",
+        "primaryEmail": "raghuram.padmanabhuni@gmail.com",
+        "userId": 917492,
+        "eventTypeId": null,
+        "credentialId": 437939
+      }
+    ],
+    "hideCalendarNotes": false,
+    "requiresConfirmation": false,
+    "eventTypeId": 849885,
+    "seatsShowAttendees": true,
+    "seatsPerTimeSlot": null,
+    "seatsShowAvailabilityCount": true,
+    "schedulingType": "ROUND_ROBIN",
+    "iCalUID": "roDDPFncfbYXYjG6MHz7qB@Cal.com",
+    "iCalSequence": 0,
+    "team": { "members": [], "name": "Collegiate", "id": 16289 },
+    "uid": "roDDPFncfbYXYjG6MHz7qB",
+    "conferenceData": {
+      "createRequest": { "requestId": "8a0ce172-f69a-51b5-8481-93feb73d58e2" }
+    },
+    "appsStatus": [
+      {
+        "appName": "google-calendar",
+        "type": "google_calendar",
+        "success": 1,
+        "failures": 0,
+        "errors": [],
+        "warnings": []
+      },
+      {
+        "appName": "Google Meet",
+        "type": "conferencing",
+        "success": 1,
+        "failures": 0,
+        "errors": []
+      }
+    ],
+    "eventTitle": "Accelerator Program C2 âÂ Essay Editing Module",
+    "eventDescription": "Transform your essay draft to a winning application â learn the best storytelling techniques to distinguish your profile from top applicants.",
+    "price": 0,
+    "currency": "usd",
+    "length": 45,
+    "bookingId": 2798090,
+    "metadata": { "videoCallUrl": "https://meet.google.com/mez-grko-oqf" },
+    "status": "ACCEPTED",
+    "smsReminderNumber": "+18329386996"
+  },
+  "secret": "weworkTOtheM88Nz"
+}
