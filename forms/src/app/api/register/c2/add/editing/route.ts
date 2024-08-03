@@ -11,17 +11,10 @@ import { redis } from "~/app/api/constants";
 export const POST = outputHandler<any>({
   type: HandlerTypes.Req,
   handler: async (input) => {
-    console.log("editing/d", input);
-
     const studentId = input.responses.id.value;
     if (!studentId) throw new Error("student id not provided");
 
-    const data = (await redis.get(studentId)) as string;
-    console.log("data", data);
-
-    const essay = JSON.parse(data) as EssayTaskParams;
-    console.log("essay", essay);
-
+    const essay = (await redis.get(studentId)) as EssayTaskParams;
     if (!essay) throw new Error("Essay pre-reqs not completed");
 
     await essayTasks({

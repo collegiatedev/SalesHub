@@ -44,7 +44,7 @@ export const POST = outputHandler<any>({
           fileLink: upload.webViewLink as string,
           time: "", // will be updated by actual task call
         };
-        await redis.set(lead.id, JSON.stringify(essayTask));
+        await redis.set(lead.id, essayTask);
 
         // save somewhere else
         // await essayTasks(save);
