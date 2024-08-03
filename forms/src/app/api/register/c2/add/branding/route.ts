@@ -1,9 +1,6 @@
 import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
 import { createTemplate } from "~/app/api/_utils/drive/createTemplate";
-import {
-  BrandingTaskParams,
-  brandingTasks,
-} from "~/app/api/_utils/generator/brandingTasks";
+import { brandingTasks } from "~/app/api/_utils/generator/brandingTasks";
 import { getLead } from "~/app/api/_utils/notion/getLead";
 import { getRep } from "~/app/api/_utils/notion/getRep";
 import { BRANDING_DOC_TEMP } from "~/app/api/constants";
@@ -22,7 +19,7 @@ export const POST = outputHandler<any>({
       googleClient,
     });
 
-    const brandingTaskParams: BrandingTaskParams = {
+    await brandingTasks({
       leadRepId: rep.id,
       repName: rep.name,
       repPageId: rep.pageId,
@@ -33,9 +30,7 @@ export const POST = outputHandler<any>({
       pbDocLink: template.webViewLink as string,
       // dependent on lead rep completing task, so fallback exists for function call
       dashboardPageId: lead.pageRefs.dashboard as string,
-    };
-
-    await brandingTasks(brandingTaskParams);
+    });
 
     return input;
   },
