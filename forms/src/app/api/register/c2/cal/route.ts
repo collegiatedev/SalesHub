@@ -2,34 +2,18 @@ import { getLead } from "../../../_utils/notion/getLead";
 import { getRep } from "../../../_utils/notion/getRep";
 import { updateLead, leadHelpers } from "../../../_utils/notion/updateLead";
 import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
+import { CalPayload } from "../../cal/route";
 
 export const POST = outputHandler<CalPayload>({
   type: HandlerTypes.Req,
   handler: async (input) => {
-    const cal = parseCalPayload(input);
-    if (!cal.studentId) throw new Error("no student id");
-    const lead = await getLead(cal.studentId);
-    const rep = await getRep({ calId: cal.repId });
+    const lead = await getLead(input.studentId);
+    const rep = await getRep({ calId: input.repId });
 
     await updateLead(lead.pageId, {
       ...leadHelpers.setModuleRep(rep.pageId),
     });
 
-    return cal;
+    return input;
   },
 });
-
-type CalPayload = {
-  repId: string;
-  studentId?: string;
-  startTime: string;
-  endTime: string;
-};
-const parseCalPayload = (payload: any): CalPayload => {
-  return {
-    repId: payload.organizer.id.toString(),
-    studentId: payload.responses.id.value,
-    startTime: payload.startTime,
-    endTime: payload.endTime,
-  };
-};

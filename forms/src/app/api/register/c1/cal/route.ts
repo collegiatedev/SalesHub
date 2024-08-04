@@ -6,42 +6,38 @@ import { getFolder } from "../../../_utils/drive/getFolder";
 import { Stages } from "~/app/api/_utils/notion/types";
 import { INITIAL_CAL_STATUS } from "~/app/api/constants";
 import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
+import { CalPayload } from "../../cal/route";
 
 export const POST = outputHandler<CalPayload>({
   type: HandlerTypes.OAuth,
   handler: async (input, googleClient) => {
-    const cal = parseCalPayload(input);
-    if (!cal.studentId) throw new Error("no student id");
-
-    const lead = await getLead(cal.studentId);
-    if (!lead || !lead.otherRefs.folderRef) throw new Error("invalid lead");
+    const lead = await getLead(input.studentId);
+    if (!lead.otherRefs.folderRef)
+      throw new Error("invalid lead, missing folder");
 
     const [rep, folder] = await Promise.all([
-      getRep({ calId: cal.repId }),
+      getRep({ calId: input.repId }),
       getFolder({
         googleClient,
         folderId: lead.otherRefs.folderRef,
       }),
     ]);
 
-    const c1Params = parseC1TaskParams({
-      lead,
-      rep,
-      time: cal.startTime,
-      folderLink: folder.data.webViewLink as string,
-    });
+    const time = input.startTime;
+    const folderLink = folder.data.webViewLink as string;
+    const c1Params = parseC1TaskParams({ lead, rep, time, folderLink });
 
     await Promise.all([
+      createC1Tasks(c1Params),
       updateLead(lead.pageId, {
         ...leadHelpers.setCompletedStages([Stages.C0]),
-        ...leadHelpers.setLatestMeeting(cal.startTime),
+        ...leadHelpers.setLatestMeeting(input.startTime),
         ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
         ...leadHelpers.setLeadRep(rep.pageId),
       }),
-      createC1Tasks(c1Params),
     ]);
 
-    return cal;
+    return input;
   },
 });
 
@@ -71,18 +67,3 @@ const parseC1TaskParams = ({
   folderLink,
   time,
 });
-
-type CalPayload = {
-  studentId?: string;
-  repId: string;
-  startTime: string;
-  endTime: string;
-};
-const parseCalPayload = (payload: any): CalPayload => {
-  return {
-    repId: payload.organizer.id.toString(),
-    studentId: payload.responses.id.value,
-    startTime: payload.startTime,
-    endTime: payload.endTime,
-  };
-};

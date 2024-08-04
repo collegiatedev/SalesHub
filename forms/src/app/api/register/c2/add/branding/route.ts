@@ -4,13 +4,14 @@ import { brandingTasks } from "~/app/api/_utils/generator/brandingTasks";
 import { getLead } from "~/app/api/_utils/notion/getLead";
 import { getRep } from "~/app/api/_utils/notion/getRep";
 import { BRANDING_DOC_TEMP } from "~/app/api/constants";
+import { CalPayload } from "../../../cal/route";
 
-export const POST = outputHandler<any>({
+export const POST = outputHandler<CalPayload>({
   type: HandlerTypes.OAuth,
   handler: async (input, googleClient) => {
-    const studentId = input.responses.id.value as string;
-    const lead = await getLead(studentId);
-    if (!lead.pageRefs.leadRep) throw new Error("Lead rep not found");
+    const lead = await getLead(input.studentId);
+    if (!lead.pageRefs.leadRep) throw new Error("Invalid Lead, rep not set");
+
     const rep = await getRep({ pageId: lead.pageRefs.leadRep });
 
     const template = await createTemplate({

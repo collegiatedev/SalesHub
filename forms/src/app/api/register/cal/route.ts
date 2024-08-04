@@ -6,12 +6,32 @@ import { NextRequest } from "next/server";
 import { withEndpoint } from "../../helpers";
 import { Published, qstashPublish } from "../../_handlers/input";
 
+// might need to extend this later
+export type CalPayload = {
+  studentId: string;
+  repId: string;
+  type: string;
+  startTime: string;
+  endTime: string;
+};
+const parseCalPayload = (payload: any): CalPayload => {
+  if (!payload.responses.id.value) throw new Error("no student id");
+  return {
+    studentId: payload.responses.id.value,
+    repId: payload.organizer.id.toString(),
+    type: payload.type,
+    startTime: payload.startTime,
+    endTime: payload.endTime,
+  };
+};
+
 // todo, revisit how cal links are being organized
 export const POST = webhookHandler<Array<Published>>({
   type: SignatureTypes.Cal,
   required: { body: ["payload"] },
   handler: async (utilContext: any, _req: NextRequest) => {
-    const input = utilContext["payload"];
+    const payload = utilContext["payload"];
+    const input = parseCalPayload(payload);
     const publishing = publishEndpoints(input.type);
     return await Promise.all(
       publishing.map(async (config) => qstashPublish({ ...config, input }))
@@ -19,11 +39,11 @@ export const POST = webhookHandler<Array<Published>>({
   },
 });
 
+// orchestrates which endpoints gets called
 type Config = {
   route: string;
   delay?: number;
 };
-// orchestrates which endpoints gets called
 const publishEndpoints = (type: string): Array<Config> => {
   const publishing: Array<Config> = [];
   const valid = (l: string[]) => l.includes(type);
