@@ -1,49 +1,39 @@
-import { drive_v3 } from "googleapis";
 import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
 import { withFiles } from "~/app/api/_utils/download";
 import { createTemplate } from "~/app/api/_utils/drive/createTemplate";
 import { uploadFile } from "~/app/api/_utils/drive/uploadFile";
 import { EssayTaskParams } from "~/app/api/_utils/generator/essayTasks";
 import { getLead, LeadFields } from "~/app/api/_utils/notion/getLead";
-import { getRep } from "~/app/api/_utils/notion/getRep";
+import { getRep, RepFields } from "~/app/api/_utils/notion/getRep";
 import { ESSAY_DOC_TEMP, redis } from "~/app/api/constants";
-import { getFieldValue, urlsFromField } from "~/app/api/helpers";
+import { TallyEditing } from "../i/route";
 
-export const POST = outputHandler<any>({
+export const POST = outputHandler<TallyEditing>({
   type: HandlerTypes.OAuth,
   handler: async (input, googleClient) => {
-    const response = parseTallyEditing(input);
-    if (!response.id) throw new Error("no student id");
-
-    const lead = await getLead(response.id);
+    const lead = await getLead(input.id);
     if (!lead.pageRefs.leadRep) throw new Error("invalid lead");
 
     const rep = await getRep({ pageId: lead.pageRefs.leadRep });
 
     await withFiles({
-      urls: response.urls,
+      urls: input.urls,
       processDownloads: async (files) => {
         const file = files[0];
         if (!file) throw new Error("no file");
 
-        const upload = await uploadFile({ googleClient, file });
-
-        const template = await createTemplate({
-          ...formatEssayTemplate({ lead, response, upload }),
+        const { webViewLink: fileLink } = (await uploadFile({
           googleClient,
-        });
+          file,
+        })) as { webViewLink: string }; // cast to avoid type error
 
-        const essayTasks: EssayTaskParams = {
-          leadRepId: rep.id,
-          repName: rep.name,
-          repPageId: rep.pageId,
-          studentName: lead.name,
-          studentId: lead.id,
-          studentPageId: lead.pageId,
-          docLink: template.webViewLink as string,
-          fileLink: upload.webViewLink as string,
-          time: "", // will be updated by actual task call
-        };
+        const { webViewLink: docLink } = (await createTemplate({
+          googleClient,
+          ...configEssayTemplate({ lead, input, fileLink }),
+        })) as { webViewLink: string }; // cast to avoid type error
+
+        const essayTasks = formatEssayTasks({ rep, lead, fileLink, docLink });
+        // temp store in redis, gets called in main route
         await redis.set(lead.id, essayTasks);
       },
     });
@@ -53,41 +43,45 @@ export const POST = outputHandler<any>({
 
 interface FormatEssayParams {
   lead: LeadFields;
-  response: TallyEditing;
-  upload: drive_v3.Schema$File;
+  input: TallyEditing;
+  fileLink: string;
 }
-const formatEssayTemplate = ({
-  lead,
-  response,
-  upload,
-}: FormatEssayParams) => ({
+const configEssayTemplate = ({ lead, input, fileLink }: FormatEssayParams) => ({
   templateId: ESSAY_DOC_TEMP,
-  title: `${lead.name}'s v1 - ${response.which}`,
+  title: `${lead.name}'s v1 - ${input.which}`,
   content: [
     {
       variable: "prompt",
-      text: response.prompt,
+      text: input.prompt,
     },
     {
       variable: "file_link",
-      text: upload.webViewLink as string,
+      text: fileLink,
     },
   ],
 });
 
-type TallyEditing = {
-  id: string;
-  which: string;
-  prompt: string;
-  urls: string[];
-};
-const parseTallyEditing = (fields: any): TallyEditing => {
-  const gfv = (label: string) => getFieldValue(label, fields);
-
-  return {
-    id: gfv("id"),
-    which: gfv("which app"),
-    prompt: gfv("essay prompt"),
-    urls: urlsFromField(gfv("upload")), // should be singular file, enforced by tally upload
-  };
+interface FormatEssayTasks {
+  rep: RepFields;
+  lead: LeadFields;
+  docLink: string;
+  fileLink: string;
+}
+const formatEssayTasks = ({
+  rep,
+  lead,
+  docLink,
+  fileLink,
+}: FormatEssayTasks) => {
+  const essayTasks = {
+    leadRepId: rep.id,
+    repName: rep.name,
+    repPageId: rep.pageId,
+    studentName: lead.name,
+    studentId: lead.id,
+    studentPageId: lead.pageId,
+    docLink,
+    fileLink,
+  } as EssayTaskParams;
+  return essayTasks; // missing time, which is added during cal call
 };

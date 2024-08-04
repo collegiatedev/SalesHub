@@ -1,5 +1,4 @@
-import axios from "axios";
-import { SERVER_URL } from "../../constants";
+import { generatorEndpoint } from "../../helpers";
 
 export type BrandingTaskParams = AdditionalFeedback & ConductBranding;
 export const brandingTasks = async (params: BrandingTaskParams) => {
@@ -19,18 +18,11 @@ type ConductBranding = {
   repName: string;
   leadRepId: string;
 };
-const conductBrandingTask = async (params: ConductBranding) => {
-  try {
-    const response = await axios.post(
-      `${SERVER_URL}/c2/branding/conduct`,
-      params
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error creating info:", error);
-    throw error;
-  }
-};
+const conductBrandingTask = async (body: ConductBranding) =>
+  await generatorEndpoint({
+    route: "/c2/branding/conduct",
+    body,
+  });
 
 type AdditionalFeedback = {
   studentName: string;
@@ -40,15 +32,8 @@ type AdditionalFeedback = {
   pbDocLink: string;
   dashboardPageId: string;
 };
-const additionalInfoTask = async (params: AdditionalFeedback) => {
-  try {
-    const response = await axios.post(
-      `${SERVER_URL}/c2/branding/feedback`,
-      params
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error creating info:", error);
-    throw error;
-  }
-};
+const additionalInfoTask = async (body: AdditionalFeedback) =>
+  await generatorEndpoint({
+    route: "/c2/branding/feedback",
+    body,
+  });

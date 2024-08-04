@@ -2,25 +2,34 @@ import axios from "axios";
 import { SERVER_URL } from "./constants";
 
 // generator api post, standardized
-export const generatorEndpoint = async <T>(url: string, body: T) => {
+
+interface GeneratorEndpointParams<T> {
+  route: string;
+  body: T;
+}
+export const generatorEndpoint = async <T>({
+  route,
+  body,
+}: GeneratorEndpointParams<T>) => {
   try {
-    const endpoint = withEndpoint(url, SERVER_URL);
+    const endpoint = withEndpoint(route, SERVER_URL);
     const response = await axios.post(endpoint, body);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error(
-        "Error creating info:",
+        `Error on ${route}:`,
         error.response?.data || error.message
       );
     } else {
-      console.error("Unexpected error:", error);
+      console.error(`Unexpected error on ${route}:`, error);
     }
     throw error;
   }
 };
 
-// tally parser
+// tally parser helpers
+
 export const getFieldValue = (label: string, fields: any): string => {
   const field = fields.find((f: any) => f.label === label);
   if (!field || !field.value) return "";
@@ -35,13 +44,13 @@ export const getFieldValue = (label: string, fields: any): string => {
         .join(", ");
     case "FILE_UPLOAD":
       // expected format for generator endpoint
-      return field.value.map((file: any) => file.url).join(",");
+      return field.value.map((file: any) => file.url).join(", ");
     default:
       return field.value as string;
   }
 };
-// see above for how we handling "FILE_UPLOAD"
-export const urlsFromField = (field: any): string[] => field.split(",");
+// for handling fields that join multiple values with a comma (see above)
+export const fieldToArray = (field: any): string[] => field.split(", ");
 
 // call with endpoint
 export const withEndpoint = (url: string, reqUrl: string) => {

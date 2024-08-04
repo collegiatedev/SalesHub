@@ -5,14 +5,20 @@ import { SignatureTypes, webhookHandler } from "./webhook";
 
 interface TallyInputHandler {
   route: string;
+  parser?: (fields: unknown) => any;
   delay?: number;
 }
-export const tallyInputHandler = ({ route, delay = 0 }: TallyInputHandler) => {
+export const tallyInputHandler = ({
+  route,
+  parser,
+  delay = 0,
+}: TallyInputHandler) => {
   return webhookHandler<Published>({
     type: SignatureTypes.Tally,
     required: { body: ["data.fields"] },
     handler: async (utilContext: any, _req: NextRequest) => {
-      const input = utilContext["data.fields"];
+      const fields = utilContext["data.fields"];
+      const input = parser ? parser(fields) : fields;
       return await qstashPublish({ route, input, delay });
     },
   });

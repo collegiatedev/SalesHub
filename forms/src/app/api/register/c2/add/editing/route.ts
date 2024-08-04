@@ -8,6 +8,7 @@ import { redis } from "~/app/api/constants";
 // todo, documentation
 // prereq: editing/d
 
+// todo, type as cal payload
 export const POST = outputHandler<any>({
   type: HandlerTypes.Req,
   handler: async (input) => {

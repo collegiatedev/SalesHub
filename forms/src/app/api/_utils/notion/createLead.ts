@@ -1,4 +1,3 @@
-import { generateId } from "~/lib/id";
 import {
   notionClient,
   LEAD_DATABASE_ID,
@@ -6,19 +5,18 @@ import {
 } from "../../constants";
 
 export type CreatedLeadFields = {
-  id?: string;
-  "Student Name": string;
+  id: string;
   Grade: string;
   Major: string;
   School: string;
+  Origin: string[];
+  "Student Name": string;
   "Parent Name": string;
   "Student's Email": string;
   "Student's Phone": string;
   "Parent's Email": string;
   "Parent's Phone": string;
-  Origin: string[];
 };
-
 export const createLead = async (fields: CreatedLeadFields) => {
   const response = await notionClient.pages.create({
     parent: { type: "database_id", database_id: LEAD_DATABASE_ID },
@@ -59,7 +57,7 @@ export const createLead = async (fields: CreatedLeadFields) => {
         rich_text: [
           {
             text: {
-              content: fields.id ? fields.id : generateId(), // id is generated if not provided
+              content: fields.id,
             },
           },
         ],

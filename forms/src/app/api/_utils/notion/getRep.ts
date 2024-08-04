@@ -5,7 +5,14 @@ type GetRepParams = {
   pageId?: string;
 };
 
-export const getRep = async (params: GetRepParams) => {
+// might need to extend, once cal links are added
+export type RepFields = {
+  id: string;
+  pageId: string;
+  name: string;
+};
+
+export const getRep = async (params: GetRepParams): Promise<RepFields> => {
   if (!params.calId && !params.pageId) throw new Error("no rep id or page id");
 
   if (params.calId) {
@@ -42,16 +49,10 @@ export const getRep = async (params: GetRepParams) => {
   throw new Error("invalid rep params");
 };
 
-// might need to extend, once cal links are added
 const parseRepResponse = (properties: any, pageId: string): RepFields => {
   return {
     pageId,
     id: properties["cal id"].rich_text[0].plain_text,
     name: properties["Name"].title[0].plain_text,
   };
-};
-type RepFields = {
-  id: string;
-  pageId: string;
-  name: string;
 };

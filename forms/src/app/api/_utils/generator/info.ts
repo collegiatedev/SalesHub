@@ -2,28 +2,24 @@
 
 import axios from "axios";
 import { SERVER_URL } from "../../constants";
-import { withEndpoint } from "../../helpers";
+import { generatorEndpoint, withEndpoint } from "../../helpers";
 import { CreatedLeadFields } from "../notion/createLead";
 
-export const createInfoTable = async ({
-  studentName,
-  leadId,
-}: {
+type InfoTable = {
   studentName: string;
   leadId: string;
-}) => {
-  try {
-    const endpoint = withEndpoint("/info/create", SERVER_URL);
-    const response = await axios.post(endpoint, {
-      name: studentName,
-      pageId: leadId,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error creating info:", error);
-    throw error;
-  }
 };
+export const createInfoTable = async (body: InfoTable) =>
+  generatorEndpoint({
+    route: "/info/create",
+    body,
+  });
+
+// export const createInfoTable = async (body: InfoTable) =>
+//   generatorEndpoint({
+//     route: "/info/create",
+//     body,
+//   });
 
 export const contactInfo = async ({
   infoId,
@@ -64,7 +60,7 @@ export type OptionalC2Form = Partial<{
   additionalAcademic: string;
   additionalActivity: string;
   professionalLinks: string;
-  transcripts: string;
+  transcripts: string; // comma separated; need to change generator to accept array
   resumePortfolios: string;
 }>;
 type BackgroundInfo = C2Lead & C2Form & OptionalC2Form;

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { SERVER_URL } from "../../constants";
+import { generatorEndpoint } from "../../helpers";
 
 export type EssayTaskParams = ConductEssay & EditEssay;
 export const essayTasks = async (params: EssayTaskParams) => {
@@ -16,15 +17,11 @@ type ConductEssay = {
   repName: string;
   leadRepId: string;
 };
-const conductEssayTask = async (params: ConductEssay) => {
-  try {
-    const response = await axios.post(`${SERVER_URL}/c2/essay/conduct`, params);
-    return response.data;
-  } catch (error) {
-    console.error("Error creating info:", error);
-    throw error;
-  }
-};
+const conductEssayTask = async (body: ConductEssay) =>
+  await generatorEndpoint({
+    route: "/c2/essay/conduct",
+    body,
+  });
 
 type EditEssay = {
   studentName: string;
@@ -34,12 +31,8 @@ type EditEssay = {
   docLink: string;
   fileLink: string;
 };
-const editEssayTask = async (params: EditEssay) => {
-  try {
-    const response = await axios.post(`${SERVER_URL}/c2/essay/edit`, params);
-    return response.data;
-  } catch (error) {
-    console.error("Error creating info:", error);
-    throw error;
-  }
-};
+const editEssayTask = async (body: EditEssay) =>
+  await generatorEndpoint({
+    route: "/c2/essay/edit",
+    body,
+  });

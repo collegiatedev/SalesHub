@@ -3,9 +3,10 @@ import { SignatureTypes, webhookHandler } from "../../_handlers/webhook";
 import { getFieldValue } from "../../helpers";
 import { getLead } from "../../_utils/notion/getLead";
 import { leadHelpers, updateLead } from "../../_utils/notion/updateLead";
-import { c1Debrief } from "../../_utils/generator/c1Debrief";
+import { c1Debrief } from "../../_utils/generator/debriefs";
 import { Stages } from "../../_utils/notion/types";
 
+// todo, migrate to upstash pattern
 export const POST = webhookHandler<C1Debrief>({
   required: { body: ["data.fields"] },
   handler: async (utilContext: any, req: NextRequest) => {
