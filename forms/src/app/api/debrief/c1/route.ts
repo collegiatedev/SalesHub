@@ -18,13 +18,13 @@ export const POST = outputHandler<C1Debrief>({
       c1Debrief({
         studentName: lead.name,
         infoId: lead.otherRefs.dbRef,
-        activities: input["ecs/activities"],
         pronunciation: input.pronunciation,
         pronouns: input.pronouns,
         intended: input.intended,
+        additional: input.additional,
+        activities: input["ecs/activities"],
         plans: input["summer/winter plans"],
         profile: input["why now?"],
-        additional: input.additional,
       }),
     ]);
 
