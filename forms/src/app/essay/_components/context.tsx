@@ -1,7 +1,7 @@
 "use client";
+import { Redis } from "@upstash/redis";
 import React, { createContext, useState, useContext } from "react";
 
-// Create the context
 const PageContext = createContext<
   | {
       pages: React.ReactNode[];
@@ -10,8 +10,6 @@ const PageContext = createContext<
     }
   | undefined
 >(undefined);
-
-// Create a provider component
 export const PageProvider: React.FC<{
   children: React.ReactNode;
   pages: React.ReactNode[];
@@ -24,8 +22,6 @@ export const PageProvider: React.FC<{
     </PageContext.Provider>
   );
 };
-
-// Create a custom hook to use the PageContext
 export const usePage = () => {
   const context = useContext(PageContext);
   if (!context) {

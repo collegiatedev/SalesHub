@@ -19,6 +19,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { UseFormReturn } from "react-hook-form";
+import { Redis } from "@upstash/redis";
+
+// const redis = Redis.fromEnv();
 
 const formSchema = z.object({
   firstName: z.string().min(1, "Required"),
@@ -45,9 +48,9 @@ export const PersonalInfo = ({
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    // add save logic
     if (!valid) {
-      // add save logic
       console.log(data);
     }
     setValid(!valid);
@@ -112,7 +115,6 @@ export const PersonalInfo = ({
     </Card>
   );
 };
-
 interface FormInputFieldProps {
   form: UseFormReturn<z.infer<typeof formSchema>>;
   name: keyof z.infer<typeof formSchema>;
@@ -120,6 +122,7 @@ interface FormInputFieldProps {
   placeholder?: string;
   disabled?: boolean;
 }
+
 const FormInputField = ({
   form,
   name,
