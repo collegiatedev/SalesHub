@@ -26,19 +26,19 @@ export const Landing = () => {
         // resets the skeleton for iframe when the accordion is not displaying loom
         onValueChange={(v) => v !== LOOM_SECTION && setLoaded(false)}
       >
-        <LandingItem name="Pricing">
-          <p className="mb-4">
-            This is a description page where you can provide detailed
-            information about the topic at hand. You can include various
-            elements such as images, lists, and links to enhance the content.
-          </p>
-        </LandingItem>
         <LandingItem name="How it Works">
           <ul className="list-disc list-inside mb-4">
             <li>Feature 1: Detailed descriptions</li>
             <li>Feature 2: User-friendly layout</li>
             <li>Feature 3: Responsive design</li>
           </ul>
+        </LandingItem>
+        <LandingItem name="Pricing">
+          <p className="mb-4">
+            This is a description page where you can provide detailed
+            information about the topic at hand. You can include various
+            elements such as images, lists, and links to enhance the content.
+          </p>
         </LandingItem>
         <LandingItem name={LOOM_SECTION}>
           <LoomExample loaded={loaded} setLoaded={setLoaded} />
