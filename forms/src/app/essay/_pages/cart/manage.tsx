@@ -152,6 +152,14 @@ const ManageHeader = ({
   setDrafts,
   index,
 }: ManageDraftProps & { form: UseFormReturn<DraftFormValues> }) => {
+  const setTitle = (title: string) => {
+    setDrafts([
+      ...drafts.slice(0, index),
+      { ...drafts[index]!, title },
+      ...drafts.slice(index + 1),
+    ]);
+  };
+
   return (
     <CardHeader>
       <CardTitle>
@@ -167,7 +175,11 @@ const ManageHeader = ({
                     className={`flex w-full bg-transparent border-none outline-none placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 text-2xl font-bold ${
                       form.formState.errors.title ? "ring-2 ring-red-500" : ""
                     }`}
-                    placeholder="Untitled"
+                    placeholder="Untitled Draft"
+                    onChange={(e) => {
+                      field.onChange(e); // Call the field's onChange
+                      setTitle(e.target.value);
+                    }}
                   />
                 </FormControl>
               </FormItem>
