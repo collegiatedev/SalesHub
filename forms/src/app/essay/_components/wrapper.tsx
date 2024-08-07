@@ -14,7 +14,7 @@ export const Wrapper = ({
   const { pageIndex, setPageIndex, pages } = usePage();
   return (
     <div className="p-5 max-w-2xl mx-auto">
-      <div className="flex justify-items-start gap-4 mb-8">
+      <div className="flex justify-items-start gap-4 mb-8 items-center">
         {pageIndex > 0 && (
           <BackButton pageIndex={pageIndex} setPageIndex={setPageIndex} />
         )}

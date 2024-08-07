@@ -1,25 +1,30 @@
 "use client";
 
-import { CirclePlusIcon } from "lucide-react";
+import { CirclePlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { defaultDraft } from ".";
 
-export const Drafts = () => {
+export type Draft = {
+  title: string;
+  ready: boolean;
+};
+
+interface DraftsProps {
+  drafts: Draft[];
+  setDrafts: React.Dispatch<React.SetStateAction<Draft[]>>;
+}
+export const Drafts = ({ drafts, setDrafts }: DraftsProps) => {
   const MAX_DRAFTS = 5;
-  const [drafts, setDrafts] = useState<string[]>([""]);
-
-  const draftTitle = (draft: string) => {
-    if (!draft) return "Untitled Draft";
-    return draft.length > 9 ? draft.slice(0, 9) + "..." : draft;
-  };
 
   return (
     <Card className="w-full">
@@ -30,10 +35,14 @@ export const Drafts = () => {
           <TabsList className="flex w-full justify-start">
             {drafts.map((draft, index) => {
               const i = index.toString();
+              const draftTitle = (draft: string) => {
+                if (!draft) return "Untitled Draft";
+                return draft.length > 9 ? draft.slice(0, 9) + "..." : draft;
+              };
 
               return (
                 <TabsTrigger value={i} key={i}>
-                  {draftTitle(draft)}
+                  {draftTitle(draft.title)}
                 </TabsTrigger>
               );
             })}
@@ -42,7 +51,8 @@ export const Drafts = () => {
                 size="icon"
                 variant="ghost"
                 onClick={() =>
-                  drafts.length < MAX_DRAFTS && setDrafts([...drafts, ""])
+                  drafts.length < MAX_DRAFTS &&
+                  setDrafts([...drafts, defaultDraft])
                 }
               >
                 <CirclePlusIcon className="h-5 w-5" />
@@ -50,7 +60,7 @@ export const Drafts = () => {
             )}
           </TabsList>
 
-          {drafts.map((draft, index) => (
+          {drafts.map((_, index) => (
             <TabsContent value={index.toString()} key={index.toString()}>
               <ManageDraft
                 drafts={drafts}
@@ -61,20 +71,22 @@ export const Drafts = () => {
           ))}
         </Tabs>
       </CardHeader>
+
+      <CardFooter>bruh</CardFooter>
     </Card>
   );
 };
 
 interface ManageDraftProps {
   index: number;
-  drafts: string[];
-  setDrafts: React.Dispatch<React.SetStateAction<string[]>>;
+  drafts: Draft[];
+  setDrafts: React.Dispatch<React.SetStateAction<Draft[]>>;
 }
 const ManageDraft = ({ drafts, setDrafts, index }: ManageDraftProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDrafts([
       ...drafts.slice(0, index),
-      e.target.value,
+      { title: e.target.value, ready: false },
       ...drafts.slice(index + 1),
     ]);
   };
@@ -83,13 +95,27 @@ const ManageDraft = ({ drafts, setDrafts, index }: ManageDraftProps) => {
     <Card className="w-full">
       <CardHeader>
         <CardTitle>
-          <input
-            type="text"
-            className="flex w-full bg-background outline-none placeholder:text-muted-foreground"
-            value={drafts[index]}
-            onChange={handleChange}
-            placeholder="Untitled"
-          />
+          <div className="flex w-full">
+            <input
+              type="text"
+              className="flex w-full bg-background outline-none placeholder:text-muted-foreground"
+              value={drafts[index]?.title}
+              onChange={handleChange}
+              placeholder="Untitled"
+            />
+            <Button
+              size="icon"
+              variant="ghost"
+              onClick={() =>
+                setDrafts([
+                  ...drafts.slice(0, index),
+                  ...drafts.slice(index + 1),
+                ])
+              }
+            >
+              <TrashIcon className="h-5 w-5 text-red-400" />
+            </Button>
+          </div>
         </CardTitle>
         {/* <CardDescription>Add to the toggle for the cart</CardDescription> */}
         <CardContent className="space-y-2">hello world</CardContent>
