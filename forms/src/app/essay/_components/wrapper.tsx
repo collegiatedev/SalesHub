@@ -14,7 +14,7 @@ export const Wrapper = ({
   const { pageIndex, setPageIndex, pages } = usePage();
   return (
     <div className="p-5 max-w-2xl mx-auto">
-      <div className="flex justify-items-start mb-4 gap-4">
+      <div className="flex justify-items-start gap-4 mb-8">
         {pageIndex > 0 && (
           <BackButton pageIndex={pageIndex} setPageIndex={setPageIndex} />
         )}
@@ -22,26 +22,28 @@ export const Wrapper = ({
       </div>
       {children}
       {pages.length > pageIndex + 1 && (
-        <NextButton pageIndex={pageIndex} setPageIndex={setPageIndex} />
+        <div className="mt-8">
+          <NextButton pageIndex={pageIndex} setPageIndex={setPageIndex} />
+        </div>
       )}
     </div>
   );
 };
 
-interface NavButtonProps {
+interface NavButton {
   pageIndex: number;
   setPageIndex: React.Dispatch<React.SetStateAction<number>>;
 }
-const BackButton = ({ pageIndex, setPageIndex }: NavButtonProps) => {
+const BackButton = ({ pageIndex, setPageIndex }: NavButton) => {
   return (
     <Button onClick={() => setPageIndex(pageIndex - 1)}>
       <ArrowLeft className="h-5 w-5" />
     </Button>
   );
 };
-const NextButton = ({ pageIndex, setPageIndex }: NavButtonProps) => {
+const NextButton = ({ pageIndex, setPageIndex }: NavButton) => {
   return (
-    <Button className="mt-5 group" onClick={() => setPageIndex(pageIndex + 1)}>
+    <Button className="group" onClick={() => setPageIndex(pageIndex + 1)}>
       <span className="pr-1.5">Next</span>
       <span className="relative transition-transform duration-200 ease-in-out group-hover:translate-x-1">
         <ArrowRight className="h-5 w-5" />

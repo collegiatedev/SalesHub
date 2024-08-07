@@ -15,7 +15,7 @@ export const Landing = () => {
   const LOOM_SECTION = "Example";
   return (
     <Wrapper title="Essay Editor">
-      <p className="mb-4">
+      <p className="mb-3">
         This is a description page where you can provide detailed information
         about the topic at hand. You can include various elements such as
         images, lists, and links to enhance the content.
@@ -33,7 +33,7 @@ export const Landing = () => {
             elements such as images, lists, and links to enhance the content.
           </p>
         </LandingItem>
-        <LandingItem name="Features">
+        <LandingItem name="How it Works">
           <ul className="list-disc list-inside mb-4">
             <li>Feature 1: Detailed descriptions</li>
             <li>Feature 2: User-friendly layout</li>
