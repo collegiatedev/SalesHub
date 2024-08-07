@@ -50,7 +50,7 @@ const ManageHeader = ({ drafts, setDrafts, index }: ManageDraftProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDrafts([
       ...drafts.slice(0, index),
-      { ...draft, title: e.target.value, ready: true },
+      { ...draft, title: e.target.value },
       ...drafts.slice(index + 1),
     ]);
   };
