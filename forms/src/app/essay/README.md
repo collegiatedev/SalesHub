@@ -1,1 +1,1 @@
-Single page Application Approach
+Single page Application Setup

@@ -8,14 +8,13 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Skeleton } from "~/components/ui/skeleton";
+import { Wrapper } from "../_components/wrapper";
 
 export const Landing = () => {
   const [loaded, setLoaded] = useState(false);
-
   const LOOM_SECTION = "Example";
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-4">Essay Editor</h1>
+    <Wrapper title="Essay Editor">
       <p className="mb-4">
         This is a description page where you can provide detailed information
         about the topic at hand. You can include various elements such as
@@ -45,7 +44,7 @@ export const Landing = () => {
           <LoomExample loaded={loaded} setLoaded={setLoaded} />
         </LandingItem>
       </Accordion>
-    </div>
+    </Wrapper>
   );
 };
 
