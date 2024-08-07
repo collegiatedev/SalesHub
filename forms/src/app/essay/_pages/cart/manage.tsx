@@ -1,5 +1,4 @@
 import { TrashIcon } from "lucide-react";
-import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -21,9 +20,10 @@ import {
   WordCountType,
   ESSAY_TYPES,
   WORD_COUNT_TYPES,
-  DEFAULT_DRAFT,
 } from "./constants";
 import { Label } from "~/components/ui/label";
+import { Input } from "~/components/ui/input";
+import { Separator } from "~/components/ui/separator";
 
 interface ManageDraftProps {
   index: number;
@@ -35,8 +35,11 @@ export const ManageDraft = ({ drafts, setDrafts, index }: ManageDraftProps) => {
   return (
     <Card className="w-full">
       <ManageHeader drafts={drafts} setDrafts={setDrafts} index={index} />
-      {/* <CardDescription>Add to the toggle for the cart</CardDescription> */}
       <ManageType drafts={drafts} setDrafts={setDrafts} index={index} />
+      <CardContent className="space-y-2">
+        <Separator />
+      </CardContent>
+      <ManageQuestions drafts={drafts} setDrafts={setDrafts} index={index} />
 
       <CardFooter className="flex w-full justify-end">
         <Button>Save</Button>
@@ -81,6 +84,7 @@ const ManageHeader = ({ drafts, setDrafts, index }: ManageDraftProps) => {
     </CardHeader>
   );
 };
+
 const ManageType = ({ drafts, setDrafts, index }: ManageDraftProps) => {
   const draft = drafts[index]!;
 
@@ -101,7 +105,7 @@ const ManageType = ({ drafts, setDrafts, index }: ManageDraftProps) => {
   };
 
   return (
-    <CardContent className="space-y-2">
+    <CardContent className="space-y-4">
       <div className="flex flex-row space-x-4">
         <FormInputSelect
           label="Essay Type"
@@ -116,10 +120,18 @@ const ManageType = ({ drafts, setDrafts, index }: ManageDraftProps) => {
           />
         )}
       </div>
+
+      {(draft.type?.essay === "Supplemental Essay" ||
+        draft.type?.essay === "Letter of Continued Interest") && (
+        <div className="flex flex-col space-y-2 w-full">
+          <Label>University</Label>
+          <Input placeholder="Which school is this essay for?" />
+          {/* <Input placeholder="What school is this essay for?" /> */}
+        </div>
+      )}
     </CardContent>
   );
 };
-
 type InputSelectsTypes = EssayType | WordCountType;
 const FormInputSelect = <T extends InputSelectsTypes>({
   label,
@@ -146,3 +158,21 @@ const FormInputSelect = <T extends InputSelectsTypes>({
     </Select>
   </div>
 );
+
+const ManageQuestions = ({ drafts, setDrafts, index }: ManageDraftProps) => {
+  const draft = drafts[index]!;
+  return (
+    <CardContent className="space-y-2">
+      <div className="flex flex-col space-y-2 w-full">
+        {/* <Label>Prompt</Label>
+        <Input placeholder="Enter Prompt" />
+
+        <Label>Prompt</Label>
+        <Input placeholder="Enter Prompt" /> */}
+
+        <Label>Notes</Label>
+        <Input placeholder="Enter Notes" />
+      </div>
+    </CardContent>
+  );
+};
