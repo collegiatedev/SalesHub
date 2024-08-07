@@ -1,23 +1,18 @@
 "use client";
 
-import { CirclePlusIcon, TrashIcon } from "lucide-react";
-import { useState } from "react";
+import { CirclePlusIcon } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { defaultDraft } from ".";
-
-export type Draft = {
-  title: string;
-  ready: boolean;
-};
+import { DEFAULT_DRAFT, Draft } from "./constants";
+import { ManageDraft } from "./manage";
+import { TotalPrice } from "./price";
 
 interface DraftsProps {
   drafts: Draft[];
@@ -25,12 +20,11 @@ interface DraftsProps {
 }
 export const Drafts = ({ drafts, setDrafts }: DraftsProps) => {
   const MAX_DRAFTS = 5;
-
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Add Drafts</CardTitle>
-        <CardDescription>Max drafts per cart: {MAX_DRAFTS}</CardDescription>
+        <CardTitle>Manage Drafts</CardTitle>
+        <CardDescription>Max {MAX_DRAFTS} drafts per cart.</CardDescription>
         <Tabs defaultValue="0" className="w-full">
           <TabsList className="flex w-full justify-start">
             {drafts.map((draft, index) => {
@@ -42,7 +36,9 @@ export const Drafts = ({ drafts, setDrafts }: DraftsProps) => {
 
               return (
                 <TabsTrigger value={i} key={i}>
-                  {draftTitle(draft.title)}
+                  <span className={`${draft.ready && "text-green-400"}`}>
+                    {draftTitle(draft.title)}
+                  </span>
                 </TabsTrigger>
               );
             })}
@@ -52,7 +48,7 @@ export const Drafts = ({ drafts, setDrafts }: DraftsProps) => {
                 variant="ghost"
                 onClick={() =>
                   drafts.length < MAX_DRAFTS &&
-                  setDrafts([...drafts, defaultDraft])
+                  setDrafts([...drafts, DEFAULT_DRAFT])
                 }
               >
                 <CirclePlusIcon className="h-5 w-5" />
@@ -64,62 +60,15 @@ export const Drafts = ({ drafts, setDrafts }: DraftsProps) => {
             <TabsContent value={index.toString()} key={index.toString()}>
               <ManageDraft
                 drafts={drafts}
-                index={index}
                 setDrafts={setDrafts}
+                index={index}
               />
             </TabsContent>
           ))}
         </Tabs>
       </CardHeader>
 
-      <CardFooter>bruh</CardFooter>
-    </Card>
-  );
-};
-
-interface ManageDraftProps {
-  index: number;
-  drafts: Draft[];
-  setDrafts: React.Dispatch<React.SetStateAction<Draft[]>>;
-}
-const ManageDraft = ({ drafts, setDrafts, index }: ManageDraftProps) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDrafts([
-      ...drafts.slice(0, index),
-      { title: e.target.value, ready: false },
-      ...drafts.slice(index + 1),
-    ]);
-  };
-
-  return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>
-          <div className="flex w-full">
-            <input
-              type="text"
-              className="flex w-full bg-background outline-none placeholder:text-muted-foreground"
-              value={drafts[index]?.title}
-              onChange={handleChange}
-              placeholder="Untitled"
-            />
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() =>
-                setDrafts([
-                  ...drafts.slice(0, index),
-                  ...drafts.slice(index + 1),
-                ])
-              }
-            >
-              <TrashIcon className="h-5 w-5 text-red-400" />
-            </Button>
-          </div>
-        </CardTitle>
-        {/* <CardDescription>Add to the toggle for the cart</CardDescription> */}
-        <CardContent className="space-y-2">hello world</CardContent>
-      </CardHeader>
+      <TotalPrice drafts={drafts} />
     </Card>
   );
 };

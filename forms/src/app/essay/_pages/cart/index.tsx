@@ -3,13 +3,12 @@
 import { Wrapper } from "../../_components/wrapper";
 import { useState } from "react";
 import { PersonalInfo } from "./personal";
-import { Draft, Drafts } from "./drafts";
-
-export const defaultDraft: Draft = { title: "", ready: false };
+import { Drafts } from "./drafts";
+import { DEFAULT_DRAFT, Draft } from "./constants";
 
 export const Cart = () => {
   const [valid, setValid] = useState(false);
-  const [drafts, setDrafts] = useState<Draft[]>([defaultDraft]);
+  const [drafts, setDrafts] = useState<Draft[]>([DEFAULT_DRAFT]);
 
   return (
     <Wrapper title="Cart">
