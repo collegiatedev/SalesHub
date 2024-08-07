@@ -24,6 +24,7 @@ import {
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
+import { Textarea } from "~/components/ui/textarea";
 
 interface ManageDraftProps {
   index: number;
@@ -164,14 +165,13 @@ const ManageQuestions = ({ drafts, setDrafts, index }: ManageDraftProps) => {
   return (
     <CardContent className="space-y-2">
       <div className="flex flex-col space-y-2 w-full">
-        {/* <Label>Prompt</Label>
-        <Input placeholder="Enter Prompt" />
-
         <Label>Prompt</Label>
-        <Input placeholder="Enter Prompt" /> */}
-
+        <Textarea placeholder="Paste the essay prompt here." />
         <Label>Notes</Label>
-        <Input placeholder="Enter Notes" />
+        <Textarea placeholder="Specify if there are any specific aspects you'd like help on." />
+
+        <Label className="font-bold text-lg pt-5">Submission</Label>
+        <Textarea placeholder="Paste your essay here." />
       </div>
     </CardContent>
   );
