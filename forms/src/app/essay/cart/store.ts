@@ -6,10 +6,20 @@ export type Draft = {
   type?: {
     essay: EssayType;
     wordCount?: WordCountType;
+    university?: string;
+  };
+  questions: {
+    prompt: string;
+    submission: string;
+    notes?: string;
   };
   ready: boolean;
 };
-export const DEFAULT_DRAFT: Draft = { title: "", ready: false };
+export const DEFAULT_DRAFT: Draft = {
+  title: "",
+  questions: { prompt: "", submission: "", notes: "" },
+  ready: false,
+};
 
 type DraftState = {
   drafts: Map<number, Draft>;

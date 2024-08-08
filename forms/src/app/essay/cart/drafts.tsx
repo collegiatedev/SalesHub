@@ -10,9 +10,9 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { ManageDraft } from "./manage";
 import { TotalPrice } from "./price";
 import { useDraftStore } from "./store";
+import { ManageDraft } from "./_manage";
 
 export const Drafts = () => {
   const MAX_DRAFTS = 5;

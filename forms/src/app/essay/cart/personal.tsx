@@ -105,7 +105,7 @@ export const PersonalInfo = ({
                 </p>
               )}
             </div>
-            <Button>{valid ? "Edit" : "Continue"}</Button>
+            <Button>{!valid ? "Continue" : "Edit"}</Button>
           </CardFooter>
         </form>
       </Form>
