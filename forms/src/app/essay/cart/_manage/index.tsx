@@ -20,7 +20,6 @@ import {
   parseDraftToForm,
 } from "./schema";
 import { successfulToast } from "~/components/myToast";
-import { calculatePrice } from "../price";
 
 export const ManageDraft = ({ id }: { id: number }) => {
   const draft = useDraftStore((state) => state.getDraft(id));

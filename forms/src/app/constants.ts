@@ -1,5 +1,4 @@
-// types, constants, etc
-
+// types, constants, sdks, etc
 export type NextPageProps = {
   params?: { slug: string };
   searchParams?: SearchParams;
@@ -7,4 +6,5 @@ export type NextPageProps = {
 
 export type SearchParams = { [key: string]: string | string[] | undefined };
 
-export const SESSION_KEY = "s";
+// ?s=session-id
+export const SESSION_QUERY_KEY = "s";

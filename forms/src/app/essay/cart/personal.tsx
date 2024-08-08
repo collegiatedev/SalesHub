@@ -19,33 +19,33 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { UseFormReturn } from "react-hook-form";
+import { useSession } from "./session";
 
-const formSchema = z.object({
+const personalSchema = z.object({
   firstName: z.string().min(1, "Required"),
   lastName: z.string().min(1, "Required"),
   email: z.string().email("Invalid"),
   phoneNumber: z.string().min(7, "Invalid"), // todo, validation regex
 });
+export type PersonalInfo = z.infer<typeof personalSchema>;
 
 interface PersonalInfoProps {
-  valid: boolean;
-  setValid: React.Dispatch<React.SetStateAction<boolean>>;
+  validState: {
+    valid: boolean;
+    setValid: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
-export const PersonalInfo = ({
-  valid,
-  setValid,
+export const PersonalInfoForm = ({
+  validState: { valid, setValid },
 }: PersonalInfoProps): React.ReactElement => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-    },
+  const { session } = useSession();
+
+  const form = useForm<PersonalInfo>({
+    resolver: zodResolver(personalSchema),
+    defaultValues: session.personal,
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: PersonalInfo) => {
     // add save logic
     if (!valid) {
       console.log(data);
@@ -114,8 +114,8 @@ export const PersonalInfo = ({
 };
 
 interface FormInputFieldProps {
-  form: UseFormReturn<z.infer<typeof formSchema>>;
-  name: keyof z.infer<typeof formSchema>;
+  form: UseFormReturn<z.infer<typeof personalSchema>>;
+  name: keyof z.infer<typeof personalSchema>;
   label: string;
   placeholder?: string;
   disabled?: boolean;

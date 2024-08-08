@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { PersonalInfo } from "~/app/essay/cart/personal";
+import { PersonalInfoForm } from "~/app/essay/cart/personal";
 import { MyTitle } from "~/components/myTitle";
 import { NavButton } from "~/components/myButtons";
 import { Drafts } from "./drafts";
@@ -28,7 +28,7 @@ export const EssayCart = () => {
       </div>
 
       <div className="space-y-4">
-        <PersonalInfo valid={valid} setValid={setValid} />
+        <PersonalInfoForm validState={{ valid, setValid }} />
         {valid && (
           <>
             <Drafts />
