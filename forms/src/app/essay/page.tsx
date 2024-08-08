@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { MyTitle } from "~/components/myTitle";
-import { NavButton } from "~/components/navButton";
+import { NavButton } from "~/components/myButtons";
 import {
   Accordion,
   AccordionContent,

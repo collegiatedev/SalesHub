@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { Draft, ESSAY_TYPES, WORD_COUNT_TYPES } from "./constants";
+import { ESSAY_TYPES, WORD_COUNT_TYPES } from "./constants";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { Textarea } from "~/components/ui/textarea";
@@ -30,6 +30,7 @@ import {
   FormItem,
   FormLabel,
 } from "~/components/ui/form";
+import { useDraftStore } from "./store";
 
 const draftSchema = z
   .object({
@@ -69,21 +70,18 @@ const draftSchema = z
 
 type DraftFormValues = z.infer<typeof draftSchema>;
 
-interface ManageDraftProps {
-  index: number;
-  drafts: Draft[];
-  setDrafts: React.Dispatch<React.SetStateAction<Draft[]>>;
-}
-
-export const ManageDraft = ({ drafts, setDrafts, index }: ManageDraftProps) => {
+export const ManageDraft = ({ id }: { id: number }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const draft = useDraftStore((state) => state.getDraft(id));
+  const updateDraft = useDraftStore((state) => state.updateDraft);
+  if (!draft) return null;
 
   const form = useForm<DraftFormValues>({
     resolver: zodResolver(draftSchema),
     defaultValues: {
-      title: drafts[index]?.title || "",
-      essayType: drafts[index]?.type?.essay,
-      wordCount: drafts[index]?.type?.wordCount,
+      title: draft.title || "",
+      essayType: draft.type?.essay,
+      wordCount: draft.type?.wordCount,
       university: "",
       prompt: "",
       notes: "",
@@ -92,8 +90,8 @@ export const ManageDraft = ({ drafts, setDrafts, index }: ManageDraftProps) => {
   });
 
   const onSubmit = (data: DraftFormValues) => {
-    const updatedDraft: Draft = {
-      ...drafts[index]!,
+    const updatedDraft = {
+      ...draft,
       title: data.title,
       type: {
         essay: data.essayType,
@@ -101,11 +99,7 @@ export const ManageDraft = ({ drafts, setDrafts, index }: ManageDraftProps) => {
       },
       ready: true,
     };
-    setDrafts([
-      ...drafts.slice(0, index),
-      updatedDraft,
-      ...drafts.slice(index + 1),
-    ]);
+    updateDraft(id, updatedDraft);
     setIsSubmitted(true);
   };
 
@@ -113,12 +107,7 @@ export const ManageDraft = ({ drafts, setDrafts, index }: ManageDraftProps) => {
     <Card className="w-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <ManageHeader
-            form={form}
-            drafts={drafts}
-            setDrafts={setDrafts}
-            index={index}
-          />
+          <ManageHeader form={form} id={id} />
           <ManageType form={form} />
           <CardContent className="space-y-2">
             <Separator />
@@ -147,18 +136,16 @@ export const ManageDraft = ({ drafts, setDrafts, index }: ManageDraftProps) => {
 };
 
 const ManageHeader = ({
+  id,
   form,
-  drafts,
-  setDrafts,
-  index,
-}: ManageDraftProps & { form: UseFormReturn<DraftFormValues> }) => {
-  const setTitle = (title: string) => {
-    setDrafts([
-      ...drafts.slice(0, index),
-      { ...drafts[index]!, title },
-      ...drafts.slice(index + 1),
-    ]);
-  };
+}: {
+  id: number;
+  form: UseFormReturn<DraftFormValues>;
+}) => {
+  const { updateDraft, deleteDraft, getDraftCount } = useDraftStore(
+    (state) => state
+  );
+  const setTitle = (title: string) => updateDraft(id, { title });
 
   return (
     <CardHeader>
@@ -185,16 +172,16 @@ const ManageHeader = ({
               </FormItem>
             )}
           />
-          <Button
-            className="hover:text-red-400 ml-2"
-            size="icon"
-            variant="ghost"
-            onClick={() =>
-              setDrafts([...drafts.slice(0, index), ...drafts.slice(index + 1)])
-            }
-          >
-            <TrashIcon className="h-5 w-5 text-color-muted-foreground" />
-          </Button>
+          {getDraftCount() > 1 && (
+            <Button
+              className="hover:text-red-400 ml-2"
+              size="icon"
+              variant="ghost"
+              onClick={() => deleteDraft(id)}
+            >
+              <TrashIcon className="h-5 w-5 text-color-muted-foreground" />
+            </Button>
+          )}
         </div>
       </CardTitle>
     </CardHeader>

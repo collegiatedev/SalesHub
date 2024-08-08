@@ -1,5 +1,7 @@
-import { CardFooter } from "~/components/ui/card";
-import { Draft, EssayType, WordCountType } from "./constants";
+import { EssayType, WordCountType } from "./constants";
+import { ShoppingCart } from "lucide-react";
+import { Alert, AlertTitle } from "~/components/ui/alert";
+import { useDraftStore } from "./store";
 
 interface CalculatePriceProps {
   essay: EssayType;
@@ -27,7 +29,10 @@ const calculatePrice = ({ essay, wordCount }: CalculatePriceProps) => {
   }
 };
 
-export const TotalPrice = ({ drafts }: { drafts: Draft[] }) => {
+export const TotalPrice = () => {
+  const drafts = useDraftStore((state) =>
+    state.getDrafts().map((d) => d.draft)
+  );
   const totalPrice = drafts
     .filter((draft) => draft.type && draft.ready)
     .reduce((acc, draft) => {
@@ -36,5 +41,12 @@ export const TotalPrice = ({ drafts }: { drafts: Draft[] }) => {
       return acc + calculatePrice({ essay, wordCount });
     }, 0);
 
-  return <CardFooter>Total Price: ${totalPrice}</CardFooter>;
+  return (
+    <div className="flex w-full justify-end">
+      <Alert className="w-auto bg-background">
+        <ShoppingCart className="h-4 w-4" />
+        <AlertTitle>${totalPrice}</AlertTitle>
+      </Alert>
+    </div>
+  );
 };

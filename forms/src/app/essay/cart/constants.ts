@@ -1,16 +1,5 @@
 // types and constants
 
-export type Draft = {
-  title: string;
-  type?: {
-    essay: EssayType;
-    wordCount?: WordCountType;
-  };
-  ready: boolean;
-};
-
-export const DEFAULT_DRAFT: Draft = { title: "", ready: false };
-
 export const ESSAY_TYPES = [
   "Common App / Coalition",
   "Supplemental Essay",

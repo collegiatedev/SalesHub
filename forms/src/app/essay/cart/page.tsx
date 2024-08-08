@@ -1,21 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PersonalInfo } from "~/app/essay/cart/personal";
 import { MyTitle } from "~/components/myTitle";
-import { NavButton } from "~/components/navButton";
+import { NavButton } from "~/components/myButtons";
 import { Drafts } from "./drafts";
-import { Draft, DEFAULT_DRAFT } from "./constants";
-
-// import { Wrapper } from "../../_components/wrapper";
-// import { useState } from "react";
-// import { PersonalInfo } from "./personal";
-// import { Drafts } from "./drafts";
-// import { DEFAULT_DRAFT, Draft } from "./constants";
+import { useDraftStore } from "./store";
 
 export default function Cart() {
   const [valid, setValid] = useState(false);
-  const [drafts, setDrafts] = useState<Draft[]>([DEFAULT_DRAFT]);
+  const drafts = useDraftStore((state) =>
+    state.getDrafts().map((d) => d.draft)
+  );
+  const isReady = drafts.some((draft) => draft.ready);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (isReady && bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isReady]);
 
   return (
     <>
@@ -23,10 +26,15 @@ export default function Cart() {
         <NavButton route="/essay" text="Back" backwards />
         <MyTitle title="Shopping Cart" />
       </div>
+
       <div className="space-y-4">
         <PersonalInfo valid={valid} setValid={setValid} />
-        {valid && <Drafts drafts={drafts} setDrafts={setDrafts} />}
+        {valid && <Drafts />}
+        <div className="mt-8 w-full flex justify-end">
+          {isReady && <NavButton route="/essay" text="Checkout" />}
+        </div>
       </div>
+      <div ref={bottomRef} />
     </>
   );
 }
