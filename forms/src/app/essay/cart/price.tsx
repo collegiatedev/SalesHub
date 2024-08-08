@@ -7,7 +7,7 @@ interface CalculatePriceProps {
   essay?: EssayType;
   wordCount?: WordCountType;
 }
-const calculatePrice = ({ essay, wordCount }: CalculatePriceProps) => {
+export const calculatePrice = ({ essay, wordCount }: CalculatePriceProps) => {
   if (!essay) return 1000;
   switch (essay) {
     case "Common App / Coalition":

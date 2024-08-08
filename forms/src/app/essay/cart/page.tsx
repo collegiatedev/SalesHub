@@ -29,10 +29,14 @@ export default function Cart() {
 
       <div className="space-y-4">
         <PersonalInfo valid={valid} setValid={setValid} />
-        {valid && <Drafts />}
-        <div className="mt-8 w-full flex justify-end">
-          {isReady && <NavButton route="/essay" text="Checkout" />}
-        </div>
+        {valid && (
+          <>
+            <Drafts />
+            <div className="mt-8 w-full flex justify-end">
+              {isReady && <NavButton route="/essay" text="Checkout" />}
+            </div>
+          </>
+        )}
       </div>
       <div ref={bottomRef} />
     </>

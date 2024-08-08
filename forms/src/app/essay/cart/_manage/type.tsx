@@ -1,6 +1,4 @@
 import { UseFormReturn } from "react-hook-form";
-import { DraftFormProps, DraftFormValues } from ".";
-import { useEffect, useMemo } from "react";
 import { CardContent } from "~/components/ui/card";
 import {
   FormField,
@@ -23,6 +21,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { useDraftStore } from "../store";
+import { DraftFormProps, DraftFormValues } from "./schema";
 
 export const ManageType = ({ id, form, disabled }: DraftFormProps) => {
   const { updateDraft } = useDraftStore((state) => state);
@@ -56,7 +55,6 @@ export const ManageType = ({ id, form, disabled }: DraftFormProps) => {
       {(IS_SUPPLEMENTAL(essayType) || IS_LETTER(essayType)) && (
         <FormField
           control={form.control}
-          disabled={disabled}
           name="university"
           render={({ field }) => (
             <FormItem className="w-full">
@@ -97,18 +95,17 @@ const FormSelect = <T extends string>({
 }: FormSelectProps<T>) => (
   <FormField
     control={form.control}
-    disabled={disabled}
     name={name}
     render={({ field }) => (
       <FormItem className="w-full" key={name}>
         <FormLabel>{label}</FormLabel>
         <Select
+          {...field}
           disabled={disabled}
           onValueChange={(value: T) => {
             field.onChange(value);
             if (onChange) onChange(value);
           }}
-          defaultValue={field.value}
         >
           <FormControl>
             <SelectTrigger>

@@ -7,8 +7,8 @@ import {
   FormControl,
 } from "~/components/ui/form";
 import { Textarea } from "~/components/ui/textarea";
-import { DraftFormProps, DraftFormValues } from ".";
 import { useDraftStore } from "../store";
+import { DraftFormProps, DraftFormValues } from "./schema";
 
 export const ManageQuestions = ({ id, form, disabled }: DraftFormProps) => {
   const { updateDraft } = useDraftStore((state) => state);
@@ -21,7 +21,7 @@ export const ManageQuestions = ({ id, form, disabled }: DraftFormProps) => {
         label="Prompt"
         placeholder="Paste the essay prompt here."
         disabled={disabled}
-        onChange={(value) => updateDraft(id, { questions: { prompt: value } })}
+        update={(value) => updateDraft(id, { questions: { prompt: value } })}
       />
       <TextAreaField
         form={form}
@@ -29,9 +29,9 @@ export const ManageQuestions = ({ id, form, disabled }: DraftFormProps) => {
         label="Submission"
         placeholder="Paste your essay here."
         disabled={disabled}
-        onChange={(value) =>
+        update={(value) =>
           updateDraft(id, { questions: { submission: value } })
-        } // Update store on change
+        }
       />
       <TextAreaField
         form={form}
@@ -39,7 +39,7 @@ export const ManageQuestions = ({ id, form, disabled }: DraftFormProps) => {
         label="Notes"
         placeholder="Specify if there are any aspects you'd like help on."
         disabled={disabled}
-        onChange={(value) => updateDraft(id, { questions: { notes: value } })}
+        update={(value) => updateDraft(id, { questions: { notes: value } })}
       />
     </CardContent>
   );
@@ -50,16 +50,16 @@ interface TextAreaFieldProps {
   name: keyof DraftFormValues;
   label: string;
   placeholder?: string;
-  disabled?: boolean; // Add disabled prop
-  onChange?: (value: string) => void; // Fix type of onChange
+  disabled?: boolean;
+  update: (value: string) => void;
 }
 const TextAreaField = ({
   form,
   name,
   label,
   placeholder,
-  disabled, // Add disabled prop
-  onChange,
+  disabled,
+  update,
 }: TextAreaFieldProps) => {
   return (
     <FormField
@@ -75,7 +75,7 @@ const TextAreaField = ({
               disabled={disabled}
               onChange={(e) => {
                 field.onChange(e);
-                onChange && onChange(e.target.value);
+                update(e.target.value);
               }}
             />
           </FormControl>
