@@ -1,23 +1,26 @@
 import { create } from "zustand";
 import { EssayType, WordCountType } from "./constants";
+import { deepMerge } from "~/lib/utils";
 
 export type Draft = {
   title: string;
-  type?: {
+  type: Partial<{
     essay: EssayType;
-    wordCount?: WordCountType;
-    university?: string;
-  };
-  questions: {
+    wordCount: WordCountType;
+    university: string;
+  }>;
+  questions: Partial<{
     prompt: string;
     submission: string;
-    notes?: string;
-  };
+    notes: string;
+  }>;
   ready: boolean;
 };
+
 export const DEFAULT_DRAFT: Draft = {
   title: "",
-  questions: { prompt: "", submission: "", notes: "" },
+  type: {},
+  questions: { prompt: "", submission: "" },
   ready: false,
 };
 
@@ -28,7 +31,7 @@ type DraftState = {
   getDraft: (id: number) => Draft | undefined;
   getDrafts: () => DraftArray;
   getDraftCount: () => number;
-  updateDraft: (id: number, updatedDraft: Partial<Draft>) => void;
+  updateDraft: (id: number, updatedDraft: Partial<Draft>) => Draft | undefined;
   deleteDraft: (id: number) => void;
 };
 
@@ -57,18 +60,22 @@ export const useDraftStore = create<DraftState>((set, get) => ({
     return d.map(([id, draft]) => ({ draft, id }));
   },
   getDraftCount: () => get().drafts.size,
-  updateDraft: (id: number, updatedDraft: Partial<Draft>) => {
-    set((state) => {
-      const draft = state.drafts.get(id);
-      if (draft) {
-        const newDraft = { ...draft, ...updatedDraft };
+  updateDraft: (
+    id: number,
+    updatedDraft: Partial<Draft>
+  ): Draft | undefined => {
+    const state = get();
+    const draft = state.drafts.get(id);
+    if (draft) {
+      const newDraft = deepMerge({ ...draft }, updatedDraft);
+      set((state) => {
         state.drafts.set(id, newDraft);
         return { drafts: new Map(state.drafts) };
-      }
-      return state;
-    });
+      });
+      return newDraft;
+    }
+    return undefined;
   },
-
   deleteDraft: (id: number) => {
     set((state) => {
       state.drafts.delete(id);

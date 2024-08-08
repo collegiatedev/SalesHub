@@ -5,8 +5,13 @@ import { Separator } from "~/components/ui/separator";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
-import { ESSAY_TYPES, WORD_COUNT_TYPES } from "../constants";
-import { useDraftStore } from "../store";
+import {
+  ESSAY_TYPES,
+  IS_LETTER,
+  IS_SUPPLEMENTAL,
+  WORD_COUNT_TYPES,
+} from "../constants";
+import { Draft, useDraftStore } from "../store";
 import { ManageHeader } from "./header";
 import { ManageType } from "./type";
 import { ManageQuestions } from "./questions";
@@ -22,7 +27,7 @@ const draftSchema = z
     submission: z.string().min(1, "Essay submission is required"),
   })
   .superRefine((data, ctx) => {
-    if (data.essayType === "Supplemental Essay") {
+    if (IS_SUPPLEMENTAL(data.essayType)) {
       if (!data.wordCount) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -38,7 +43,7 @@ const draftSchema = z
         });
       }
     }
-    if (data.essayType === "Letter of Continued Interest" && !data.university) {
+    if (IS_LETTER(data.essayType) && !data.university) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "University is required for Letter of Continued Interest",
@@ -53,6 +58,15 @@ export type DraftFormProps = {
   id: number;
   disabled?: boolean;
 };
+const parseDraftToForm = (draft: Draft): DraftFormValues => ({
+  title: draft.title || "",
+  essayType: draft.type?.essay || ESSAY_TYPES[0], // Default to first essay type if not set
+  wordCount: draft.type?.wordCount,
+  university: draft.type?.university || "",
+  prompt: draft.questions.prompt || "",
+  notes: draft.questions.notes || "",
+  submission: draft.questions.submission || "",
+});
 
 export const ManageDraft = ({ id }: { id: number }) => {
   const draft = useDraftStore((state) => state.getDraft(id));
@@ -61,21 +75,17 @@ export const ManageDraft = ({ id }: { id: number }) => {
 
   const form = useForm<DraftFormValues>({
     resolver: zodResolver(draftSchema),
-    defaultValues: {
-      title: draft.title || "",
-      essayType: draft.type?.essay,
-      wordCount: draft.type?.wordCount,
-      university: "",
-      prompt: "",
-      notes: "",
-      submission: "",
-    },
+    defaultValues: parseDraftToForm(draft),
+    values: parseDraftToForm(draft),
   });
 
   const onSubmit = (data: DraftFormValues) => {
-    updateDraft(id, { ready: !draft.ready });
+    console.log("data", data);
+    const updatedDraft = updateDraft(id, { ready: !draft.ready });
+    console.log("updatedDraft", updatedDraft);
     if (draft.ready) {
       // db store stuff
+      console.log(data);
     }
   };
 

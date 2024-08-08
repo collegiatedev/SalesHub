@@ -1,6 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import { DraftFormProps, DraftFormValues } from ".";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { CardContent } from "~/components/ui/card";
 import {
   FormField,
@@ -9,7 +9,12 @@ import {
   FormControl,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { ESSAY_TYPES, WORD_COUNT_TYPES } from "../constants";
+import {
+  ESSAY_TYPES,
+  IS_LETTER,
+  IS_SUPPLEMENTAL,
+  WORD_COUNT_TYPES,
+} from "../constants";
 import {
   Select,
   SelectContent,
@@ -17,39 +22,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import { useDraftStore } from "../store";
 
-export const ManageType = ({ form, disabled }: DraftFormProps) => {
-  const essayType = form.watch("essayType");
-  const IS_SUPPLEMENTAL = essayType === "Supplemental Essay";
-  const IS_LETTER = essayType === "Letter of Continued Interest";
+export const ManageType = ({ id, form, disabled }: DraftFormProps) => {
+  const { updateDraft } = useDraftStore((state) => state);
+  const draft = useDraftStore((state) => state.getDraft(id));
+  if (!draft) return null;
 
-  useEffect(() => {
-    if (!IS_SUPPLEMENTAL) form.setValue("wordCount", undefined);
-    if (!IS_SUPPLEMENTAL && !IS_LETTER) form.setValue("university", "");
-  }, [essayType, form]);
-
+  const essayType = draft.type?.essay;
   return (
     <CardContent className="space-y-4">
       <div className="flex flex-row space-x-4">
-        <FormInputSelect
+        <FormSelect
           form={form}
           disabled={disabled}
           name="essayType"
           label="Essay Type"
           types={ESSAY_TYPES}
+          onChange={(v) => updateDraft(id, { type: { essay: v } })}
         />
-        {IS_SUPPLEMENTAL && (
-          <FormInputSelect
+        {IS_SUPPLEMENTAL(essayType) && (
+          <FormSelect
             form={form}
             disabled={disabled}
             name="wordCount"
             label="Word Count"
             types={WORD_COUNT_TYPES}
+            onChange={(v) => updateDraft(id, { type: { wordCount: v } })}
           />
         )}
       </div>
 
-      {(IS_SUPPLEMENTAL || IS_LETTER) && (
+      {(IS_SUPPLEMENTAL(essayType) || IS_LETTER(essayType)) && (
         <FormField
           control={form.control}
           disabled={disabled}
@@ -61,6 +65,10 @@ export const ManageType = ({ form, disabled }: DraftFormProps) => {
                 <Input
                   {...field}
                   placeholder="Which school is this essay for?"
+                  onChange={(e) => {
+                    field.onChange(e);
+                    updateDraft(id, { type: { university: e.target.value } });
+                  }}
                 />
               </FormControl>
             </FormItem>
@@ -71,28 +79,37 @@ export const ManageType = ({ form, disabled }: DraftFormProps) => {
   );
 };
 
-interface FormInputSelectProps<T extends string> {
+interface FormSelectProps<T extends string> {
   form: UseFormReturn<DraftFormValues>;
   name: keyof DraftFormValues;
   label: string;
   types: readonly T[];
   disabled?: boolean;
+  onChange?: (value: T) => void;
 }
-const FormInputSelect = <T extends string>({
+const FormSelect = <T extends string>({
   form,
   name,
   label,
   types,
   disabled,
-}: FormInputSelectProps<T>) => (
+  onChange,
+}: FormSelectProps<T>) => (
   <FormField
     control={form.control}
     disabled={disabled}
     name={name}
     render={({ field }) => (
-      <FormItem className="w-full">
+      <FormItem className="w-full" key={name}>
         <FormLabel>{label}</FormLabel>
-        <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <Select
+          disabled={disabled}
+          onValueChange={(value: T) => {
+            field.onChange(value);
+            if (onChange) onChange(value);
+          }}
+          defaultValue={field.value}
+        >
           <FormControl>
             <SelectTrigger>
               <SelectValue placeholder="Select" />
@@ -100,7 +117,7 @@ const FormInputSelect = <T extends string>({
           </FormControl>
           <SelectContent>
             {types.map((type) => (
-              <SelectItem key={type} value={type}>
+              <SelectItem key={type} value={type} disabled={disabled}>
                 {type}
               </SelectItem>
             ))}

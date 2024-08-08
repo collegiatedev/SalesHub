@@ -8,10 +8,9 @@ import { useDraftStore } from "../store";
 import { DraftFormProps } from ".";
 
 export const ManageHeader = ({ id, form, disabled }: DraftFormProps) => {
-  const { updateDraft, deleteDraft, getDraftCount } = useDraftStore(
+  const { deleteDraft, getDraftCount, updateDraft } = useDraftStore(
     (state) => state
   );
-  const setTitle = (title: string) => updateDraft(id, { title });
 
   return (
     <CardHeader>
@@ -32,7 +31,7 @@ export const ManageHeader = ({ id, form, disabled }: DraftFormProps) => {
                     placeholder="Untitled Draft"
                     onChange={(e) => {
                       field.onChange(e);
-                      setTitle(e.target.value);
+                      updateDraft(id, { title: e.target.value });
                     }}
                   />
                 </FormControl>

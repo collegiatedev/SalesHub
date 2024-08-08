@@ -4,10 +4,11 @@ import { Alert, AlertTitle } from "~/components/ui/alert";
 import { useDraftStore } from "./store";
 
 interface CalculatePriceProps {
-  essay: EssayType;
+  essay?: EssayType;
   wordCount?: WordCountType;
 }
 const calculatePrice = ({ essay, wordCount }: CalculatePriceProps) => {
+  if (!essay) return 1000;
   switch (essay) {
     case "Common App / Coalition":
       return 98;
@@ -37,16 +38,16 @@ export const TotalPrice = () => {
     .filter((draft) => draft.type && draft.ready)
     .reduce((acc, draft) => {
       const { type } = draft;
-      const { essay, wordCount } = type!;
+      const { essay, wordCount } = type;
       return acc + calculatePrice({ essay, wordCount });
     }, 0);
-  console.log(totalPrice, drafts);
+  // console.log(totalPrice, drafts);
 
   return (
     <div className="flex w-full justify-end">
       <Alert className="w-auto bg-background">
         <ShoppingCart className="h-4 w-4" />
-        <AlertTitle>${totalPrice}</AlertTitle>
+        <AlertTitle className="mb-0">${totalPrice}</AlertTitle>
       </Alert>
     </div>
   );
