@@ -1,5 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
-import { DraftFormValues } from ".";
+import { DraftFormProps, DraftFormValues } from ".";
 import { useEffect } from "react";
 import { CardContent } from "~/components/ui/card";
 import {
@@ -18,23 +18,14 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 
-export const ManageType = ({
-  form,
-}: {
-  form: UseFormReturn<DraftFormValues>;
-}) => {
+export const ManageType = ({ form, disabled }: DraftFormProps) => {
   const essayType = form.watch("essayType");
+  const IS_SUPPLEMENTAL = essayType === "Supplemental Essay";
+  const IS_LETTER = essayType === "Letter of Continued Interest";
 
   useEffect(() => {
-    if (essayType !== "Supplemental Essay") {
-      form.setValue("wordCount", undefined);
-    }
-    if (
-      essayType !== "Supplemental Essay" &&
-      essayType !== "Letter of Continued Interest"
-    ) {
-      form.setValue("university", "");
-    }
+    if (!IS_SUPPLEMENTAL) form.setValue("wordCount", undefined);
+    if (!IS_SUPPLEMENTAL && !IS_LETTER) form.setValue("university", "");
   }, [essayType, form]);
 
   return (
@@ -42,13 +33,15 @@ export const ManageType = ({
       <div className="flex flex-row space-x-4">
         <FormInputSelect
           form={form}
+          disabled={disabled}
           name="essayType"
           label="Essay Type"
           types={ESSAY_TYPES}
         />
-        {essayType === "Supplemental Essay" && (
+        {IS_SUPPLEMENTAL && (
           <FormInputSelect
             form={form}
+            disabled={disabled}
             name="wordCount"
             label="Word Count"
             types={WORD_COUNT_TYPES}
@@ -56,10 +49,10 @@ export const ManageType = ({
         )}
       </div>
 
-      {(essayType === "Supplemental Essay" ||
-        essayType === "Letter of Continued Interest") && (
+      {(IS_SUPPLEMENTAL || IS_LETTER) && (
         <FormField
           control={form.control}
+          disabled={disabled}
           name="university"
           render={({ field }) => (
             <FormItem className="w-full">
@@ -78,19 +71,23 @@ export const ManageType = ({
   );
 };
 
+interface FormInputSelectProps<T extends string> {
+  form: UseFormReturn<DraftFormValues>;
+  name: keyof DraftFormValues;
+  label: string;
+  types: readonly T[];
+  disabled?: boolean;
+}
 const FormInputSelect = <T extends string>({
   form,
   name,
   label,
   types,
-}: {
-  form: UseFormReturn<DraftFormValues>;
-  name: keyof DraftFormValues;
-  label: string;
-  types: readonly T[];
-}) => (
+  disabled,
+}: FormInputSelectProps<T>) => (
   <FormField
     control={form.control}
+    disabled={disabled}
     name={name}
     render={({ field }) => (
       <FormItem className="w-full">

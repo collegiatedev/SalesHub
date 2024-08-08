@@ -48,6 +48,11 @@ const draftSchema = z
   });
 
 export type DraftFormValues = z.infer<typeof draftSchema>;
+export type DraftFormProps = {
+  form: UseFormReturn<DraftFormValues>;
+  id: number;
+  disabled?: boolean;
+};
 
 export const ManageDraft = ({ id }: { id: number }) => {
   const draft = useDraftStore((state) => state.getDraft(id));
@@ -68,8 +73,10 @@ export const ManageDraft = ({ id }: { id: number }) => {
   });
 
   const onSubmit = (data: DraftFormValues) => {
-    updateDraft(id, { ready: true });
-    // db store stuff
+    updateDraft(id, { ready: !draft.ready });
+    if (draft.ready) {
+      // db store stuff
+    }
   };
 
   const CardSeparator = () => (
@@ -78,18 +85,20 @@ export const ManageDraft = ({ id }: { id: number }) => {
     </CardContent>
   );
 
+  const formProps = { form, id, disabled: draft.ready };
+
   return (
     <Card className="w-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <ManageHeader form={form} id={id} />
-          <ManageType form={form} />
+          <ManageHeader {...formProps} />
+          <ManageType {...formProps} />
           <CardSeparator />
-          <ManageQuestions form={form} />
+          <ManageQuestions {...formProps} />
 
           <CardFooter className="flex w-full justify-between">
-            <FormStatus form={form} id={id} />
-            <Button type="submit">{!draft.ready ? "Save" : "Edit"}</Button>
+            <FormStatus {...formProps} />
+            <Button type="submit">{!draft.ready ? "Add" : "Edit"}</Button>
           </CardFooter>
         </form>
       </Form>
@@ -97,13 +106,7 @@ export const ManageDraft = ({ id }: { id: number }) => {
   );
 };
 
-const FormStatus = ({
-  form,
-  id,
-}: {
-  form: UseFormReturn<DraftFormValues>;
-  id: number;
-}) => {
+const FormStatus = ({ form, id }: DraftFormProps) => {
   const draft = useDraftStore((state) => state.getDraft(id));
 
   return (

@@ -5,16 +5,9 @@ import { CardHeader, CardTitle } from "~/components/ui/card";
 import { FormField, FormItem, FormControl } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useDraftStore } from "../store";
-import { UseFormReturn } from "react-hook-form";
-import { DraftFormValues } from ".";
+import { DraftFormProps } from ".";
 
-export const ManageHeader = ({
-  id,
-  form,
-}: {
-  id: number;
-  form: UseFormReturn<DraftFormValues>;
-}) => {
+export const ManageHeader = ({ id, form, disabled }: DraftFormProps) => {
   const { updateDraft, deleteDraft, getDraftCount } = useDraftStore(
     (state) => state
   );
@@ -26,6 +19,7 @@ export const ManageHeader = ({
         <div className="flex w-full items-center">
           <FormField
             control={form.control}
+            disabled={disabled}
             name="title"
             render={({ field }) => (
               <FormItem className="w-full">
@@ -37,7 +31,7 @@ export const ManageHeader = ({
                     }`}
                     placeholder="Untitled Draft"
                     onChange={(e) => {
-                      field.onChange(e); // Call the field's onChange
+                      field.onChange(e);
                       setTitle(e.target.value);
                     }}
                   />

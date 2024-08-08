@@ -1,4 +1,3 @@
-// wierd rendering bug with textarea
 import { UseFormReturn } from "react-hook-form";
 import { CardContent } from "~/components/ui/card";
 import {
@@ -8,13 +7,9 @@ import {
   FormControl,
 } from "~/components/ui/form";
 import { Textarea } from "~/components/ui/textarea";
-import { DraftFormValues } from ".";
+import { DraftFormProps, DraftFormValues } from ".";
 
-export const ManageQuestions = ({
-  form,
-}: {
-  form: UseFormReturn<DraftFormValues>;
-}) => {
+export const ManageQuestions = ({ form }: DraftFormProps) => {
   return (
     <CardContent className="space-y-2">
       <TextAreaField
@@ -38,6 +33,7 @@ export const ManageQuestions = ({
     </CardContent>
   );
 };
+
 interface TextAreaFieldProps {
   form: UseFormReturn<DraftFormValues>;
   name: keyof DraftFormValues;
