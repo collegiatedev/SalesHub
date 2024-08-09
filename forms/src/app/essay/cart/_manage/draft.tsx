@@ -60,7 +60,7 @@ export const ManageDraft = ({ id }: { id: number }) => {
   return (
     <Card className="w-full">
       <Form {...form} key={id}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} key={id}>
           <CardHeader>
             <ManageTitle {...formProps} />
           </CardHeader>

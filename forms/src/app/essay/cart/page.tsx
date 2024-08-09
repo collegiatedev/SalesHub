@@ -3,7 +3,7 @@ import {
   SearchParams,
   SESSION_QUERY_KEY,
 } from "~/app/constants";
-import { EssayCart } from "./cart";
+import { EssayCart } from ".";
 import { SetSession, SessionProvider } from "./session";
 import { getSessionStore } from "~/app/actions";
 

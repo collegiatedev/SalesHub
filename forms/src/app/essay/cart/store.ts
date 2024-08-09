@@ -45,8 +45,6 @@ export const useDraftStore = create<DraftState>((set, get) => ({
   initializeDrafts: (drafts?: DraftMap) => {
     if (!drafts || drafts.size === 0) return;
     set(() => {
-      console.log("initializeDrafts", drafts);
-
       const newDrafts = new Map(drafts); // Directly use the DraftMap
       const newCounter =
         drafts.size > 0 ? Math.max(...Array.from(drafts.keys())) + 1 : 1; // Use keys to find max id

@@ -14,6 +14,7 @@ export const EssayCart = () => {
   );
   const isReady = drafts.some((draft) => draft.ready);
 
+  // causes some minor issues but its fine
   const bottomRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (isReady && bottomRef.current) {

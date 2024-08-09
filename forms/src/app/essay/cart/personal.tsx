@@ -43,16 +43,17 @@ export const PersonalInfo = ({
 
   const form = useForm<PersonalInfoForm>({
     resolver: zodResolver(personalSchema),
-    defaultValues: session.personal,
+    // Setting default values to ensure consistent input handling as controlled components.
+    defaultValues: {
+      firstName: session.personal?.firstName ?? "",
+      lastName: session.personal?.lastName ?? "",
+      email: session.personal?.email ?? "",
+      phoneNumber: session.personal?.phoneNumber ?? "",
+    },
   });
 
   const onSubmit = async (data: PersonalInfoForm) => {
-    // add save logic
-    if (!completed) {
-      console.log(data);
-      // await redis.set(sessionId, JSON.stringify(data));
-      await savePersonalInfo({ sessionId, personal: data });
-    }
+    if (!completed) await savePersonalInfo({ sessionId, personal: data });
     setCompleted(!completed);
   };
 
