@@ -1,14 +1,22 @@
 "use client";
 
-import { useEffect, useContext, createContext } from "react";
+import { useEffect, useContext, createContext, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { SearchParams, SESSION_QUERY_KEY } from "../constants";
+import { SESSION_QUERY_KEY } from "../constants";
 import { generateId } from "~/lib/id";
 import { DraftMap, useDraftStore } from "./cart/store";
 import { PersonalInfoForm } from "./cart/personal";
 
 // creates a session id, sets it as part of query param; use redis to store session
+// don't you love suspense? no idea if this is needed, but i'm not fucking finding out
 export const SetSession = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SetSessionContent />
+    </Suspense>
+  );
+};
+const SetSessionContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   useEffect(() => {

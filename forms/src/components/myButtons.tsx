@@ -3,16 +3,28 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
+import { Suspense } from "react";
 
-export const NavButton = ({
-  route,
-  text,
-  backwards,
-}: {
+interface NavButtonProps {
   route: string;
   text: string;
   backwards?: boolean;
-}) => {
+}
+
+// don't you love suspense?
+export const NavButton = ({ route, text, backwards }: NavButtonProps) => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NavButtonContent route={route} text={text} backwards={backwards} />
+    </Suspense>
+  );
+};
+
+export const NavButtonContent = ({
+  route,
+  text,
+  backwards,
+}: NavButtonProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
