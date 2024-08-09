@@ -46,11 +46,9 @@ export const SessionProvider = ({
   session,
   sessionId,
 }: SessionProviderProps) => {
-  // only runs once
+  // only runs once, initializes drafts in store
   const { initializeDrafts } = useDraftStore();
-  useEffect(() => {
-    if (session.drafts) initializeDrafts(session.drafts);
-  }, []);
+  useEffect(() => initializeDrafts(session.drafts), []);
 
   return (
     <SessionContext.Provider value={{ sessionId, session }}>

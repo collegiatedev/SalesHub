@@ -26,7 +26,7 @@ export const DEFAULT_DRAFT: Draft = {
 type DraftState = {
   drafts: DraftMap;
   counter: number;
-  initializeDrafts: (drafts: DraftMap) => void;
+  initializeDrafts: (drafts?: DraftMap) => void;
   addDraft: (draft?: Draft) => { draft: Draft; id: number };
   getDraft: (id: number) => Draft | undefined;
   getDrafts: () => DraftArray;
@@ -43,8 +43,10 @@ export const useDraftStore = create<DraftState>((set, get) => ({
   drafts: new Map<number, Draft>([[0, DEFAULT_DRAFT]]),
   counter: 1,
   initializeDrafts: (drafts?: DraftMap) => {
-    if (!drafts) return;
+    if (!drafts || drafts.size === 0) return;
     set(() => {
+      console.log("initializeDrafts", drafts);
+
       const newDrafts = new Map(drafts); // Directly use the DraftMap
       const newCounter =
         drafts.size > 0 ? Math.max(...Array.from(drafts.keys())) + 1 : 1; // Use keys to find max id
