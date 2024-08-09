@@ -21,7 +21,7 @@ export default function Landing() {
       <MyTitle title="Essay Editor" />
       <p className="mb-3">
         Craft an exceptional college essay with top Harvard students. Submit an
-        essay and we'll take care of the rest.
+        essay and we&apos;ll take care of the rest.
       </p>
       <Accordion
         type="single"
