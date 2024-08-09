@@ -28,12 +28,12 @@ export const ManageDraft = ({ id }: { id: number }) => {
   const { sessionId } = useSession();
   const updateDraft = useDraftStore((state) => state.updateDraft);
   const draft = useDraftStore((state) => state.getDraft(id));
-  if (!draft) return null;
 
   const form = useForm<DraftFormValues>({
     resolver: zodResolver(draftSchema),
     defaultValues: parseDraftToForm(draft),
   });
+  if (!draft) return null;
 
   const onSubmit = async (data: DraftFormValues) => {
     if (!draft.ready) {

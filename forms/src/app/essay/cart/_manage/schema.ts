@@ -69,12 +69,12 @@ export const parseFormToDraft = (
   ready,
 });
 
-export const parseDraftToForm = (draft: Draft): Partial<DraftFormValues> => ({
-  title: draft.title,
-  essayType: draft.type.essay,
-  wordCount: draft.type.wordCount,
-  university: draft.type.university,
-  prompt: draft.questions.prompt,
-  notes: draft.questions.notes,
-  submission: draft.questions.submission,
+export const parseDraftToForm = (draft?: Draft): Partial<DraftFormValues> => ({
+  title: draft?.title,
+  essayType: draft?.type.essay,
+  wordCount: draft?.type.wordCount,
+  university: draft?.type.university,
+  prompt: draft?.questions.prompt,
+  notes: draft?.questions.notes,
+  submission: draft?.questions.submission,
 });
