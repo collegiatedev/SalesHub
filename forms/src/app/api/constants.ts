@@ -1,7 +1,10 @@
-const isProduction = process.env.VERCEL_ENV === "production";
+import { isProduction } from "../constants";
 
 import Stripe from "stripe";
-export const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+const STRIPE_SECRET = isProduction
+  ? (process.env.PROD_STRIPE_SECRET_KEY as string)
+  : (process.env.TEST_STRIPE_SECRET_KEY as string);
+export const stripeClient = new Stripe(STRIPE_SECRET);
 
 // seconds, used for endpoints that are dependent on previous apis calls
 // 300s is longer than serverless timeout

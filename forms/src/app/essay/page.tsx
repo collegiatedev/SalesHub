@@ -11,6 +11,8 @@ import {
 } from "~/components/ui/accordion";
 import { Skeleton } from "~/components/ui/skeleton";
 
+// add sonner for success, cancel states
+
 export default function Landing() {
   const [loaded, setLoaded] = useState(false);
   const LOOM_SECTION = "Example";

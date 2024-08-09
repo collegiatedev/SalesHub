@@ -1,12 +1,8 @@
-import { EssayType, WordCountType } from "../../constants";
+import { CalculatePriceProps } from "../../constants";
 import { ShoppingCart } from "lucide-react";
 import { Alert, AlertTitle } from "~/components/ui/alert";
 import { useDraftStore } from "./store";
 
-type CalculatePriceProps = {
-  essay?: EssayType;
-  wordCount?: WordCountType;
-};
 export const calculatePrice = ({
   essay,
   wordCount,

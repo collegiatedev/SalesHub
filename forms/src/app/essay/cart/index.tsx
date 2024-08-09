@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { PersonalInfo, PersonalInfoForm } from "~/app/essay/cart/personal";
+import { PersonalInfo } from "~/app/essay/cart/personal";
 import { MyTitle } from "~/components/myTitle";
 import { NavButton } from "~/components/myButtons";
 import { ManageDrafts } from "./_manage";
