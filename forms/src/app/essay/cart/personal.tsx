@@ -20,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { UseFormReturn } from "react-hook-form";
 import { useSession } from "./session";
+import { savePersonalInfo } from "~/app/actions";
 
 const personalSchema = z.object({
   firstName: z.string().min(1, "Required"),
@@ -30,15 +31,15 @@ const personalSchema = z.object({
 export type PersonalInfo = z.infer<typeof personalSchema>;
 
 interface PersonalInfoProps {
-  validState: {
-    valid: boolean;
-    setValid: React.Dispatch<React.SetStateAction<boolean>>;
+  completedState: {
+    completed: boolean;
+    setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
   };
 }
 export const PersonalInfoForm = ({
-  validState: { valid, setValid },
+  completedState: { completed, setCompleted },
 }: PersonalInfoProps): React.ReactElement => {
-  const { session } = useSession();
+  const { session, sessionId } = useSession();
 
   const form = useForm<PersonalInfo>({
     resolver: zodResolver(personalSchema),
@@ -47,10 +48,12 @@ export const PersonalInfoForm = ({
 
   const onSubmit = async (data: PersonalInfo) => {
     // add save logic
-    if (!valid) {
+    if (!completed) {
       console.log(data);
+      // await redis.set(sessionId, JSON.stringify(data));
+      await savePersonalInfo({ sessionId, personal: data });
     }
-    setValid(!valid);
+    setCompleted(!completed);
   };
 
   return (
@@ -69,14 +72,14 @@ export const PersonalInfoForm = ({
                   name="firstName"
                   label="First Name"
                   placeholder="John"
-                  disabled={valid}
+                  disabled={completed}
                 />
                 <FormInputField
                   form={form}
                   name="lastName"
                   label="Last Name"
                   placeholder="Doe"
-                  disabled={valid}
+                  disabled={completed}
                 />
               </div>
               <div className="flex flex-row space-x-4">
@@ -85,14 +88,14 @@ export const PersonalInfoForm = ({
                   name="email"
                   label="Email"
                   placeholder="@"
-                  disabled={valid}
+                  disabled={completed}
                 />
                 <FormInputField
                   form={form}
                   name="phoneNumber"
                   label="Phone Number"
                   placeholder="+"
-                  disabled={valid}
+                  disabled={completed}
                 />
               </div>
             </div>
@@ -105,7 +108,7 @@ export const PersonalInfoForm = ({
                 </p>
               )}
             </div>
-            <Button>{!valid ? "Continue" : "Edit"}</Button>
+            <Button>{!completed ? "Continue" : "Edit"}</Button>
           </CardFooter>
         </form>
       </Form>

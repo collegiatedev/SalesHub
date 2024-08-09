@@ -5,26 +5,17 @@ import {
 } from "~/app/constants";
 import { EssayCart } from "./cart";
 import { SetSession, SessionProvider } from "./session";
-import { Redis } from "@upstash/redis";
-
-const redis = Redis.fromEnv();
+import { getSessionStore } from "~/app/actions";
 
 export default async function CartPage({ searchParams }: NextPageProps) {
   const id = getSessionId(searchParams);
-  if (!id) return null;
+  if (!id) return <SetSession />;
 
-  const sessionInfo = await redis.get(id);
-  console.log(sessionInfo);
-
-  const session = {
-    drafts: [],
-    // personal:
-  };
+  const session = await getSessionStore(id);
 
   return (
     <SessionProvider sessionId={id} session={session}>
       <EssayCart />
-      <SetSession />
     </SessionProvider>
   );
 }

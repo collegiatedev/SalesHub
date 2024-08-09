@@ -8,12 +8,13 @@ import { Drafts } from "./drafts";
 import { useDraftStore } from "./store";
 
 export const EssayCart = () => {
-  const [valid, setValid] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const drafts = useDraftStore((state) =>
     state.getDrafts().map((d) => d.draft)
   );
   const isReady = drafts.some((draft) => draft.ready);
-  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const bottomRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (isReady && bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
@@ -28,8 +29,9 @@ export const EssayCart = () => {
       </div>
 
       <div className="space-y-4">
-        <PersonalInfoForm validState={{ valid, setValid }} />
-        {valid && (
+        {/* refractor name of these components, files */}
+        <PersonalInfoForm completedState={{ completed, setCompleted }} />
+        {completed && (
           <>
             <Drafts />
             <div className="mt-8 w-full flex justify-end">
@@ -38,7 +40,7 @@ export const EssayCart = () => {
           </>
         )}
       </div>
-      <div ref={bottomRef} />
+      <div ref={bottomRef as React.RefObject<HTMLDivElement>} />
     </>
   );
 };

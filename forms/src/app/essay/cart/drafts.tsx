@@ -13,11 +13,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { TotalPrice } from "./price";
 import { useDraftStore } from "./store";
 import { ManageDraft } from "./_manage";
+import { saveDraft } from "~/app/actions";
+import { useSession } from "./session";
+
+const MAX_DRAFTS = 5;
 
 export const Drafts = () => {
-  const MAX_DRAFTS = 5;
   const drafts = useDraftStore((state) => state.getDrafts());
-  const addDraft = useDraftStore((state) => state.addDraft);
   return (
     <Card className="w-full">
       <CardHeader>
@@ -48,15 +50,7 @@ export const Drafts = () => {
                 </TabsTrigger>
               );
             })}
-            {drafts.length < MAX_DRAFTS && (
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={() => drafts.length < MAX_DRAFTS && addDraft()}
-              >
-                <CirclePlusIcon className="h-5 w-5" />
-              </Button>
-            )}
+            {drafts.length < MAX_DRAFTS && <AddDraftButton />}
           </TabsList>
 
           {drafts.map((d) => {
@@ -70,5 +64,24 @@ export const Drafts = () => {
         </Tabs>
       </CardContent>
     </Card>
+  );
+};
+
+const AddDraftButton = () => {
+  const { addDraft, getDraftCount } = useDraftStore();
+  const sessionId = useSession().sessionId;
+
+  const withClick = async () => {
+    const count = getDraftCount();
+    if (count < MAX_DRAFTS) {
+      const { draft, id } = addDraft();
+      await saveDraft({ draftId: id, sessionId, draft });
+    }
+  };
+
+  return (
+    <Button size="icon" variant="ghost" onClick={() => withClick()}>
+      <CirclePlusIcon className="h-5 w-5" />
+    </Button>
   );
 };

@@ -23,12 +23,11 @@ export const DEFAULT_DRAFT: Draft = {
   questions: { prompt: "", submission: "" },
   ready: false,
 };
-
 type DraftState = {
-  drafts: Map<number, Draft>;
+  drafts: DraftMap;
   counter: number;
-  initializeDrafts: (drafts: DraftArray) => void;
-  addDraft: (draft?: Draft) => void;
+  initializeDrafts: (drafts: DraftMap) => void;
+  addDraft: (draft?: Draft) => { draft: Draft; id: number };
   getDraft: (id: number) => Draft | undefined;
   getDrafts: () => DraftArray;
   getDraftCount: () => number;
@@ -36,24 +35,26 @@ type DraftState = {
   deleteDraft: (id: number) => void;
 };
 
+// for ease of access
+export type DraftMap = Map<number, Draft>;
 export type DraftArray = Array<{ draft: Draft; id: number }>;
 
 export const useDraftStore = create<DraftState>((set, get) => ({
   drafts: new Map<number, Draft>([[0, DEFAULT_DRAFT]]),
   counter: 1,
-  initializeDrafts: (drafts?: DraftArray) => {
+  initializeDrafts: (drafts?: DraftMap) => {
     if (!drafts) return;
     set(() => {
-      const newDrafts = new Map(drafts.map((d) => [d.id, d.draft]));
+      const newDrafts = new Map(drafts); // Directly use the DraftMap
       const newCounter =
-        drafts.length > 0 ? Math.max(...drafts.map((d) => d.id)) + 1 : 1;
+        drafts.size > 0 ? Math.max(...Array.from(drafts.keys())) + 1 : 1; // Use keys to find max id
       return { drafts: newDrafts, counter: newCounter };
     });
   },
   addDraft: (draft?: Draft) => {
+    const newDraft = draft ?? DEFAULT_DRAFT;
+    const newId = get().counter;
     set((state) => {
-      const newId = state.counter;
-      const newDraft = draft ?? DEFAULT_DRAFT;
       state.drafts.set(newId, newDraft);
       state.counter += 1;
       return {
@@ -61,6 +62,7 @@ export const useDraftStore = create<DraftState>((set, get) => ({
         counter: state.counter,
       };
     });
+    return { draft: newDraft, id: newId };
   },
   getDraft: (id: number) => {
     return get().drafts.get(id);

@@ -20,10 +20,14 @@ import {
   parseDraftToForm,
 } from "./schema";
 import { successfulToast } from "~/components/myToast";
+import { saveDraft } from "~/app/actions";
+import { useSession } from "../session";
+import { IS_SUPPLEMENTAL } from "../constants";
 
 export const ManageDraft = ({ id }: { id: number }) => {
-  const draft = useDraftStore((state) => state.getDraft(id));
+  const { sessionId } = useSession();
   const updateDraft = useDraftStore((state) => state.updateDraft);
+  const draft = useDraftStore((state) => state.getDraft(id));
   if (!draft) return null;
 
   const form = useForm<DraftFormValues>({
@@ -31,11 +35,16 @@ export const ManageDraft = ({ id }: { id: number }) => {
     defaultValues: parseDraftToForm(draft),
   });
 
-  const onSubmit = (data: DraftFormValues) => {
+  const onSubmit = async (data: DraftFormValues) => {
     if (!draft.ready) {
-      // db store stuff
-      const wc = data.wordCount ? `(${data.wordCount}) ` : "";
+      const wc = IS_SUPPLEMENTAL(data.essayType) ? `(${data.wordCount}) ` : "";
       successfulToast(`Added ${data.essayType} ${wc}to Cart!`);
+      // save session to db
+      await saveDraft({
+        draftId: id,
+        sessionId,
+        draft: { ...draft, ready: true },
+      });
     }
 
     updateDraft(id, { ready: !draft.ready });
@@ -61,7 +70,9 @@ export const ManageDraft = ({ id }: { id: number }) => {
 
           <CardFooter className="flex w-full justify-between">
             <FormStatus {...formProps} />
-            <Button type="submit">{!draft.ready ? "Add" : "Edit"}</Button>
+            <Button type="submit" key={id}>
+              {!draft.ready ? "Add" : "Edit"}
+            </Button>
           </CardFooter>
         </form>
       </Form>

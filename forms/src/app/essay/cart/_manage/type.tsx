@@ -62,6 +62,7 @@ export const ManageType = ({ id, form, disabled }: DraftFormProps) => {
               <FormControl>
                 <Input
                   {...field}
+                  disabled={disabled}
                   placeholder="Which school is this essay for?"
                   onChange={(e) => {
                     field.onChange(e);

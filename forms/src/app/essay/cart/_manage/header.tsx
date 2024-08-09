@@ -5,6 +5,8 @@ import { FormField, FormItem, FormControl } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useDraftStore } from "../store";
 import { DraftFormProps } from "./schema";
+import { removeDraft } from "~/app/actions";
+import { useSession } from "../session";
 
 export const ManageTitle = ({ id, form, disabled }: DraftFormProps) => {
   const { deleteDraft, getDraftCount } = useDraftStore((state) => state);
@@ -21,12 +23,19 @@ export const ManageTitle = ({ id, form, disabled }: DraftFormProps) => {
 
 const DeleteDraftButton = ({ id }: { id: number }) => {
   const { deleteDraft } = useDraftStore((state) => state);
+  const sessionId = useSession().sessionId;
+
+  const withClick = async (id: number) => {
+    deleteDraft(id);
+    await removeDraft({ sessionId, draftId: id });
+  };
+
   return (
     <Button
       className="hover:text-red-400 ml-2"
       size="icon"
       variant="ghost"
-      onClick={() => deleteDraft(id)}
+      onClick={() => withClick(id)}
     >
       <TrashIcon className="h-5 w-5 text-color-muted-foreground" />
     </Button>

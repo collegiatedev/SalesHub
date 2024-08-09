@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -14,9 +14,11 @@ export const NavButton = ({
   backwards?: boolean;
 }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleNext = () => {
-    router.push(route);
+    const params = searchParams.toString();
+    router.push(`${route}${params ? `?${params}` : ""}`);
   };
 
   if (backwards) {
