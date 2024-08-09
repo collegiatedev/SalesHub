@@ -3,7 +3,7 @@
 import { Redis } from "@upstash/redis";
 import { PersonalInfoForm } from "./essay/cart/personal";
 import { Draft, DraftMap } from "./essay/cart/store";
-import { SessionStore, SessionStoreStrings } from "./essay/cart/session";
+import { SessionStore, SessionStoreStrings } from "./essay/session";
 import { SESSION_EXPIRATION } from "./constants";
 
 const redis = Redis.fromEnv();

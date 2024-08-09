@@ -6,7 +6,7 @@ import { Input } from "~/components/ui/input";
 import { useDraftStore } from "../store";
 import { DraftFormProps } from "./schema";
 import { removeDraft } from "~/app/actions";
-import { useSession } from "../session";
+import { useSession } from "../../session";
 
 export const ManageTitle = ({ id, form, disabled }: DraftFormProps) => {
   const { getDraftCount } = useDraftStore((state) => state);

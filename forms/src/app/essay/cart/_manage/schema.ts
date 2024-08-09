@@ -5,7 +5,7 @@ import {
   WORD_COUNT_TYPES,
   IS_SUPPLEMENTAL,
   IS_LETTER,
-} from "../constants";
+} from "../../../constants";
 import { Draft } from "../store";
 
 export const draftSchema = z

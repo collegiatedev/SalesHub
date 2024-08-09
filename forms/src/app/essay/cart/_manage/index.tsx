@@ -14,7 +14,7 @@ import { TotalPrice } from "../price";
 import { useDraftStore } from "../store";
 import { ManageDraft } from "./draft";
 import { saveDraft } from "~/app/actions";
-import { useSession } from "../session";
+import { useSession } from "../../session";
 
 const MAX_DRAFTS = 5;
 

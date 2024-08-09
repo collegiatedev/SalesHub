@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { EssayType, WordCountType } from "./constants";
+import { EssayType, WordCountType } from "../../constants";
 import { deepMerge } from "~/lib/utils";
 
 export type Draft = {

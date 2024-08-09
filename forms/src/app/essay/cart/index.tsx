@@ -35,7 +35,7 @@ export const EssayCart = () => {
             <ManageDrafts />
             {isReady && (
               <div className="mt-8 w-full flex justify-end">
-                <NavButton route="/essay" text="Checkout" />
+                <NavButton route="/essay/confirm" text="Confirm" />
               </div>
             )}
           </>

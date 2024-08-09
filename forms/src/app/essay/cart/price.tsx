@@ -1,13 +1,16 @@
-import { EssayType, WordCountType } from "./constants";
+import { EssayType, WordCountType } from "../../constants";
 import { ShoppingCart } from "lucide-react";
 import { Alert, AlertTitle } from "~/components/ui/alert";
 import { useDraftStore } from "./store";
 
-interface CalculatePriceProps {
+type CalculatePriceProps = {
   essay?: EssayType;
   wordCount?: WordCountType;
-}
-export const calculatePrice = ({ essay, wordCount }: CalculatePriceProps) => {
+};
+export const calculatePrice = ({
+  essay,
+  wordCount,
+}: Partial<CalculatePriceProps>) => {
   if (!essay) return 1000;
   switch (essay) {
     case "Common App / Coalition":
@@ -41,7 +44,6 @@ export const TotalPrice = () => {
       const { essay, wordCount } = type;
       return acc + calculatePrice({ essay, wordCount });
     }, 0);
-  // console.log(totalPrice, drafts);
 
   return (
     <div className="flex w-full justify-end">

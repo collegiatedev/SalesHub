@@ -20,6 +20,10 @@ This folder should contain the actual business logic for working with external s
 
 ## Endpoints
 
+### payment
+
+Stripe payment endpoints
+
 ### auth
 
 Authentication endpoints for google oauth

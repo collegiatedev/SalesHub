@@ -21,8 +21,8 @@ import {
 } from "./schema";
 import { successfulToast } from "~/components/myToast";
 import { saveDraft } from "~/app/actions";
-import { useSession } from "../session";
-import { IS_SUPPLEMENTAL } from "../constants";
+import { useSession } from "../../session";
+import { IS_SUPPLEMENTAL } from "../../../constants";
 
 export const ManageDraft = ({ id }: { id: number }) => {
   const { sessionId } = useSession();

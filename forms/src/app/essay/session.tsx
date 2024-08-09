@@ -2,10 +2,10 @@
 
 import { useEffect, useContext, createContext } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { SESSION_QUERY_KEY } from "~/app/constants";
+import { SearchParams, SESSION_QUERY_KEY } from "../constants";
 import { generateId } from "~/lib/id";
-import { DraftMap, useDraftStore } from "./store";
-import { PersonalInfoForm } from "./personal";
+import { DraftMap, useDraftStore } from "./cart/store";
+import { PersonalInfoForm } from "./cart/personal";
 
 // creates a session id, sets it as part of query param; use redis to store session
 export const SetSession = () => {

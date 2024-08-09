@@ -12,7 +12,7 @@ import {
   IS_LETTER,
   IS_SUPPLEMENTAL,
   WORD_COUNT_TYPES,
-} from "../constants";
+} from "../../../constants";
 import {
   Select,
   SelectContent,
