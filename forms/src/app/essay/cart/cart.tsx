@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { PersonalInfoForm } from "~/app/essay/cart/personal";
+import { PersonalInfo, PersonalInfoForm } from "~/app/essay/cart/personal";
 import { MyTitle } from "~/components/myTitle";
 import { NavButton } from "~/components/myButtons";
-import { Drafts } from "./drafts";
+import { ManageDrafts } from "./_manage";
 import { useDraftStore } from "./store";
 
 export const EssayCart = () => {
@@ -27,16 +27,16 @@ export const EssayCart = () => {
         <NavButton route="/essay" text="Back" backwards />
         <MyTitle title="Shopping Cart" />
       </div>
-
       <div className="space-y-4">
-        {/* refractor name of these components, files */}
-        <PersonalInfoForm completedState={{ completed, setCompleted }} />
+        <PersonalInfo completedState={{ completed, setCompleted }} />
         {completed && (
           <>
-            <Drafts />
-            <div className="mt-8 w-full flex justify-end">
-              {isReady && <NavButton route="/essay" text="Checkout" />}
-            </div>
+            <ManageDrafts />
+            {isReady && (
+              <div className="mt-8 w-full flex justify-end">
+                <NavButton route="/essay" text="Checkout" />
+              </div>
+            )}
           </>
         )}
       </div>

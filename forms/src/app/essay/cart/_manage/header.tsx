@@ -9,7 +9,7 @@ import { removeDraft } from "~/app/actions";
 import { useSession } from "../session";
 
 export const ManageTitle = ({ id, form, disabled }: DraftFormProps) => {
-  const { deleteDraft, getDraftCount } = useDraftStore((state) => state);
+  const { getDraftCount } = useDraftStore((state) => state);
 
   return (
     <CardTitle>

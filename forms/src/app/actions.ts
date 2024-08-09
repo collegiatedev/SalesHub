@@ -1,7 +1,7 @@
 "use server";
 
 import { Redis } from "@upstash/redis";
-import { PersonalInfo } from "./essay/cart/personal";
+import { PersonalInfoForm } from "./essay/cart/personal";
 import { Draft, DraftMap } from "./essay/cart/store";
 import { SessionStore, SessionStoreStrings } from "./essay/cart/session";
 import { SESSION_EXPIRATION } from "./constants";
@@ -15,14 +15,16 @@ export const getSessionStrings = async (sessionId: string) => {
 };
 export const getSessionStore = async (sessionId: string) => {
   const sessionStrings = await getSessionStrings(sessionId);
-  const personal: PersonalInfo = JSON.parse(sessionStrings.personal || "{}");
+  const personal: PersonalInfoForm = JSON.parse(
+    sessionStrings.personal || "{}"
+  );
   const drafts: DraftMap = new Map(JSON.parse(sessionStrings.drafts || "[]"));
   return { personal, drafts } as SessionStore;
 };
 
 interface SavePersonalInfoProps {
   sessionId: string;
-  personal: PersonalInfo;
+  personal: PersonalInfoForm;
 }
 export const savePersonalInfo = async ({
   sessionId,

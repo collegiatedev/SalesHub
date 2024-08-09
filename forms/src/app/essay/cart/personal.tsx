@@ -28,7 +28,7 @@ const personalSchema = z.object({
   email: z.string().email("Invalid"),
   phoneNumber: z.string().min(7, "Invalid"), // todo, validation regex
 });
-export type PersonalInfo = z.infer<typeof personalSchema>;
+export type PersonalInfoForm = z.infer<typeof personalSchema>;
 
 interface PersonalInfoProps {
   completedState: {
@@ -36,17 +36,17 @@ interface PersonalInfoProps {
     setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
   };
 }
-export const PersonalInfoForm = ({
+export const PersonalInfo = ({
   completedState: { completed, setCompleted },
 }: PersonalInfoProps): React.ReactElement => {
   const { session, sessionId } = useSession();
 
-  const form = useForm<PersonalInfo>({
+  const form = useForm<PersonalInfoForm>({
     resolver: zodResolver(personalSchema),
     defaultValues: session.personal,
   });
 
-  const onSubmit = async (data: PersonalInfo) => {
+  const onSubmit = async (data: PersonalInfoForm) => {
     // add save logic
     if (!completed) {
       console.log(data);

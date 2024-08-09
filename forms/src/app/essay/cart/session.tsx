@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SESSION_QUERY_KEY } from "~/app/constants";
 import { generateId } from "~/lib/id";
 import { DraftMap, useDraftStore } from "./store";
-import { PersonalInfo } from "./personal";
+import { PersonalInfoForm } from "./personal";
 
 // creates a session id, sets it as part of query param; use redis to store session
 export const SetSession = () => {
@@ -29,7 +29,7 @@ export type SessionStoreStrings = {
   drafts?: string;
 };
 export type SessionStore = {
-  personal?: PersonalInfo;
+  personal?: PersonalInfoForm;
   drafts?: DraftMap;
 };
 type SessionContextType = {

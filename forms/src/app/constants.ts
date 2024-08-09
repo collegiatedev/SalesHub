@@ -1,4 +1,4 @@
-// types, constants, clients, etc
+// root types, constants, clients, etc
 export type NextPageProps = {
   params?: { slug: string };
   searchParams?: SearchParams;
