@@ -1,7 +1,7 @@
 // break me up
 
 import axios from "axios";
-import { SERVER_URL } from "../../constants";
+import { SERVER_URL } from "~/app/constants";
 import { generatorEndpoint, withEndpoint } from "../../helpers";
 import { CreatedLeadFields } from "../notion/createLead";
 

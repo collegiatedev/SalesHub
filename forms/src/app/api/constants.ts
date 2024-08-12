@@ -1,4 +1,21 @@
-const isProduction = process.env.VERCEL_ENV === "production";
+import { isProduction, NEXT_URL } from "../constants";
+
+import Stripe from "stripe";
+
+export enum StripeType {
+  Production,
+  Test,
+}
+const stripeProd = new Stripe(process.env.PROD_STRIPE_SECRET_KEY as string); // for products that are live in production
+const stripeTest = new Stripe(process.env.TEST_STRIPE_SECRET_KEY as string); // for products that are in test mode
+export const stripeClient = (type: StripeType) => {
+  switch (type) {
+    case StripeType.Production:
+      return stripeProd;
+    case StripeType.Test:
+      return stripeTest;
+  }
+};
 
 // seconds, used for endpoints that are dependent on previous apis calls
 // 300s is longer than serverless timeout
@@ -30,16 +47,6 @@ export const INITIAL_CAL_STATUS = isProduction
   ? Statuses.Ongoing
   : Statuses.Test;
 
-// next url
-export const NEXT_URL = isProduction
-  ? "https://collegiate.dev" // WARNING: DO NOT USE `https://${process.env.VERCEL_URL}`
-  : (process.env.NEXT_PUBLIC_NGROK_URL as string); // no more localhost
-
-// generator server url
-export const SERVER_URL = isProduction
-  ? "https://king-prawn-app-onivj.ondigitalocean.app"
-  : "http://localhost:8080"; // generator local url
-
 // google auth setup
 import { google } from "googleapis";
 import { Statuses } from "./_utils/notion/types";
@@ -59,9 +66,17 @@ export const ESSAY_DOC_TEMP = "1Xf18-hbfw0FxJTt170pppiHeBpUFL3d72p7EXHtI8hE";
 // honestly, it lasts basically forever, so we can just use it
 // should probably learn how service accounts work though
 export const OUTREACH_TOKEN = {
-  access_token: process.env.access_token,
-  refresh_token: process.env.refresh_token,
-  scope: process.env.scope,
-  token_type: process.env.token_type,
-  expiry_date: process.env.expiry_date,
+  access_token: process.env.outreach_access_token,
+  refresh_token: process.env.outreach_refresh_token,
+  scope: process.env.outreach_scope,
+  token_type: process.env.outreach_token_type,
+  expiry_date: process.env.outreach_expiry_date,
+};
+
+export const ADMIN_TOKEN = {
+  access_token: process.env.admin_access_token,
+  refresh_token: process.env.admin_refresh_token,
+  scope: process.env.admin_scope,
+  token_type: process.env.admin_token_type,
+  expiry_date: process.env.admin_expiry_date,
 };

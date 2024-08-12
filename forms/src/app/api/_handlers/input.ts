@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
-import { qstashClient, NEXT_URL } from "../constants";
+import { qstashClient } from "../constants";
+import { NEXT_URL } from "~/app/constants";
 import { withEndpoint } from "../helpers";
 import { SignatureTypes, webhookHandler } from "./webhook";
 

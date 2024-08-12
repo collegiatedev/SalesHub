@@ -1,52 +1,5 @@
 import { generatorEndpoint } from "../../helpers";
 
-// import { type LeadFields } from "../notion/getLead";
-// interface C1TaskFields {
-//   lead: LeadFields;
-//   calStartTime: string;
-//   repPageId: string;
-//   folderLink: string;
-// }
-// export const createC1Tasks = async ({
-//   lead,
-//   calStartTime,
-//   repPageId,
-//   folderLink,
-// }: C1TaskFields) => {
-//   // todo, clean up code
-//   await Promise.all([
-//     conductC1Task({
-//       studentName: lead.name,
-//       studentPageId: lead.pageId,
-//       repPageId: repPageId,
-//       time: calStartTime,
-//       studentId: lead.id,
-//       studentEmail: lead.contact.studentEmail,
-//       studentNumber: lead.contact.studentPhone,
-//       parentEmail: lead.contact.parentEmail,
-//       parentNumber: lead.contact.parentPhone,
-//     }),
-//     createDashboardTask({
-//       folderLink,
-//       studentName: lead.name,
-//       studentPageId: lead.pageId,
-//       repPageId: repPageId,
-//       time: calStartTime,
-//       studentEmail: lead.contact.studentEmail,
-//     }),
-//     createGCTask({
-//       studentName: lead.name,
-//       studentPageId: lead.pageId,
-//       repPageId: repPageId,
-//       time: calStartTime,
-//       studentId: lead.id,
-//       parentName: lead.contact.parentName,
-//       studentPhone: lead.contact.studentPhone,
-//       parentPhone: lead.contact.parentPhone,
-//     }),
-//   ]);
-// };
-
 export type C1TaskParams = ConductC1 & CreateDashboard & CreateGC;
 export const createC1Tasks = async (params: C1TaskParams) =>
   await Promise.all([
