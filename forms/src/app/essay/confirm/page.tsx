@@ -1,6 +1,6 @@
 import { checkoutOrder, getSessionStore } from "~/app/actions";
 import { NextPageProps, ParsedDrafts } from "~/app/constants";
-import { NavButton } from "~/components/myButtons";
+import { CheckoutButton, NavButton } from "~/components/myButtons";
 import { MyTitle } from "~/components/myTitle";
 import { getSessionId } from "~/lib/utils";
 import { Draft } from "~/app/constants";
@@ -24,6 +24,11 @@ export default async function ConfirmPage({ searchParams }: NextPageProps) {
     ([_id, draft]) => draft.type && draft.ready
   ) as ParsedDrafts;
 
+  const handleCheckout = async () => {
+    "use server";
+    await checkoutOrder({ drafts, sessionId });
+  };
+
   return (
     <>
       <div className="flex justify-between items-start ">
@@ -40,16 +45,8 @@ export default async function ConfirmPage({ searchParams }: NextPageProps) {
       </div>
       <div className="mt-8">
         {/* <form action="/api/checkout_sessions" method="POST"> */}
-        <form
-          action={async () => {
-            "use server";
-            await checkoutOrder({ drafts, sessionId });
-          }}
-        >
-          {/* <input type="hidden" name="draft" value={myDrafts} /> */}
-          <Button size="lg" className="w-full" type="submit">
-            Checkout
-          </Button>
+        <form action={handleCheckout}>
+          <CheckoutButton onCheckout={handleCheckout} />
         </form>
       </div>
     </>

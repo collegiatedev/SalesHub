@@ -3,7 +3,39 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
-import { Suspense } from "react";
+import { Suspense, useTransition } from "react";
+import { Loader2 } from "lucide-react";
+
+interface CheckoutButtonProps {
+  onCheckout: () => Promise<void>;
+}
+export const CheckoutButton = ({ onCheckout }: CheckoutButtonProps) => {
+  const [isPending, startTransition] = useTransition();
+
+  const handleClick = () => {
+    startTransition(async () => {
+      await onCheckout();
+    });
+  };
+
+  return (
+    <Button
+      size="lg"
+      className="w-full"
+      onClick={handleClick}
+      disabled={isPending}
+    >
+      {isPending ? (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Processing...
+        </>
+      ) : (
+        "Checkout"
+      )}
+    </Button>
+  );
+};
 
 interface NavButtonProps {
   route: string;

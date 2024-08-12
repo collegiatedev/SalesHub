@@ -16,7 +16,7 @@ export const POST = reqHandler<StripeUrl>({
     const session = await stripeProd.checkout.sessions.create({
       line_items,
       mode: "payment",
-      success_url: `${base_url}/?success=true`,
+      success_url: `${base_url}/?success=true`, // redirect this to api call for generation
       cancel_url: `${base_url}/cart/?canceled=true&${SESSION_QUERY_KEY}=${query_key}`,
       automatic_tax: { enabled: true },
     });
