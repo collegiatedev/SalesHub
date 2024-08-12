@@ -1,13 +1,22 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { PersonalInfo } from "~/app/essay/cart/personal";
 import { MyTitle } from "~/components/myTitle";
 import { NavButton } from "~/components/myButtons";
 import { ManageDrafts } from "./_manage";
 import { useDraftStore } from "../store";
+import { SkeletonEssay } from "~/components/skeletons";
 
-export default function EssayCart() {
+export default function EssayCartPage() {
+  return (
+    <Suspense fallback={<SkeletonEssay />}>
+      <EssayCart />
+    </Suspense>
+  );
+}
+
+const EssayCart = () => {
   const drafts = useDraftStore((state) =>
     state.getDrafts().map((d) => d.draft)
   );
@@ -44,4 +53,4 @@ export default function EssayCart() {
       <div ref={bottomRef as React.RefObject<HTMLDivElement>} />
     </>
   );
-}
+};
