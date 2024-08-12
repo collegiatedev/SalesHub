@@ -11,8 +11,18 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { ItemPrice, TotalPrice } from "../price";
+import { Suspense } from "react";
+import { SkeletonEssay } from "~/components/skeletons";
 
-export default async function ConfirmPage({ searchParams }: NextPageProps) {
+export default async function ConfirmPage() {
+  return (
+    <Suspense fallback={<SkeletonEssay />}>
+      <ConfirmPageContent />
+    </Suspense>
+  );
+}
+
+const ConfirmPageContent = async ({ searchParams }: NextPageProps) => {
   const sessionId = getSessionId(searchParams);
   // probably just do a redirect; should switch to cookie setup anyways
   if (!sessionId) return <div>Error. No essays found.</div>;
@@ -50,7 +60,7 @@ export default async function ConfirmPage({ searchParams }: NextPageProps) {
       </div>
     </>
   );
-}
+};
 
 interface ConfirmOrderProps {
   id: number;
