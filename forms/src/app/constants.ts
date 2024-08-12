@@ -1,6 +1,14 @@
 // constants, types, helpers
 export const isProduction = process.env.VERCEL_ENV === "production";
 
+export const NEXT_URL = isProduction
+  ? "https://collegiate.dev" // WARNING: DO NOT USE `https://${process.env.VERCEL_URL}`
+  : (process.env.NEXT_PUBLIC_NGROK_URL as string); // no more localhost
+// generator server url
+export const SERVER_URL = isProduction
+  ? "https://king-prawn-app-onivj.ondigitalocean.app"
+  : "http://localhost:8080"; // generator local url
+
 // stripe product ids; you're actually so fucking dumb... its not prod vs test dawg
 export const STRIPE_PUBLIC = isProduction
   ? (process.env.PROD_NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string)
@@ -44,3 +52,4 @@ export type CalculatePriceProps = {
   essay?: EssayType;
   wordCount?: WordCountType;
 };
+// next url

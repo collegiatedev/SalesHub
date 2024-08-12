@@ -1,4 +1,4 @@
-import { isProduction } from "../constants";
+import { isProduction, NEXT_URL } from "../constants";
 
 import Stripe from "stripe";
 const STRIPE_SECRET = isProduction
@@ -35,16 +35,6 @@ export const INITIAL_TALLY_STATUS = isProduction
 export const INITIAL_CAL_STATUS = isProduction
   ? Statuses.Ongoing
   : Statuses.Test;
-
-// next url
-export const NEXT_URL = isProduction
-  ? "https://collegiate.dev" // WARNING: DO NOT USE `https://${process.env.VERCEL_URL}`
-  : (process.env.NEXT_PUBLIC_NGROK_URL as string); // no more localhost
-
-// generator server url
-export const SERVER_URL = isProduction
-  ? "https://king-prawn-app-onivj.ondigitalocean.app"
-  : "http://localhost:8080"; // generator local url
 
 // google auth setup
 import { google } from "googleapis";

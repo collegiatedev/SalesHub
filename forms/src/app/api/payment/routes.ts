@@ -1,7 +1,8 @@
 // app/api/checkout/routes.ts
 
 import { NextRequest, NextResponse } from "next/server";
-import { NEXT_URL, stripeClient } from "../constants";
+import { stripeClient } from "../constants";
+import { NEXT_URL } from "~/app/constants";
 
 import { reqHandler } from "../_handlers";
 

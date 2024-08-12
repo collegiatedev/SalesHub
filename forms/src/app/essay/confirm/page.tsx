@@ -1,4 +1,4 @@
-import { getSessionStore } from "~/app/actions";
+import { checkoutOrder, getSessionStore, ParseDraft } from "~/app/actions";
 import { NextPageProps } from "~/app/constants";
 import { NavButton } from "~/components/myButtons";
 import { MyTitle } from "~/components/myTitle";
@@ -10,7 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { TotalPrice } from "../price";
+import { ItemPrice, TotalPrice } from "../price";
+import { Button } from "~/components/ui/button";
 
 export default async function ConfirmPage({ searchParams }: NextPageProps) {
   const id = getSessionId(searchParams);
@@ -19,18 +20,37 @@ export default async function ConfirmPage({ searchParams }: NextPageProps) {
   const session = await getSessionStore(id);
 
   // isn't it crazy that you can't .map() over a map?
-  const draft = Array.from(session.drafts?.entries() || []);
+  const drafts = Array.from(session.drafts?.entries() || []).filter(
+    ([_id, draft]) => draft.type && draft.ready
+  ) as ParseDraft;
 
   return (
     <>
-      <div className="flex justify-items-start gap-3">
-        <NavButton route="/essay/cart" text="Back" backwards />
-        <MyTitle title="Confirm Order" />
+      <div className="flex justify-between items-start ">
+        <div className="flex gap-3 w-full">
+          <NavButton route="/essay/cart" text="Back" backwards />
+          <MyTitle title="Confirm Order" />
+        </div>
+        <TotalPrice />
       </div>
       <div className="space-y-4">
-        {draft.map(([id, draft]) => (
+        {drafts.map(([id, draft]) => (
           <ConfirmOrder id={id} draft={draft} />
         ))}
+      </div>
+      <div className="mt-8">
+        {/* <form action="/api/checkout_sessions" method="POST"> */}
+        <form
+          action={async () => {
+            "use server";
+            await checkoutOrder(drafts);
+          }}
+        >
+          {/* <input type="hidden" name="draft" value={myDrafts} /> */}
+          <Button size="lg" className="w-full" type="submit">
+            Checkout
+          </Button>
+        </form>
       </div>
     </>
   );
@@ -41,19 +61,23 @@ interface ConfirmOrderProps {
   draft: Draft;
 }
 const ConfirmOrder = ({ id, draft }: ConfirmOrderProps) => {
-  const sub = draft.questions.submission as string;
-  const add = sub.length > 120 ? "..." : "";
-  const description = sub.slice(0, 120) + add;
+  const createDesc = (sub: string) => {
+    const add = sub.length > 120 ? "..." : "";
+    return sub.slice(0, 120) + add;
+  };
+  const description = createDesc(draft.questions.submission as string);
 
   return (
     <Card className="w-full" key={id}>
-      <CardHeader>
-        <CardTitle>{draft.title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardHeader>
-        <TotalPrice />
-      </CardHeader>
+      <div className="flex justify-between items-center">
+        <CardHeader>
+          <CardTitle>{draft.title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+        <CardHeader>
+          <ItemPrice draft={draft} />
+        </CardHeader>
+      </div>
     </Card>
   );
 };

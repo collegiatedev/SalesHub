@@ -3,7 +3,7 @@
 import { CalculatePriceProps } from "../constants";
 import { ShoppingCart } from "lucide-react";
 import { Alert, AlertTitle } from "~/components/ui/alert";
-import { useDraftStore } from "./store";
+import { Draft, useDraftStore } from "./store";
 
 export const calculatePrice = ({
   essay,
@@ -47,8 +47,15 @@ export const TotalPrice = () => {
     <div className="flex w-full justify-end">
       <Alert className="w-auto bg-background">
         <ShoppingCart className="h-4 w-4" />
-        <AlertTitle className="mb-0">${totalPrice}</AlertTitle>
+        <AlertTitle className="mb-0 font-bold">${totalPrice}</AlertTitle>
       </Alert>
     </div>
   );
+};
+
+export const ItemPrice = ({ draft }: { draft: Draft }) => {
+  const { type } = draft;
+  const { essay, wordCount } = type;
+  const price = calculatePrice({ essay, wordCount });
+  return <Alert className="w-auto bg-background p-3 text-md">${price}</Alert>;
 };

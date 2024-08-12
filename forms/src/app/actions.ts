@@ -4,7 +4,23 @@ import { Redis } from "@upstash/redis";
 import { PersonalInfoForm } from "./essay/cart/personal";
 import { Draft, DraftMap } from "./essay/store";
 import { SessionStore, SessionStoreStrings } from "./essay/session";
-import { SESSION_EXPIRATION } from "./constants";
+import { NEXT_URL, SESSION_EXPIRATION } from "./constants";
+import { CheckoutResponse } from "./api/checkout_sessions/route";
+import { redirect } from "next/navigation";
+
+export type ParseDraft = [number, Draft][];
+export const checkoutOrder = async (drafts: ParseDraft) => {
+  const response = await fetch(`${NEXT_URL}/api/checkout_sessions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ line_items: drafts }),
+  });
+  const json = (await response.json()) as CheckoutResponse;
+  if (!json.data?.url) throw new Error("No URL returned from Stripe");
+  redirect(json.data.url);
+};
 
 const redis = Redis.fromEnv();
 
