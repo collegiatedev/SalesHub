@@ -8,6 +8,7 @@ import { DraftMap, useDraftStore } from "./store";
 import { PersonalInfoForm } from "./cart/personal";
 import { getSessionStore } from "../actions";
 import { useQuery } from "@tanstack/react-query";
+import { SkeletonEssay } from "~/components/skeletons";
 
 // json string version of session store in redis
 export type SessionStoreStrings = {
@@ -58,7 +59,7 @@ export const SessionProvider = ({
     enabled: !!sessionId, // Only run the query if sessionId is available
   });
 
-  if (isLoading || !sessionId) return <div>Loading...</div>;
+  if (isLoading || !sessionId) return <SkeletonEssay />;
   if (isError) return <div>Error loading session.</div>;
 
   return (
