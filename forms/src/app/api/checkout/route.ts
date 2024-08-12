@@ -1,7 +1,7 @@
-import { stripeProd } from "../constants";
 import { NEXT_URL, ParsedDrafts, SESSION_QUERY_KEY } from "~/app/constants";
 import { ApiResponse, reqHandler } from "../_handlers";
 import { calculateLineItems } from "./items";
+import { stripeClient, StripeType } from "../constants";
 
 type StripeUrl = { url: string };
 export const POST = reqHandler<StripeUrl>({
@@ -13,7 +13,9 @@ export const POST = reqHandler<StripeUrl>({
     const line_items = calculateLineItems(drafts);
     const base_url = `${NEXT_URL}/essay`; // hard coded for now, generalize later
 
-    const session = await stripeProd.checkout.sessions.create({
+    const session = await stripeClient(
+      StripeType.Production
+    ).checkout.sessions.create({
       line_items,
       mode: "payment",
       success_url: `${base_url}/?success=true`, // redirect this to api call for generation

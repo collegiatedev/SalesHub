@@ -9,6 +9,10 @@ type StripeLineItem = {
   quantity: number;
 };
 
+// test items ids (replace when testing)
+// const LETTER_OF_CONTINUED_INTEREST = "prod_Qd6KYcEj5Gq0FU";
+
+// prod items
 const COMMON_APP_COALITION = "prod_QeOHMOhEmWXaKi";
 const SUPPLEMENTAL_LT_250 = "prod_QeOHSelNhasvr2";
 const SUPPLEMENTAL_250_500 = "prod_QeOHGXsgx0SiJg";
