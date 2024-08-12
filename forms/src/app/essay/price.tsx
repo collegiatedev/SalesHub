@@ -1,7 +1,9 @@
-import { CalculatePriceProps } from "../../constants";
+"use client";
+
+import { CalculatePriceProps } from "../constants";
 import { ShoppingCart } from "lucide-react";
 import { Alert, AlertTitle } from "~/components/ui/alert";
-import { useDraftStore } from "./store";
+import { useDraftStore } from "./cart/store";
 
 export const calculatePrice = ({
   essay,

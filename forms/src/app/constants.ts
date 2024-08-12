@@ -1,7 +1,7 @@
 // constants, types, helpers
 export const isProduction = process.env.VERCEL_ENV === "production";
 
-// stripe product ids
+// stripe product ids; you're actually so fucking dumb... its not prod vs test dawg
 export const STRIPE_PUBLIC = isProduction
   ? (process.env.PROD_NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string)
   : (process.env.TEST_NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);

@@ -1,61 +1,59 @@
-"use client";
+import { getSessionStore } from "~/app/actions";
+import { NextPageProps } from "~/app/constants";
+import { NavButton } from "~/components/myButtons";
+import { MyTitle } from "~/components/myTitle";
+import { getSessionId } from "~/lib/utils";
+import { Draft } from "../cart/store";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
+import { TotalPrice } from "../price";
 
-import React from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { STRIPE_PUBLIC } from "~/app/constants";
+export default async function ConfirmPage({ searchParams }: NextPageProps) {
+  const id = getSessionId(searchParams);
+  // probably just do a redirect; should switch to cookie setup anyways
+  if (!id) return <div>Error. No essays found.</div>;
+  const session = await getSessionStore(id);
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(STRIPE_PUBLIC);
-export default function PreviewPage() {
-  React.useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const query = new URLSearchParams(window.location.search);
-    if (query.get("success")) {
-      console.log("Order placed! You will receive an email confirmation.");
-    }
-
-    if (query.get("canceled")) {
-      console.log(
-        "Order canceled -- continue to shop around and checkout when you’re ready."
-      );
-    }
-  }, []);
+  // isn't it crazy that you can't .map() over a map?
+  const draft = Array.from(session.drafts?.entries() || []);
 
   return (
-    <form action="/api/checkout_sessions" method="POST">
-      <section>
-        <button type="submit" role="link">
-          Checkout
-        </button>
-      </section>
-      <style jsx>
-        {`
-          section {
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            width: 400px;
-            height: 112px;
-            border-radius: 6px;
-            justify-content: space-between;
-          }
-          button {
-            height: 36px;
-            background: #556cd6;
-            border-radius: 4px;
-            color: white;
-            border: 0;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
-          }
-          button:hover {
-            opacity: 0.8;
-          }
-        `}
-      </style>
-    </form>
+    <>
+      <div className="flex justify-items-start gap-3">
+        <NavButton route="/essay/cart" text="Back" backwards />
+        <MyTitle title="Confirm Order" />
+      </div>
+      <div className="space-y-4">
+        {draft.map(([id, draft]) => (
+          <ConfirmOrder id={id} draft={draft} />
+        ))}
+      </div>
+    </>
   );
 }
+
+interface ConfirmOrderProps {
+  id: number;
+  draft: Draft;
+}
+const ConfirmOrder = ({ id, draft }: ConfirmOrderProps) => {
+  const sub = draft.questions.submission as string;
+  const add = sub.length > 120 ? "..." : "";
+  const description = sub.slice(0, 120) + add;
+
+  return (
+    <Card className="w-full" key={id}>
+      <CardHeader>
+        <CardTitle>{draft.title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <CardHeader>
+        <TotalPrice />
+      </CardHeader>
+    </Card>
+  );
+};

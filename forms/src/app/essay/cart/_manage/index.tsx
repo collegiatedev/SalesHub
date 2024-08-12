@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { TotalPrice } from "../price";
+import { TotalPrice } from "../../price";
 import { useDraftStore } from "../store";
 import { ManageDraft } from "./draft";
 import { saveDraft } from "~/app/actions";
