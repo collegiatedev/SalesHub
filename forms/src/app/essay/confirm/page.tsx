@@ -39,7 +39,7 @@ export default async function ConfirmPage({ searchParams }: NextPageProps) {
       </div>
       <div className="space-y-4">
         {drafts.map(([id, draft]) => (
-          <ConfirmOrder id={id} draft={draft} />
+          <ConfirmOrder id={id} draft={draft} key={id} />
         ))}
       </div>
       <div className="mt-8">
