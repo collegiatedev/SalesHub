@@ -1,6 +1,6 @@
-// constants, types, helpers
-export const isProduction = process.env.VERCEL_ENV === "production";
+// constants, types, helpers that are needed in both client and server
 
+export const isProduction = process.env.VERCEL_ENV === "production";
 export const NEXT_URL = isProduction
   ? "https://collegiate.dev" // WARNING: DO NOT USE `https://${process.env.VERCEL_URL}`
   : (process.env.NEXT_PUBLIC_NGROK_URL as string); // no more localhost
@@ -32,24 +32,38 @@ export const IS_LETTER = (t: string | undefined) =>
   t === "Letter of Continued Interest";
 
 export const WORD_COUNT_TYPES = ["<250", "250-500", ">500"] as const;
+
 export type EssayType = (typeof ESSAY_TYPES)[number];
 export type WordCountType = (typeof WORD_COUNT_TYPES)[number]; // root types, constants, clients, etc
-
-export type NextPageProps = {
-  params?: { slug: string };
-  searchParams?: SearchParams;
-};
-
-// ?s=session-id
-export type SearchParams = { [key: string]: string | string[] | undefined };
-
-export const SESSION_QUERY_KEY = "s";
-// 3 days, in seconds
-
-export const SESSION_EXPIRATION = 259200;
 
 export type CalculatePriceProps = {
   essay?: EssayType;
   wordCount?: WordCountType;
 };
-// next url
+
+export type Draft = {
+  title: string;
+  type: Partial<{
+    essay: EssayType;
+    wordCount: WordCountType;
+    university: string;
+  }>;
+  questions: Partial<{
+    prompt: string;
+    submission: string;
+    notes: string;
+  }>;
+  ready: boolean;
+};
+export type ParseDraft = [number, Draft][];
+
+// ?s=session-id
+export type SearchParams = { [key: string]: string | string[] | undefined };
+
+export const SESSION_QUERY_KEY = "s";
+export const SESSION_EXPIRATION = 259200; // 3 days, in seconds
+
+export type NextPageProps = {
+  params?: { slug: string };
+  searchParams?: SearchParams;
+};

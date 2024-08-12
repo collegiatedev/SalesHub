@@ -1,9 +1,9 @@
-import { checkoutOrder, getSessionStore, ParseDraft } from "~/app/actions";
-import { NextPageProps } from "~/app/constants";
+import { checkoutOrder, getSessionStore } from "~/app/actions";
+import { NextPageProps, ParseDraft } from "~/app/constants";
 import { NavButton } from "~/components/myButtons";
 import { MyTitle } from "~/components/myTitle";
 import { getSessionId } from "~/lib/utils";
-import { Draft } from "../store";
+import { Draft } from "~/app/constants";
 import {
   Card,
   CardDescription,

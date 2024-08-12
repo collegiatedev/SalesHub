@@ -1,22 +1,6 @@
 import { create } from "zustand";
-import { EssayType, WordCountType } from "../constants";
 import { deepMerge } from "~/lib/utils";
-import { getSessionStore } from "~/app/actions";
-
-export type Draft = {
-  title: string;
-  type: Partial<{
-    essay: EssayType;
-    wordCount: WordCountType;
-    university: string;
-  }>;
-  questions: Partial<{
-    prompt: string;
-    submission: string;
-    notes: string;
-  }>;
-  ready: boolean;
-};
+import { Draft } from "../constants";
 
 export const DEFAULT_DRAFT: Draft = {
   title: "",

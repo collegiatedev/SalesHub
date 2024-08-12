@@ -6,7 +6,7 @@ import {
   IS_SUPPLEMENTAL,
   IS_LETTER,
 } from "../../../constants";
-import { Draft } from "../../store";
+import { Draft } from "~/app/constants";
 
 export const draftSchema = z
   .object({
