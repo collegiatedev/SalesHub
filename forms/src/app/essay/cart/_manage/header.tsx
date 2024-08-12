@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button";
 import { CardTitle } from "~/components/ui/card";
 import { FormField, FormItem, FormControl } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { useDraftStore } from "../store";
+import { useDraftStore } from "../../store";
 import { DraftFormProps } from "./schema";
 import { removeDraft } from "~/app/actions";
 import { useSession } from "../../session";

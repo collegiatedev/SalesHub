@@ -9,7 +9,7 @@ import { Separator } from "~/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
-import { useDraftStore } from "../store";
+import { useDraftStore } from "../../store";
 import { ManageTitle } from "./header";
 import { ManageType } from "./type";
 import { ManageQuestions } from "./questions";

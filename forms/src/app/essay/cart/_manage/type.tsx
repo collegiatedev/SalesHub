@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { useDraftStore } from "../store";
+import { useDraftStore } from "../../store";
 import { DraftFormProps, DraftFormValues } from "./schema";
 
 export const ManageType = ({ id, form, disabled }: DraftFormProps) => {

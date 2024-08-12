@@ -3,7 +3,7 @@
 import { CalculatePriceProps } from "../constants";
 import { ShoppingCart } from "lucide-react";
 import { Alert, AlertTitle } from "~/components/ui/alert";
-import { useDraftStore } from "./cart/store";
+import { useDraftStore } from "./store";
 
 export const calculatePrice = ({
   essay,

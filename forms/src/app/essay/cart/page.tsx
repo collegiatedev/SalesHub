@@ -1,18 +1,47 @@
-import { NextPageProps } from "~/app/constants";
-import { EssayCart } from ".";
-import { SetSession, SessionProvider } from "../session";
-import { getSessionStore } from "~/app/actions";
-import { getSessionId } from "~/lib/utils";
+"use client";
 
-export default async function CartPage({ searchParams }: NextPageProps) {
-  const id = getSessionId(searchParams);
-  if (!id) return <SetSession />;
+import { useState, useEffect, useRef } from "react";
+import { PersonalInfo } from "~/app/essay/cart/personal";
+import { MyTitle } from "~/components/myTitle";
+import { NavButton } from "~/components/myButtons";
+import { ManageDrafts } from "./_manage";
+import { useDraftStore } from "../store";
 
-  const session = await getSessionStore(id);
+export default function EssayCart() {
+  const [completed, setCompleted] = useState(false);
+  const drafts = useDraftStore((state) =>
+    state.getDrafts().map((d) => d.draft)
+  );
+  const isReady = drafts.some((draft) => draft.ready);
+
+  // causes some minor issues but its fine
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (isReady && bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isReady]);
 
   return (
-    <SessionProvider sessionId={id} session={session}>
-      <EssayCart />
-    </SessionProvider>
+    <>
+      <div className="flex justify-items-start gap-3">
+        <NavButton route="/essay" text="Back" backwards />
+        <MyTitle title="Shopping Cart" />
+      </div>
+      <div className="space-y-4">
+        <PersonalInfo completedState={{ completed, setCompleted }} />
+        {completed && (
+          <>
+            <ManageDrafts />
+            {isReady && (
+              <div className="mt-8 w-full flex justify-end">
+                <NavButton route="/essay/confirm" text="Confirm" />
+              </div>
+            )}
+          </>
+        )}
+      </div>
+      <div ref={bottomRef as React.RefObject<HTMLDivElement>} />
+    </>
   );
 }

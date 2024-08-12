@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { EssayType, WordCountType } from "../../constants";
+import { EssayType, WordCountType } from "../constants";
 import { deepMerge } from "~/lib/utils";
+import { getSessionStore } from "~/app/actions";
 
 export type Draft = {
   title: string;
@@ -26,6 +27,7 @@ export const DEFAULT_DRAFT: Draft = {
 type DraftState = {
   drafts: DraftMap;
   counter: number;
+  // initializeDrafts: (drafts?: DraftMap) => void;
   initializeDrafts: (drafts?: DraftMap) => void;
   addDraft: (draft?: Draft) => { draft: Draft; id: number };
   getDraft: (id: number) => Draft | undefined;
@@ -42,7 +44,8 @@ export type DraftArray = Array<{ draft: Draft; id: number }>;
 export const useDraftStore = create<DraftState>((set, get) => ({
   drafts: new Map<number, Draft>([[0, DEFAULT_DRAFT]]),
   counter: 1,
-  initializeDrafts: (drafts?: DraftMap) => {
+  initializeDrafts: async (drafts?: DraftMap) => {
+    // const { drafts } = await getSessionStore(id);
     if (!drafts || drafts.size === 0) return;
     set(() => {
       const newDrafts = new Map(drafts); // Directly use the DraftMap

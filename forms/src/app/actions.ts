@@ -2,7 +2,7 @@
 
 import { Redis } from "@upstash/redis";
 import { PersonalInfoForm } from "./essay/cart/personal";
-import { Draft, DraftMap } from "./essay/cart/store";
+import { Draft, DraftMap } from "./essay/store";
 import { SessionStore, SessionStoreStrings } from "./essay/session";
 import { SESSION_EXPIRATION } from "./constants";
 

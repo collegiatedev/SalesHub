@@ -11,7 +11,7 @@ import {
 } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { TotalPrice } from "../../price";
-import { useDraftStore } from "../store";
+import { useDraftStore } from "../../store";
 import { ManageDraft } from "./draft";
 import { saveDraft } from "~/app/actions";
 import { useSession } from "../../session";

@@ -3,7 +3,7 @@ import { NextPageProps } from "~/app/constants";
 import { NavButton } from "~/components/myButtons";
 import { MyTitle } from "~/components/myTitle";
 import { getSessionId } from "~/lib/utils";
-import { Draft } from "../cart/store";
+import { Draft } from "../store";
 import {
   Card,
   CardDescription,

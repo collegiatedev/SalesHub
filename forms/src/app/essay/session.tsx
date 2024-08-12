@@ -1,35 +1,13 @@
 "use client";
 
-import { useEffect, useContext, createContext, Suspense } from "react";
+import { useEffect, useContext, createContext } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SESSION_QUERY_KEY } from "../constants";
 import { generateId } from "~/lib/id";
-import { DraftMap, useDraftStore } from "./cart/store";
+import { DraftMap, useDraftStore } from "./store";
 import { PersonalInfoForm } from "./cart/personal";
-
-// creates a session id, sets it as part of query param; use redis to store session
-// don't you love suspense? no idea if this is needed, but i'm not fucking finding out
-export const SetSession = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SetSessionContent />
-    </Suspense>
-  );
-};
-const SetSessionContent = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-    if (!params.has(SESSION_QUERY_KEY)) {
-      const sessionId = generateId();
-      params.set(SESSION_QUERY_KEY, sessionId);
-    }
-    router.replace(`?${params.toString()}`);
-  }, [router, searchParams]);
-
-  return null;
-};
+import { getSessionStore } from "../actions";
+import { useQuery } from "@tanstack/react-query";
 
 // json string version of session store in redis
 export type SessionStoreStrings = {
@@ -44,30 +22,53 @@ type SessionContextType = {
   sessionId: string;
   session: SessionStore;
 };
-
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
-type SessionProviderProps = {
-  children: React.ReactNode;
-} & SessionContextType;
 export const SessionProvider = ({
   children,
-  session,
-  sessionId,
-}: SessionProviderProps) => {
-  // only runs once, initializes drafts in store
+}: {
+  children: React.ReactNode;
+}) => {
+  const params = useSearchParams();
   const { initializeDrafts } = useDraftStore();
-  useEffect(
-    () => session.drafts && initializeDrafts(session.drafts),
-    [initializeDrafts]
-  );
+  const sessionId = params.get(SESSION_QUERY_KEY);
+  const router = useRouter();
+
+  // generates a new session id if none is provided
+  useEffect(() => {
+    if (!sessionId) {
+      const newSessionId = generateId();
+      const newParams = new URLSearchParams(params.toString());
+      newParams.set(SESSION_QUERY_KEY, newSessionId);
+      router.replace(`?${newParams.toString()}`);
+    }
+  }, [sessionId, router, params]);
+
+  const {
+    data: session,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [SESSION_QUERY_KEY, sessionId],
+    queryFn: async () => {
+      if (!sessionId) return {};
+      const session = await getSessionStore(sessionId);
+      initializeDrafts(session.drafts);
+      return session;
+    },
+    enabled: !!sessionId, // Only run the query if sessionId is available
+  });
+
+  if (isLoading || !sessionId) return <div>Loading...</div>;
+  if (isError) return <div>Error loading session.</div>;
 
   return (
-    <SessionContext.Provider value={{ sessionId, session }}>
+    <SessionContext.Provider value={{ sessionId, session: session || {} }}>
       {children}
     </SessionContext.Provider>
   );
 };
 
+// hook
 export const useSession = () => {
   const context = useContext(SessionContext);
   if (!context) {
