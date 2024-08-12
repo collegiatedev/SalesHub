@@ -8,11 +8,11 @@ import { ManageDrafts } from "./_manage";
 import { useDraftStore } from "../store";
 
 export default function EssayCart() {
-  const [completed, setCompleted] = useState(false);
   const drafts = useDraftStore((state) =>
     state.getDrafts().map((d) => d.draft)
   );
   const isReady = drafts.some((draft) => draft.ready);
+  const [completed, setCompleted] = useState(isReady);
 
   // causes some minor issues but its fine
   const bottomRef = useRef<HTMLDivElement | null>(null);

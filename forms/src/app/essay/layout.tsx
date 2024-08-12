@@ -18,12 +18,13 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <SessionProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <div className="p-5 max-w-2xl mx-auto">{children}</div>
-        </body>
-      </html>
-    </SessionProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <div className="p-5 max-w-2xl mx-auto">
+          {/* provider here since we provide loading state that should be formatted by div */}
+          <SessionProvider>{children}</SessionProvider>
+        </div>
+      </body>
+    </html>
   );
 }
