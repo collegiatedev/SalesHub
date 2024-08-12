@@ -11,7 +11,6 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { ItemPrice, TotalPrice } from "../price";
-import { Button } from "~/components/ui/button";
 
 export default async function ConfirmPage({ searchParams }: NextPageProps) {
   const sessionId = getSessionId(searchParams);

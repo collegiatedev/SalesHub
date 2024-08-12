@@ -10,10 +10,23 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Skeleton } from "~/components/ui/skeleton";
+import { useRouter, useSearchParams } from "next/navigation";
+import { successfulToast } from "~/components/myToast";
 
-// add sonner for success, cancel states
 export default function Landing() {
+  const router = useRouter();
   const [loaded, setLoaded] = useState(false);
+  const params = useSearchParams();
+  const success = params.get("success");
+  if (success) {
+    successfulToast("Congratulations! Your essay has been submitted.");
+    // Remove the 'success' parameter
+    const newParams = new URLSearchParams(params.toString());
+    newParams.delete("success");
+    router.replace(`${window.location.pathname}?${newParams.toString()}`, {
+      scroll: false,
+    });
+  }
   const LOOM_SECTION = "Example";
   return (
     <div>
