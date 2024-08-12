@@ -3,7 +3,9 @@
 export const isProduction = process.env.VERCEL_ENV === "production";
 export const NEXT_URL = isProduction
   ? "https://collegiate.dev" // WARNING: DO NOT USE `https://${process.env.VERCEL_URL}`
-  : (process.env.NEXT_PUBLIC_NGROK_URL as string); // no more localhost
+  : (process.env.NEXT_PUBLIC_NGROK_URL as string);
+// : "http://localhost:3000"; // local url
+
 // generator server url
 export const SERVER_URL = isProduction
   ? "https://king-prawn-app-onivj.ondigitalocean.app"

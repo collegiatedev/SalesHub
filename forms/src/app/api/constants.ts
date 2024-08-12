@@ -66,9 +66,17 @@ export const ESSAY_DOC_TEMP = "1Xf18-hbfw0FxJTt170pppiHeBpUFL3d72p7EXHtI8hE";
 // honestly, it lasts basically forever, so we can just use it
 // should probably learn how service accounts work though
 export const OUTREACH_TOKEN = {
-  access_token: process.env.access_token,
-  refresh_token: process.env.refresh_token,
-  scope: process.env.scope,
-  token_type: process.env.token_type,
-  expiry_date: process.env.expiry_date,
+  access_token: process.env.outreach_access_token,
+  refresh_token: process.env.outreach_refresh_token,
+  scope: process.env.outreach_scope,
+  token_type: process.env.outreach_token_type,
+  expiry_date: process.env.outreach_expiry_date,
+};
+
+export const ADMIN_TOKEN = {
+  access_token: process.env.admin_access_token,
+  refresh_token: process.env.admin_refresh_token,
+  scope: process.env.admin_scope,
+  token_type: process.env.admin_token_type,
+  expiry_date: process.env.admin_expiry_date,
 };
