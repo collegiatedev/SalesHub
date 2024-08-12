@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useContext, createContext } from "react";
+import { useEffect, useContext, createContext, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SESSION_QUERY_KEY } from "../constants";
 import { generateId } from "~/lib/id";
@@ -9,6 +9,7 @@ import { PersonalInfoForm } from "./cart/personal";
 import { getSessionStore } from "../actions";
 import { useQuery } from "@tanstack/react-query";
 import { SkeletonEssay } from "~/components/skeletons";
+import exp from "constants";
 
 // json string version of session store in redis
 export type SessionStoreStrings = {
@@ -23,12 +24,18 @@ type SessionContextType = {
   sessionId: string;
   session: SessionStore;
 };
-const SessionContext = createContext<SessionContextType | undefined>(undefined);
-export const SessionProvider = ({
-  children,
-}: {
+type SessionProviderProps = {
   children: React.ReactNode;
-}) => {
+};
+const SessionContext = createContext<SessionContextType | undefined>(undefined);
+export const SessionProvider = ({ children }: SessionProviderProps) => {
+  return (
+    <Suspense fallback={<SkeletonEssay />}>
+      <SessionProviderContent>{children}</SessionProviderContent>
+    </Suspense>
+  );
+};
+const SessionProviderContent = ({ children }: SessionProviderProps) => {
   const params = useSearchParams();
   const { initializeDrafts } = useDraftStore();
   const sessionId = params.get(SESSION_QUERY_KEY);
