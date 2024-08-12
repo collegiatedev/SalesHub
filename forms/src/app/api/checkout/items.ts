@@ -73,7 +73,7 @@ export const calculateLineItems = (drafts: ParsedDrafts): StripeLineItem[] => {
         price_data: {
           product: productId,
           unit_amount: unitAmount,
-          currency: "usd", // set the currency you are using
+          currency: "usd",
         },
         quantity: 1,
       });
