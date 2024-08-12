@@ -1,4 +1,5 @@
-import { checkoutOrder, getSessionStore } from "~/app/actions";
+import { getSessionStore } from "~/app/_actions/redis";
+import { checkoutOrder, generateDrive } from "~/app/_actions/checkout";
 import { NextPageProps, ParsedDrafts } from "~/app/constants";
 import { CheckoutButton, NavButton } from "~/components/myButtons";
 import { MyTitle } from "~/components/myTitle";
@@ -14,10 +15,10 @@ import { ItemPrice, TotalPrice } from "../price";
 import { Suspense } from "react";
 import { SkeletonEssay } from "~/components/skeletons";
 
-export default async function ConfirmPage() {
+export default async function ConfirmPage({ searchParams }: NextPageProps) {
   return (
     <Suspense fallback={<SkeletonEssay />}>
-      <ConfirmPageContent />
+      <ConfirmPageContent searchParams={searchParams} />
     </Suspense>
   );
 }
@@ -35,8 +36,12 @@ const ConfirmPageContent = async ({ searchParams }: NextPageProps) => {
 
   const handleCheckout = async () => {
     "use server";
-    await checkoutOrder({ drafts, sessionId });
+    await generateDrive({ drafts, personal: session.personal! });
+    // await checkoutOrder({ drafts, sessionId });
   };
+
+  if (!session.personal || !session.drafts)
+    return <div>Error. No essays found.</div>;
 
   return (
     <>

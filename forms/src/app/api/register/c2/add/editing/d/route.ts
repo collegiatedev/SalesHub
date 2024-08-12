@@ -5,7 +5,7 @@ import { uploadFile } from "~/app/api/_utils/drive/uploadFile";
 import { EssayTaskParams } from "~/app/api/_utils/generator/essayTasks";
 import { getLead, LeadFields } from "~/app/api/_utils/notion/getLead";
 import { getRep, RepFields } from "~/app/api/_utils/notion/getRep";
-import { ESSAY_DOC_TEMP, redis } from "~/app/api/constants";
+import { ESSAY_DOC_TEMPLATE, redis } from "~/app/api/constants";
 import { TallyEditing } from "../i/route";
 
 export const POST = outputHandler<TallyEditing>({
@@ -47,7 +47,7 @@ interface FormatEssayParams {
   fileLink: string;
 }
 const configEssayTemplate = ({ lead, input, fileLink }: FormatEssayParams) => ({
-  templateId: ESSAY_DOC_TEMP,
+  templateId: ESSAY_DOC_TEMPLATE,
   title: `${lead.name}'s v1 - ${input.which}`,
   content: [
     {

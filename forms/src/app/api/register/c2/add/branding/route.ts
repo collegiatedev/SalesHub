@@ -3,7 +3,7 @@ import { createTemplate } from "~/app/api/_utils/drive/createTemplate";
 import { brandingTasks } from "~/app/api/_utils/generator/brandingTasks";
 import { getLead } from "~/app/api/_utils/notion/getLead";
 import { getRep } from "~/app/api/_utils/notion/getRep";
-import { BRANDING_DOC_TEMP } from "~/app/api/constants";
+import { BRANDING_DOC_TEMPLATE } from "~/app/api/constants";
 import { CalPayload } from "../../../cal/route";
 
 export const POST = outputHandler<CalPayload>({
@@ -16,7 +16,7 @@ export const POST = outputHandler<CalPayload>({
 
     const template = await createTemplate({
       title: `${lead.name}'s Personal Brand Planner`,
-      templateId: BRANDING_DOC_TEMP,
+      templateId: BRANDING_DOC_TEMPLATE,
       googleClient,
     });
 

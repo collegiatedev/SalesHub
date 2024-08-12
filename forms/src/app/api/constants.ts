@@ -57,10 +57,15 @@ export const oauth2Client = new google.auth.OAuth2(
   `${NEXT_URL}/api/auth/callback/`
 );
 
-// drive, doc templates
 export const OUTREACH_ACCELERATOR_FOLDER = "1BbpKFfIXVyacLC4q7s0zsZ70DSJd0mbH";
-export const BRANDING_DOC_TEMP = "1SdOCFymZGqomuln6-V1njjZrRPSqRo8gnatrp-SDxuU";
-export const ESSAY_DOC_TEMP = "1Xf18-hbfw0FxJTt170pppiHeBpUFL3d72p7EXHtI8hE";
+export const BRANDING_DOC_TEMPLATE =
+  "1SdOCFymZGqomuln6-V1njjZrRPSqRo8gnatrp-SDxuU";
+export const ESSAY_DOC_TEMPLATE =
+  "1Xf18-hbfw0FxJTt170pppiHeBpUFL3d72p7EXHtI8hE";
+
+export const ADMIN_ESSAY_MICRO_FOLDER = "1K9_dNzq-scf5Q361Z0YIGkIYI7hK1WBk";
+export const MICRO_ESSAY_TEMPLATE =
+  "1wyq7j8g4lpWdES_UnTcjVf4FpD9AHK78Xk0Au71LjcY";
 
 // "temp" token.json for outreach account
 // honestly, it lasts basically forever, so we can just use it

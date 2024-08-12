@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { UseFormReturn } from "react-hook-form";
 import { useSession } from "../session";
-import { savePersonalInfo } from "~/app/actions";
+import { savePersonalInfo } from "~/app/_actions/redis";
 
 const personalSchema = z.object({
   firstName: z.string().min(1, "Required"),
@@ -28,7 +28,7 @@ const personalSchema = z.object({
   email: z.string().email("Invalid"),
   phoneNumber: z.string().min(7, "Invalid"), // todo, validation regex
 });
-export type PersonalInfoForm = z.infer<typeof personalSchema>;
+export type PersonalInfo = z.infer<typeof personalSchema>;
 
 interface PersonalInfoProps {
   completedState: {
@@ -36,12 +36,12 @@ interface PersonalInfoProps {
     setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
   };
 }
-export const PersonalInfo = ({
+export const PersonalInfoForm = ({
   completedState: { completed, setCompleted },
 }: PersonalInfoProps): React.ReactElement => {
   const { session, sessionId } = useSession();
 
-  const form = useForm<PersonalInfoForm>({
+  const form = useForm<PersonalInfo>({
     resolver: zodResolver(personalSchema),
     // Setting default values to ensure consistent input handling as controlled components.
     defaultValues: {
@@ -52,7 +52,7 @@ export const PersonalInfo = ({
     },
   });
 
-  const onSubmit = async (data: PersonalInfoForm) => {
+  const onSubmit = async (data: PersonalInfo) => {
     if (!completed) await savePersonalInfo({ sessionId, personal: data });
     setCompleted(!completed);
   };

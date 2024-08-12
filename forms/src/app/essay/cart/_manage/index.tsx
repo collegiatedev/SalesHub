@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { TotalPrice } from "../../price";
 import { useDraftStore } from "../../store";
 import { ManageDraft } from "./draft";
-import { saveDraft } from "~/app/actions";
+import { saveDraft } from "~/app/_actions/redis";
 import { useSession } from "../../session";
 
 const MAX_DRAFTS = 5;

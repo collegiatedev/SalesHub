@@ -5,7 +5,7 @@ import { FormField, FormItem, FormControl } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useDraftStore } from "../../store";
 import { DraftFormProps } from "./schema";
-import { removeDraft } from "~/app/actions";
+import { removeDraft } from "~/app/_actions/redis";
 import { useSession } from "../../session";
 
 export const ManageTitle = ({ id, form, disabled }: DraftFormProps) => {

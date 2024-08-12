@@ -20,7 +20,7 @@ import {
   parseDraftToForm,
 } from "./schema";
 import { successfulToast } from "~/components/myToast";
-import { saveDraft } from "~/app/actions";
+import { saveDraft } from "~/app/_actions/redis";
 import { useSession } from "../../session";
 import { IS_SUPPLEMENTAL } from "../../../constants";
 

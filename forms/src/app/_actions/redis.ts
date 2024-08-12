@@ -1,35 +1,11 @@
 "use server";
 
 import { Redis } from "@upstash/redis";
-import { PersonalInfoForm } from "./essay/cart/personal";
-import { DraftMap } from "./essay/store";
-import { Draft, ParsedDrafts, SESSION_QUERY_KEY } from "./constants";
-import { SessionStore, SessionStoreStrings } from "./essay/session";
-import { NEXT_URL, SESSION_EXPIRATION } from "./constants";
-import { CheckoutResponse } from "./api/checkout/route";
-import { redirect } from "next/navigation";
-
-interface CheckoutOrderProps {
-  drafts: ParsedDrafts;
-  sessionId: string;
-}
-export const checkoutOrder = async ({
-  drafts,
-  sessionId,
-}: CheckoutOrderProps) => {
-  const response = await fetch(
-    `${NEXT_URL}/api/checkout/?${SESSION_QUERY_KEY}=${sessionId}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ drafts }),
-    }
-  );
-
-  const json = (await response.json()) as CheckoutResponse;
-  if (!json.data?.url) throw new Error("No URL returned from Stripe");
-  redirect(json.data.url);
-};
+import { PersonalInfo } from "../essay/cart/personal";
+import { DraftMap } from "../essay/store";
+import { Draft } from "../constants";
+import { SessionStore, SessionStoreStrings } from "../essay/session";
+import { SESSION_EXPIRATION } from "../constants";
 
 const redis = Redis.fromEnv();
 
@@ -40,16 +16,14 @@ export const getSessionStrings = async (sessionId: string) => {
 };
 export const getSessionStore = async (sessionId: string) => {
   const sessionStrings = await getSessionStrings(sessionId);
-  const personal: PersonalInfoForm = JSON.parse(
-    sessionStrings.personal || "{}"
-  );
+  const personal: PersonalInfo = JSON.parse(sessionStrings.personal || "{}");
   const drafts: DraftMap = new Map(JSON.parse(sessionStrings.drafts || "[]"));
   return { personal, drafts } as SessionStore;
 };
 
 interface SavePersonalInfoProps {
   sessionId: string;
-  personal: PersonalInfoForm;
+  personal: PersonalInfo;
 }
 export const savePersonalInfo = async ({
   sessionId,

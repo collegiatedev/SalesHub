@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, Suspense } from "react";
-import { PersonalInfo } from "~/app/essay/cart/personal";
+import { PersonalInfoForm } from "~/app/essay/cart/personal";
 import { MyTitle } from "~/components/myTitle";
 import { NavButton } from "~/components/myButtons";
 import { ManageDrafts } from "./_manage";
@@ -38,7 +38,7 @@ const EssayCart = () => {
         <MyTitle title="Shopping Cart" />
       </div>
       <div className="space-y-4">
-        <PersonalInfo completedState={{ completed, setCompleted }} />
+        <PersonalInfoForm completedState={{ completed, setCompleted }} />
         {completed && (
           <>
             <ManageDrafts />

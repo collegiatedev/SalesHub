@@ -5,8 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SESSION_QUERY_KEY } from "../constants";
 import { generateId } from "~/lib/id";
 import { DraftMap, useDraftStore } from "./store";
-import { PersonalInfoForm } from "./cart/personal";
-import { getSessionStore } from "../actions";
+import { PersonalInfo } from "./cart/personal";
+import { getSessionStore } from "../_actions/redis";
 import { useQuery } from "@tanstack/react-query";
 import { SkeletonEssay } from "~/components/skeletons";
 import exp from "constants";
@@ -17,7 +17,7 @@ export type SessionStoreStrings = {
   drafts?: string;
 };
 export type SessionStore = {
-  personal?: PersonalInfoForm;
+  personal?: PersonalInfo;
   drafts?: DraftMap;
 };
 type SessionContextType = {
