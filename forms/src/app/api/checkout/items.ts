@@ -9,11 +9,12 @@ type StripeLineItem = {
   quantity: number;
 };
 
-const COMMON_APP_COALITION = "prod_Qd6G1s6NJCE1kG";
-const SUPPLEMENTAL_LT_250 = "prod_Qd6HXH1mbvjY1W";
-const SUPPLEMENTAL_250_500 = "prod_Qd6IGmSZrZnZjT";
-const SUPPLEMENTAL_GT_500 = "prod_Qd6J4oXGfu702p";
-const LETTER_OF_CONTINUED_INTEREST = "prod_Qd6KYcEj5Gq0FU";
+const COMMON_APP_COALITION = "prod_QeOHMOhEmWXaKi";
+const SUPPLEMENTAL_LT_250 = "prod_QeOHSelNhasvr2";
+const SUPPLEMENTAL_250_500 = "prod_QeOHGXsgx0SiJg";
+const SUPPLEMENTAL_GT_500 = "prod_QeOHRwmeQWwhlb";
+const LETTER_OF_CONTINUED_INTEREST = "prod_QeOHlnJspESfpw";
+
 export const calculateLineItems = (drafts: ParsedDrafts): StripeLineItem[] => {
   const lineItems: StripeLineItem[] = [];
   drafts.forEach(([_id, draft]) => {

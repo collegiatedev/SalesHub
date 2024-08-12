@@ -14,10 +14,10 @@ import { ItemPrice, TotalPrice } from "../price";
 import { Button } from "~/components/ui/button";
 
 export default async function ConfirmPage({ searchParams }: NextPageProps) {
-  const id = getSessionId(searchParams);
+  const sessionId = getSessionId(searchParams);
   // probably just do a redirect; should switch to cookie setup anyways
-  if (!id) return <div>Error. No essays found.</div>;
-  const session = await getSessionStore(id);
+  if (!sessionId) return <div>Error. No essays found.</div>;
+  const session = await getSessionStore(sessionId);
 
   // isn't it crazy that you can't .map() over a map?
   const drafts = Array.from(session.drafts?.entries() || []).filter(
@@ -43,7 +43,7 @@ export default async function ConfirmPage({ searchParams }: NextPageProps) {
         <form
           action={async () => {
             "use server";
-            await checkoutOrder(drafts);
+            await checkoutOrder({ drafts, sessionId });
           }}
         >
           {/* <input type="hidden" name="draft" value={myDrafts} /> */}

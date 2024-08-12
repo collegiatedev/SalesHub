@@ -3,18 +3,28 @@
 import { Redis } from "@upstash/redis";
 import { PersonalInfoForm } from "./essay/cart/personal";
 import { DraftMap } from "./essay/store";
-import { Draft, ParsedDrafts } from "./constants";
+import { Draft, ParsedDrafts, SESSION_QUERY_KEY } from "./constants";
 import { SessionStore, SessionStoreStrings } from "./essay/session";
 import { NEXT_URL, SESSION_EXPIRATION } from "./constants";
 import { CheckoutResponse } from "./api/checkout/route";
 import { redirect } from "next/navigation";
 
-export const checkoutOrder = async (drafts: ParsedDrafts) => {
-  const response = await fetch(`${NEXT_URL}/api/checkout`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ drafts }),
-  });
+interface CheckoutOrderProps {
+  drafts: ParsedDrafts;
+  sessionId: string;
+}
+export const checkoutOrder = async ({
+  drafts,
+  sessionId,
+}: CheckoutOrderProps) => {
+  const response = await fetch(
+    `${NEXT_URL}/api/checkout/?${SESSION_QUERY_KEY}=${sessionId}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ drafts }),
+    }
+  );
 
   const json = (await response.json()) as CheckoutResponse;
   if (!json.data?.url) throw new Error("No URL returned from Stripe");

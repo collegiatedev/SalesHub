@@ -1,10 +1,14 @@
 import { isProduction, NEXT_URL } from "../constants";
 
 import Stripe from "stripe";
-const STRIPE_SECRET = isProduction
-  ? (process.env.PROD_STRIPE_SECRET_KEY as string)
-  : (process.env.TEST_STRIPE_SECRET_KEY as string);
-export const stripeClient = new Stripe(STRIPE_SECRET);
+
+export const stripeProd = new Stripe(
+  process.env.PROD_STRIPE_SECRET_KEY as string
+); // for products that are live in production
+
+export const stripeTest = new Stripe(
+  process.env.TEST_STRIPE_SECRET_KEY as string
+); // for products that are in test mode
 
 // seconds, used for endpoints that are dependent on previous apis calls
 // 300s is longer than serverless timeout
