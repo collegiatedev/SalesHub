@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { MyTitle } from "~/components/myTitle";
 import { NavButton } from "~/components/myButtons";
 import {
@@ -12,8 +12,17 @@ import {
 import { Skeleton } from "~/components/ui/skeleton";
 import { useRouter, useSearchParams } from "next/navigation";
 import { successfulToast } from "~/components/myToast";
+import { SkeletonEssay } from "~/components/skeletons";
 
 export default function Landing() {
+  return (
+    <Suspense fallback={<SkeletonEssay />}>
+      <LandingContent />
+    </Suspense>
+  );
+}
+
+const LandingContent = () => {
   const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const params = useSearchParams();
@@ -67,7 +76,7 @@ export default function Landing() {
       </div>
     </div>
   );
-}
+};
 
 interface LandingItemProps {
   name: string;
