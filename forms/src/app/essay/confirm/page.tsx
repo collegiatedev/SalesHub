@@ -1,5 +1,5 @@
 import { checkoutOrder, getSessionStore } from "~/app/actions";
-import { NextPageProps, ParseDraft } from "~/app/constants";
+import { NextPageProps, ParsedDrafts } from "~/app/constants";
 import { NavButton } from "~/components/myButtons";
 import { MyTitle } from "~/components/myTitle";
 import { getSessionId } from "~/lib/utils";
@@ -22,7 +22,7 @@ export default async function ConfirmPage({ searchParams }: NextPageProps) {
   // isn't it crazy that you can't .map() over a map?
   const drafts = Array.from(session.drafts?.entries() || []).filter(
     ([_id, draft]) => draft.type && draft.ready
-  ) as ParseDraft;
+  ) as ParsedDrafts;
 
   return (
     <>

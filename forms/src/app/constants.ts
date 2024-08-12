@@ -9,18 +9,6 @@ export const SERVER_URL = isProduction
   ? "https://king-prawn-app-onivj.ondigitalocean.app"
   : "http://localhost:8080"; // generator local url
 
-// stripe product ids; you're actually so fucking dumb... its not prod vs test dawg
-export const STRIPE_PUBLIC = isProduction
-  ? (process.env.PROD_NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string)
-  : (process.env.TEST_NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
-
-// todo, switch to product price ids
-export const COMMON_APP_COALITION = "prod_Qd6G1s6NJCE1kG";
-export const SUPPLEMENTAL_LT_250 = "prod_Qd6HXH1mbvjY1W";
-export const SUPPLEMENTAL_250_500 = "prod_Qd6IGmSZrZnZjT";
-export const SUPPLEMENTAL_GT_500 = "prod_Qd6J4oXGfu702p";
-export const LETTER_OF_CONTINUED_INTEREST = "prod_Qd6KYcEj5Gq0FU";
-
 export const ESSAY_TYPES = [
   "Common App / Coalition",
   "Supplemental Essay",
@@ -55,7 +43,7 @@ export type Draft = {
   }>;
   ready: boolean;
 };
-export type ParseDraft = [number, Draft][];
+export type ParsedDrafts = [number, Draft][];
 
 // ?s=session-id
 export type SearchParams = { [key: string]: string | string[] | undefined };

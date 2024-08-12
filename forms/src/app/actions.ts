@@ -3,18 +3,19 @@
 import { Redis } from "@upstash/redis";
 import { PersonalInfoForm } from "./essay/cart/personal";
 import { DraftMap } from "./essay/store";
-import { Draft, ParseDraft } from "./constants";
+import { Draft, ParsedDrafts } from "./constants";
 import { SessionStore, SessionStoreStrings } from "./essay/session";
 import { NEXT_URL, SESSION_EXPIRATION } from "./constants";
 import { CheckoutResponse } from "./api/checkout/route";
 import { redirect } from "next/navigation";
 
-export const checkoutOrder = async (drafts: ParseDraft) => {
-  const response = await fetch(`${NEXT_URL}/api/checkout_sessions`, {
+export const checkoutOrder = async (drafts: ParsedDrafts) => {
+  const response = await fetch(`${NEXT_URL}/api/checkout`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ drafts }),
   });
+
   const json = (await response.json()) as CheckoutResponse;
   if (!json.data?.url) throw new Error("No URL returned from Stripe");
   redirect(json.data.url);

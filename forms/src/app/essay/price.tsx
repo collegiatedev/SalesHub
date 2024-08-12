@@ -10,6 +10,7 @@ export const calculatePrice = ({
   essay,
   wordCount,
 }: Partial<CalculatePriceProps>) => {
+  // todo, enum this with server items
   if (!essay) return 1000;
   switch (essay) {
     case "Common App / Coalition":
