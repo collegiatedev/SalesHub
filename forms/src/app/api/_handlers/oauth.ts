@@ -48,7 +48,7 @@ export const oauthHandler = <T>({
 }: OAuthHandlerConfig<T>) => {
   return async (req: NextRequest): Promise<NextResponse<ApiResponse<T>>> => {
     try {
-      const googleClient = loadSavedCredentials(accountType);
+      const googleClient = !useRedirect && loadSavedCredentials(accountType);
 
       if (!googleClient) {
         if (!useRedirect) throw new Error("No credentials");
@@ -58,7 +58,6 @@ export const oauthHandler = <T>({
           `/api/auth/init?origin=${origin}`,
           req.url
         );
-        console.log("Location", Location);
         return NextResponse.json(
           { message: "Redirecting to OAuth", data: null },
           { status: 307, headers: { Location } }

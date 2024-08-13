@@ -15,6 +15,9 @@ const handleCallback = async (code: string) => {
   const { tokens } = await oauth2Client.getToken(code);
   oauth2Client.setCredentials(tokens);
   // await saveCredentials(oauth2Client);
+
+  const payload = JSON.stringify(oauth2Client.credentials);
+  console.log("payload", payload);
   return oauth2Client;
 };
 

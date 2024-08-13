@@ -2,19 +2,10 @@ import { isProduction, NEXT_URL } from "../constants";
 
 import Stripe from "stripe";
 
-export enum StripeType {
-  Production,
-  Test,
-}
 const stripeProd = new Stripe(process.env.PROD_STRIPE_SECRET_KEY as string); // for products that are live in production
 const stripeTest = new Stripe(process.env.TEST_STRIPE_SECRET_KEY as string); // for products that are in test mode
-export const stripeClient = (type: StripeType) => {
-  switch (type) {
-    case StripeType.Production:
-      return stripeProd;
-    case StripeType.Test:
-      return stripeTest;
-  }
+export const stripeClient = (isProd = isProduction) => {
+  return isProd ? stripeProd : stripeTest;
 };
 
 // seconds, used for endpoints that are dependent on previous apis calls

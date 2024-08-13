@@ -1,30 +1,37 @@
 import { google } from "googleapis";
-import { OUTREACH_ACCELERATOR_FOLDER } from "../../constants";
 import { updatePerms } from "./updatePerms";
 import { GoogleAPI } from "../../types";
+import { AccountType } from "../../_handlers/oauth";
 
 interface CreateFolderParams extends GoogleAPI {
-  studentName: string;
-  shareWith: string[];
+  folderName: string;
+  shareWith?: string[];
+  parents?: string[];
 }
-export const createOutreachFolder = async ({
+// "eventually" will sync this with middleware
+export const createFolder = async ({
   googleClient,
-  studentName,
-  shareWith,
+  folderName,
+  shareWith = [],
+  parents = [],
 }: CreateFolderParams) => {
-  const folderName = `${studentName}'s Assets`;
-
   const drive = google.drive({ version: "v3", auth: googleClient });
-  const response = await drive.files.create({
-    requestBody: {
-      name: folderName,
-      mimeType: "application/vnd.google-apps.folder",
-      parents: [OUTREACH_ACCELERATOR_FOLDER],
-    },
-    fields: "id, name",
-  });
+  // make more robust later
+  try {
+    const response = await drive.files.create({
+      requestBody: {
+        name: folderName,
+        mimeType: "application/vnd.google-apps.folder",
+        parents,
+      },
+      fields: "id, name",
+    });
 
-  const fileId = response.data.id as string;
-  await updatePerms({ googleClient, fileId, shareWith });
-  return response.data.id as string; // folderId
+    const fileId = response.data.id as string;
+    shareWith && (await updatePerms({ googleClient, fileId, shareWith }));
+    return fileId; // folderId
+  } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
 };
