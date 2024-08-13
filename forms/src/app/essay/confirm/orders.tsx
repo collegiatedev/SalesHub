@@ -1,7 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { Draft } from "~/app/constants";
+import { Draft, ERROR_ROUTE } from "~/app/constants";
 import {
   Card,
   CardDescription,
@@ -11,10 +10,12 @@ import {
 import { ItemPrice } from "../_components/price";
 import { SkeletonEssay } from "~/components/skeletons";
 import { sessionToValidDrafts, useSessionQuery } from "../../helpers";
+import { useRouter } from "next/navigation";
 
 export const Orders = ({ sessionId }: { sessionId: string }) => {
   // idk what to do besides double fetching
   const { session, isLoading, error } = useSessionQuery(sessionId);
+  const router = useRouter();
 
   if (isLoading) return <SkeletonEssay />;
   if (
@@ -23,10 +24,8 @@ export const Orders = ({ sessionId }: { sessionId: string }) => {
     !session.personal ||
     !session.drafts ||
     session.drafts.size === 0
-  ) {
-    // use a redirect if this is the case
-    return <div>Error. No essays found.</div>;
-  }
+  )
+    router.replace(ERROR_ROUTE);
 
   const drafts = sessionToValidDrafts(session);
   return (

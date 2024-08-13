@@ -51,6 +51,9 @@ export type ParsedDrafts = [number, Draft][];
 export const SESSION_QUERY_KEY = "s"; // ?s=session-id
 export const SESSION_EXPIRATION = 259200; // 3 days, in seconds
 
+//rather than throwing errors, redirect to error route
+export const ERROR_ROUTE = "/essay/?error=true";
+
 export type SearchParams = { [key: string]: string | string[] | undefined };
 export type NextPageProps = {
   params?: { slug: string };

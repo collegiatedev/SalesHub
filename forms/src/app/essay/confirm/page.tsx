@@ -1,4 +1,4 @@
-import { NextPageProps } from "~/app/constants";
+import { ERROR_ROUTE, NextPageProps } from "~/app/constants";
 import { getSessionId } from "../../helpers";
 import { Suspense } from "react";
 import { SkeletonEssay } from "~/components/skeletons";
@@ -9,20 +9,18 @@ import { NavButton, CheckoutButton } from "~/components/myButtons";
 import { MyTitle } from "~/components/myTitle";
 import { TotalPrice } from "../_components/price";
 import { sessionToValidDrafts } from "../../helpers";
+import { redirect } from "next/navigation";
 
 export default function ConfirmPage({ searchParams }: NextPageProps) {
   const sessionId = getSessionId(searchParams);
-  // really should switch to cookie setup
-  if (!sessionId) return <div>Error. No essays found.</div>;
+  if (!sessionId) redirect(ERROR_ROUTE);
 
-  // TODO: this is a bit of a mess, clean up with orders
+  // TODO: this is a bit of a mess, clean up alongside orders.tsx
   const handleCheckout = async () => {
     "use server";
     const session = await getSessionStore(sessionId);
-    if (!session || !session.drafts || !session.personal)
-      throw new Error("No essays found.");
+    if (!session || !session.drafts || !session.personal) redirect(ERROR_ROUTE);
     const drafts = sessionToValidDrafts(session);
-    // await generateDrive({ drafts, personal: session.personal! });
     await checkoutOrder({ drafts, sessionId });
   };
 
