@@ -22,7 +22,7 @@ export default function LandingPage() {
     </Suspense>
   );
 }
-export const LandingContent = () => {
+const LandingContent = () => {
   const [loaded, setLoaded] = useState(false);
   const LOOM_SECTION = "Example";
   return (
