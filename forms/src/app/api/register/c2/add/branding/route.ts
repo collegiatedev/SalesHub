@@ -18,6 +18,7 @@ export const POST = outputHandler<CalPayload>({
       title: `${lead.name}'s Personal Brand Planner`,
       templateId: BRANDING_DOC_TEMPLATE,
       googleClient,
+      folderId: lead.otherRefs.folderRef as string,
     });
 
     await brandingTasks({

@@ -12,12 +12,13 @@ export const POST = reqHandler<StripeUrl>({
 
     const line_items = calculateLineItems(drafts);
     const base_url = `${NEXT_URL}/essay`; // hard coded for now, generalize later
+    const session_param = `${SESSION_QUERY_KEY}=${query_key}`;
 
     const session = await stripeClient().checkout.sessions.create({
       line_items,
       mode: "payment",
-      success_url: `${base_url}/?success=true`, // redirect this to api call for generation
-      cancel_url: `${base_url}/cart/?canceled=true&${SESSION_QUERY_KEY}=${query_key}`,
+      success_url: `${base_url}/?success=true&${session_param}`, // redirect this to api call for generation
+      cancel_url: `${base_url}/cart/?canceled=true&${session_param}`,
       automatic_tax: { enabled: true },
     });
 

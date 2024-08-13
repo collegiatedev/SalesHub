@@ -29,6 +29,8 @@ export const POST = outputHandler<TallyEditing>({
 
         const { webViewLink: docLink } = (await createTemplate({
           googleClient,
+          templateId: ESSAY_DOC_TEMPLATE,
+          folderId: lead.otherRefs.folderRef as string,
           ...configEssayTemplate({ lead, input, fileLink }),
         })) as { webViewLink: string }; // cast to avoid type error
 
@@ -47,7 +49,6 @@ interface FormatEssayParams {
   fileLink: string;
 }
 const configEssayTemplate = ({ lead, input, fileLink }: FormatEssayParams) => ({
-  templateId: ESSAY_DOC_TEMPLATE,
   title: `${lead.name}'s v1 - ${input.which}`,
   content: [
     {

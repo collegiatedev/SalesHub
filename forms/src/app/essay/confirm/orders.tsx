@@ -1,24 +1,18 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { CheckoutButton, NavButton } from "~/components/myButtons";
-import { MyTitle } from "~/components/myTitle";
 import { Draft } from "~/app/constants";
-import { generateDrive } from "~/app/_actions/checkout";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { TotalPrice, ItemPrice } from "../price";
+import { ItemPrice } from "../price";
 import { SkeletonEssay } from "~/components/skeletons";
 import { getSessionStore } from "~/app/_actions/redis";
 import { SessionStore } from "../session";
-
-interface OrderProps {
-  sessionId: string;
-}
+import { sessionToValidDrafts } from "./helper";
 
 const fetchSessionData = async (sessionId: string) => {
   const session = await getSessionStore(sessionId);
@@ -26,7 +20,11 @@ const fetchSessionData = async (sessionId: string) => {
   return session;
 };
 
+interface OrderProps {
+  sessionId: string;
+}
 export const Orders = ({ sessionId }: OrderProps) => {
+  // idk what to do besides double fetching
   const { data, isLoading, error } = useQuery({
     queryKey: ["session", sessionId],
     queryFn: () => fetchSessionData(sessionId),
@@ -39,10 +37,7 @@ export const Orders = ({ sessionId }: OrderProps) => {
     return <div>Error. No essays found.</div>;
   }
 
-  const drafts = Array.from(session.drafts.entries()).filter(
-    ([_id, draft]) => draft.type && draft.ready
-  );
-
+  const drafts = sessionToValidDrafts(session);
   return (
     <>
       {drafts.map(([id, draft]) => (
