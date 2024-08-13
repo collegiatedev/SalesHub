@@ -1,5 +1,5 @@
 import { NextPageProps } from "~/app/constants";
-import { getSessionId } from "~/lib/utils";
+import { getSessionId } from "../helpers";
 import { Suspense } from "react";
 import { SkeletonEssay } from "~/components/skeletons";
 import { Orders } from "./orders";
@@ -7,7 +7,7 @@ import { getSessionStore } from "~/app/_actions/redis";
 import { checkoutOrder } from "~/app/_actions/checkout";
 import { NavButton, CheckoutButton } from "~/components/myButtons";
 import { MyTitle } from "~/components/myTitle";
-import { TotalPrice } from "../price";
+import { TotalPrice } from "../_components/price";
 import { sessionToValidDrafts } from "../helpers";
 
 export default function ConfirmPage({ searchParams }: NextPageProps) {

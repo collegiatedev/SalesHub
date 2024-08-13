@@ -9,7 +9,6 @@ import { PersonalInfo } from "./cart/personal";
 import { getSessionStore } from "../_actions/redis";
 import { useQuery } from "@tanstack/react-query";
 import { SkeletonEssay } from "~/components/skeletons";
-import exp from "constants";
 
 // json string version of session store in redis
 export type SessionStoreStrings = {

@@ -1,4 +1,4 @@
-import { ParsedDrafts } from "~/app/constants";
+import { ParsedDrafts, SearchParams, SESSION_QUERY_KEY } from "~/app/constants";
 import { SessionStore } from "./session";
 import { useQuery } from "@tanstack/react-query";
 import { getSessionStore } from "../_actions/redis";
@@ -11,7 +11,8 @@ export const sessionToValidDrafts = (session: SessionStore) => {
 };
 
 // react query hook for session
-export const useSessionQuery = (sessionId: string) => {
+export const useSessionQuery = (sessionId: string | null) => {
+  if (!sessionId) throw new Error("Session ID not found");
   const fetchSessionData = async (sessionId: string) => {
     const session = await getSessionStore(sessionId);
     if (!session) throw new Error("Session not found");
@@ -24,4 +25,9 @@ export const useSessionQuery = (sessionId: string) => {
   });
   const session = data as SessionStore;
   return { session, isLoading, error };
+};
+
+// wierdly, this function cannot be in the session.tsx file
+export const getSessionId = (searchParams?: SearchParams) => {
+  return searchParams?.[SESSION_QUERY_KEY] as string | undefined;
 };

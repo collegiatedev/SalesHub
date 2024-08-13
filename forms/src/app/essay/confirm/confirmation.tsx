@@ -10,31 +10,42 @@ import {
 } from "~/components/ui/card";
 import { ItemPrice } from "../_components/price";
 import { SkeletonEssay } from "~/components/skeletons";
-import { sessionToValidDrafts, useSessionQuery } from "../helpers";
+import { getSessionStore } from "~/app/_actions/redis";
+import { SessionStore } from "../session";
 
-export const Orders = ({ sessionId }: { sessionId: string }) => {
-  // idk what to do besides double fetching
-  const { session, isLoading, error } = useSessionQuery(sessionId);
+interface OrderProps {
+  sessionId: string;
+}
+
+const fetchSessionData = async (sessionId: string) => {
+  const session = await getSessionStore(sessionId);
+  if (!session) throw new Error("Session not found");
+  return session;
+};
+
+export const Orders = ({ sessionId }: OrderProps) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["session", sessionId],
+    queryFn: () => fetchSessionData(sessionId),
+    refetchOnMount: "always",
+  });
+  const session = data as SessionStore;
 
   if (isLoading) return <SkeletonEssay />;
-  if (
-    error ||
-    !session ||
-    !session.personal ||
-    !session.drafts ||
-    session.drafts.size === 0
-  ) {
-    // use a redirect if this is the case
+  if (error || !session || !session.personal || !session.drafts) {
     return <div>Error. No essays found.</div>;
   }
 
-  const drafts = sessionToValidDrafts(session);
+  const drafts = Array.from(session.drafts.entries()).filter(
+    ([_id, draft]) => draft.type && draft.ready
+  );
+
   return (
-    <>
+    <div className="space-y-4">
       {drafts.map(([id, draft]) => (
         <ConfirmOrder id={id} draft={draft} key={id} />
       ))}
-    </>
+    </div>
   );
 };
 

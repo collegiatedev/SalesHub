@@ -48,12 +48,10 @@ export type Draft = {
 };
 export type ParsedDrafts = [number, Draft][];
 
-// ?s=session-id
-export type SearchParams = { [key: string]: string | string[] | undefined };
-
-export const SESSION_QUERY_KEY = "s";
+export const SESSION_QUERY_KEY = "s"; // ?s=session-id
 export const SESSION_EXPIRATION = 259200; // 3 days, in seconds
 
+export type SearchParams = { [key: string]: string | string[] | undefined };
 export type NextPageProps = {
   params?: { slug: string };
   searchParams?: SearchParams;
