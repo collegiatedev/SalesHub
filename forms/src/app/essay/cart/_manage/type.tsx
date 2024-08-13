@@ -1,4 +1,4 @@
-import { UseFormReturn } from "react-hook-form";
+import { Controller, UseFormReturn } from "react-hook-form";
 import { CardContent } from "~/components/ui/card";
 import {
   FormField,
@@ -94,19 +94,19 @@ const FormSelect = <T extends string>({
   disabled,
   onChange,
 }: FormSelectProps<T>) => (
-  <FormField
-    control={form.control}
-    name={name}
-    render={({ field }) => (
-      <FormItem className="w-full" key={name}>
-        <FormLabel>{label}</FormLabel>
+  <FormItem className="w-full" key={name}>
+    <FormLabel>{label}</FormLabel>
+    <Controller
+      control={form.control}
+      name={name}
+      render={({ field }) => (
         <Select
-          {...field}
           disabled={disabled}
           onValueChange={(value: T) => {
             field.onChange(value);
             if (onChange) onChange(value);
           }}
+          value={field.value}
         >
           <FormControl>
             <SelectTrigger>
@@ -121,7 +121,7 @@ const FormSelect = <T extends string>({
             ))}
           </SelectContent>
         </Select>
-      </FormItem>
-    )}
-  />
+      )}
+    />
+  </FormItem>
 );

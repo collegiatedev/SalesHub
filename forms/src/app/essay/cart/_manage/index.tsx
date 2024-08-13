@@ -20,6 +20,7 @@ const MAX_DRAFTS = 5;
 
 export const ManageDrafts = () => {
   const drafts = useDraftStore((state) => state.getDrafts());
+  const defaultValue = drafts[0] ? drafts[0].id.toString() : "0";
   return (
     <Card className="w-full">
       <CardHeader>
@@ -33,7 +34,7 @@ export const ManageDrafts = () => {
       </CardHeader>
 
       <CardContent className="space-y-2">
-        <Tabs defaultValue="0" className="w-full">
+        <Tabs defaultValue={defaultValue} className="w-full">
           <TabsList className="flex w-full justify-start">
             {drafts.map((d) => {
               const i = d.id.toString();

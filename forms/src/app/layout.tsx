@@ -32,8 +32,10 @@ export default function RootLayout({
     <ReactQueryClientProvider>
       <html lang="en">
         <Head />
-        <body className={inter.className}>{children}</body>
-        <Toaster />
+        <body className={inter.className}>
+          {children}
+          <Toaster />
+        </body>
       </html>
     </ReactQueryClientProvider>
   );
