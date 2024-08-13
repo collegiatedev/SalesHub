@@ -23,6 +23,7 @@ import { successfulToast } from "~/components/myToast";
 import { saveDraft } from "~/app/_actions/redis";
 import { useSession } from "../../session";
 import { IS_SUPPLEMENTAL } from "../../../constants";
+import { toast } from "sonner";
 
 export const ManageDraft = ({ id }: { id: number }) => {
   const { sessionId } = useSession();
@@ -36,15 +37,20 @@ export const ManageDraft = ({ id }: { id: number }) => {
   if (!draft) return null;
 
   const onSubmit = async (data: DraftFormValues) => {
+    const wc = IS_SUPPLEMENTAL(data.essayType) ? `(${data.wordCount}) ` : "";
+    const draftName = ` ${data.essayType} ${wc}`;
     if (!draft.ready) {
-      const wc = IS_SUPPLEMENTAL(data.essayType) ? `(${data.wordCount}) ` : "";
-      successfulToast(`Added ${data.essayType} ${wc}to Cart!`);
+      toast.dismiss();
+      successfulToast(`Added${draftName}to Cart!`);
       // save session to db
       await saveDraft({
         draftId: id,
         sessionId,
         draft: { ...draft, ready: true },
       });
+    } else {
+      toast.dismiss();
+      toast.message(`Removed${draftName}from Cart!`);
     }
 
     updateDraft(id, { ready: !draft.ready });

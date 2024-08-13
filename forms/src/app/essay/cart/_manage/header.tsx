@@ -8,20 +8,20 @@ import { DraftFormProps } from "./schema";
 import { removeDraft } from "~/app/_actions/redis";
 import { useSession } from "../../session";
 
-export const ManageTitle = ({ id, form, disabled }: DraftFormProps) => {
+export const ManageTitle = (props: DraftFormProps) => {
   const { getDraftCount } = useDraftStore((state) => state);
 
   return (
     <CardTitle>
       <div className="flex w-full items-center">
-        <TitleInput id={id} form={form} disabled={disabled} />
-        {getDraftCount() > 1 && <DeleteDraftButton id={id} />}
+        <TitleInput {...props} />
+        {getDraftCount() > 1 && <DeleteDraftButton {...props} />}
       </div>
     </CardTitle>
   );
 };
 
-const DeleteDraftButton = ({ id }: { id: number }) => {
+const DeleteDraftButton = ({ id, disabled }: DraftFormProps) => {
   const { deleteDraft } = useDraftStore((state) => state);
   const sessionId = useSession().sessionId;
 
@@ -32,6 +32,7 @@ const DeleteDraftButton = ({ id }: { id: number }) => {
 
   return (
     <Button
+      disabled={disabled}
       className="hover:text-red-400 ml-2"
       size="icon"
       variant="ghost"
