@@ -63,7 +63,8 @@ const TitleInput = ({ id, form, disabled }: DraftFormProps) => {
                 updateDraft(id, { title: e.target.value });
               }}
               className={`flex w-full bg-transparent border-none outline-none placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 text-2xl font-bold ${
-                form.formState.errors.title ? "ring-2 ring-red-500" : ""
+                form.formState.errors.title &&
+                "focus-visible:ring-2 focus-visible:ring-red-500"
               }`}
             />
           </FormControl>
