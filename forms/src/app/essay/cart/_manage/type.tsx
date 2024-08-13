@@ -94,34 +94,40 @@ const FormSelect = <T extends string>({
   disabled,
   onChange,
 }: FormSelectProps<T>) => (
-  <FormItem className="w-full" key={name}>
-    <FormLabel>{label}</FormLabel>
-    <Controller
-      control={form.control}
-      name={name}
-      render={({ field }) => (
-        <Select
-          disabled={disabled}
-          onValueChange={(value: T) => {
-            field.onChange(value);
-            if (onChange) onChange(value);
-          }}
-          value={field.value}
-        >
-          <FormControl>
-            <SelectTrigger>
-              <SelectValue placeholder="Select" />
-            </SelectTrigger>
-          </FormControl>
-          <SelectContent>
-            {types.map((type) => (
-              <SelectItem key={type} value={type} disabled={disabled}>
-                {type}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      )}
-    />
-  </FormItem>
+  <FormField
+    control={form.control}
+    name={name}
+    render={(_form) => (
+      <FormItem className="w-full" key={name}>
+        <FormLabel>{label}</FormLabel>
+        <Controller
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <Select
+              disabled={disabled}
+              onValueChange={(value: T) => {
+                field.onChange(value);
+                if (onChange) onChange(value);
+              }}
+              value={field.value}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {types.map((type) => (
+                  <SelectItem key={type} value={type} disabled={disabled}>
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+        />
+      </FormItem>
+    )}
+  />
 );
