@@ -18,7 +18,7 @@ import { useSession } from "../../session";
 
 const MAX_DRAFTS = 5;
 
-export const ManageDrafts = () => {
+export const ManageDraftsForm = () => {
   const drafts = useDraftStore((state) => state.getDrafts());
   const defaultValue = drafts[0] ? drafts[0].id.toString() : "0";
   return (

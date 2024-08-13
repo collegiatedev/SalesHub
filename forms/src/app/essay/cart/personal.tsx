@@ -32,12 +32,12 @@ export type PersonalInfo = z.infer<typeof personalSchema>;
 
 interface PersonalInfoProps {
   completedState: {
-    completed: boolean;
-    setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
+    completedPersonal: boolean;
+    setCompletedPersonal: React.Dispatch<React.SetStateAction<boolean>>;
   };
 }
 export const PersonalInfoForm = ({
-  completedState: { completed, setCompleted },
+  completedState: { completedPersonal, setCompletedPersonal },
 }: PersonalInfoProps): React.ReactElement => {
   const { session, sessionId } = useSession();
 
@@ -53,8 +53,9 @@ export const PersonalInfoForm = ({
   });
 
   const onSubmit = async (data: PersonalInfo) => {
-    if (!completed) await savePersonalInfo({ sessionId, personal: data });
-    setCompleted(!completed);
+    if (!completedPersonal)
+      await savePersonalInfo({ sessionId, personal: data });
+    setCompletedPersonal(!completedPersonal);
   };
 
   return (
@@ -73,14 +74,14 @@ export const PersonalInfoForm = ({
                   name="firstName"
                   label="First Name"
                   placeholder="John"
-                  disabled={completed}
+                  disabled={completedPersonal}
                 />
                 <FormInputField
                   form={form}
                   name="lastName"
                   label="Last Name"
                   placeholder="Doe"
-                  disabled={completed}
+                  disabled={completedPersonal}
                 />
               </div>
               <div className="flex flex-row space-x-4">
@@ -89,14 +90,14 @@ export const PersonalInfoForm = ({
                   name="email"
                   label="Email"
                   placeholder="@"
-                  disabled={completed}
+                  disabled={completedPersonal}
                 />
                 <FormInputField
                   form={form}
                   name="phoneNumber"
                   label="Phone Number"
                   placeholder="+"
-                  disabled={completed}
+                  disabled={completedPersonal}
                 />
               </div>
             </div>
@@ -109,7 +110,7 @@ export const PersonalInfoForm = ({
                 </p>
               )}
             </div>
-            <Button>{!completed ? "Continue" : "Edit"}</Button>
+            <Button>{!completedPersonal ? "Continue" : "Edit"}</Button>
           </CardFooter>
         </form>
       </Form>

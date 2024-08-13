@@ -41,13 +41,12 @@ interface NavButtonProps {
   route: string;
   text: string;
   backwards?: boolean;
+  disabled?: boolean;
 }
-
-// don't you love suspense?
-export const NavButton = ({ route, text, backwards }: NavButtonProps) => {
+export const NavButton = (props: NavButtonProps) => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <NavButtonContent route={route} text={text} backwards={backwards} />
+      <NavButtonContent {...props} />
     </Suspense>
   );
 };
@@ -56,6 +55,7 @@ export const NavButtonContent = ({
   route,
   text,
   backwards,
+  disabled,
 }: NavButtonProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -67,7 +67,7 @@ export const NavButtonContent = ({
 
   if (backwards) {
     return (
-      <Button className="group" onClick={handleNext}>
+      <Button className="group" onClick={handleNext} disabled={disabled}>
         <span className="relative transition-transform duration-200 ease-in-out group-hover:-translate-x-1">
           <ArrowLeft className="h-5 w-5" />
         </span>
@@ -77,7 +77,7 @@ export const NavButtonContent = ({
   }
 
   return (
-    <Button className="group" onClick={handleNext}>
+    <Button className="group" onClick={handleNext} disabled={disabled}>
       <span className="pr-1.5">{text}</span>
       <span className="relative transition-transform duration-200 ease-in-out group-hover:translate-x-1">
         <ArrowRight className="h-5 w-5" />

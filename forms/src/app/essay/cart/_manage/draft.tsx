@@ -40,17 +40,16 @@ export const ManageDraft = ({ id }: { id: number }) => {
     const wc = IS_SUPPLEMENTAL(data.essayType) ? `(${data.wordCount}) ` : "";
     const draftName = ` ${data.essayType} ${wc}`;
     if (!draft.ready) {
-      toast.dismiss();
-      successfulToast(`Added${draftName}to Cart!`);
-      // save session to db
       await saveDraft({
         draftId: id,
         sessionId,
         draft: { ...draft, ready: true },
       });
+      toast.dismiss();
+      successfulToast(`Added${draftName}to cart!`);
     } else {
       toast.dismiss();
-      toast.message(`Removed${draftName}from Cart!`);
+      toast.message(`Removed${draftName}from cart!`);
     }
 
     updateDraft(id, { ready: !draft.ready });
