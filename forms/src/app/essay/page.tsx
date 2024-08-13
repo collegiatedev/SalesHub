@@ -11,7 +11,7 @@ import {
 } from "~/components/ui/accordion";
 import { Skeleton } from "~/components/ui/skeleton";
 import { SkeletonEssay } from "~/components/skeletons";
-import { HandlePurchase } from "./purchase";
+import { HandleStatuses } from "./status";
 
 export default function Landing() {
   return (
@@ -26,7 +26,7 @@ const LandingContent = () => {
   const LOOM_SECTION = "Example";
   return (
     <div>
-      <HandlePurchase />
+      <HandleStatuses />
       <MyTitle title="Essay Editor" />
       <p className="mb-3">
         Craft an exceptional college essay with top Harvard students. Submit an

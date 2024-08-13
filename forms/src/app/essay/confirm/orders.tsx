@@ -33,7 +33,14 @@ export const Orders = ({ sessionId }: OrderProps) => {
   const session = data as SessionStore;
 
   if (isLoading) return <SkeletonEssay />;
-  if (error || !session || !session.personal || !session.drafts) {
+  if (
+    error ||
+    !session ||
+    !session.personal ||
+    !session.drafts ||
+    session.drafts.size === 0
+  ) {
+    // use a redirect if this is the case
     return <div>Error. No essays found.</div>;
   }
 
