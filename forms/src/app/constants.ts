@@ -31,6 +31,7 @@ export type CalculatePriceProps = {
   wordCount?: WordCountType;
 };
 
+// refractor away from Partial, safely
 export type Draft = {
   title: string;
   type: Partial<{

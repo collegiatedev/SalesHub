@@ -1,94 +1,51 @@
-import { getSessionStore } from "~/app/_actions/redis";
-import { checkoutOrder, generateDrive } from "~/app/_actions/checkout";
-import { NextPageProps, ParsedDrafts } from "~/app/constants";
-import { CheckoutButton, NavButton } from "~/components/myButtons";
-import { MyTitle } from "~/components/myTitle";
+import { NextPageProps } from "~/app/constants";
 import { getSessionId } from "~/lib/utils";
-import { Draft } from "~/app/constants";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { ItemPrice, TotalPrice } from "../price";
 import { Suspense } from "react";
 import { SkeletonEssay } from "~/components/skeletons";
+import { Orders } from "./orders";
+import { getSessionStore } from "~/app/_actions/redis";
+import { generateDrive } from "~/app/_actions/checkout";
+import { NavButton, CheckoutButton } from "~/components/myButtons";
+import { MyTitle } from "~/components/myTitle";
+import { TotalPrice } from "../price";
 
-export default async function ConfirmPage({ searchParams }: NextPageProps) {
-  return (
-    <Suspense fallback={<SkeletonEssay />}>
-      <ConfirmPageContent searchParams={searchParams} />
-    </Suspense>
-  );
-}
-
-const ConfirmPageContent = async ({ searchParams }: NextPageProps) => {
+export default function ConfirmPage({ searchParams }: NextPageProps) {
   const sessionId = getSessionId(searchParams);
-  // probably just do a redirect; should switch to cookie setup anyways
+  // really should switch to cookie setup
   if (!sessionId) return <div>Error. No essays found.</div>;
-  const session = await getSessionStore(sessionId);
 
-  // isn't it crazy that you can't .map() over a map?
-  const drafts = Array.from(session.drafts?.entries() || []).filter(
-    ([_id, draft]) => draft.type && draft.ready
-  ) as ParsedDrafts;
-
+  // TODO: this is a bit of a mess, clean up with orders
   const handleCheckout = async () => {
     "use server";
+    const session = await getSessionStore(sessionId);
+    if (!session || !session.drafts || !session.personal)
+      throw new Error("No essays found.");
+    const drafts = Array.from(session.drafts.entries()).filter(
+      ([_id, draft]) => draft.type && draft.ready
+    );
     await generateDrive({ drafts, personal: session.personal! });
     // await checkoutOrder({ drafts, sessionId });
   };
 
-  if (!session.personal || !session.drafts)
-    return <div>Error. No essays found.</div>;
-
   return (
-    <>
-      <div className="flex justify-between items-start ">
-        <div className="flex gap-3 w-full">
-          <NavButton route="/essay/cart" text="Back" backwards />
-          <MyTitle title="Confirm Order" />
+    <Suspense fallback={<SkeletonEssay />}>
+      <>
+        <div className="flex justify-between items-start ">
+          <div className="flex gap-3 w-full">
+            <NavButton route="/essay/cart" text="Back" backwards />
+            <MyTitle title="Confirm Order" />
+          </div>
+          <TotalPrice />
         </div>
-        <TotalPrice />
-      </div>
-      <div className="space-y-4">
-        {drafts.map(([id, draft]) => (
-          <ConfirmOrder id={id} draft={draft} key={id} />
-        ))}
-      </div>
-      <div className="mt-8">
-        {/* <form action="/api/checkout_sessions" method="POST"> */}
-        <form action={handleCheckout}>
-          <CheckoutButton onCheckout={handleCheckout} />
-        </form>
-      </div>
-    </>
+        <div className="space-y-4">
+          <Orders sessionId={sessionId} />
+        </div>
+        <div className="mt-8">
+          <form action={handleCheckout}>
+            <CheckoutButton onCheckout={handleCheckout} />
+          </form>
+        </div>
+      </>
+    </Suspense>
   );
-};
-
-interface ConfirmOrderProps {
-  id: number;
-  draft: Draft;
 }
-const ConfirmOrder = ({ id, draft }: ConfirmOrderProps) => {
-  const createDesc = (sub: string) => {
-    const add = sub.length > 120 ? "..." : "";
-    return sub.slice(0, 120) + add;
-  };
-  const description = createDesc(draft.questions.submission as string);
-
-  return (
-    <Card className="w-full" key={id}>
-      <div className="flex justify-between items-center">
-        <CardHeader>
-          <CardTitle>{draft.title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
-        </CardHeader>
-        <CardHeader>
-          <ItemPrice draft={draft} />
-        </CardHeader>
-      </div>
-    </Card>
-  );
-};
