@@ -12,7 +12,7 @@ export const POST = outputHandler<CreatedLeadFields>({
   type: HandlerTypes.OAuth_Outreach,
   handler: async (input, googleClient) => {
     const studentName = input["Student Name"];
-    const [{ id: leadId }, folderId] = await Promise.all([
+    const [{ id: leadId }, { folderId }] = await Promise.all([
       createLead(input),
       createFolder({
         googleClient,
