@@ -24,12 +24,15 @@ export const createFolder = async ({
         mimeType: "application/vnd.google-apps.folder",
         parents,
       },
-      fields: "id, name",
+      fields: "id, name, webViewLink",
     });
 
     const fileId = response.data.id as string;
     shareWith && (await updatePerms({ googleClient, fileId, shareWith }));
-    return fileId; // folderId
+    return {
+      folderId: fileId,
+      webViewLink: response.data.webViewLink as string,
+    };
   } catch (error) {
     console.log("error", error);
     throw error;

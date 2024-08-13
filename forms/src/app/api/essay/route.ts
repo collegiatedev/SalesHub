@@ -5,13 +5,14 @@ import { ADMIN_ESSAY_MICRO_FOLDER, MICRO_ESSAY_TEMPLATE } from "../constants";
 import { createTemplate } from "../_utils/drive/createTemplate";
 import { HandlerTypes, outputHandler } from "../_handlers/output";
 import { SuccessfulPurchaseInput } from "./success/route";
+import { notifyTeam } from "../_utils/make/notify";
 
 // create essay, then notify admin on discord
 // need to clean this
 export const POST = outputHandler<SuccessfulPurchaseInput>({
   type: HandlerTypes.OAuth_Admin,
   handler: async ({ drafts, personal }, googleClient) => {
-    const folderId = await createFolder({
+    const { folderId, webViewLink } = await createFolder({
       googleClient,
       parents: [ADMIN_ESSAY_MICRO_FOLDER],
       folderName: `${personal.firstName} ${personal.lastName}'s Essays`,
@@ -26,6 +27,11 @@ export const POST = outputHandler<SuccessfulPurchaseInput>({
       })
     );
     await Promise.all(createDrafts);
+
+    // todo, make this a more descriptive message
+    // can adjust this message to be a copy and paste for admin
+    const message = `${personal.firstName} ${personal.lastName} (${personal.email}, ${personal.phoneNumber}) has purchased the Essay Microservice. Verify it here: ${webViewLink}`;
+    await notifyTeam(message);
   },
 });
 
