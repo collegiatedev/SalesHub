@@ -1,7 +1,7 @@
 import { ParsedDrafts, SearchParams, SESSION_QUERY_KEY } from "~/app/constants";
-import { SessionStore } from "./session";
+import { SessionStore } from "./essay/session";
 import { useQuery } from "@tanstack/react-query";
-import { getSessionStore } from "../_actions/redis";
+import { getSessionStore } from "./_actions/redis";
 
 export const sessionToValidDrafts = (session: SessionStore) => {
   if (!session || !session.drafts || !session.personal) return [];

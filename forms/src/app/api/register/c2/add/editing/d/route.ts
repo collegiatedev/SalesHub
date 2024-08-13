@@ -5,11 +5,11 @@ import { uploadFile } from "~/app/api/_utils/drive/uploadFile";
 import { EssayTaskParams } from "~/app/api/_utils/generator/essayTasks";
 import { getLead, LeadFields } from "~/app/api/_utils/notion/getLead";
 import { getRep, RepFields } from "~/app/api/_utils/notion/getRep";
-import { ESSAY_DOC_TEMPLATE, redis } from "~/app/api/constants";
+import { ESSAY_DOC_TEMPLATE, redisClient } from "~/app/api/constants";
 import { TallyEditing } from "../i/route";
 
 export const POST = outputHandler<TallyEditing>({
-  type: HandlerTypes.OAuth,
+  type: HandlerTypes.OAuth_Outreach,
   handler: async (input, googleClient) => {
     const lead = await getLead(input.id);
     if (!lead.pageRefs.leadRep) throw new Error("invalid lead");
@@ -36,7 +36,7 @@ export const POST = outputHandler<TallyEditing>({
 
         const essayTasks = formatEssayTasks({ rep, lead, fileLink, docLink });
         // temp store in redis, gets called in main route
-        await redis.set(lead.id, essayTasks);
+        await redisClient.set(lead.id, essayTasks);
       },
     });
     return input;

@@ -7,7 +7,7 @@ import { BRANDING_DOC_TEMPLATE } from "~/app/api/constants";
 import { CalPayload } from "../../../cal/route";
 
 export const POST = outputHandler<CalPayload>({
-  type: HandlerTypes.OAuth,
+  type: HandlerTypes.OAuth_Outreach,
   handler: async (input, googleClient) => {
     const lead = await getLead(input.studentId);
     if (!lead.pageRefs.leadRep) throw new Error("Invalid Lead, rep not set");

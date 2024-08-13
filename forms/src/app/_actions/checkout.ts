@@ -25,22 +25,22 @@ export const checkoutOrder = async ({
   redirect(json.data.url);
 };
 
-interface GenerateDriveProps {
-  drafts: ParsedDrafts;
-  personal: PersonalInfo;
-}
-export const generateDrive = async ({
-  drafts,
-  personal,
-}: GenerateDriveProps) => {
-  try {
-    // might want something to pass to checkout
-    await fetch(`${NEXT_URL}/api/essay/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ drafts, personal }),
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
+// interface GenerateDriveProps {
+//   drafts: ParsedDrafts;
+//   personal: PersonalInfo;
+// }
+// export const generateDrive = async ({
+//   drafts,
+//   personal,
+// }: GenerateDriveProps) => {
+//   try {
+//     // might want something to pass to checkout
+//     await fetch(`${NEXT_URL}/api/essay/`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ drafts, personal }),
+//     });
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };

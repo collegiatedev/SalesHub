@@ -1,17 +1,16 @@
 import { Draft, ParsedDrafts } from "~/app/constants";
-import { AccountType, oauthHandler } from "../_handlers/oauth";
 import { PersonalInfo } from "~/app/essay/cart/personal";
 import { createFolder } from "../_utils/drive/createFolder";
 import { ADMIN_ESSAY_MICRO_FOLDER, MICRO_ESSAY_TEMPLATE } from "../constants";
 import { createTemplate } from "../_utils/drive/createTemplate";
+import { HandlerTypes, outputHandler } from "../_handlers/output";
+import { SuccessfulPurchaseInput } from "./success/route";
 
 // create essay, then notify admin on discord
-export const POST = oauthHandler({
-  required: { body: ["drafts", "personal"] },
-  handler: async (parsed, _req, googleClient) => {
-    const drafts = parsed.drafts as ParsedDrafts;
-    const personal = parsed.personal as PersonalInfo;
-
+// need to clean this
+export const POST = outputHandler<SuccessfulPurchaseInput>({
+  type: HandlerTypes.OAuth_Admin,
+  handler: async ({ drafts, personal }, googleClient) => {
     const folderId = await createFolder({
       googleClient,
       parents: [ADMIN_ESSAY_MICRO_FOLDER],
@@ -27,10 +26,7 @@ export const POST = oauthHandler({
       })
     );
     await Promise.all(createDrafts);
-
-    return { message: "Done!" };
   },
-  accountType: AccountType.Admin,
 });
 
 interface FormatMicroEssayParams {

@@ -3,7 +3,7 @@ import {
   EssayTaskParams,
   essayTasks,
 } from "~/app/api/_utils/generator/essayTasks";
-import { redis } from "~/app/api/constants";
+import { redisClient } from "~/app/api/constants";
 import { CalPayload } from "../../../cal/route";
 
 // todo, documentation
@@ -13,14 +13,14 @@ import { CalPayload } from "../../../cal/route";
 export const POST = outputHandler<CalPayload>({
   type: HandlerTypes.Req,
   handler: async (input) => {
-    const essay = (await redis.get(input.studentId)) as EssayTaskParams;
+    const essay = (await redisClient.get(input.studentId)) as EssayTaskParams;
     if (!essay) throw new Error("Essay pre-reqs not completed");
 
     await essayTasks({
       ...essay,
       time: input.startTime,
     });
-    await redis.del(input.studentId);
+    await redisClient.del(input.studentId);
 
     return input;
   },

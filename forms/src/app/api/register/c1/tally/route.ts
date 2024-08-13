@@ -9,7 +9,7 @@ import {
 import { OUTREACH_ACCELERATOR_FOLDER } from "~/app/api/constants";
 
 export const POST = outputHandler<CreatedLeadFields>({
-  type: HandlerTypes.OAuth,
+  type: HandlerTypes.OAuth_Outreach,
   handler: async (input, googleClient) => {
     const studentName = input["Student Name"];
     const [{ id: leadId }, folderId] = await Promise.all([

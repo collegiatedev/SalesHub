@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/card";
 import { ItemPrice } from "../_components/price";
 import { SkeletonEssay } from "~/components/skeletons";
-import { sessionToValidDrafts, useSessionQuery } from "../helpers";
+import { sessionToValidDrafts, useSessionQuery } from "../../helpers";
 
 export const Orders = ({ sessionId }: { sessionId: string }) => {
   // idk what to do besides double fetching

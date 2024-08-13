@@ -9,7 +9,7 @@ import { HandlerTypes, outputHandler } from "~/app/api/_handlers/output";
 import { CalPayload } from "../../cal/route";
 
 export const POST = outputHandler<CalPayload>({
-  type: HandlerTypes.OAuth,
+  type: HandlerTypes.OAuth_Outreach,
   handler: async (input, googleClient) => {
     const lead = await getLead(input.studentId);
     if (!lead.otherRefs.folderRef)
