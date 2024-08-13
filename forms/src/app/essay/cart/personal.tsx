@@ -110,12 +110,17 @@ export const PersonalInfoForm = ({
                 </p>
               )}
             </div>
-            <Button>{!completedPersonal ? "Continue" : "Edit"}</Button>
+            <ContinueButton state={completedPersonal} />
           </CardFooter>
         </form>
       </Form>
     </Card>
   );
+};
+const ContinueButton = ({ state }: { state: boolean }) => {
+  const buttonText = state ? "Edit" : "Continue";
+  const buttonVariant = state ? "secondary" : "default";
+  return <Button variant={buttonVariant}>{buttonText}</Button>;
 };
 
 interface FormInputFieldProps {

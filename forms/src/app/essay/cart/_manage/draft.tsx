@@ -75,9 +75,7 @@ export const ManageDraft = ({ id }: { id: number }) => {
 
           <CardFooter className="flex w-full justify-between">
             <FormStatus {...formProps} />
-            <Button type="submit" key={id}>
-              {!draft.ready ? "Add" : "Edit"}
-            </Button>
+            <SubmitButton {...formProps} />
           </CardFooter>
         </form>
       </Form>
@@ -92,5 +90,15 @@ const FormStatus = ({ form }: DraftFormProps) => {
         <p className="text-sm text-red-500">Please correct the errors above.</p>
       )}
     </div>
+  );
+};
+
+const SubmitButton = ({ id, disabled }: DraftFormProps) => {
+  const buttonText = disabled ? "Edit" : "Add";
+  const buttonVariant = disabled ? "secondary" : "default";
+  return (
+    <Button type="submit" key={id} variant={buttonVariant}>
+      {buttonText}
+    </Button>
   );
 };

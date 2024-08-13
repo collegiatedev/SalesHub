@@ -65,9 +65,14 @@ export const NavButtonContent = ({
     router.push(`${route}${params ? `?${params}` : ""}`);
   };
 
+  const buttonProps = {
+    className: "group",
+    onClick: handleNext,
+    disabled,
+  };
   if (backwards) {
     return (
-      <Button className="group" onClick={handleNext} disabled={disabled}>
+      <Button {...buttonProps} className="group" variant={"secondary"}>
         <span className="relative transition-transform duration-200 ease-in-out group-hover:-translate-x-1">
           <ArrowLeft className="h-5 w-5" />
         </span>
@@ -77,7 +82,7 @@ export const NavButtonContent = ({
   }
 
   return (
-    <Button className="group" onClick={handleNext} disabled={disabled}>
+    <Button {...buttonProps} className="group">
       <span className="pr-1.5">{text}</span>
       <span className="relative transition-transform duration-200 ease-in-out group-hover:translate-x-1">
         <ArrowRight className="h-5 w-5" />
