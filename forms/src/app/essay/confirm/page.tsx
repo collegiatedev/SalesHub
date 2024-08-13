@@ -8,7 +8,7 @@ import { checkoutOrder } from "~/app/_actions/checkout";
 import { NavButton, CheckoutButton } from "~/components/myButtons";
 import { MyTitle } from "~/components/myTitle";
 import { TotalPrice } from "../price";
-import { sessionToValidDrafts } from "./helper";
+import { sessionToValidDrafts } from "../helpers";
 
 export default function ConfirmPage({ searchParams }: NextPageProps) {
   const sessionId = getSessionId(searchParams);

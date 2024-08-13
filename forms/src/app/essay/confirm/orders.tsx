@@ -10,27 +10,11 @@ import {
 } from "~/components/ui/card";
 import { ItemPrice } from "../price";
 import { SkeletonEssay } from "~/components/skeletons";
-import { getSessionStore } from "~/app/_actions/redis";
-import { SessionStore } from "../session";
-import { sessionToValidDrafts } from "./helper";
+import { sessionToValidDrafts, useSessionQuery } from "../helpers";
 
-const fetchSessionData = async (sessionId: string) => {
-  const session = await getSessionStore(sessionId);
-  if (!session) throw new Error("Session not found");
-  return session;
-};
-
-interface OrderProps {
-  sessionId: string;
-}
-export const Orders = ({ sessionId }: OrderProps) => {
+export const Orders = ({ sessionId }: { sessionId: string }) => {
   // idk what to do besides double fetching
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["session", sessionId],
-    queryFn: () => fetchSessionData(sessionId),
-    refetchOnMount: "always",
-  });
-  const session = data as SessionStore;
+  const { session, isLoading, error } = useSessionQuery(sessionId);
 
   if (isLoading) return <SkeletonEssay />;
   if (
