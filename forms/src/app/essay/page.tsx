@@ -25,7 +25,7 @@ export default function LandingPage() {
 }
 const LandingContent = () => {
   const [loaded, setLoaded] = useState(false);
-  const LOOM_SECTION = "Example";
+  const LOOM_SECTION = "Example Revision Feedback";
   return (
     <div>
       <MyTitle
@@ -61,6 +61,9 @@ const LandingContent = () => {
             </li>
           </ol>
         </LandingItem>
+        <LandingItem name={LOOM_SECTION}>
+          <LoomExample loaded={loaded} setLoaded={setLoaded} />
+        </LandingItem>
         <LandingItem name="Pricing">
           <p>Supplemental Essay:</p>
           <ul className="list-disc list-inside ml-2">
@@ -73,9 +76,6 @@ const LandingContent = () => {
             <br />
             Letter of Continued Interest: $98
           </p>
-        </LandingItem>
-        <LandingItem name={LOOM_SECTION}>
-          <LoomExample loaded={loaded} setLoaded={setLoaded} />
         </LandingItem>
       </Accordion>
       <div className="mt-8">
@@ -111,13 +111,13 @@ interface LoomExampleProps {
 }
 const LoomExample = ({ loaded, setLoaded }: LoomExampleProps) => {
   return (
-    <div className="relative pb-[64.67065868263472%] h-0">
+    <div className="relative pb-[64.86486486486486%] h-0">
       {!loaded && (
         <Skeleton className="absolute top-0 left-0 w-full h-full rounded-xl" />
       )}
       <iframe
         id="loom-iframe"
-        src="https://www.loom.com/share/e249238bd8864bcebbe3b7a1fe1bfaad?sid=7948e08d-0c94-4e86-9fb9-b31e855d2464"
+        src="https://www.loom.com/embed/e249238bd8864bcebbe3b7a1fe1bfaad?sid=7059c026-d44b-4441-916e-ce96e7cc9410"
         onLoad={() => setLoaded(true)}
         className={`absolute top-0 left-0 w-full h-full ${
           loaded ? "block" : "hidden"
