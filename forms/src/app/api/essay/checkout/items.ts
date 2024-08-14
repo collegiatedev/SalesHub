@@ -59,7 +59,7 @@ export const calculateLineItems = (drafts: ParsedDrafts): StripeLineItem[] => {
             break;
         }
         break;
-      case "UC PIQ":
+      case "Letter of Continued Interest":
         productId = LETTER_OF_CONTINUED_INTEREST; // need to change to uc on stripe side
         unitAmount = 68 * TO_DOLLARS;
         break;

@@ -60,7 +60,7 @@ const LandingContent = () => {
           <p>
             Common App Essay: $98
             <br />
-            UC PIQ: $68
+            Letter of Continued Interest: $98
           </p>
         </LandingItem>
         <LandingItem name={LOOM_SECTION}>

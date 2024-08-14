@@ -14,7 +14,7 @@ export const SERVER_URL = isProduction
 export const ESSAY_TYPES = [
   "Common App / Coalition",
   "Supplemental Essay",
-  "UC PIQ",
+  "Letter of Continued Interest",
 ] as const;
 export const IS_SUPPLEMENTAL = (t: string | undefined) =>
   t === "Supplemental Essay";
