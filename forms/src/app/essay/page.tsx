@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
+import { Separator } from "~/components/ui/separator";
 
 export default function LandingPage() {
   return (
@@ -27,13 +28,21 @@ const LandingContent = () => {
   const LOOM_SECTION = "Example";
   return (
     <div>
-      <MyTitle title="Say Goodbye to Generic Edits" />
-      <p className="mb-3">
-        Forget GPT and Grammarly. Your application deserves more—something that
-        truly stands out. Submit any essay and our team of Harvard editors will
-        handle the rest. Secure your future at your dream college by crafting a
-        story only you can tell—authentic, powerful, and unforgettable.
+      <MyTitle
+        title="Saying Goodbye to Generic Edits"
+        description="Forget ChatGPT and Grammarly."
+      />
+      <p className="text-md">
+        Your application deserves to stand out. Your essay deserves personalized
+        feedback. Your writing deserves to reflect your unique voice and
+        showcase your unparalleled potential.
+        <br />
+        <span className="block font-bold pt-2">
+          Work with our team of top Harvard writers and craft your story:
+          authentic, powerful, and unforgettable.
+        </span>
       </p>
+      <Separator className="my-5 h-[1.5px]" />
       <Accordion
         type="single"
         collapsible
@@ -42,8 +51,10 @@ const LandingContent = () => {
       >
         <LandingItem name="How it Works">
           <ol className="list-decimal list-inside mb-4">
-            <li>Submit up to 5 college essays.</li>
-            <li>Receive expert edits and a personalized video review.</li>
+            <li>Submit up to 5 college essays drafts.</li>
+            <li>
+              Receive a round of expert edits and a personalized video review.
+            </li>
             <li>
               Get your polished essays and video feedback within 6 business
               days.
@@ -87,7 +98,9 @@ const LandingItem = ({
       <AccordionTrigger className="text-2xl font-semibold mb-2">
         {name}
       </AccordionTrigger>
-      <AccordionContent>{children}</AccordionContent>
+      <AccordionContent>
+        <div className="text-lg">{children}</div>
+      </AccordionContent>
     </AccordionItem>
   );
 };
