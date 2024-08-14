@@ -104,7 +104,7 @@ const LoomExample = ({ loaded, setLoaded }: LoomExampleProps) => {
       )}
       <iframe
         id="loom-iframe"
-        src="https://www.loom.com/embed/6cb8eab0b79340f1aa05d48f33880150?sid=aad1cf4f-d3cb-4c35-8db5-1bbea3b8e404"
+        src="https://www.loom.com/share/e249238bd8864bcebbe3b7a1fe1bfaad?sid=7948e08d-0c94-4e86-9fb9-b31e855d2464"
         onLoad={() => setLoaded(true)}
         className={`absolute top-0 left-0 w-full h-full ${
           loaded ? "block" : "hidden"
