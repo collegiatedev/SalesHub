@@ -45,7 +45,7 @@ export const ManageDraftsForm = () => {
 
               return (
                 <TabsTrigger value={i} key={i}>
-                  <span className={`${d.draft.ready && "text-green-400"}`}>
+                  <span className={`${d.draft.ready && "text-green-500"}`}>
                     {draftTitle(d.draft.title)}
                   </span>
                 </TabsTrigger>
