@@ -27,10 +27,12 @@ const LandingContent = () => {
   const LOOM_SECTION = "Example";
   return (
     <div>
-      <MyTitle title="Essay Editor" />
+      <MyTitle title="Say Goodbye to Generic Edits" />
       <p className="mb-3">
-        Craft an exceptional college essay with top Harvard students. Submit an
-        essay and we&apos;ll take care of the rest.
+        Forget GPT and Grammarly. Your application deserves more—something that
+        truly stands out. Submit any essay and our team of Harvard editors will
+        handle the rest. Secure your future at your dream college by crafting a
+        story only you can tell—authentic, powerful, and unforgettable.
       </p>
       <Accordion
         type="single"
@@ -49,10 +51,16 @@ const LandingContent = () => {
           </ol>
         </LandingItem>
         <LandingItem name="Pricing">
-          <p className="mb-4">
-            This is a description page where you can provide detailed
-            information about the topic at hand. You can include various
-            elements such as images, lists, and links to enhance the content.
+          <p>Supplemental Essay:</p>
+          <ul className="list-disc list-inside ml-2">
+            <li>&lt;250 words: $48</li>
+            <li>250-500 words: $68</li>
+            <li>&gt;500 words: $88</li>
+          </ul>
+          <p>
+            Common App Essay: $98
+            <br />
+            UC PIQ: $68
           </p>
         </LandingItem>
         <LandingItem name={LOOM_SECTION}>

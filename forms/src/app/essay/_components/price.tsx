@@ -26,10 +26,10 @@ export const calculatePrice = ({
         default:
           return 1000;
       }
-    case "Letter of Continued Interest":
-      return 98;
+    case "UC PIQ":
+      return 68;
     default:
-      return 1000;
+      return 98; //changing this to our highest priced item
   }
 };
 
