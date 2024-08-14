@@ -21,7 +21,7 @@ const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });
 
-export function Capacity() {
+export function CapacityForm() {
   const [submitted, setSubmitted] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({

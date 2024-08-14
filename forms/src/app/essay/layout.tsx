@@ -7,7 +7,7 @@ import { SessionProvider } from "./_base/session";
 import { EssayNavbar } from "./_base/navbar";
 import { getSpotsRemaining } from "../_actions/redis";
 import { LandingContent } from "./_base/landing";
-import { Capacity } from "./_base/capacity";
+import { CapacityForm } from "./_base/capacity";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +34,7 @@ export default async function Layout({
           ) : (
             <div className="space-y-12">
               <LandingContent />
-              <Capacity />
+              <CapacityForm />
             </div>
           )}
         </div>
