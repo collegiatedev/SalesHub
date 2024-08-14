@@ -1,6 +1,6 @@
 "use client";
 
-import { NEXT_URL, SESSION_QUERY_KEY } from "../constants";
+import { NEXT_URL, SESSION_QUERY_KEY } from "../../constants";
 import { useRouter, useSearchParams } from "next/navigation";
 import { errorToast, successfulToast } from "~/components/myToast";
 import { useEffect } from "react";

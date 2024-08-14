@@ -3,8 +3,8 @@
 import { Redis } from "@upstash/redis";
 import { PersonalInfo } from "../essay/cart/personal";
 import { DraftMap } from "../essay/store";
-import { Draft } from "../constants";
-import { SessionStore, SessionStoreStrings } from "../essay/session";
+import { Draft, SPOTS_QUERY_KEY, WAITING_LIST_QUERY_KEY } from "../constants";
+import { SessionStore, SessionStoreStrings } from "../essay/_base/session";
 import { SESSION_EXPIRATION } from "../constants";
 
 const redis = Redis.fromEnv();
@@ -87,4 +87,16 @@ export const removeDraft = async ({ sessionId, draftId }: RemoveDraftProps) => {
 
 export const deleteSession = async (sessionId: string) => {
   await redis.del(sessionId);
+};
+
+export const getSpotsRemaining = async () => {
+  const spots = (await redis.get(SPOTS_QUERY_KEY)) as number;
+  return spots;
+};
+
+export const addToWaitingList = async ({ email }: { email: string }) => {
+  const waitingList = (await redis.lrange(WAITING_LIST_QUERY_KEY, 0, -1)) || [];
+  if (!waitingList.includes(email)) {
+    await redis.rpush(WAITING_LIST_QUERY_KEY, email);
+  }
 };

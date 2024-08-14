@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { UseFormReturn } from "react-hook-form";
-import { useSession } from "../session";
+import { useSession } from "../_base/session";
 import { savePersonalInfo } from "~/app/_actions/redis";
 
 const personalSchema = z.object({

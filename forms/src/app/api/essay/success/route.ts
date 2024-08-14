@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { reqHandler } from "../../_handlers";
-import { NEXT_URL, ParsedDrafts, SESSION_QUERY_KEY } from "~/app/constants";
+import {
+  NEXT_URL,
+  ParsedDrafts,
+  SESSION_QUERY_KEY,
+  SPOTS_QUERY_KEY,
+} from "~/app/constants";
 import { withEndpoint } from "../../helpers";
 import { qstashPublish } from "../../_handlers/input";
 import { getSessionStore } from "~/app/_actions/redis";
@@ -23,6 +28,7 @@ export const GET = reqHandler<any>({
     await qstashPublish({ route, input });
 
     redisClient.del(sessionId);
+    redisClient.decr(SPOTS_QUERY_KEY); // decrement avliable spots
 
     return NextResponse.redirect(`${NEXT_URL}/essay/?success=true`);
   },

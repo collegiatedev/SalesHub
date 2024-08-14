@@ -1,5 +1,5 @@
 import { ParsedDrafts, SearchParams, SESSION_QUERY_KEY } from "~/app/constants";
-import { SessionStore } from "./essay/session";
+import { SessionStore } from "./essay/_base/session";
 import { useQuery } from "@tanstack/react-query";
 import { getSessionStore } from "./_actions/redis";
 

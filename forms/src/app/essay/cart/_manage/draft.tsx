@@ -21,7 +21,7 @@ import {
 } from "./schema";
 import { successfulToast } from "~/components/myToast";
 import { saveDraft } from "~/app/_actions/redis";
-import { useSession } from "../../session";
+import { useSession } from "../../_base/session";
 import { IS_SUPPLEMENTAL } from "../../../constants";
 import { toast } from "sonner";
 

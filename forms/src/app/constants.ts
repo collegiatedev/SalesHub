@@ -48,8 +48,11 @@ export type Draft = {
 };
 export type ParsedDrafts = [number, Draft][];
 
-export const SESSION_QUERY_KEY = "s"; // ?s=session-id
 export const SESSION_EXPIRATION = 259200; // 3 days, in seconds
+// redis keys
+export const SESSION_QUERY_KEY = "s"; // ?s=session-id
+export const SPOTS_QUERY_KEY = "spots"; //
+export const WAITING_LIST_QUERY_KEY = "waiting-list";
 
 //rather than throwing errors, redirect to error route
 export const ERROR_ROUTE = "/essay/?error=true";
