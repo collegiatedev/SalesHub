@@ -42,7 +42,7 @@ export function CapacityForm() {
       <CardHeader>
         <CardTitle>No Spots Available</CardTitle>
         <CardDescription>
-          We&apos;ve reached our maximum capacity available for now.
+          We've reached our maximum capacity available for now.
         </CardDescription>
       </CardHeader>
       <CardContent>

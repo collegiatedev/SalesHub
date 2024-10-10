@@ -12,27 +12,27 @@ export const POST = outputHandler<CalPayload>({
     const lead = await getLead(input.studentId);
     if (!lead.pageRefs.leadRep) throw new Error("Invalid Lead, rep not set");
 
-    const rep = await getRep({ pageId: lead.pageRefs.leadRep });
+    // const rep = await getRep({ pageId: lead.pageRefs.leadRep });
 
-    const template = await createTemplate({
-      title: `${lead.name}'s Personal Brand Planner`,
-      templateId: BRANDING_DOC_TEMPLATE,
-      googleClient,
-      folderId: lead.otherRefs.folderRef as string,
-    });
+    // const template = await createTemplate({
+    //   title: `${lead.name}'s Personal Brand Planner`,
+    //   templateId: BRANDING_DOC_TEMPLATE,
+    //   googleClient,
+    //   folderId: lead.otherRefs.folderRef as string,
+    // });
 
-    await brandingTasks({
-      leadRepId: rep.id,
-      repName: rep.name,
-      repPageId: rep.pageId,
-      studentName: lead.name,
-      time: input.startTime,
-      studentId: lead.id,
-      studentPageId: lead.pageId,
-      pbDocLink: template.webViewLink as string,
-      // dependent on lead rep completing task, so fallback exists for function call
-      dashboardPageId: lead.pageRefs.dashboard as string,
-    });
+    // await brandingTasks({
+    //   leadRepId: rep.id,
+    //   repName: rep.name,
+    //   repPageId: rep.pageId,
+    //   studentName: lead.name,
+    //   time: input.startTime,
+    //   studentId: lead.id,
+    //   studentPageId: lead.pageId,
+    //   pbDocLink: template.webViewLink as string,
+    //   // dependent on lead rep completing task, so fallback exists for function call
+    //   dashboardPageId: lead.pageRefs.dashboard as string,
+    // });
 
     return input;
   },

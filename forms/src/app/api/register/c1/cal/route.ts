@@ -27,15 +27,15 @@ export const POST = outputHandler<CalPayload>({
     const folderLink = folder.data.webViewLink as string;
     const c1Params = parseC1TaskParams({ lead, rep, time, folderLink });
 
-    await Promise.all([
-      createC1Tasks(c1Params),
-      updateLead(lead.pageId, {
-        ...leadHelpers.setCompletedStages([Stages.C0]),
-        ...leadHelpers.setLatestMeeting(input.startTime),
-        ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
-        ...leadHelpers.setLeadRep(rep.pageId),
-      }),
-    ]);
+    // await Promise.all([
+    //   createC1Tasks(c1Params),
+    //   updateLead(lead.pageId, {
+    //     ...leadHelpers.setCompletedStages([Stages.C0]),
+    //     ...leadHelpers.setLatestMeeting(input.startTime),
+    //     ...leadHelpers.setStatus(INITIAL_CAL_STATUS),
+    //     ...leadHelpers.setLeadRep(rep.pageId),
+    //   }),
+    // ]);
 
     return input;
   },

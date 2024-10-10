@@ -12,25 +12,25 @@ export const POST = outputHandler<CreatedLeadFields>({
   type: HandlerTypes.OAuth_Outreach,
   handler: async (input, googleClient) => {
     const studentName = input["Student Name"];
-    const [{ id: leadId }, { folderId }] = await Promise.all([
-      createLead(input),
-      createFolder({
-        googleClient,
-        parents: [OUTREACH_ACCELERATOR_FOLDER],
-        folderName: `${studentName}'s Assets`,
-        shareWith: [input["Student's Email"], input["Parent's Email"]],
-      }),
-    ]);
+    // const [{ id: leadId }, { folderId }] = await Promise.all([
+    //   createLead(input),
+    //   createFolder({
+    //     googleClient,
+    //     parents: [OUTREACH_ACCELERATOR_FOLDER],
+    //     folderName: `${studentName}'s Assets`,
+    //     shareWith: [input["Student's Email"], input["Parent's Email"]],
+    //   }),
+    // ]);
 
-    const { infoId } = await createInfoTable({ leadId, studentName });
+    // const { infoId } = await createInfoTable({ leadId, studentName });
 
-    await Promise.all([
-      contactInfo({ infoId, leadFields: input }),
-      updateLead(leadId, {
-        ...leadHelpers.setFolderRef(folderId),
-        ...leadHelpers.setInfoId(infoId),
-      }),
-    ]);
+    // await Promise.all([
+    //   contactInfo({ infoId, leadFields: input }),
+    //   updateLead(leadId, {
+    //     ...leadHelpers.setFolderRef(folderId),
+    //     ...leadHelpers.setInfoId(infoId),
+    //   }),
+    // ]);
 
     return input;
   },

@@ -13,14 +13,14 @@ import { CalPayload } from "../../../cal/route";
 export const POST = outputHandler<CalPayload>({
   type: HandlerTypes.Req,
   handler: async (input) => {
-    const essay = (await redisClient.get(input.studentId)) as EssayTaskParams;
-    if (!essay) throw new Error("Essay pre-reqs not completed");
+    // const essay = (await redisClient.get(input.studentId)) as EssayTaskParams;
+    // if (!essay) throw new Error("Essay pre-reqs not completed");
 
-    await essayTasks({
-      ...essay,
-      time: input.startTime,
-    });
-    await redisClient.del(input.studentId);
+    // await essayTasks({
+    //   ...essay,
+    //   time: input.startTime,
+    // });
+    // await redisClient.del(input.studentId);
 
     return input;
   },
